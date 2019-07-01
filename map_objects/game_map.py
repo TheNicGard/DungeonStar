@@ -96,6 +96,7 @@ class GameMap:
                     
     def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height,
                  player, entities, max_monsters_per_room, max_items_per_room):
+        print("Starting to make map...")
         rooms = []
         num_rooms = 0
 
@@ -132,3 +133,4 @@ class GameMap:
             
             rooms.append(new_room)
             num_rooms += 1
+        print("Made map successfully")    
