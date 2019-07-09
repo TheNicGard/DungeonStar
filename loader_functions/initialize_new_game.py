@@ -63,8 +63,6 @@ def get_constants():
         'fov_algorithm': fov_algorithm,
         'fov_light_walls': fov_light_walls,
         'fov_radius': fov_radius,
-        'max_monsters_per_room': max_monsters_per_room,
-        'max_items_per_room': max_items_per_room,
         'colors': colors
     }
 
@@ -72,7 +70,7 @@ def get_constants():
 
 
 def get_game_variables(constants):
-    fighter_component = Fighter(hp=30, defense=2, power=5)
+    fighter_component = Fighter(hp=100, defense=1, power=4)
     inventory_component = Inventory(26)
     level_component = Level()
     player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True,
@@ -83,9 +81,7 @@ def get_game_variables(constants):
     game_map = GameMap(constants['map_width'], constants['map_height'])
     game_map.make_map(constants['max_rooms'], constants['room_min_size'],
                       constants['room_max_size'], constants['map_width'],
-                      constants['map_height'], player, entities,
-                      constants['max_monsters_per_room'],
-                      constants['max_items_per_room'])
+                      constants['map_height'], player, entities)
 
     message_log = MessageLog(constants['message_x'], constants['message_width'],
                              constants['message_height'])

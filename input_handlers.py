@@ -128,5 +128,5 @@ def handle_level_up_menu(key):
 
 def handle_character_screen(key):
     if key.vk == libtcod.KEY_ESCAPE:
-        return {'exit': True}
+        return {'end': True}
     return {}

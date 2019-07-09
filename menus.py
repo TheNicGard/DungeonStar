@@ -82,5 +82,5 @@ def character_screen(player, character_screen_width, character_screen_height,
 
     x = screen_width // 2 - character_screen_width // 2
     y = screen_height // 2 - character_screen_height // 2
-    libtcod.console_blit(window, 0, 0, character_creen_width,
+    libtcod.console_blit(window, 0, 0, character_screen_width,
                          character_screen_height, 0, x, y, 1.0, 0.7)
