@@ -35,10 +35,14 @@ def handle_player_turn_keys(key):
         return {'move': (-1, 1)}
     elif key.vk == libtcod.KEY_KP3 or key_char == 'n':
         return {'move': (1, 1)}
+    
     elif key.vk == libtcod.KEY_KP5 or key_char == '.':
         return {'wait': True}
-    elif key.vk == libtcod.KEY_ENTER:
+    elif key.vk == libtcod.KEY_SHIFT:
         return {'descend_stairs': True}
+    elif key.vk == libtcod.KEY_ENTER:
+        return {'ascend_stairs': True}
+    
     elif key_char == 'g' or key_char == ',':
         return {'pickup': True}
     elif key_char == 'i':
@@ -49,7 +53,7 @@ def handle_player_turn_keys(key):
         return {'show_character_screen': True}
 
     if key_char == ']' and key.lalt:
-        # M+Enter: toggle full screen
+        # M + ] toggle full screen
         return {'fullscreen': True}
 
     elif key.vk == libtcod.KEY_ESCAPE:
