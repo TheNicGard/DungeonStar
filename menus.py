@@ -109,7 +109,7 @@ def help_screen(help_screen_width, screen_width, screen_height):
     window = libtcod.console_new(help_screen_width, help_screen_height)
     libtcod.console_set_default_foreground(window, libtcod.white)
     libtcod.console_set_background_flag(window, libtcod.BKGND_OVERLAY)
-    libtcod.console_set_default_background(window, libtcod.darker_grey)
+    libtcod.console_set_default_background(window, libtcod.light_grey)
     libtcod.console_rect(window, 0, 0, help_screen_width,
                               help_screen_height, True)
 
