@@ -1,7 +1,7 @@
 import tcod as libtcod
 from enum import Enum
 from game_states import GameStates
-from menus import inventory_menu, level_up_menu, character_screen
+from menus import inventory_menu, level_up_menu, character_screen, help_screen
 
 class RenderOrder(Enum):
     STAIRS = 1
@@ -91,6 +91,8 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
                       screen_width, screen_height)
     elif game_state == GameStates.CHARACTER_SCREEN:
         character_screen(player, 30, 10, screen_width, screen_height)
+    elif game_state == GameStates.HELP_SCREEN:
+        help_screen(50, screen_width, screen_height)
     
 def clear_all(con, entities):
     for entity in entities:

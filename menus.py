@@ -43,7 +43,7 @@ def main_menu(con, background_image, screen_width, screen_height):
     libtcod.console_set_default_foreground(0, libtcod.light_yellow)
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height / 2) - 4,
                              libtcod.BKGND_NONE, libtcod.CENTER,
-                             'TOMBS OF THE ANCIENT KINGS')
+                             'Dungeon Star')
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 2),
                              libtcod.BKGND_NONE, libtcod.CENTER, 'Nic Gard (C) 2019')
 
@@ -90,3 +90,37 @@ def character_screen(player, character_screen_width, character_screen_height,
     y = screen_height // 2 - character_screen_height // 2
     libtcod.console_blit(window, 0, 0, character_screen_width,
                          character_screen_height, 0, x, y, 1.0, 0.7)
+
+def help_screen(help_screen_width, screen_width, screen_height):
+    help_items = [
+        'Help (press Esc to exit)',
+        '8 2 4 6 (or J K H L)   move N S W E',
+        '7 9 1 3 (or Y U B N)   move diagonally',
+        '. (or 5)               wait a turn',
+        'I                      open inventory',
+        ', (or G)               pick up item',
+        'D                      drop item',
+        'C                      show character screen',
+        'SHIFT                  descend stairs',
+        'ENTER                  (not yet implemented)'
+    ]
+
+    help_screen_height = len(help_items) + 2
+    window = libtcod.console_new(help_screen_width, help_screen_height)
+    libtcod.console_set_default_foreground(window, libtcod.white)
+    libtcod.console_set_background_flag(window, libtcod.BKGND_OVERLAY)
+    libtcod.console_set_default_background(window, libtcod.light_grey)
+    libtcod.console_rect(window, 0, 0, help_screen_width,
+                              help_screen_height, True)
+
+    for i in range(len(help_items)):
+        libtcod.console_print_rect_ex(window, 1, i + 1,
+                                      help_screen_width, help_screen_height,
+                                      libtcod.BKGND_NONE, libtcod.LEFT,
+                                      help_items[i])
+
+    x = screen_width // 2 - help_screen_width // 2
+    y = screen_height // 2 - help_screen_height // 2
+    
+    libtcod.console_blit(window, 0, 0, help_screen_width,
+                         help_screen_height, 0, x, y, 1.0, 0.8)
