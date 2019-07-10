@@ -1,2 +1,2 @@
-# RL-tutorial-2019
-My copy of the RoguelikeDev Does The Complete Roguelike Tutorial from [rogueliketutorials.com](http://rogueliketutorials.com), meant for me to fork from for derivative projects.
+# Dungeon Star
+Fantasy roguelike based off of TStand90's [Roguelike Tutorial Revised](http://rogueliketutorials.com).
