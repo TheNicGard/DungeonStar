@@ -1,0 +1,29 @@
+{
+    "orc": {
+	"name": "Orc",
+	"color": "desaturated_green",
+	"symbol": "o",
+	"fighter": {
+	    "hp": 20,
+	    "power": 4,
+	    "defense": 0,
+	    "xp": 35,
+	    "max_gold_drop": 4
+	},
+	"ai": "BasicMonster",
+    },
+    
+    "troll": {
+	"name": "Mega Thot",
+	"color": "darker_green",
+	"symbol": "T",
+	"fighter": {
+	    "hp": 30,
+	    "power": 8,
+	    "defense": 2,
+	    "xp": 100,
+	    "max_gold_drop": 8
+	},
+	"ai": "BasicMonster"
+    }
+}
