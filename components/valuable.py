@@ -4,4 +4,6 @@ class Valuable:
         if value > 0:
             self.value = value
         else:
-            self.owner = None
+            self.value = None
+            self = None
+            

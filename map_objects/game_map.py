@@ -54,7 +54,10 @@ class GameMap:
         number_of_monsters = randint(0, max_monsters_per_room)
         number_of_items = randint(0, max_items_per_room)
         amount_of_gold = randint(0, 50 + (10 * self.dungeon_level)) + 2
-        gold_passes = choice([0, 0, 0, 1, 2, 3])
+        gold_passes = choice([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            1, 1, 1, 2, 2, 3 # 1/16 for 3, 1/8 for 2, 3/16 for 1, 5/8 for 0
+        ])
 
         monster_chances = {
             'orc': 80,
@@ -103,7 +106,9 @@ class GameMap:
                     take_gold = randint(0, amount_of_gold)
                     amount_of_gold -= take_gold
                     gold = Entity(x, y, '$', libtcod.gold, 'Gold', valuable=Valuable(take_gold))
-                    entities.append(gold)
+                    if gold.valuable.value:
+                        print("Added {0} gold.".format(gold.valuable.value))
+                        entities.append(gold)
                     
     def make_map(self, max_rooms, room_min_size, room_max_size,
                  map_width, map_height, player, entities):
