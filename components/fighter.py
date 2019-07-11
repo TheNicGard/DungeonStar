@@ -46,10 +46,11 @@ class Fighter:
         self.hp -= amount
 
         if self.hp <= 0:
+            if self.owner.ai:
+                results.append({'enemy_gold_dropped': self.get_gold()})
             results.append({
                 'dead': self.owner,
-                'xp': self.xp,
-                'gold_dropped': self.get_gold()
+                'xp': self.xp
             })
             
         return results
@@ -88,7 +89,6 @@ class Fighter:
             gold = choice([0, 0, 0, initial_gold]) # 1/4 chance of gold drop
 
         if gold > 0:
-            print("I generated {0} gold.".format(gold))
             valuable_component = Valuable(gold)
             gold_item = Entity(self.owner.x, self.owner.y, '$', libtcod.gold,
                                'Gold', render_order=RenderOrder.GOLD,

@@ -154,7 +154,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                             break
                 else:
                     message_log.add_message(Message('There is nothing here to pickup.', libtcod.yellow))
-
+                    
         if show_inventory:
             previous_game_state = game_state
             game_state = GameStates.SHOW_INVENTORY
@@ -166,9 +166,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
         if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(player.inventory.items):
             item = player.inventory.items[inventory_index]
             if game_state == GameStates.SHOW_INVENTORY:
-                player_turn_results.extend(player.inventory.use(item,
-                                                                entities=entities,
-                                                                fov_map=fov_map))
+                player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map))
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
 
@@ -181,8 +179,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                     libtcod.console_clear(con)
                     break
             else:
-                message_log.add_message(Message('There are no stairs here!',
-                                                libtcod.yellow))
+                message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
 
         if level_up:
             if level_up == 'hp':
@@ -241,6 +238,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
             targeting = player_turn_result.get('targeting')
             targeting_cancelled = player_turn_result.get('targeting_cancelled')
             xp = player_turn_result.get('xp')
+            enemy_gold_dropped = player_turn_result.get('enemy_gold_dropped')
             
             if message:
                 message_log.add_message(message)
@@ -300,6 +298,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                             player.level.current_level), libtcod.yellow))
                     previous_game_state = game_state
                     game_state = GameStates.LEVEL_UP
+            if enemy_gold_dropped:
+                entities.append(enemy_gold_dropped)
 
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
@@ -309,7 +309,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                     for enemy_turn_result in enemy_turn_results:
                         message = enemy_turn_result.get('message')
                         dead_entity = enemy_turn_result.get('dead')
-                        gold_dropped = enemy_turn_result.get('gold_dropped')
                         
                         if message:
                             message_log.add_message(message)
@@ -322,8 +321,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
 
                             if game_state == GameStates.PLAYER_DEAD:
                                 break
-                        if gold_dropped:
-                            entities.append(gold_dropped)
 
                     if game_state == GameStates.PLAYER_DEAD:
                         break
