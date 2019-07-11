@@ -107,7 +107,6 @@ class GameMap:
                     amount_of_gold -= take_gold
                     gold = Entity(x, y, '$', libtcod.gold, 'Gold', valuable=Valuable(take_gold))
                     if gold.valuable.value:
-                        print("Added {0} gold.".format(gold.valuable.value))
                         entities.append(gold)
                     
     def make_map(self, max_rooms, room_min_size, room_max_size,
