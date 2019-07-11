@@ -106,7 +106,9 @@ class GameMap:
                 if not self.is_blocked(x, y):
                     take_gold = randint(0, amount_of_gold)
                     amount_of_gold -= take_gold
-                    gold = Entity(x, y, '$', libtcod.gold, 'Gold', valuable=Valuable(take_gold))
+                    gold = Entity(x, y, '$', libtcod.gold, 'Gold',
+                                  render_order=RenderOrder.GOLD,
+                                  valuable=Valuable(take_gold))
                     if gold.valuable.value:
                         entities.append(gold)
                     
@@ -203,13 +205,15 @@ class GameMap:
         monster = None
         
         if monster_choice == 'orc':
-            fighter_component = Fighter(hp=20, defense=0, power=4, xp=35)
+            fighter_component = Fighter(hp=20, defense=0, power=4, xp=35,
+                                        max_gold_drop=4, golden=True)
             ai_component = BasicMonster()
             monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc',
                              blocks=True, render_order=RenderOrder.ACTOR,
                              fighter=fighter_component, ai=ai_component)
         elif monster_choice == 'troll':
-            fighter_component = Fighter(hp=30, defense=2, power=8, xp=100)
+            fighter_component = Fighter(hp=30, defense=2, power=8, xp=100,
+                                        max_gold_drop=8)
             ai_component = BasicMonster()
             monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll',
                             blocks=True, render_order=RenderOrder.ACTOR,

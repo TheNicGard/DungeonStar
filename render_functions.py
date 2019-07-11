@@ -6,8 +6,9 @@ from menus import inventory_menu, level_up_menu, character_screen, help_screen
 class RenderOrder(Enum):
     STAIRS = 1
     CORPSE = 2
-    ITEM = 3
-    ACTOR = 4
+    GOLD = 3
+    ITEM = 4
+    ACTOR = 5
 
 def get_names_under_mouse(mouse, entities, fov_map):
     (x, y) = (mouse.cx, mouse.cy)

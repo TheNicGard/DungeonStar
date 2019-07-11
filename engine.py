@@ -309,7 +309,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                     for enemy_turn_result in enemy_turn_results:
                         message = enemy_turn_result.get('message')
                         dead_entity = enemy_turn_result.get('dead')
-
+                        gold_dropped = enemy_turn_result.get('gold_dropped')
+                        
                         if message:
                             message_log.add_message(message)
                         if dead_entity:
@@ -317,11 +318,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                                 message, game_state = kill_player(dead_entity)
                             else:
                                 message = kill_monster(dead_entity)
-
                             message_log.add_message(message)
 
                             if game_state == GameStates.PLAYER_DEAD:
                                 break
+                        if gold_dropped:
+                            entities.append(gold_dropped)
 
                     if game_state == GameStates.PLAYER_DEAD:
                         break
