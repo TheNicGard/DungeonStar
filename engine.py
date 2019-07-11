@@ -147,10 +147,11 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                 game_state = GameStates.ENEMY_TURN
             elif pickup:
                 for entity in entities:
-                    if entity.item and entity.x == player.x and entity.y == player.y:
-                        pickup_results = player.inventory.add_item(entity)
-                        player_turn_results.extend(pickup_results)
-                        break
+                    if entity.item or entity.valuable:
+                        if entity.x == player.x and entity.y == player.y:
+                            pickup_results = player.inventory.add_item(entity)
+                            player_turn_results.extend(pickup_results)
+                            break
                 else:
                     message_log.add_message(Message('There is nothing here to pickup.', libtcod.yellow))
 

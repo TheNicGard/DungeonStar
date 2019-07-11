@@ -17,17 +17,18 @@ class Inventory:
                 'message': Message('You pick up {0} gold!'.format(item.valuable.value), libtcod.gold)
             })
             self.gold_carried += item.valuable.value
-        if len(self.items) >= self.capacity:
-            results.append({
-                'item_added': None,
-                'message': Message('You cannot carry any more, your inventory is full', libtcod.yellow)
-            })
         else:
-            results.append({
-                'item_added': item,
-                'message': Message('You pick up the {0}!'.format(item.name), libtcod.blue)
-            })
-            self.items.append(item)
+            if len(self.items) >= self.capacity:
+                results.append({
+                    'item_added': None,
+                    'message': Message('You cannot carry any more, your inventory is full', libtcod.yellow)
+                })
+            else:
+                results.append({
+                    'item_added': item,
+                    'message': Message('You pick up the {0}!'.format(item.name), libtcod.blue)
+                })
+                self.items.append(item)
 
         return results
 
