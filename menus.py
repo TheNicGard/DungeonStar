@@ -7,8 +7,8 @@ def menu(con, header, options, width, screen_width, screen_height):
     height = len(options) + header_height
 
     window = libtcod.console_new(width, height)
-
     libtcod.console_set_default_foreground(window, libtcod.white)
+
     libtcod.console_print_rect_ex(window, 0, 0, width, height, libtcod.BKGND_NONE, libtcod.LEFT, header)
 
     y = header_height
@@ -56,8 +56,20 @@ def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
                'Agility (+1 defense, from {0})'.format(player.fighter.defense)]
     menu(con, header, options, menu_width, screen_width, screen_height)
 
-def message_box(con, header, width, screen_width, screen_height):
-    menu(con, header, [], width, screen_width, screen_height)
+def message_box(con, header, screen_width, screen_height):
+    width = len(header)+ 2
+    height = libtcod.console_get_height_rect(con, 0, 0, width, screen_height, header) + 2
+
+    window = libtcod.console_new(width, height)
+    libtcod.console_set_default_foreground(window, libtcod.white)
+    libtcod.console_set_background_flag(window, libtcod.BKGND_OVERLAY)
+    libtcod.console_set_default_background(window, libtcod.lighter_grey)
+    libtcod.console_rect(window, 0, 0, width, height, True)
+    libtcod.console_print_rect_ex(window, 1, 1, width, height, libtcod.BKGND_NONE, libtcod.LEFT, header)
+
+    x = int(screen_width / 2 - width / 2)
+    y = int(screen_height / 2 - height / 2)
+    libtcod.console_blit(window, 0, 0, width, height, 0, x, y, 1.0, 0.9)
 
 def character_screen(player, character_screen_width, screen_width, screen_height):
     information_items = [
