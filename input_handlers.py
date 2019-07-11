@@ -66,6 +66,10 @@ def handle_player_dead_keys(key):
 
     if key_char == 'i':
         return {'show_inventory': True}
+    elif key_char == 'c':
+        return {'show_character_screen': True}
+    elif key_char == 'q':
+        return {'show_help_screen': True}
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
 
@@ -123,9 +127,17 @@ def handle_level_up_menu(key):
 def handle_character_screen(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    if key:
+        key_char = chr(key.c)
+        if key_char == 'c':
+            return {'end': True}
     return {}
 
 def handle_help_screen(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    if key:
+        key_char = chr(key.c)
+        if key_char == 'q':
+            return {'end': True}
     return {}

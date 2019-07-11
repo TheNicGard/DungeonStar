@@ -55,7 +55,7 @@ def main():
             new_game = action.get('new_game')
             load_saved_game = action.get('load_game')
             exit_game = action.get('exit')
-
+        
             if show_load_error_message and (new_game or load_saved_game or exit_game):
                 show_load_error_message = False
             elif new_game:
@@ -70,6 +70,7 @@ def main():
                     show_load_error_message = True
             elif exit_game:
                 break
+
         else:
             libtcod.console_clear(con)
             play_game(player, entities, game_map, message_log, game_state, con, panel, constants)
