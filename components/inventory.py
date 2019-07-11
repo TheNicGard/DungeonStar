@@ -15,6 +15,7 @@ class Inventory:
             results.append({
                 'gold_added': item,
                 'message': Message('You pick up {0} gold!'.format(item.valuable.value), libtcod.gold)
+            })
             self.gold_carried += item.valuable.value
         if len(self.items) >= self.capacity:
             results.append({
