@@ -53,10 +53,11 @@ class GameMap:
         
         number_of_monsters = randint(0, max_monsters_per_room)
         number_of_items = randint(0, max_items_per_room)
-        amount_of_gold = randint(0, 50 + (10 * self.dungeon_level)) + 2
+        amount_of_gold = randint(0, 20 + (10 * self.dungeon_level)) + 2
         gold_passes = choice([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            1, 1, 1, 2, 2, 3 # 1/16 for 3, 1/8 for 2, 3/16 for 1, 5/8 for 0
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 1, 2
+            # 1/16 for 2 piles, 1/8 for 1 pile, 13/16 for no gold
         ])
 
         monster_chances = {
