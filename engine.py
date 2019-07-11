@@ -233,6 +233,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
             message = player_turn_result.get('message')
             dead_entity = player_turn_result.get('dead')
             item_added = player_turn_result.get('item_added')
+            gold_added = player_turn_result.get('gold_added')
             item_consumed = player_turn_result.get('consumed')
             item_dropped = player_turn_result.get('item_dropped')
             equip = player_turn_result.get('equip')
@@ -253,6 +254,10 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                 
             if item_added:
                 entities.remove(item_added)
+                game_state = GameStates.ENEMY_TURN
+
+            if gold_added:
+                entities.remove(gold_added)
                 game_state = GameStates.ENEMY_TURN
 
             if item_consumed:

@@ -52,6 +52,8 @@ class GameMap:
         
         number_of_monsters = randint(0, max_monsters_per_room)
         number_of_items = randint(0, max_items_per_room)
+        amount_of_gold = randint(0, 50 + (10 * self.dungeon_level)) + 2
+        gold_passes = choice([0, 0, 0, 1, 2, 3])
 
         monster_chances = {
             'orc': 80,
@@ -78,7 +80,6 @@ class GameMap:
                     monster = self.get_monster(monster_choice, x, y)
                     entities.append(monster)
 
-                    
         for i in range(number_of_items):
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
@@ -88,6 +89,20 @@ class GameMap:
                     item_choice = random_choice_from_dict(item_chances)
                     item = self.get_item(item_choice, x, y)
                     entities.append(item)
+
+        for i in range(gold_passes):
+            if amount_of_gold == 0:
+                break
+            
+            x = randint(room.x1 + 1, room.x2 - 1)
+            y = randint(room.y1 + 1, room.y2 - 1)
+
+            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+                if not self.is_blocked(x, y):
+                    take_gold = randint(0, amount_of_gold)
+                    amount_of_gold -= take_gold
+                    gold = Entity(x, y, '$', libtcod.gold, 'Gold', valuable=Valuable(take_gold))
+                    entities.append(gold)
                     
     def make_map(self, max_rooms, room_min_size, room_max_size,
                  map_width, map_height, player, entities):

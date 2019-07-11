@@ -2,13 +2,20 @@ import tcod as libtcod
 from game_messages import Message
 
 class Inventory:
-    def __init__(self, capacity):
+    def __init__(self, capacity, gold_carried=0):
         self.capacity = capacity
         self.items = []
+        if gold_carried >= 0:
+            self.gold_carried = gold_carried
 
     def add_item(self, item):
         results = []
 
+        if item.valuable:
+            results.append({
+                'gold_added': item,
+                'message': Message('You pick up {0} gold!'.format(item.valuable.value), libtcod.gold)
+            self.gold_carried += item.valuable.value
         if len(self.items) >= self.capacity:
             results.append({
                 'item_added': None,
@@ -19,7 +26,6 @@ class Inventory:
                 'item_added': item,
                 'message': Message('You pick up the {0}!'.format(item.name), libtcod.blue)
             })
-
             self.items.append(item)
 
         return results

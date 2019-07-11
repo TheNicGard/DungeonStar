@@ -7,7 +7,7 @@ class Entity:
     def __init__(self, x, y, char, color, name, blocks=False,
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
-                 equipment=None, equippable=None):
+                 equipment=None, equippable=None, valuable=None):
         self.x = x
         self.y = y
         self.char = char
@@ -23,35 +23,30 @@ class Entity:
         self.level = level
         self.equipment = equipment
         self.equippable = equippable
+        self.valuable = valuable
 
         if self.fighter:
             self.fighter.owner = self
-
         if self.ai:
             self.ai.owner = self
-
         if self.item:
             self.item.owner = self
-
         if self.inventory:
             self.inventory.owner = self
-
         if self.stairs:
             self.stairs.owner = self
-
         if self.level:
             self.level.owner = self
-
         if self.equipment:
             self.equipment.owner = self
-
         if self.equippable:
             self.equippable.owner = self
-
             if not self.item:
                 item = Item()
                 self.item = item
                 self.item.owner = self
+        if self.valuable:
+            self.valuable.owner = self
 
     def move(self, dx, dy):
         self.x += dx
