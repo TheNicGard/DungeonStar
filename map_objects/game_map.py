@@ -9,11 +9,13 @@ from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, cast_lightning, cast_fireball, cast_confuse
+from loader_functions.data_loaders import load_monsters
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
 from random import randint, choice
 from random_utils import from_dungeon_level, random_choice_from_dict
 from render_functions import RenderOrder
+
 
 class GameMap:
     def __init__(self, width, height, dungeon_level=1):
@@ -21,6 +23,7 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
+        self.monster_defs = load_monsters()
 
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
@@ -60,10 +63,14 @@ class GameMap:
             # 1/16 for 2 piles, 1/8 for 1 pile, 13/16 for no gold
         ])
 
-        monster_chances = {
-            'orc': 80,
-            'troll': from_dungeon_level([[15, 3], [30, 5], [60, 7]], self.dungeon_level)
-        }
+        monster_chances = {}
+        for key, value in self.monster_defs.items():
+            monster_chances[key] = value.get_rate()
+            
+#        monster_chances = {
+#            'orc': 80,
+#            'troll': from_dungeon_level([[15, 3], [30, 5], [60, 7]], self.dungeon_level)
+#        }
         
         item_chances = {
             'healing_potion': 70,
