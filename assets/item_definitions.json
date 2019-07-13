@@ -10,5 +10,77 @@
 	    "amount": 40
 	},
 	"spawn_rate": [[70, 1]]
+    },
+    
+    {
+	"item_id": "fireball_scroll",
+	"name": "Scroll of Cast Fireball",
+	"color": [255, 63, 0],
+	"symbol": "?",
+	"use_function": "cast_fireball",
+	"targeting": true,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click a target tile for the fireball, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    },
+	    "damage": 25,
+	    "radius": 3
+	},
+	"spawn_rate": [[25, 6]]
+    },
+
+    {
+	"item_id": "confuse_scroll",
+	"name": "Scroll of Cast Confusion",
+	"color": [255, 115, 185],
+	"symbol": "?",
+	"use_function": "cast_confuse",
+	"targeting": true,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to confuse it, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[10, 2]]
+    },
+    
+    {
+	"item_id": "lightning_scroll",
+	"name": "Scroll of Cast Lightning",
+	"color": [115, 255, 255],
+	"symbol": "?",
+	"use_function": "cast_lightning",
+	"targeting": false,
+	"positional": {
+	    "damage": 40,
+	    "maximum_range": 5
+	},
+	"spawn_rate": [[25, 4]]
+    },
+
+    {
+	"item_id": "short_sword",
+	"name": "Short Sword",
+	"color": [0, 191, 255],
+	"symbol": ")",
+	"equipment": {
+	    "slot": "main_hand",
+	    "power_bonus": 3
+	},
+	"spawn_rate": [[5, 4]]
+    },
+
+    {
+	"item_id": "buckler_shield",
+	"name": "Buckler Shield",
+	"color": [128, 64, 0],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "off_hand",
+	    "defense_bonus": 1
+	},
+	"spawn_rate": [[10, 8]]
     }
 ]
