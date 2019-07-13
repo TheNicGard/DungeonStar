@@ -11,7 +11,6 @@ from loader_functions.data_loaders import load_game, save_game
 from menus import main_menu, message_box
 from render_functions import clear_all, render_all
 
-
 def main():
     constants = get_constants()
     

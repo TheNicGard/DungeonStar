@@ -3,9 +3,12 @@ import os
 import shelve
 
 from components.ai import BasicMonster, ConfusedMonster
+from components.equipment import EquipmentSlots
+from components.equippable import Equippable
 from components.fighter import Fighter
 from components.item import Item
 from entity import Entity
+from game_messages import Message
 from item_definition import ItemDefinition
 from item_functions import heal, cast_lightning, cast_fireball, cast_confuse
 from monster_definition import MonsterDefinition
@@ -91,12 +94,6 @@ def load_items():
     item_defs = {}
     spawn_rates = {}
 
-    """if item_choice == 'healing_potion':
-            item_component = Item(use_function=heal, amount=40)
-            item = Entity(x, y, '!', libtcod.violet, 'Healing Potion',
-                          render_order=RenderOrder.ITEM, item=item_component)
-    """
-
     with open(item_definitions, "r") as json_file:
         data = json.load(json_file)
         for item in data:
@@ -110,12 +107,44 @@ def load_items():
                 use_function = None
                 if item.get("use_function") == "heal":
                     use_function = heal
+                if item.get("use_function") == "cast_fireball":
+                    use_function = cast_fireball
+                if item.get("use_function") == "cast_lightning":
+                    use_function = cast_lightning
+                if item.get("use_function") == "cast_confuse":
+                    use_function = cast_confuse
                     
                 targeting = item.get("targeting")
                 positional = item.get("positional")
-                
-                item_component = Item(use_function=use_function, targeting=targeting, **positional)                    
-                item = ItemDefinition(char, color, name, item_component=item_component, spawn_rate=spawn_rate)
+                if positional and positional.get("targeting_message"):
+                    message = positional.get("targeting_message").get("message")
+                    message_color = positional.get("targeting_message").get("color")
+                    positional["targeting_message"] = Message(message, message_color)
+
+                equipment_component = None
+                if item.get("equipment"):
+                    slot = None
+                    if item.get("equipment").get("slot") == "main_hand":
+                        slot = EquipmentSlots.MAIN_HAND
+                    elif item.get("equipment").get("slot") == "off_hand":
+                        slot = EquipmentSlots.OFF_HAND
+                        
+                    power_bonus = 0
+                    if item.get("equipment").get("power_bonus"):
+                        power_bonus = item.get("equipment").get("power_bonus")
+                    
+                    defense_bonus = 0
+                    if item.get("equipment").get("defense_bonus"):
+                        defense_bonus = item.get("equipment").get("defense_bonus")
+
+                    if slot:
+                        equipment_component = Equippable(slot, power_bonus=power_bonus, defense_bonus=defense_bonus)
+
+                item_component = None
+                if positional:
+                    item_component = Item(use_function=use_function, targeting=targeting, **positional)
+
+                item = ItemDefinition(char, color, name, item_component=item_component, equippable=equipment_component, spawn_rate=spawn_rate)
                 item_defs[item_id] = item
                     
     return item_defs
