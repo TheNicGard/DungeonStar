@@ -1,9 +1,11 @@
-from components.ai import BasicMonster, ConfusedMonster
 import json
 import os
 import shelve
 
+from components.ai import BasicMonster, ConfusedMonster
 from components.fighter import Fighter
+from entity import Entity
+from render_functions import RenderOrder
 from monster_definition import MonsterDefinition
 
 savegame_filename = "savegame.dat"
@@ -37,6 +39,7 @@ def load_monsters():
         raise FileNotFoundError
 
     monster_defs = {}
+    spawn_rates = {}
 
     with open(monster_definitions, "r") as json_file:
         data = json.load(json_file)
@@ -75,5 +78,5 @@ def load_monsters():
                     
                     monster = MonsterDefinition(char, color, name, fighter=fighter_component, ai=ai_component, spawn_rate=spawn_rate)
                     monster_defs[monster_id] = monster
-
+                    
     return monster_defs

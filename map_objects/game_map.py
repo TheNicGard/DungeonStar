@@ -1,3 +1,4 @@
+import copy
 import tcod as libtcod
 from components.ai import BasicMonster
 from components.equipment import EquipmentSlots
@@ -23,8 +24,9 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
+        #self.monster_defs, self.spawn_rates = load_monsters()
         self.monster_defs = load_monsters()
-
+        
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
         return tiles
@@ -65,8 +67,8 @@ class GameMap:
 
         monster_chances = {}
         for key, value in self.monster_defs.items():
-            monster_chances[key] = from_dungeon_level(value.get_rate(), self.dungeon_level)
-            
+            monster_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
+
         item_chances = {
             'healing_potion': 70,
             'sword': from_dungeon_level([[5, 4]], self.dungeon_level),
@@ -204,8 +206,8 @@ class GameMap:
         return item
 
     def get_monster(self, monster_choice, x, y):
-        monster = self.monster_defs.get(monster_choice).get_monster(x, y)
-        return monster
+        monster_def = copy.deepcopy(self.monster_defs.get(monster_choice).get_monster(x, y))
+        return monster_def
 
         """
         if monster_choice == 'orc':
