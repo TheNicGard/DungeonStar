@@ -83,7 +83,7 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
 
     if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
         if game_state == GameStates.SHOW_INVENTORY:
-            inventory_title = 'Press the key next to an item to use it, or Esc to cancel.\n'
+            inventory_title = 'Inventory ({0}{2}/{1}{2})\n'.format(player.inventory.current_weight, player.inventory.capacity, chr(169))
         elif game_state == GameStates.DROP_INVENTORY:
             inventory_title = 'Press the key next to an item to drop it, or Esc to cancel.\n'
         inventory_menu(con, inventory_title, player, 50, screen_width, screen_height)

@@ -4,7 +4,7 @@ from components.item import Item
 from render_functions import RenderOrder
 
 class Entity:
-    def __init__(self, x, y, char, color, name, blocks=False,
+    def __init__(self, x, y, char, color, name, weight=0, blocks=False,
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
                  equipment=None, equippable=None, valuable=None):
@@ -13,6 +13,7 @@ class Entity:
         self.char = char
         self.color = color
         self.name = name
+        self.weight = weight
         self.blocks = blocks
         self.render_order = render_order
         self.fighter = fighter

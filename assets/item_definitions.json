@@ -4,6 +4,7 @@
 	"name": "Healing Potion",
 	"color": [127, 0, 255],
 	"symbol": "!",
+	"weight": 1,
 	"use_function": "heal",
 	"targeting": false,
 	"positional": {
@@ -17,6 +18,7 @@
 	"name": "Scroll of Cast Fireball",
 	"color": [255, 63, 0],
 	"symbol": "?",
+	"weight": 1,
 	"use_function": "cast_fireball",
 	"targeting": true,
 	"positional": {
@@ -35,6 +37,7 @@
 	"name": "Scroll of Cast Confusion",
 	"color": [255, 115, 185],
 	"symbol": "?",
+	"weight": 1,
 	"use_function": "cast_confuse",
 	"targeting": true,
 	"positional": {
@@ -51,6 +54,7 @@
 	"name": "Scroll of Cast Lightning",
 	"color": [115, 255, 255],
 	"symbol": "?",
+	"weight": 1,
 	"use_function": "cast_lightning",
 	"targeting": false,
 	"positional": {
@@ -65,6 +69,7 @@
 	"name": "Short Sword",
 	"color": [0, 191, 255],
 	"symbol": ")",
+	"weight": 2,
 	"equipment": {
 	    "slot": "main_hand",
 	    "power_bonus": 3
@@ -75,6 +80,7 @@
     {
 	"item_id": "buckler_shield",
 	"name": "Buckler Shield",
+	"weight": 2,
 	"color": [128, 64, 0],
 	"symbol": "[",
 	"equipment": {

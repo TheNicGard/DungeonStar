@@ -8,6 +8,13 @@ class Inventory:
         if gold_carried >= 0:
             self.gold_carried = gold_carried
 
+    @property
+    def current_weight(self):
+        weight = 0
+        for i in self.items:
+            weight += i.weight
+        return weight
+            
     def add_item(self, item):
         results = []
 
@@ -18,10 +25,10 @@ class Inventory:
             })
             self.gold_carried += item.valuable.value
         else:
-            if len(self.items) >= self.capacity:
+            if self.current_weight >= self.capacity:
                 results.append({
                     'item_added': None,
-                    'message': Message('You cannot carry any more, your inventory is full', libtcod.yellow)
+                    'message': Message('You cannot carry any more!', libtcod.yellow)
                 })
             else:
                 results.append({
