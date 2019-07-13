@@ -17,9 +17,10 @@ class Fighter:
         self.max_gold_drop = max_gold_drop
 
     def __str__(self):
-        return "HP: {0}, Base Max HP: {1}, Buffed Max HP: {2}, Base Power: {3}, Buffed Power: {4}, Base Defense: {5}, Buffed Defense: {6}".format(self.hp, self.base_max_hp, self.max_hp,
-                                                                                                                                                  self.base_power, self.power,
-                                                                                                                                                  self.base_defense, self.defense)
+        return "HP: " + str(self.hp) + """, Base Max HP: {1}, Buffed Max HP: {2}, Base Power: {3},
+        Buffed Power: {4}, Base Defense: {5}, Buffed Defense: {6}""".format(self.base_max_hp, self.max_hp,
+                                                                            self.base_power, self.power,
+                                                                            self.base_defense, self.defense)
 
     @property
     def max_hp(self):
@@ -101,9 +102,3 @@ class Fighter:
             return gold_item
         else:
             return None
-        
-
-        
-
-        
-            

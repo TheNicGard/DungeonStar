@@ -66,12 +66,14 @@ def load_monsters():
                 if fighter.get("max_gold_drop"):
                     max_gold_drop = fighter.get("max_gold_drop")
 
-                ai = BasicMonster()
+                ai_component = BasicMonster()
                 if ai_type == "ConfusedMonster":
-                    ai = ConfusedMonster()
+                    ai_component = ConfusedMonster()
                     
                 if hp is not None and defense is not None and power is not None:
                     fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)
-                    monster_defs[monster_id] = MonsterDefinition(char, color, name, fighter_component, ai, spawn_rate=spawn_rate)
+                    
+                    monster = MonsterDefinition(char, color, name, fighter=fighter_component, ai=ai_component, spawn_rate=spawn_rate)
+                    monster_defs[monster_id] = monster
 
     return monster_defs

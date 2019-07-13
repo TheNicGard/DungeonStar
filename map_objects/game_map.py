@@ -204,8 +204,10 @@ class GameMap:
         return item
 
     def get_monster(self, monster_choice, x, y):
-        monster = None
-        
+        monster = self.monster_defs.get(monster_choice).get_monster(x, y)
+        return monster
+
+        """
         if monster_choice == 'orc':
             fighter_component = Fighter(hp=20, defense=0, power=4, xp=35,
                                         max_gold_drop=4)
@@ -221,4 +223,4 @@ class GameMap:
                             blocks=True, render_order=RenderOrder.ACTOR,
                              fighter=fighter_component, ai=ai_component)
         return monster
-            
+        """ 
