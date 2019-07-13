@@ -13,7 +13,7 @@
 		"golden": false
 	    },
 	    "ai": "BasicMonster",
-	    "spawn_rate": [[1, 80]]
+	    "spawn_rate": [[80, 1]]
 	},
 	
 	{

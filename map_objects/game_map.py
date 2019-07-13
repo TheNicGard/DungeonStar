@@ -65,13 +65,8 @@ class GameMap:
 
         monster_chances = {}
         for key, value in self.monster_defs.items():
-            monster_chances[key] = value.get_rate()
+            monster_chances[key] = from_dungeon_level(value.get_rate(), self.dungeon_level)
             
-#        monster_chances = {
-#            'orc': 80,
-#            'troll': from_dungeon_level([[15, 3], [30, 5], [60, 7]], self.dungeon_level)
-#        }
-        
         item_chances = {
             'healing_potion': 70,
             'sword': from_dungeon_level([[5, 4]], self.dungeon_level),
