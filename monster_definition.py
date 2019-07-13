@@ -10,7 +10,7 @@ class MonsterDefinition:
         self.ai = ai
         self.spawn_rate = spawn_rate
 
-    def get_mosnter(self, x, y):
+    def get_monster(self, x, y):
         return Entity(x, y, self.char, self.color, self.name,
                       blocks=True, render_order=RenderOrder.ACTOR,
                       fighter=self.fighter, ai=self.ai)
