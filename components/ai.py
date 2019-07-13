@@ -3,6 +3,9 @@ from random import randint
 from game_messages import Message
 
 class BasicMonster:
+    def __str__(self):
+        return "Basic monster AI. Hunts closest target when in FOV."
+    
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
         
@@ -20,6 +23,9 @@ class ConfusedMonster:
     def __init__(self, previous_ai, number_of_turns=10):
         self.previous_ai = previous_ai
         self.number_of_turns = number_of_turns
+
+    def __str__(self):
+        return "Confused monster AI. Walks in a random direction until no longer confused."
 
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
