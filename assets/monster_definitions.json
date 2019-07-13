@@ -1,35 +1,50 @@
 [
-	{
-	    "monster_id": "orc",
-	    "name": "Orc",
-	    "color": [64, 128, 64],
-	    "symbol": "o",
-	    "fighter": {
-		"hp": 20,
-		"power": 4,
-		"defense": 0,
-		"xp": 35,
-		"max_gold_drop": 4,
-		"golden": false
-	    },
-	    "ai": "BasicMonster",
-	    "spawn_rate": [[80, 1]]
+    {
+	"monster_id": "rat",
+	"name": "Rat",
+	"color": [159, 159, 159],
+	"symbol": "r",
+	"fighter": {
+	    "hp": 15,
+	    "power": 4,
+	    "defense": 0,
+	    "xp": 10,
+	    "max_gold_drop": 2,
+	    "golden": false
 	},
-	
-	{
-	    "monster_id": "troll",
-	    "name": "Mega Thot",
-	    "color": [0, 128, 0],
-	    "symbol": "T",
-	    "fighter": {
-		"hp": 30,
-		"power": 8,
-		"defense": 2,
-		"xp": 100,
-		"max_gold_drop": 8,
-		"golden": false
-	    },
-	    "ai": "BasicMonster",
-	    "spawn_rate": [[15, 3], [30, 5], [60, 7]]
-	}
+	"ai": "BasicMonster",
+	"spawn_rate": [[60, 1], [40, 3], [20, 5]]
+    },
+    {
+	"monster_id": "orc",
+	"name": "Orc",
+	"color": [64, 128, 64],
+	"symbol": "o",
+	"fighter": {
+	    "hp": 25,
+	    "power": 4,
+	    "defense": 1,
+	    "xp": 35,
+	    "max_gold_drop": 4,
+	    "golden": false
+	},
+	"ai": "BasicMonster",
+	"spawn_rate": [[20, 1], [40, 3], [60, 5]]
+    },   
+    {
+	"monster_id": "mega thot",
+	"name": "Mega Thot",
+	"color": [0, 128, 0],
+	"symbol": "T",
+	"fighter": {
+	    "hp": 30,
+	    "power": 8,
+	    "defense": 2,
+	    "xp": 100,
+	    "max_gold_drop": 8,
+	    "golden": false
+	},
+	"ai": "BasicMonster",
+	"spawn_rate": [[15, 3], [30, 5], [60, 7]]
+    }
 ]
