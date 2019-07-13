@@ -1,0 +1,14 @@
+[
+    {
+	"item_id": "healing_potion",
+	"name": "Healing Potion",
+	"color": [127, 0, 255],
+	"symbol": "!",
+	"use_function": "heal",
+	"targeting": false,
+	"positional": {
+	    "amount": 40
+	},
+	"spawn_rate": [[70, 1]]
+    }
+]

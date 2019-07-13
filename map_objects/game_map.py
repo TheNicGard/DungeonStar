@@ -10,7 +10,7 @@ from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, cast_lightning, cast_fireball, cast_confuse
-from loader_functions.data_loaders import load_monsters
+from loader_functions.data_loaders import load_monsters, load_items
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
 from random import randint, choice
@@ -24,8 +24,8 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
-        #self.monster_defs, self.spawn_rates = load_monsters()
         self.monster_defs = load_monsters()
+        self.item_defs = load_items()
         
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
@@ -69,6 +69,11 @@ class GameMap:
         for key, value in self.monster_defs.items():
             monster_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
 
+        item_chances = {}
+        for key, value in self.item_defs.items():
+            item_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
+
+        """
         item_chances = {
             'healing_potion': 70,
             'sword': from_dungeon_level([[5, 4]], self.dungeon_level),
@@ -77,6 +82,7 @@ class GameMap:
             'fireball_scroll': from_dungeon_level([[25, 6]], self.dungeon_level),
             'confusion_scroll': from_dungeon_level([[10, 2]], self.dungeon_level)
         }
+        """
         
         for i in range(number_of_monsters):
             x = randint(room.x1 + 1, room.x2 - 1)
@@ -88,7 +94,7 @@ class GameMap:
                     monster_choice = random_choice_from_dict(monster_chances)
                     monster = self.get_monster(monster_choice, x, y)
                     entities.append(monster)
-
+        
         for i in range(number_of_items):
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
@@ -178,7 +184,9 @@ class GameMap:
 
     def get_item(self, item_choice, x, y):
         item = None
-        
+        item = copy.deepcopy(self.item_defs.get(item_choice).get_item(x, y))
+   
+        """
         if item_choice == 'healing_potion':
             item_component = Item(use_function=heal, amount=40)
             item = Entity(x, y, '!', libtcod.violet, 'Healing Potion',
@@ -203,8 +211,10 @@ class GameMap:
         elif item_choice == 'shield':
             equipment_component = Equippable(EquipmentSlots.OFF_HAND, defense_bonus=1)
             item = Entity(x, y, '[', libtcod.darker_orange, 'Shield', equippable=equipment_component)
+        """
+        
         return item
 
     def get_monster(self, monster_choice, x, y):
-        monster_def = copy.deepcopy(self.monster_defs.get(monster_choice).get_monster(x, y))
-        return monster_def
+        monster = copy.deepcopy(self.monster_defs.get(monster_choice).get_monster(x, y))
+        return monster
