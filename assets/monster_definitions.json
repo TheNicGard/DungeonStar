@@ -32,10 +32,10 @@
 	"spawn_rate": [[20, 1], [40, 3], [60, 5]]
     },   
     {
-	"monster_id": "mega thot",
-	"name": "Mega Thot",
+	"monster_id": "thot",
+	"name": "Thot",
 	"color": [0, 128, 0],
-	"symbol": "T",
+	"symbol": "t",
 	"fighter": {
 	    "hp": 30,
 	    "power": 8,
@@ -46,5 +46,37 @@
 	},
 	"ai": "BasicMonster",
 	"spawn_rate": [[15, 3], [30, 5], [60, 7]]
+    },
+    {
+	"monster_id": "mega_thot",
+	"name": "Mega Thot",
+	"color": [0, 128, 0],
+	"symbol": "T",
+	"fighter": {
+	    "hp": 45,
+	    "power": 12,
+	    "defense": 3,
+	    "xp": 150,
+	    "max_gold_drop": 15,
+	    "golden": false
+	},
+	"ai": "BasicMonster",
+	"spawn_rate": [[15, 7], [30, 14], [60, 21]]
+    },
+    {
+	"monster_id": "red_dragon",
+	"name": "Red Dragon",
+	"color": [255, 63, 0],
+	"symbol": "D",
+	"fighter": {
+	    "hp": 65,
+	    "power": 12,
+	    "defense": 4,
+	    "xp": 300,
+	    "max_gold_drop": 150,
+	    "golden": true
+	},
+	"ai": "BasicMonster",
+	"spawn_rate": [[5, 15]]
     }
 ]
