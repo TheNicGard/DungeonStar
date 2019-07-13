@@ -208,21 +208,3 @@ class GameMap:
     def get_monster(self, monster_choice, x, y):
         monster_def = copy.deepcopy(self.monster_defs.get(monster_choice).get_monster(x, y))
         return monster_def
-
-        """
-        if monster_choice == 'orc':
-            fighter_component = Fighter(hp=20, defense=0, power=4, xp=35,
-                                        max_gold_drop=4)
-            ai_component = BasicMonster()
-            monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc',
-                             blocks=True, render_order=RenderOrder.ACTOR,
-                             fighter=fighter_component, ai=ai_component)
-        elif monster_choice == 'troll':
-            fighter_component = Fighter(hp=30, defense=2, power=8, xp=100,
-                                        max_gold_drop=8)
-            ai_component = BasicMonster()
-            monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll',
-                            blocks=True, render_order=RenderOrder.ACTOR,
-                             fighter=fighter_component, ai=ai_component)
-        return monster
-        """ 
