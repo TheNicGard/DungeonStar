@@ -65,6 +65,19 @@
     },
 
     {
+	"item_id": "dagger",
+	"name": "Dagger",
+	"color": [203, 203, 203],
+	"symbol": ")",
+	"weight": 2,
+	"equipment": {
+	    "slot": "main_hand",
+	    "power_bonus": 2
+	},
+	"spawn_rate": [[5, 2]]
+    },
+
+    {
 	"item_id": "short_sword",
 	"name": "Short Sword",
 	"color": [0, 191, 255],
