@@ -24,7 +24,7 @@
 	"positional": {
 	    "amount": 60
 	},
-	"spawn_rate": [[70, 1]]
+	"spawn_rate": [[1, 1]]
     },
     
     {
