@@ -6,7 +6,7 @@ from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
-from loader_functions.initialize_new_game import get_constants, get_game_variables
+from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables
 from loader_functions.data_loaders import load_game, save_game
 from menus import main_menu, message_box
 from render_functions import clear_all, render_all
@@ -53,6 +53,7 @@ def main():
 
             new_game = action.get('new_game')
             load_saved_game = action.get('load_game')
+            load_test_map = action.get('load_test_map')
             exit_game = action.get('exit')
         
             if show_load_error_message and (new_game or load_saved_game or exit_game):
@@ -67,6 +68,9 @@ def main():
                     show_main_menu = False
                 except FileNotFoundError:
                     show_load_error_message = True
+            elif load_test_map:
+                player, entities, game_map, message_log, game_state = get_test_map_variables(constants)
+                show_main_menu = False
             elif exit_game:
                 break
 

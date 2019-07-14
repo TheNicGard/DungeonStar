@@ -113,6 +113,7 @@ class GameMap:
                     
     def make_map(self, max_rooms, room_min_size, room_max_size,
                  map_width, map_height, player, entities):
+        self.test_map = False
         rooms = []
         num_rooms = 0
 
@@ -158,6 +159,27 @@ class GameMap:
                              'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
         entities.append(down_stairs)
 
+    def make_test_map(self, map_width, map_height, player, entities):
+        self.test_map = True
+        w = map_width - 2
+        h = map_height - 2
+        x = 1
+        y = 1
+        
+        new_room = Rect(x, y, w, h)
+        self.create_room(new_room)
+        
+        (new_x, new_y) = new_room.center()
+        center_of_last_room_x = new_x
+        center_of_last_room_y = new_y
+                
+        player.x = new_x
+        player.y = new_y
+                
+        # self.place_entities(new_room, entities)
+        # rooms.append(new_room)
+        # num_rooms += 1
+        
     def next_floor(self, player, message_log, constants):
         self.dungeon_level += 1
         entities = [player]
