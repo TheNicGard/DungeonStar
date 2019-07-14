@@ -44,7 +44,10 @@
 	    "max_gold_drop": 8,
 	    "golden": false
 	},
-	"ai": "BasicMonster",
+	"ai": "AggressiveMonster",
+	"ai_details": {
+	    "patience": 10
+	},
 	"spawn_rate": [[15, 3], [30, 5], [60, 7]]
     },
     {
@@ -60,8 +63,11 @@
 	    "max_gold_drop": 15,
 	    "golden": false
 	},
-	"ai": "BasicMonster",
-	"spawn_rate": [[15, 7], [30, 14], [60, 21]]
+	"ai": "AggressiveMonster",
+	"ai_details": {
+	    "patience": 20
+	},
+	"spawn_rate": [[5, 8], [10, 16], [15, 24]]
     },
     {
 	"monster_id": "red_dragon",

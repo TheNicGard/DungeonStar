@@ -2,7 +2,7 @@ import json
 import os
 import shelve
 
-from components.ai import BasicMonster, ConfusedMonster, DummyMonster
+from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster
 from components.equipment import EquipmentSlots
 from components.equippable import Equippable
 from components.fighter import Fighter
@@ -78,11 +78,19 @@ def load_monsters():
                 if fighter.get("max_gold_drop"):
                     max_gold_drop = fighter.get("max_gold_drop")
 
+                ai_details = monster.get("ai_details")
+                patience = 0
+                if ai_details:
+                    if ai_details.get("patience"):
+                        patience = ai_details.get("patience")
+                    
                 ai_component = DummyMonster()
                 if ai_type == "BasicMonster":
                     ai_component = BasicMonster()
                 elif ai_type == "ConfusedMonster":
                     ai_component = ConfusedMonster()
+                elif ai_type == "AggressiveMonster":
+                    ai_component = AggressiveMonster(patience)
                     
                 if hp is not None and defense is not None and power is not None:
                     fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)
