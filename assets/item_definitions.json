@@ -1,7 +1,7 @@
 [
     {
 	"item_id": "healing_potion",
-	"name": "Healing Potion",
+	"name": "can of Dr. Fabulous",
 	"color": [127, 0, 255],
 	"symbol": "!",
 	"weight": 1,
@@ -9,6 +9,20 @@
 	"targeting": false,
 	"positional": {
 	    "amount": 40
+	},
+	"spawn_rate": [[70, 1]]
+    },
+
+    {
+	"item_id": "super_healing_potion",
+	"name": "can of Dr. Fabulous \"w/ Real Sugar!\"",
+	"color": [229, 191, 0],
+	"symbol": "!",
+	"weight": 1,
+	"use_function": "heal",
+	"targeting": false,
+	"positional": {
+	    "amount": 60
 	},
 	"spawn_rate": [[70, 1]]
     },
