@@ -78,5 +78,21 @@
 	},
 	"ai": "BasicMonster",
 	"spawn_rate": [[5, 15]]
+    },
+    {
+	"monster_id": "dummy",
+	"name": "Training Dummy",
+	"color": [255, 255, 255],
+	"symbol": 2,
+	"fighter": {
+	    "hp": 1,
+	    "power": 0,
+	    "defense": 0,
+	    "xp": 400,
+	    "max_gold_drop": 0,
+	    "golden": false
+	},
+	"ai": "DummyMonster",
+	"spawn_rate": [[0, 0]]
     }
 ]
