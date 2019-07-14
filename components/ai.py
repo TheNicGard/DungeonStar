@@ -43,3 +43,11 @@ class ConfusedMonster:
             results.append({'message': Message('The {0} is no longer confused!'.format(self.owner.name),
                                                libtcod.red)})
         return results
+
+class DummyMonster:
+    def __str__(self):
+        return "Dummy monster AI. Does nothing."
+    
+    def take_turn(self, target, fov_map, game_map, entities):
+        results = []
+        return results
