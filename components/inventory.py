@@ -12,7 +12,7 @@ class Inventory:
     def current_weight(self):
         weight = 0
         for i in self.items:
-            weight += i.weight
+            weight += (i.weight * i.item.count)
         return weight
             
     def add_item(self, item):
@@ -35,7 +35,16 @@ class Inventory:
                     'item_added': item,
                     'message': Message('You pick up the {0}!'.format(item.name), libtcod.blue)
                 })
-                self.items.append(item)
+                
+                matching_entry = None
+                for i in self.items:
+                    if i.id == item.id:
+                        matching_entry = i
+                if matching_entry:
+                    matching_entry.item.count += 1
+                else:
+                    self.items.append(item)
+                    
                 self.items.sort(key=lambda x: x.name)
 
         return results
@@ -69,7 +78,14 @@ class Inventory:
         return results
 
     def remove_item(self, item):
-        self.items.remove(item)
+        matching_entry = None
+        for i in self.items:
+            if i.id == item.id:
+                matching_entry = i
+        if matching_entry:
+            matching_entry.item.count -= 1
+        else:
+            self.items.remove(item)
 
     def drop_item(self, item):
         results = []

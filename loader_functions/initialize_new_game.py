@@ -77,14 +77,14 @@ def get_game_variables(constants):
     inventory_component = Inventory(26)
     level_component = Level()
     equipment_component = Equipment()
-    player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True,
+    player = Entity("player", 0, 0, '@', libtcod.white, 'Player', blocks=True,
                     render_order=RenderOrder.ACTOR, fighter=fighter_component,
                     inventory=inventory_component, level=level_component,
                     equipment=equipment_component)
     entities = [player]
 
     equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=2)
-    dagger = Entity(0, 0, ')', libtcod.silver, 'Dagger', weight=2, equippable=equippable_component)
+    dagger = Entity("dagger", 0, 0, ')', libtcod.silver, 'Dagger', weight=2, equippable=equippable_component)
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
 

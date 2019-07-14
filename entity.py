@@ -4,10 +4,11 @@ from components.item import Item
 from render_functions import RenderOrder
 
 class Entity:
-    def __init__(self, x, y, char, color, name, weight=0, blocks=False,
+    def __init__(self, id, x, y, char, color, name, weight=0, blocks=False,
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
                  equipment=None, equippable=None, valuable=None):
+        self.id = id
         self.x = x
         self.y = y
         self.char = char
@@ -43,7 +44,7 @@ class Entity:
         if self.equippable:
             self.equippable.owner = self
             if not self.item:
-                item = Item()
+                item = Item(1)
                 self.item = item
                 self.item.owner = self
         if self.valuable:

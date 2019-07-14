@@ -82,7 +82,7 @@ def load_monsters():
                 if hp is not None and defense is not None and power is not None:
                     fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)
                     
-                    monster = MonsterDefinition(char, color, name, weight=0, fighter=fighter_component, ai=ai_component, spawn_rate=spawn_rate)
+                    monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, spawn_rate=spawn_rate)
                     monster_defs[monster_id] = monster
                     
     return monster_defs
@@ -143,9 +143,9 @@ def load_items():
 
                 item_component = None
                 if positional:
-                    item_component = Item(use_function=use_function, targeting=targeting, **positional)
+                    item_component = Item(1, use_function=use_function, targeting=targeting, **positional)
 
-                item = ItemDefinition(char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, spawn_rate=spawn_rate)
+                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, spawn_rate=spawn_rate)
                 item_defs[item_id] = item
                     
     return item_defs

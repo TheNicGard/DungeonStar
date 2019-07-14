@@ -96,7 +96,7 @@ class Fighter:
 
         if gold > 0:
             valuable_component = Valuable(gold)
-            gold_item = Entity(self.owner.x, self.owner.y, '$', libtcod.gold,
+            gold_item = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.gold,
                                'Gold', render_order=RenderOrder.GOLD,
                                valuable=valuable_component)
             return gold_item

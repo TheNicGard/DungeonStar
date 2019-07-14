@@ -105,7 +105,7 @@ class GameMap:
                 if not self.is_blocked(x, y):
                     take_gold = randint(0, amount_of_gold)
                     amount_of_gold -= take_gold
-                    gold = Entity(x, y, '$', libtcod.gold, 'Gold',
+                    gold = Entity("gold", x, y, '$', libtcod.gold, 'Gold',
                                   render_order=RenderOrder.GOLD,
                                   valuable=Valuable(take_gold))
                     if gold.valuable.value:
@@ -154,7 +154,7 @@ class GameMap:
                 rooms.append(new_room)
                 num_rooms += 1
         stairs_component = Stairs(self.dungeon_level + 1)
-        down_stairs = Entity(center_of_last_room_x, center_of_last_room_y, 31, libtcod.white,
+        down_stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31, libtcod.white,
                              'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
         entities.append(down_stairs)
 
