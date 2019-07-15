@@ -139,8 +139,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                 if not game_map.is_blocked(destination_x, destination_y):
                     target = get_blocking_entities_at_location(entities, destination_x, destination_y)
                     if target:
-                        attack_results = player.fighter.attack(target)
-                        player_turn_results.extend(attack_results)
+                        if target.door:
+                            if not target.door.ajar:
+                                target.door.open_door(game_map.tiles)
+                        else:
+                            attack_results = player.fighter.attack(target)
+                            player_turn_results.extend(attack_results)
                     else:
                         player.move(dx, dy)
                         fov_recompute = True

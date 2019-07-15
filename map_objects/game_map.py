@@ -1,15 +1,11 @@
 import copy
 import tcod as libtcod
-from components.ai import BasicMonster
-from components.equipment import EquipmentSlots
-from components.equippable import Equippable
-from components.fighter import Fighter
+from components.door import Door, DoorPosition
 from components.item import Item
 from components.stairs import Stairs
 from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
-from item_functions import heal, cast_lightning, cast_fireball, cast_confuse
 from loader_functions.data_loaders import load_monsters, load_items, load_test_map_tiles
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
@@ -184,6 +180,13 @@ class GameMap:
                     if piece == "wall":
                         self.tiles[data_x][data_y].blocked = True
                         self.tiles[data_x][data_y].block_sight = True
+                    if piece == "door":
+                        door_component = Door(False, DoorPosition.VERTICAL)
+                        door = Entity("door", data_x, data_y, "+", libtcod.lightest_grey,
+                                             'Door', blocks=True, render_order=RenderOrder.DOOR, door=door_component)
+                        self.tiles[data_x][data_y].block_sight = True
+                        #######################################33
+                        entities.append(door)
                     elif piece in self.item_defs:
                         item = self.get_item(piece, data_x, data_y)
                         entities.append(item)
