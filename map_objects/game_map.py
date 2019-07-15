@@ -10,7 +10,7 @@ from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, cast_lightning, cast_fireball, cast_confuse
-from loader_functions.data_loaders import load_monsters, load_items
+from loader_functions.data_loaders import load_monsters, load_items, load_test_map_tiles
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
 from random import randint, choice
@@ -176,13 +176,20 @@ class GameMap:
         player.x = new_x
         player.y = new_y
 
-        for i in range(3):
-            item = self.get_item("healing_potion", new_x + i + 1, new_y)
-            entities.append(item)
-                
-        # self.place_entities(new_room, entities)
-        # rooms.append(new_room)
-        # num_rooms += 1
+        data = load_test_map_tiles()
+        for data_y in range(len(data)):
+            for data_x in range(len(data[x])):
+                if data[data_y][data_x] != '':
+                    piece = data[data_y][data_x]
+                    if piece == "wall":
+                        self.tiles[data_x][data_y].blocked = True
+                        self.tiles[data_x][data_y].block_sight = True
+                    elif piece in self.item_defs:
+                        item = self.get_item(piece, data_x, data_y)
+                        entities.append(item)
+                    elif piece in self.monster_defs:
+                        monster = self.get_monster(piece, data_x, data_y)
+                        entities.append(monster)
         
     def next_floor(self, player, message_log, constants):
         self.dungeon_level += 1

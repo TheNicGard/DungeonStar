@@ -1,3 +1,4 @@
+import csv
 import json
 import os
 import shelve
@@ -17,6 +18,7 @@ from render_functions import RenderOrder
 savegame_filename = "savegame.dat"
 monster_definitions = "assets/monster_definitions.json"
 item_definitions = "assets/item_definitions.json"
+test_map_filename = "assets/test_map.csv"
 
 def save_game(player, entities, game_map, message_log, game_state):
     if not game_map.test_map:
@@ -162,3 +164,11 @@ def load_items():
                 item_defs[item_id] = item
                     
     return item_defs
+
+def load_test_map_tiles():
+    datafile = open(test_map_filename, 'r')
+    datareader = csv.reader(datafile, delimiter='|')
+    data = []
+    for row in datareader:
+        data.append(row)
+    return data
