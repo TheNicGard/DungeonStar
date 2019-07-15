@@ -29,7 +29,7 @@
     
     {
 	"item_id": "fireball_scroll",
-	"name": "Scroll of Cast Fireball",
+	"name": "scroll of Cast Fireball",
 	"color": [255, 63, 0],
 	"symbol": "?",
 	"weight": 1,
@@ -48,7 +48,7 @@
 
     {
 	"item_id": "confuse_scroll",
-	"name": "Scroll of Cast Confusion",
+	"name": "scroll of Cast Confusion",
 	"color": [255, 115, 185],
 	"symbol": "?",
 	"weight": 1,
@@ -65,7 +65,7 @@
     
     {
 	"item_id": "lightning_scroll",
-	"name": "Scroll of Cast Lightning",
+	"name": "scroll of Cast Lightning",
 	"color": [115, 255, 255],
 	"symbol": "?",
 	"weight": 1,
@@ -80,7 +80,7 @@
 
     {
 	"item_id": "dagger",
-	"name": "Dagger",
+	"name": "dagger",
 	"color": [203, 203, 203],
 	"symbol": ")",
 	"weight": 2,
@@ -93,7 +93,7 @@
 
     {
 	"item_id": "short_sword",
-	"name": "Short Sword",
+	"name": "short Sword",
 	"color": [0, 191, 255],
 	"symbol": ")",
 	"weight": 2,
@@ -106,7 +106,7 @@
 
     {
 	"item_id": "buckler_shield",
-	"name": "Buckler Shield",
+	"name": "buckler shield",
 	"weight": 2,
 	"color": [128, 64, 0],
 	"symbol": "[",
