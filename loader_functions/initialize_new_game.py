@@ -14,7 +14,7 @@ from render_functions import RenderOrder
 
 
 def get_constants():
-    window_title = 'Tutorial'
+    window_title = 'Dungeon Star'
 
     screen_width = 80
     screen_height = 50
