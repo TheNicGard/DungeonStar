@@ -175,6 +175,10 @@ class GameMap:
                 
         player.x = new_x
         player.y = new_y
+
+        for i in range(3):
+            item = self.get_item("healing_potion", new_x + i + 1, new_y)
+            entities.append(item)
                 
         # self.place_entities(new_room, entities)
         # rooms.append(new_room)

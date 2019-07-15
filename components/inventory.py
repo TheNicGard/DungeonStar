@@ -25,7 +25,7 @@ class Inventory:
             })
             self.gold_carried += item.valuable.value
         else:
-            if self.current_weight >= self.capacity:
+            if self.current_weight + item.weight >= self.capacity:
                 results.append({
                     'item_added': None,
                     'message': Message('You cannot carry any more!', libtcod.yellow)
@@ -35,13 +35,13 @@ class Inventory:
                     'item_added': item,
                     'message': Message('You pick up the {0}!'.format(item.name), libtcod.blue)
                 })
-                
+
                 matching_entry = None
                 for i in self.items:
                     if i.id == item.id:
                         matching_entry = i
                 if matching_entry:
-                    matching_entry.item.count += 1
+                    matching_entry.item.count += item.item.count
                 else:
                     self.items.append(item)
                     
@@ -77,13 +77,16 @@ class Inventory:
             
         return results
 
-    def remove_item(self, item):
+    def remove_item(self, item, count=1):
         matching_entry = None
         for i in self.items:
             if i.id == item.id:
                 matching_entry = i
         if matching_entry:
-            matching_entry.item.count -= 1
+            if count != matching_entry.item.count:
+                self.items.remove(matching_entry)
+            else:
+                matching_entry.item.count -= count
         else:
             self.items.remove(item)
 
@@ -96,7 +99,7 @@ class Inventory:
         item.x = self.owner.x
         item.y = self.owner.y
 
-        self.remove_item(item)
+        self.remove_item(item, count=item.item.count)
         results.append({'item_dropped': item,
                         'message': Message('You dropped the {0}.'.format(item.name),
                                            libtcod.yellow)})
