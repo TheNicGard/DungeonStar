@@ -7,7 +7,7 @@ class Entity:
     def __init__(self, id, x, y, char, color, name, weight=0, blocks=False,
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
-                 equipment=None, equippable=None, valuable=None):
+                 equipment=None, equippable=None, valuable=None, door=None):
         self.id = id
         self.x = x
         self.y = y
@@ -26,6 +26,7 @@ class Entity:
         self.equipment = equipment
         self.equippable = equippable
         self.valuable = valuable
+        self.door = door
 
         if self.fighter:
             self.fighter.owner = self
@@ -37,6 +38,8 @@ class Entity:
             self.inventory.owner = self
         if self.stairs:
             self.stairs.owner = self
+        if self.door:
+            self.door.owner = self
         if self.level:
             self.level.owner = self
         if self.equipment:
