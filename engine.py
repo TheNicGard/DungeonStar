@@ -141,7 +141,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                     if target:
                         if target.door:
                             if not target.door.ajar:
-                                target.door.open_door(game_map.tiles)
+                                target.door.open_door(game_map.tiles[destination_x][destination_y])
+                                fov_recompute = True
                         else:
                             attack_results = player.fighter.attack(target)
                             player_turn_results.extend(attack_results)

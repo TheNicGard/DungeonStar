@@ -9,17 +9,17 @@ class Door:
         self.ajar = ajar
         self.position = position
 
-    def open_door(self, tile_map):
+    def open_door(self, tile):
         self.ajar = True
         if self.position == DoorPosition.VERTICAL:
             self.owner.char = '-'
         if self.position == DoorPosition.HORIZONTAL:
             self.owner.char = '|'
         self.owner.blocks = False
-        tile_map[self.owner.x][self.owner.y].block_sight = False
+        tile.block_sight = False
 
-    def close_door(self, tile_map):
+    def close_door(self, tile):
         self.ajar = False
         self.owner.char = "+"
         self.owner.blocks = True
-        tile_map[self.owner.x][self.owner.y].block_sight = True
+        tile.block_sight = True

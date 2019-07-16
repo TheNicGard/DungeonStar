@@ -184,8 +184,9 @@ class GameMap:
                         door_component = Door(False, DoorPosition.VERTICAL)
                         door = Entity("door", data_x, data_y, "+", libtcod.lightest_grey,
                                              'Door', blocks=True, render_order=RenderOrder.DOOR, door=door_component)
-                        self.tiles[data_x][data_y].block_sight = True
-                        #######################################33
+                        #self.tiles[data_x][data_y].block_sight = True
+                        door.door.close_door(self.tiles[data_x][data_y])
+                        #######################################
                         entities.append(door)
                     elif piece in self.item_defs:
                         item = self.get_item(piece, data_x, data_y)
