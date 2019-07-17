@@ -3,7 +3,7 @@ import json
 import os
 import shelve
 
-from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster
+from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, StoppedMonster
 from components.equipment import EquipmentSlots
 from components.equippable import Equippable
 from components.fighter import Fighter
@@ -11,7 +11,7 @@ from components.item import Item
 from entity import Entity
 from game_messages import Message
 from item_definition import ItemDefinition
-from item_functions import heal, cast_lightning, cast_fireball, cast_confuse
+from item_functions import heal, cast_lightning, cast_fireball, cast_confuse, cast_stun
 from monster_definition import MonsterDefinition
 from render_functions import RenderOrder
 
@@ -90,9 +90,11 @@ def load_monsters():
                 if ai_type == "BasicMonster":
                     ai_component = BasicMonster()
                 elif ai_type == "ConfusedMonster":
-                    ai_component = ConfusedMonster()
+                    ai_component = ConfusedMonster(BasicMonster(), 10)
                 elif ai_type == "AggressiveMonster":
                     ai_component = AggressiveMonster(patience)
+                elif ai_type == "StoppedMonster":
+                    ai_component = StoppedMonster(BasicMonster())
                     
                 if hp is not None and defense is not None and power is not None:
                     fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)
@@ -129,6 +131,8 @@ def load_items():
                     use_function = cast_lightning
                 if item.get("use_function") == "cast_confuse":
                     use_function = cast_confuse
+                if item.get("use_function") == "cast_stun":
+                    use_function = cast_stun
                     
                 targeting = item.get("targeting")
                 positional = item.get("positional")

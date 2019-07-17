@@ -79,6 +79,23 @@
     },
 
     {
+	"item_id": "stun_scroll",
+	"name": "scroll of Cast Stun",
+	"color": [0, 255, 127],
+	"symbol": "?",
+	"weight": 1,
+	"use_function": "cast_stun",
+	"targeting": true,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to stun it, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[25, 4]]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],
