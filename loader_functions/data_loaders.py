@@ -11,7 +11,7 @@ from components.item import Item
 from entity import Entity
 from game_messages import Message
 from item_definition import ItemDefinition
-from item_functions import heal, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep
+from item_functions import heal, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed
 from monster_definition import MonsterDefinition
 from render_functions import RenderOrder
 
@@ -112,7 +112,8 @@ def load_items():
 
     item_function_names = [
         heal, cast_fireball, cast_lightning,
-        cast_confuse, cast_stun, cast_sleep
+        cast_confuse, cast_stun, cast_sleep,
+        cast_greed
     ]
     
     item_defs = {}

@@ -113,6 +113,23 @@
     },
 
     {
+	"item_id": "greed_scroll",
+	"name": "scroll of Cast Greed",
+	"color": [229, 191, 0],
+	"symbol": "?",
+	"weight": 1,
+	"use_function": "cast_greed",
+	"targeting": true,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to put it to enchant it, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[10, 6]]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],
