@@ -103,7 +103,11 @@ def clear_all(con, entities):
 def draw_entity(con, entity, fov_map, game_map, always_visible):
     if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door) and game_map.tiles[entity.x][entity.y].explored):
         libtcod.console_set_default_foreground(con, entity.color)
-        libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
+        if entity.fighter and entity.ai and entity.fighter.status.get("invisible"):
+            if entity.fighter.status.get("invisible") > 0:
+                libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
+        else:
+            libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
     elif always_visible:
         libtcod.console_set_default_foreground(con, entity.color)
         libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)

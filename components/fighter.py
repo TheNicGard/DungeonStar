@@ -106,3 +106,15 @@ class Fighter:
             return gold_item
         else:
             return None
+
+    def tick_invisibility(self):
+        message = None
+        
+        if self.status.get("invisible") and self.status.get("invisible") > 0:
+                print("Invisibility: " + str(self.status["invisible"]))
+                self.status["invisible"] -= 1
+                if self.status["invisible"] <= 0:
+                    message = Message("Color starts to reappear on your body!",
+                                           libtcod.yellow)
+                    
+        return message
