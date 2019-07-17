@@ -1,5 +1,5 @@
 import tcod as libtcod
-from random import randint
+from random import randint, random
 from game_messages import Message
 
 class BasicMonster:
@@ -97,4 +97,32 @@ class DummyMonster:
     
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
+        return results
+
+class StoppedMonster:
+    def __init__(self, previous_ai, number_of_turns=10, chance_to_resume=None, resume_text="stopped"):
+        self.previous_ai = previous_ai
+        self.number_of_turns = number_of_turns
+        self.resume_text = resume_text
+        self.chance_to_resume = chance_to_resume
+
+    def __str__(self):
+        return "Stopped monster AI. Resumes previous after x turns, or with a chance to resume action."
+
+    def take_turn(self, target, fov_map, game_map, entities):
+        results = []
+
+        if self.chance_to_resume:
+            if random() < self.chance_to_resume:
+                self.owner.ai = self.previous_ai
+                results.append({'message': Message(
+                    'The {0} is no longer {1}!'.format(self.owner.name, self.resume_text),
+                    libtcod.red)})
+        elif self.number_of_turns > 0:
+            self.number_of_turns -= 1
+        else:
+            self.owner.ai = self.previous_ai
+            results.append({'message': Message(
+                'The {0} is no longer {1}!'.format(self.owner.name, self.resume_text),
+                libtcod.red)})
         return results
