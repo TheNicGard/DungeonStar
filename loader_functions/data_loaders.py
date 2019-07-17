@@ -108,6 +108,11 @@ def load_items():
     if not os.path.isfile(item_definitions):
         raise FileNotFoundError
 
+    item_function_names = [
+        heal, cast_fireball, cast_lightning,
+        cast_confuse, cast_stun
+    ]
+    
     item_defs = {}
     spawn_rates = {}
 
@@ -123,17 +128,13 @@ def load_items():
 
             if (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
                 use_function = None
-                if item.get("use_function") == "heal":
-                    use_function = heal
-                if item.get("use_function") == "cast_fireball":
-                    use_function = cast_fireball
-                if item.get("use_function") == "cast_lightning":
-                    use_function = cast_lightning
-                if item.get("use_function") == "cast_confuse":
-                    use_function = cast_confuse
-                if item.get("use_function") == "cast_stun":
-                    use_function = cast_stun
-                    
+                use_function_name = item.get("use_function")
+
+                for f in item_function_names:
+                    if f.__name__ == use_function_name:
+                        use_function = f
+                        break
+
                 targeting = item.get("targeting")
                 positional = item.get("positional")
                 if positional and positional.get("targeting_message"):
