@@ -26,6 +26,20 @@
 	},
 	"spawn_rate": [[1, 1]]
     },
+
+    {
+	"item_id": "invisibility_potion",
+	"name": "can of Crystal Dr. Fabulous",
+	"color": [191, 239, 255],
+	"symbol": "!",
+	"weight": 1,
+	"use_function": "invisible",
+	"targeting": false,
+	"positional": {
+	    "turns": 10
+	},
+	"spawn_rate": [[70, 1]]
+    },
     
     {
 	"item_id": "fireball_scroll",

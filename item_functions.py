@@ -19,6 +19,18 @@ def heal(*args, **kwargs):
                                            libtcod.green)})
     return results
 
+def invisible(*args, **kwargs):
+    entity = args[0]
+    turns = kwargs.get('turns')
+
+    results = []
+
+    entity.fighter.status["invisible"] = turns
+    results.append({'consumed': True,
+                    'message': Message('Light starts to pass through your body!',
+                                       libtcod.green)})
+    return results
+
 def cast_lightning(*args, **kwargs):
     caster = args[0]
     entities = kwargs.get('entities')
