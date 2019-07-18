@@ -45,8 +45,6 @@ class Inventory:
                 else:
                     self.items.append(item)
                     
-                self.items.sort(key=lambda x: x.name)
-
         return results
 
     def use(self, item_entity, **kwargs):
@@ -71,7 +69,7 @@ class Inventory:
 
                 for item_use_result in item_use_results:
                     if item_use_result.get('consumed'):
-                        self.remove_item(item_entity)
+                        self.remove_item(item_entity, 1)
 
                 results.extend(item_use_results)
             
@@ -82,8 +80,9 @@ class Inventory:
         for i in self.items:
             if i.id == item.id:
                 matching_entry = i
+                break
         if matching_entry:
-            if count != matching_entry.item.count:
+            if count >= matching_entry.item.count:
                 self.items.remove(matching_entry)
             else:
                 matching_entry.item.count -= count
@@ -93,8 +92,10 @@ class Inventory:
     def drop_item(self, item):
         results = []
 
-        if self.owner.equipment.main_hand == item or self.owner.equipment.off_hand == item:
-            self.owner.equipment.toggle_equip(item)
+        for k, v in self.owner.equipment.slots.items():
+            if v is item:
+                self.owner.equipment.toggle_equip(item)
+                break
         
         item.x = self.owner.x
         item.y = self.owner.y
