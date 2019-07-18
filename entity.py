@@ -129,5 +129,9 @@ class Entity:
 def get_blocking_entities_at_location(entities, destination_x, destination_y):
     for entity in entities:
         if entity.blocks and entity.x == destination_x and entity.y == destination_y:
-            return entity
+            if entity.fighter:
+                if not entity.fighter.status.get("invisible"):
+                    return entity
+            else:
+                return entity
     return None

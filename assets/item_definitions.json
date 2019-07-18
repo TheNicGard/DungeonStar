@@ -26,6 +26,20 @@
 	},
 	"spawn_rate": [[1, 1]]
     },
+
+    {
+	"item_id": "invisibility_potion",
+	"name": "can of Crystal Dr. Fabulous",
+	"color": [191, 239, 255],
+	"symbol": "!",
+	"weight": 1,
+	"use_function": "invisible",
+	"targeting": false,
+	"positional": {
+	    "turns": 10
+	},
+	"spawn_rate": [[2, 1]]
+    },
     
     {
 	"item_id": "fireball_scroll",
@@ -92,7 +106,41 @@
 		"color": [115, 255, 255]
 	    }
 	},
-	"spawn_rate": [[25, 4]]
+	"spawn_rate": [[10, 6]]
+    },
+
+    {
+	"item_id": "sleep_scroll",
+	"name": "scroll of Cast Sleep",
+	"color": [166, 255, 255],
+	"symbol": "?",
+	"weight": 1,
+	"use_function": "cast_sleep",
+	"targeting": true,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to put it to sleep, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[10, 6]]
+    },
+
+    {
+	"item_id": "greed_scroll",
+	"name": "scroll of Cast Greed",
+	"color": [229, 191, 0],
+	"symbol": "?",
+	"weight": 1,
+	"use_function": "cast_greed",
+	"targeting": true,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to put it to enchant it, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[10, 6]]
     },
 
     {
@@ -109,8 +157,8 @@
     },
 
     {
-	"item_id": "short_sword",
-	"name": "short Sword",
+	"item_id": "shortsword",
+	"name": "shortsword",
 	"color": [0, 191, 255],
 	"symbol": ")",
 	"weight": 2,
@@ -122,6 +170,19 @@
     },
 
     {
+	"item_id": "longsword",
+	"name": "longsword",
+	"color": [0, 191, 255],
+	"symbol": ")",
+	"weight": 2,
+	"equipment": {
+	    "slot": "main_hand",
+	    "power_bonus": 4
+	},
+	"spawn_rate": [[5, 12]]
+    },
+
+    {
 	"item_id": "buckler_shield",
 	"name": "buckler shield",
 	"weight": 2,
@@ -129,6 +190,19 @@
 	"symbol": "[",
 	"equipment": {
 	    "slot": "off_hand",
+	    "defense_bonus": 1
+	},
+	"spawn_rate": [[10, 8]]
+    },
+
+    {
+	"item_id": "leather_helmet",
+	"name": "leather helmet",
+	"weight": 2,
+	"color": [128, 64, 0],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "head",
 	    "defense_bonus": 1
 	},
 	"spawn_rate": [[10, 8]]

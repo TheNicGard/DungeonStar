@@ -3,15 +3,14 @@ import json
 import os
 import shelve
 
-from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, StoppedMonster
-from components.equipment import EquipmentSlots
+from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.item import Item
 from entity import Entity
 from game_messages import Message
 from item_definition import ItemDefinition
-from item_functions import heal, cast_lightning, cast_fireball, cast_confuse, cast_stun
+from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed
 from monster_definition import MonsterDefinition
 from render_functions import RenderOrder
 
@@ -93,8 +92,10 @@ def load_monsters():
                     ai_component = ConfusedMonster(BasicMonster(), 10)
                 elif ai_type == "AggressiveMonster":
                     ai_component = AggressiveMonster(patience)
-                elif ai_type == "StoppedMonster":
-                    ai_component = StoppedMonster(BasicMonster())
+                elif ai_type == "HardStoppedMonster":
+                    ai_component = HardStoppedMonster(BasicMonster())
+                elif ai_type == "SoftStoppedMonster":
+                    ai_component = SoftStoppedMonster(BasicMonster())
                     
                 if hp is not None and defense is not None and power is not None:
                     fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)
@@ -108,6 +109,18 @@ def load_items():
     if not os.path.isfile(item_definitions):
         raise FileNotFoundError
 
+    item_function_names = [
+        heal, cast_fireball, cast_lightning,
+        cast_confuse, cast_stun, cast_sleep,
+        cast_greed, invisible
+    ]
+
+    equipment_types = [
+        "main_hand", "off_hand", "head",
+        "under_torso", "over_torso", "legs",
+        "feet", "left_finger", "right_finger"
+    ]
+    
     item_defs = {}
     spawn_rates = {}
 
@@ -123,17 +136,13 @@ def load_items():
 
             if (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
                 use_function = None
-                if item.get("use_function") == "heal":
-                    use_function = heal
-                if item.get("use_function") == "cast_fireball":
-                    use_function = cast_fireball
-                if item.get("use_function") == "cast_lightning":
-                    use_function = cast_lightning
-                if item.get("use_function") == "cast_confuse":
-                    use_function = cast_confuse
-                if item.get("use_function") == "cast_stun":
-                    use_function = cast_stun
-                    
+                use_function_name = item.get("use_function")
+
+                for f in item_function_names:
+                    if f.__name__ == use_function_name:
+                        use_function = f
+                        break
+
                 targeting = item.get("targeting")
                 positional = item.get("positional")
                 if positional and positional.get("targeting_message"):
@@ -144,11 +153,10 @@ def load_items():
                 equipment_component = None
                 if item.get("equipment"):
                     slot = None
-                    if item.get("equipment").get("slot") == "main_hand":
-                        slot = EquipmentSlots.MAIN_HAND
-                    elif item.get("equipment").get("slot") == "off_hand":
-                        slot = EquipmentSlots.OFF_HAND
-                        
+                    potential_slot = item.get("equipment").get("slot")
+                    if potential_slot in equipment_types:
+                        slot = potential_slot
+                    
                     power_bonus = 0
                     if item.get("equipment").get("power_bonus"):
                         power_bonus = item.get("equipment").get("power_bonus")

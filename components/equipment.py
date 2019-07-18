@@ -1,18 +1,26 @@
-from equipment_slots import EquipmentSlots
 
 class Equipment:
-    def __init__(self, main_hand=None, off_hand=None):
-        self.main_hand = main_hand
-        self.off_hand = off_hand
+    def __init__(self, slots={}):
+        self.slots = slots
 
+    def __str__(self):
+        temp_str = ""
+        
+        for v, k in self.slots.items():
+            if not k:
+                temp_str += "Nothing is equipped to the \"" + v + "\". "
+            else:
+                temp_str += "Equipped to the \"" + v + "\" is a " + k.name + ". "
+                
+        return temp_str
+                
     @property
     def max_hp_bonus(self):
         bonus = 0
 
-        if self.main_hand and self.main_hand.equippable:
-            bonus += self.main_hand.equippable.max_hp_bonus
-        if self.off_hand and self.off_hand.equippable:
-            bonus += self.off_hand.equippable.max_hp_bonus
+        for slot in self.slots.values():
+            if slot and slot.equippable:
+                bonus += slot.equippable.max_hp_bonus
 
         return bonus
 
@@ -20,10 +28,9 @@ class Equipment:
     def power_bonus(self):
         bonus = 0
 
-        if self.main_hand and self.main_hand.equippable:
-            bonus += self.main_hand.equippable.power_bonus
-        if self.off_hand and self.off_hand.equippable:
-            bonus += self.off_hand.equippable.power_bonus
+        for slot in self.slots.values():
+            if slot and slot.equippable:
+                bonus += slot.equippable.power_bonus
 
         return bonus
 
@@ -31,35 +38,33 @@ class Equipment:
     def defense_bonus(self):
         bonus = 0
 
-        if self.main_hand and self.main_hand.equippable:
-            bonus += self.main_hand.equippable.defense_bonus
-        if self.off_hand and self.off_hand.equippable:
-            bonus += self.off_hand.equippable.defense_bonus
+        for slot in self.slots.values():
+            if slot and slot.equippable:
+                bonus += slot.equippable.defense_bonus
 
         return bonus
 
     def toggle_equip(self, equippable_entity):
         results = []
 
-        slot = equippable_entity.equippable.slot
-
-        if slot == EquipmentSlots.MAIN_HAND:
-            if self.main_hand == equippable_entity:
-                self.main_hand = None
-                results.append({'dequipped': equippable_entity})
+        for k, s in self.slots.items():
+            # unequip item
+            if s is equippable_entity:
+                self.slots[k] = None
+                results.append({'unequipped': s})
+                break
+            # equip item
             else:
-                if self.main_hand:
-                    results.append({'dequippep': self.main_hand})
-                self.main_hand = equippable_entity
-                results.append({'equipped': equippable_entity})
-        elif slot == EquipmentSlots.OFF_HAND:
-            if self.off_hand == equippable_entity:
-                self.off_hand = None
-                results.append({'dequipped': equippable_entity})
-            else:
-                if self.off_hand:
-                    results.append({'dequippep': self.off_hand})
-                self.off_hand = equippable_entity
-                results.append({'equipped': equippable_entity})
-
+                if equippable_entity.equippable.slot == k:
+                    results.append({'unequipped': s})
+                    self.slots[k] = equippable_entity
+                    results.append({'equipped': equippable_entity})
+                    break
+        
         return results
+
+    def is_equipped(self, equippable_entity):
+        for k, s in self.slots.items():
+            if s is equippable_entity:
+                return True
+        return False

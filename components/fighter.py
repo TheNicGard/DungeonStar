@@ -13,8 +13,9 @@ class Fighter:
         self.base_defense = defense
         self.base_power = power
         self.xp = xp
-        self.golden = golden
         self.max_gold_drop = max_gold_drop
+        self.status = {}
+        self.status["golden"] = golden
 
     def __str__(self):
         return "HP: " + str(self.hp) + """, Base Max HP: {1}, Buffed Max HP: {2}, Base Power: {3},
@@ -89,7 +90,7 @@ class Fighter:
     def get_gold(self):
         initial_gold = randint(0, self.max_gold_drop)
         
-        if self.golden:
+        if self.status["golden"]:
             gold = initial_gold
             second_roll = randint(0, self.max_gold_drop)
             if second_roll > gold:
@@ -105,3 +106,15 @@ class Fighter:
             return gold_item
         else:
             return None
+
+    def tick_invisibility(self):
+        message = None
+        
+        if self.status.get("invisible") and self.status.get("invisible") > 0:
+                print("Invisibility: " + str(self.status["invisible"]))
+                self.status["invisible"] -= 1
+                if self.status["invisible"] <= 0:
+                    message = Message("Color starts to reappear on your body!",
+                                           libtcod.yellow)
+                    
+        return message

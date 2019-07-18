@@ -29,10 +29,25 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
     else:
         options = []
         for item in player.inventory.items:
-            if player.equipment.main_hand == item:
+            if player.equipment.slots.get("main_hand") == item:
                 options.append('{0} (on main hand)'.format(item.name))
-            elif player.equipment.off_hand == item:
-                options.append('{0} (on off hand)'.format(item.name))
+            elif player.equipment.slots.get("off_hand") == item:
+                options.append('{0} (on off hand)'.format(item.name))                
+            elif player.equipment.slots.get("head") == item:
+                options.append('{0} (on head)'.format(item.name))
+            elif player.equipment.slots.get("under_torso") == item:
+                options.append('{0} (on body)'.format(item.name))
+            elif player.equipment.slots.get("over_torso") == item:
+                options.append('{0} (on body)'.format(item.name))
+            elif player.equipment.slots.get("legs") == item:
+                options.append('{0} (on legs)'.format(item.name))
+            elif player.equipment.slots.get("feet") == item:
+                options.append('{0} (on feet)'.format(item.name))
+            elif player.equipment.slots.get("left_finger") == item:
+                options.append('{0} (on left hand)'.format(item.name))
+            elif player.equipment.slots.get("right_finger") == item:
+                options.append('{0} (on right hand)'.format(item.name))
+                
             elif item.item.count > 1:
                 options.append("({0}) {1}".format(item.item.count, item.name))
             else:

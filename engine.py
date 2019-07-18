@@ -124,7 +124,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
         level_up = action.get('level_up')
         show_character_screen = action.get('show_character_screen')
         show_help_screen = action.get('show_help_screen')
-
+ 
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
         
@@ -150,6 +150,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                         player.move(dx, dy)
                         fov_recompute = True
 
+                    invisible_tick = player.fighter.tick_invisibility()
+                    if invisible_tick:
+                        message_log.add_message(invisible_tick)
                     game_state = GameStates.ENEMY_TURN
             elif wait:
                 game_state = GameStates.ENEMY_TURN
@@ -278,11 +281,14 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                 equip_results = player.equipment.toggle_equip(equip)
                 for equip_result in equip_results:
                     equipped = equip_result.get('equipped')
-                    dequipped = equip_result.get('dequipped')
+                    unequipped = equip_result.get('unequipped')
                     if equipped:
-                        message_log.add_message(Message('You equipped the {0}.'.format(equipped.name)))
-                    if dequipped:
-                        message_log.add_message(Message('You dequipped the {0}.'.format(dequipped.name)))
+                        message_log.add_message(Message(
+                            'You equipped the {0}.'.format(equipped.name)))
+                    if unequipped:
+                        message_log.add_message(Message(
+                            'You unequipped the {0}.'.format(unequipped.name)))
+
                 game_state = GameStates.ENEMY_TURN
 
             if targeting:
@@ -306,6 +312,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                             player.level.current_level), libtcod.yellow))
                     previous_game_state = game_state
                     game_state = GameStates.LEVEL_UP
+                    
             if enemy_gold_dropped:
                 entities.append(enemy_gold_dropped)
 
