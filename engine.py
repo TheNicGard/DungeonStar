@@ -281,11 +281,14 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                 equip_results = player.equipment.toggle_equip(equip)
                 for equip_result in equip_results:
                     equipped = equip_result.get('equipped')
-                    dequipped = equip_result.get('dequipped')
+                    unequipped = equip_result.get('unequipped')
                     if equipped:
-                        message_log.add_message(Message('You equipped the {0}.'.format(equipped.name)))
-                    if dequipped:
-                        message_log.add_message(Message('You dequipped the {0}.'.format(dequipped.name)))
+                        message_log.add_message(Message(
+                            'You equipped the {0}.'.format(equipped.name)))
+                    if unequipped:
+                        message_log.add_message(Message(
+                            'You unequipped the {0}.'.format(unequipped.name)))
+
                 game_state = GameStates.ENEMY_TURN
 
             if targeting:

@@ -4,7 +4,6 @@ import os
 import shelve
 
 from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster
-from components.equipment import EquipmentSlots
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.item import Item
@@ -115,6 +114,12 @@ def load_items():
         cast_confuse, cast_stun, cast_sleep,
         cast_greed, invisible
     ]
+
+    equipment_types = [
+        "main_hand", "off_hand", "head",
+        "under_torso", "over_torso", "legs",
+        "feet", "left_finger", "right_finger"
+    ]
     
     item_defs = {}
     spawn_rates = {}
@@ -148,11 +153,10 @@ def load_items():
                 equipment_component = None
                 if item.get("equipment"):
                     slot = None
-                    if item.get("equipment").get("slot") == "main_hand":
-                        slot = EquipmentSlots.MAIN_HAND
-                    elif item.get("equipment").get("slot") == "off_hand":
-                        slot = EquipmentSlots.OFF_HAND
-                        
+                    potential_slot = item.get("equipment").get("slot")
+                    if potential_slot in equipment_types:
+                        slot = potential_slot
+                    
                     power_bonus = 0
                     if item.get("equipment").get("power_bonus"):
                         power_bonus = item.get("equipment").get("power_bonus")
