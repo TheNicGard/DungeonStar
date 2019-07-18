@@ -157,7 +157,7 @@
     },
 
     {
-	"item_id": "short_sword",
+	"item_id": "shortsword",
 	"name": "shortsword",
 	"color": [0, 191, 255],
 	"symbol": ")",
@@ -170,7 +170,7 @@
     },
 
     {
-	"item_id": "long_sword",
+	"item_id": "longsword",
 	"name": "longsword",
 	"color": [0, 191, 255],
 	"symbol": ")",
@@ -197,7 +197,7 @@
 
     {
 	"item_id": "leather_helmet",
-	"name": "leather_helmet",
+	"name": "leather helmet",
 	"weight": 2,
 	"color": [128, 64, 0],
 	"symbol": "[",
