@@ -40,7 +40,7 @@ class Inventory:
                 for i in self.items:
                     if i.id == item.id:
                         matching_entry = i
-                if matching_entry:
+                if matching_entry and not (matching_entry.equippable):
                     matching_entry.item.count += item.item.count
                 else:
                     self.items.append(item)
@@ -92,11 +92,9 @@ class Inventory:
     def drop_item(self, item):
         results = []
 
-        for k, v in self.owner.equipment.slots.items():
-            if v is item:
-                self.owner.equipment.toggle_equip(item)
-                break
-        
+        if self.owner.equipment.is_equipped(item):
+            self.owner.equipment.toggle_equip(item)
+            
         item.x = self.owner.x
         item.y = self.owner.y
 

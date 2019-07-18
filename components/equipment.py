@@ -48,14 +48,23 @@ class Equipment:
         results = []
 
         for k, s in self.slots.items():
-            if s is equippable_entity: #unequip item
+            # unequip item
+            if s is equippable_entity:
                 self.slots[k] = None
                 results.append({'unequipped': s})
-            else: # equip item
+                break
+            # equip item
+            else:
                 if equippable_entity.equippable.slot == k:
                     results.append({'unequipped': s})
                     self.slots[k] = equippable_entity
                     results.append({'equipped': equippable_entity})
-            break
+                    break
         
         return results
+
+    def is_equipped(self, equippable_entity):
+        for k, s in self.slots.items():
+            if s is equippable_entity:
+                return True
+        return False
