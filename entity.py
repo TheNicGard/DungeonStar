@@ -7,7 +7,8 @@ class Entity:
     def __init__(self, id, x, y, char, color, name, weight=0, blocks=False,
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
-                 equipment=None, equippable=None, valuable=None, door=None):
+                 equipment=None, equippable=None, valuable=None, door=None,
+                 animation=None):
         self.id = id
         self.x = x
         self.y = y
@@ -27,6 +28,7 @@ class Entity:
         self.equippable = equippable
         self.valuable = valuable
         self.door = door
+        self.animation = animation
 
         if self.fighter:
             self.fighter.owner = self
@@ -52,6 +54,8 @@ class Entity:
                 self.item.owner = self
         if self.valuable:
             self.valuable.owner = self
+        if self.animation:
+            self.animation.owner = self
 
     def __str__(self):
         return "Entity \'{0}\' is represented by {1} at location ({2}, {3}).".format(self.name, self.char, self.x, self.y)

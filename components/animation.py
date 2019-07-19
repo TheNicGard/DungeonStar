@@ -8,12 +8,12 @@ class Animation:
         self.cycle_color = cycle_color
 
     def tick(self):
-        if self.char_frame < len(cycle_char):
+        if self.char_frame < len(self.cycle_char) - 1:
             self.char_frame += 1
         else:
             self.char_frame = 0
 
-        if self.color_frame < len(cycle_color):
+        if self.color_frame < len(self.cycle_color) - 1:
             self.color_frame += 1
         else:
             self.color_frame = 0

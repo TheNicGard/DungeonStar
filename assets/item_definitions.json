@@ -206,5 +206,18 @@
 	    "defense_bonus": 1
 	},
 	"spawn_rate": [[10, 8]]
+    },
+
+    {
+	"item_id": "dungeon_star",
+	"name": "Dungeon Star",
+	"weight": 2,
+	"color": [255, 255, 255],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "head",
+	    "defense_bonus": 1
+	},
+	"spawn_rate": [[0, 0]]
     }
 ]
