@@ -81,6 +81,8 @@ def main():
 
 def play_game(player, entities, game_map, message_log, game_state, con, panel,
               constants):
+    key_cursor_x, key_cursor_y = player.x, player.y
+    
     fov_recompute = True
     fov_map = initialize_fov(game_map)
 
@@ -124,6 +126,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
         level_up = action.get('level_up')
         show_character_screen = action.get('show_character_screen')
         show_help_screen = action.get('show_help_screen')
+        look_at = action.get("look_at")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -210,6 +213,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
             previous_game_state = game_state
             game_state = GameStates.HELP_SCREEN
 
+        if look_at:
+            previous_game_state = game_state
+            game_state = GameStates.LOOK_AT
+            key_cursor_x, key_cursor_y = player.x, player.y
+            message_log.add_message(Message("Use the direction keys to move the cursor, \'.\' to examine an entity, or Esc to exit.", libtcod.white))
+
         if game_state == GameStates.TARGETING:
             if left_click:
                 target_x, target_y = left_click
@@ -222,12 +231,20 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                 player_turn_results.extend(item_use_results)
             elif right_click:
                 player_turn_results.append({'targeting_cancelled': True})
+
+        if game_state == GameStates.LOOK_AT:
+            if move:
+                dx, dy = move
+                key_cursor_x += dx
+                key_cursor_y += dy
+                message_log.add_message(Message('Coordinates: (' + str(key_cursor_x) + ", " + str(key_cursor_y) + ")", libtcod.white))
         
         if end:
             if game_state in (GameStates.SHOW_INVENTORY,
                               GameStates.DROP_INVENTORY,
                               GameStates.CHARACTER_SCREEN,
-                              GameStates.HELP_SCREEN):
+                              GameStates.HELP_SCREEN,
+                              GameStates.LOOK_AT):
                 game_state = previous_game_state
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})

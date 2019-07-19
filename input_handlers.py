@@ -16,6 +16,8 @@ def handle_keys(key, game_state):
         return handle_character_screen(key)
     elif game_state == GameStates.HELP_SCREEN:
         return handle_help_screen(key)
+    elif game_state == GameStates.LOOK_AT:
+        return handle_key_targeting(key)
     return {}
 
 def handle_player_turn_keys(key):
@@ -55,6 +57,8 @@ def handle_player_turn_keys(key):
         return {'show_character_screen': True}
     elif key_char == 'q':
         return {'show_help_screen': True}
+    elif key_char == ';':
+        return {'look_at': True}
     
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
@@ -142,4 +146,35 @@ def handle_help_screen(key):
         key_char = chr(key.c)
         if key_char == 'q':
             return {'end': True}
+    return {}
+
+def handle_key_targeting(key):
+    if key.vk == libtcod.KEY_ESCAPE:
+        return {'end': True}
+    if key:
+        key_char = chr(key.c)
+
+        if key.vk == libtcod.KEY_UP or key.vk == libtcod.KEY_KP8 or key_char == 'k':
+            return {'move': (0, -1)}
+        elif key.vk == libtcod.KEY_DOWN or key.vk == libtcod.KEY_KP2 or key_char == 'j':
+            return {'move': (0, 1)}
+        elif key.vk == libtcod.KEY_LEFT or key.vk == libtcod.KEY_KP4 or key_char == 'h':
+            return {'move': (-1, 0)}
+        elif key.vk == libtcod.KEY_RIGHT or key.vk == libtcod.KEY_KP6 or key_char == 'l':
+            return {'move': (1, 0)}
+        elif key.vk == libtcod.KEY_KP7 or key_char == 'y':
+            return {'move': (-1, -1)}
+        elif key.vk == libtcod.KEY_KP9 or key_char == 'u':
+            return {'move': (1, -1)}
+        elif key.vk == libtcod.KEY_KP1 or key_char == 'b':
+            return {'move': (-1, 1)}
+        elif key.vk == libtcod.KEY_KP3 or key_char == 'n':
+            return {'move': (1, 1)}
+    
+        elif key.vk == libtcod.KEY_KP5 or key_char == '.':
+            return {'look_at_entity': True}
+
+        if key_char == ';':
+            return {'end': True}
+
     return {}
