@@ -139,7 +139,7 @@ def load_items():
 
             if item_id == "dungeon_star":
                 equipment_component = Equippable("head", defense_bonus=1)
-                animation_component = Animation(['['], [libtcod.white, libtcod.red, libtcod.green, libtcod.blue])
+                animation_component = Animation(['['], [libtcod.white, libtcod.red, libtcod.green, libtcod.blue], 0.333)
                 item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, animation=animation_component, spawn_rate=spawn_rate)
                 item_defs[item_id] = item
                 
