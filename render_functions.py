@@ -81,6 +81,9 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
                libtcod.light_red, libtcod.darker_red)
     libtcod.console_print_ex(panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,
                              'Dungeon level {0}'.format(game_map.dungeon_level))
+    if game_state == GameStates.LOOK_AT:
+        libtcod.console_print_ex(panel, 1, 5, libtcod.BKGND_NONE, libtcod.LEFT,
+                                 '({0}, {1})'.format(cursor.x, cursor.y))
 
     libtcod.console_set_default_foreground(panel, libtcod.light_grey)
     libtcod.console_print_ex(panel, 1, 0, libtcod.BKGND_NONE, libtcod.LEFT,
@@ -136,7 +139,6 @@ def clear_entity(con, entity):
     libtcod.console_put_char(con, entity.x, entity.y, ' ', libtcod.BKGND_NONE)
 
 def render_cursor(con, cursor):
-    #libtcod.console_set_char_background(con, cursor.x, cursor.y, cursor.animation.get_color, libtcod.BKGND_SET)
     libtcod.console_set_default_foreground(con, cursor.animation.get_color)
     libtcod.console_put_char(con, cursor.x, cursor.y, cursor.animation.get_char, libtcod.BKGND_NONE)
     cursor.animation.tick()
