@@ -36,7 +36,7 @@ def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_c
     
 def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log,
                screen_width, screen_height, bar_width, panel_height, panel_y, mouse, colors,
-               game_state):
+               game_state, cursor):
     if fov_recompute:
         for y in range(game_map.height):
             for x in range(game_map.width):
@@ -55,10 +55,16 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
                     else:
                         libtcod.console_set_char_background(con, x, y, colors.get('dark_ground'), libtcod.BKGND_SET)
 
+    if game_state == GameStates.LOOK_AT:
+        render_cursor(con, cursor)
+
     entities_in_render_order = sorted(entities, key=lambda x: x.render_order.value)
     
     for entity in entities_in_render_order:
-        draw_entity(con, entity, fov_map, game_map, False)
+        if entity.animation:
+            draw_animated_entity(con, entity, fov_map, game_map, False)
+        else:
+            draw_entity(con, entity, fov_map, game_map, False)
 
     libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
 
@@ -75,6 +81,9 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
                libtcod.light_red, libtcod.darker_red)
     libtcod.console_print_ex(panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,
                              'Dungeon level {0}'.format(game_map.dungeon_level))
+    if game_state == GameStates.LOOK_AT:
+        libtcod.console_print_ex(panel, 1, 5, libtcod.BKGND_NONE, libtcod.LEFT,
+                                 '({0}, {1})'.format(cursor.x, cursor.y))
 
     libtcod.console_set_default_foreground(panel, libtcod.light_grey)
     libtcod.console_print_ex(panel, 1, 0, libtcod.BKGND_NONE, libtcod.LEFT,
@@ -96,15 +105,16 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
     elif game_state == GameStates.HELP_SCREEN:
         help_screen(50, screen_width, screen_height)
     
-def clear_all(con, entities):
+def clear_all(con, entities, cursor):
     for entity in entities:
         clear_entity(con, entity)
+    clear_entity(con, cursor)
 
 def draw_entity(con, entity, fov_map, game_map, always_visible):
     if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door) and game_map.tiles[entity.x][entity.y].explored):
         libtcod.console_set_default_foreground(con, entity.color)
         if entity.fighter and entity.ai and entity.fighter.status.get("invisible"):
-            if entity.fighter.status.get("invisible") > 0:
+            if entity.fighter.status.get("invisible") <= 0:
                 libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
         else:
             libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
@@ -112,5 +122,23 @@ def draw_entity(con, entity, fov_map, game_map, always_visible):
         libtcod.console_set_default_foreground(con, entity.color)
         libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
 
+def draw_animated_entity(con, entity, fov_map, game_map, always_visible):
+    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door) and game_map.tiles[entity.x][entity.y].explored):
+        libtcod.console_set_default_foreground(con, entity.animation.get_color)
+        if entity.fighter and entity.ai and entity.fighter.status.get("invisible"):
+            if entity.fighter.status.get("invisible") <= 0:
+                libtcod.console_put_char(con, entity.x, entity.y, entity.animation.get_char, libtcod.BKGND_NONE)
+        else:
+            libtcod.console_put_char(con, entity.x, entity.y, entity.animation.get_char, libtcod.BKGND_NONE)
+    elif always_visible:
+        libtcod.console_set_default_foreground(con, entity.animation.get_color)
+        libtcod.console_put_char(con, entity.x, entity.y, entity.animation.get_char, libtcod.BKGND_NONE)
+    entity.animation.tick()
+
 def clear_entity(con, entity):
     libtcod.console_put_char(con, entity.x, entity.y, ' ', libtcod.BKGND_NONE)
+
+def render_cursor(con, cursor):
+    libtcod.console_set_default_foreground(con, cursor.animation.get_color)
+    libtcod.console_put_char(con, cursor.x, cursor.y, cursor.animation.get_char, libtcod.BKGND_NONE)
+    cursor.animation.tick()

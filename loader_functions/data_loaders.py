@@ -3,7 +3,10 @@ import json
 import os
 import shelve
 
+import tcod as libtcod
+
 from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster
+from components.animation import Animation
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.item import Item
@@ -134,7 +137,13 @@ def load_items():
             weight = item.get("weight")
             spawn_rate = item.get("spawn_rate")
 
-            if (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
+            if item_id == "dungeon_star":
+                equipment_component = Equippable("head", defense_bonus=1)
+                animation_component = Animation(['['], [libtcod.white, libtcod.red, libtcod.green, libtcod.blue], 0.333)
+                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, animation=animation_component, spawn_rate=spawn_rate)
+                item_defs[item_id] = item
+                
+            elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
                 use_function = None
                 use_function_name = item.get("use_function")
 

@@ -1,7 +1,8 @@
 #!/usr/bin/python3 -Wignore
 import tcod as libtcod
+from components.animation import Animation
 from death_functions import kill_monster, kill_player
-from entity import get_blocking_entities_at_location
+from entity import get_blocking_entities_at_location, Entity
 from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
@@ -81,7 +82,8 @@ def main():
 
 def play_game(player, entities, game_map, message_log, game_state, con, panel,
               constants):
-    key_cursor_x, key_cursor_y = player.x, player.y
+    key_cursor = Entity("cursor", player.x, player.y, chr(219), libtcod.white, "Cursor",
+                        animation=Animation(cycle_char=[chr(219), ' '], speed=0.25))
     
     fov_recompute = True
     fov_map = initialize_fov(game_map)
@@ -105,12 +107,13 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                    message_log,
                    constants['screen_width'], constants['screen_height'],
                    constants['bar_width'], constants['panel_height'],
-                   constants['panel_y'], mouse, constants['colors'], game_state)
+                   constants['panel_y'], mouse, constants['colors'], game_state,
+                   key_cursor)
         
         fov_recompute = False
         libtcod.console_flush()
-        clear_all(con, entities)
-
+        clear_all(con, entities, key_cursor)
+        
         action = handle_keys(key, game_state)
         mouse_action = handle_mouse(mouse)
 
@@ -127,6 +130,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
         show_character_screen = action.get('show_character_screen')
         show_help_screen = action.get('show_help_screen')
         look_at = action.get("look_at")
+        look_at_entity = action.get("look_at_entity")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -216,8 +220,16 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
         if look_at:
             previous_game_state = game_state
             game_state = GameStates.LOOK_AT
-            key_cursor_x, key_cursor_y = player.x, player.y
+            key_cursor.x, key_cursor.y = player.x, player.y
             message_log.add_message(Message("Use the direction keys to move the cursor, \'.\' to examine an entity, or Esc to exit.", libtcod.white))
+
+        if look_at_entity:
+            matching_entities = []
+            for e in entities:
+                if e.x == key_cursor.x and e.y == key_cursor.y:
+                    matching_entities.append(e.name)
+
+            message_log.add_message(Message(", ".join(matching_entities), libtcod.lightest_sepia))
 
         if game_state == GameStates.TARGETING:
             if left_click:
@@ -235,10 +247,11 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
         if game_state == GameStates.LOOK_AT:
             if move:
                 dx, dy = move
-                key_cursor_x += dx
-                key_cursor_y += dy
-                message_log.add_message(Message('Coordinates: (' + str(key_cursor_x) + ", " + str(key_cursor_y) + ")", libtcod.white))
-        
+                if key_cursor.x + dx >= 0 and key_cursor.x + dx < constants["map_width"]:
+                    key_cursor.x += dx
+                if key_cursor.y + dy >= 0 and key_cursor.y + dy < constants["map_height"]:
+                    key_cursor.y += dy
+                
         if end:
             if game_state in (GameStates.SHOW_INVENTORY,
                               GameStates.DROP_INVENTORY,

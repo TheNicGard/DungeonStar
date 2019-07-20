@@ -132,7 +132,8 @@ def help_screen(help_screen_width, screen_width, screen_height):
         'D                      drop item',
         'C                      show character screen',
         'SHIFT                  descend stairs',
-        'ENTER                  (not yet implemented)'
+        'ENTER                  (not yet implemented)',
+        ';                      look at entity'
     ]
 
     help_screen_height = len(help_items) + 2
