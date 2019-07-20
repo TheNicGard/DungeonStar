@@ -23,10 +23,12 @@ class Animation:
                 self.color_frame = 0
                 
             self.last_time = self.current_time
-            
+
+    @property
     def get_char(self):
         return self.cycle_char[self.char_frame]
 
+    @property
     def get_color(self):
         return self.cycle_color[self.color_frame]
 
