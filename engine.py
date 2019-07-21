@@ -8,7 +8,7 @@ from game_messages import Message
 from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables
-from loader_functions.data_loaders import load_game, save_game
+from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores
 from menus import main_menu, message_box
 from render_functions import clear_all, render_all
 
@@ -28,7 +28,11 @@ def main():
     game_map = None
     message_log = None
     game_state = None
+    lowest_level = None
+    highest_score = None
 
+    lowest_level, highest_score = load_high_scores()
+    
     show_main_menu = True
     show_load_error_message = False
 
@@ -42,7 +46,7 @@ def main():
 
         if show_main_menu:
             main_menu(con, main_menu_background_image, constants['screen_width'],
-                      constants['screen_height'])
+                      constants['screen_height'], lowest_level, highest_score)
 
             if show_load_error_message:
                 message_box(con, 'No save game to load',
@@ -73,6 +77,7 @@ def main():
                 player, entities, game_map, message_log, game_state = get_test_map_variables(constants)
                 show_main_menu = False
             elif exit_game:
+                save_high_scores(lowest_level, highest_score)
                 break
 
         else:

@@ -21,6 +21,7 @@ savegame_filename = "savegame.dat"
 monster_definitions = "assets/monster_definitions.json"
 item_definitions = "assets/item_definitions.json"
 test_map_filename = "assets/test_map.csv"
+high_scores_filename = "high_scores.dat"
 
 def save_game(player, entities, game_map, message_log, game_state):
     if not game_map.test_map:
@@ -193,3 +194,20 @@ def load_test_map_tiles():
     for row in datareader:
         data.append(row)
     return data
+
+def load_high_scores():
+    if not os.path.isfile(high_scores_filename):
+        with shelve.open(high_scores_filename, 'n') as data_file:
+            data_file['lowest_level'] = 0
+            data_file['highest_score'] = 0
+    else:
+        with shelve.open(high_scores_filename, 'r') as data_file:
+            lowest_level = data_file['lowest_level']
+            highest_score = data_file['highest_score']
+
+    return lowest_level, highest_score
+
+def save_high_scores(lowest_level, highest_score):
+    with shelve.open(high_scores_filename, 'n') as data_file:
+        data_file['lowest_level'] = lowest_level
+        data_file['highest_score'] = highest_score
