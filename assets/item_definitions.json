@@ -136,7 +136,7 @@
 	"targeting": true,
 	"positional": {
 	    "targeting_message": {
-		"message": "Left-click an enemy to put it to enchant it, or right-click to cancel.",
+		"message": "Left-click an enemy to enchant it, or right-click to cancel.",
 		"color": [115, 255, 255]
 	    }
 	},
@@ -193,6 +193,19 @@
 	    "defense_bonus": 1
 	},
 	"spawn_rate": [[10, 8]]
+    },
+
+    {
+	"item_id": "heater_shield",
+	"name": "heater shield",
+	"weight": 2,
+	"color": [128, 64, 0],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "off_hand",
+	    "defense_bonus": 2
+	},
+	"spawn_rate": [[10, 16]]
     },
 
     {

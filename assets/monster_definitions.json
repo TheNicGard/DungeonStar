@@ -86,6 +86,22 @@
 	"spawn_rate": [[5, 15]]
     },
     {
+	"monster_id": "jelly",
+	"name": "Jelly",
+	"color": [255, 0, 127],
+	"symbol": "J",
+	"fighter": {
+	    "hp": 60,
+	    "power": 3,
+	    "defense": 2,
+	    "xp": 40,
+	    "max_gold_drop": 0,
+	    "golden": false
+	},
+	"ai": "BasicMonster",
+	"spawn_rate": [[2, 1]]
+    },
+    {
 	"monster_id": "dummy",
 	"name": "Training Dummy",
 	"color": [255, 255, 255],
