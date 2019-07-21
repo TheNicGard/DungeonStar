@@ -23,8 +23,6 @@ def menu(con, header, options, width, screen_width, screen_height):
     y = int(screen_height / 2 - height / 2)
     libtcod.console_blit(window, 0, 0, width, height, 0, x, y, 1.0, 0.7)
 
-    return y + height
-
 def inventory_menu(con, header, player, inventory_width, screen_width, screen_height):
     if len(player.inventory.items) == 0:
         options = ['Inventory is empty.']
@@ -63,28 +61,15 @@ def main_menu(con, background_image, screen_width, screen_height, lowest_level, 
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height / 2) - 4,
                              libtcod.BKGND_NONE, libtcod.CENTER,
                              'Dungeon Star')
+    libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 6),
+                             libtcod.BKGND_NONE, libtcod.CENTER, "Deepest level reached: Floor " + str(lowest_level))
+    libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 5),
+                             libtcod.BKGND_NONE, libtcod.CENTER, "Largest hoard gained: " + str(highest_score) + " gold")
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 2),
                              libtcod.BKGND_NONE, libtcod.CENTER, 'Nic Gard (C) 2019')
 
-    height = menu(con, '', ['Play a new game', 'Continue last game', 'Load test map', 'Quit'], 24,
+    menu(con, '', ['Play a new game', 'Continue last game', 'Load test map', 'Quit'], 24,
          screen_width, screen_height)
-    
-    width = 36
-    window = libtcod.console_new(width, 2)
-    
-    libtcod.console_set_default_foreground(window, libtcod.white)
-    libtcod.console_print_rect_ex(window, 0, screen_height - 2, screen_width, 2, libtcod.BKGND_NONE, libtcod.LEFT, "")
-
-    libtcod.console_print_ex(window, 0, 0, libtcod.BKGND_NONE, libtcod.LEFT, "Lowest level reached: level " + str(lowest_level))
-    libtcod.console_print_ex(window, 0, 1, libtcod.BKGND_NONE, libtcod.LEFT, "Largest hoard gained: " + str(highest_score) + " gold")
-
-    x = int(screen_width / 2 - width / 2)
-    y = height + 2
-    libtcod.console_blit(window, 0, 0, screen_width, screen_height, 0, x, y, 1.0, 0.7)
-
-
-
-
     
 
 def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
