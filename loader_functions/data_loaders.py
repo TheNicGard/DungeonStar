@@ -198,7 +198,7 @@ def load_test_map_tiles():
 def load_high_scores():
     if not os.path.isfile(high_scores_filename):
         with shelve.open(high_scores_filename, 'n') as data_file:
-            data_file['lowest_level'] = 0
+            data_file['lowest_level'] = 1
             data_file['highest_score'] = 0
     else:
         with shelve.open(high_scores_filename, 'r') as data_file:

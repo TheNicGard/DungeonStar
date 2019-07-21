@@ -82,11 +82,11 @@ def main():
 
         else:
             libtcod.console_clear(con)
-            play_game(player, entities, game_map, message_log, game_state, con, panel, constants)
+            play_game(player, entities, game_map, message_log, game_state, con, panel, constants, lowest_level, highest_score)
             show_main_menu = True
 
 def play_game(player, entities, game_map, message_log, game_state, con, panel,
-              constants):
+              constants, lowest_level, highest_score):
     key_cursor = Entity("cursor", player.x, player.y, chr(219), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=[chr(219), ' '], speed=0.25))
     
@@ -177,6 +177,17 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                             break
                 else:
                     message_log.add_message(Message('There is nothing here to pickup.', libtcod.yellow))
+            elif descend_stairs:
+                for entity in entities:
+                    if entity.stairs and entity.x == player.x and entity.y == player.y:
+                        entities = game_map.next_floor(player, message_log, constants)
+                        fov_map = initialize_fov(game_map)
+                        fov_recompute = True
+                        libtcod.console_clear(con)
+                        lowest_level = game_map.dungeon_level
+                        break
+                else:
+                    message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
                     
         if show_inventory:
             previous_game_state = game_state
@@ -192,17 +203,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                 player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map))
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
-
-        if descend_stairs and game_state == GameStates.PLAYERS_TURN:
-            for entity in entities:
-                if entity.stairs and entity.x == player.x and entity.y == player.y:
-                    entities = game_map.next_floor(player, message_log, constants)
-                    fov_map = initialize_fov(game_map)
-                    fov_recompute = True
-                    libtcod.console_clear(con)
-                    break
-            else:
-                message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
 
         if level_up:
             if level_up == 'hp':
