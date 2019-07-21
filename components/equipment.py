@@ -54,12 +54,11 @@ class Equipment:
                 results.append({'unequipped': s})
                 break
             # equip item
-            else:
-                if equippable_entity.equippable.slot == k:
-                    results.append({'unequipped': s})
-                    self.slots[k] = equippable_entity
-                    results.append({'equipped': equippable_entity})
-                    break
+            elif equippable_entity.equippable.slot == k:
+                results.append({'unequipped': s})
+                self.slots[k] = equippable_entity
+                results.append({'equipped': equippable_entity})
+                break
         
         return results
 
