@@ -28,6 +28,51 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
         options = ['Inventory is empty.']
     else:
         options = []
+
+        temp_inv = []
+
+        slots = [
+            "main_hand", "off_hand", "head",
+            "under_torso", "over_torso", "legs",
+            "feet", "left_finger", "right_finger"
+        ]
+
+        # equipped items
+        for i in player.inventory.items:
+            for s in slots:
+                if player.equipment.slots.get(s) == i:
+                    if player.equipment.slots.get("main_hand") == i:
+                        options.append('{0} (in main hand)'.format(i.name))
+                    elif player.equipment.slots.get("off_hand") == i:
+                        options.append('{0} (in off hand)'.format(i.name))                
+                    elif player.equipment.slots.get("head") == i:
+                        options.append('{0} (on head)'.format(i.name))
+                    elif player.equipment.slots.get("under_torso") == i:
+                        options.append('{0} (on body)'.format(i.name))
+                    elif player.equipment.slots.get("over_torso") == i:
+                        options.append('{0} (on body)'.format(i.name))
+                    elif player.equipment.slots.get("legs") == i:
+                        options.append('{0} (on legs)'.format(i.name))
+                    elif player.equipment.slots.get("feet") == i:
+                        options.append('{0} (on feet)'.format(i.name))
+                    elif player.equipment.slots.get("left_finger") == i:
+                        options.append('{0} (on left hand)'.format(i.name))
+                    elif player.equipment.slots.get("right_finger") == i:
+                        options.append('{0} (on right hand)'.format(i.name))
+                    break
+
+        # all other items
+        for i in player.inventory.items:
+            for s in slots:
+                if player.equipment.slots.get(s) == i:
+                    break
+            else:
+                if i.item.count > 1:
+                    options.append("({0}) {1}".format(i.item.count, i.name))
+                else:
+                    options.append(i.name)
+
+        """
         for item in player.inventory.items:
             if player.equipment.slots.get("main_hand") == item:
                 options.append('{0} (on main hand)'.format(item.name))
@@ -52,6 +97,8 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                 options.append("({0}) {1}".format(item.item.count, item.name))
             else:
                 options.append(item.name)
+        """
+        
     menu(con, header, options, inventory_width, screen_width, screen_height)
 
 def main_menu(con, background_image, screen_width, screen_height, lowest_level, highest_score):
