@@ -23,37 +23,68 @@ def menu(con, header, options, width, screen_width, screen_height):
     y = int(screen_height / 2 - height / 2)
     libtcod.console_blit(window, 0, 0, width, height, 0, x, y, 1.0, 0.7)
 
-    return y + height
-
 def inventory_menu(con, header, player, inventory_width, screen_width, screen_height):
     if len(player.inventory.items) == 0:
         options = ['Inventory is empty.']
     else:
         options = []
-        for item in player.inventory.items:
-            if player.equipment.slots.get("main_hand") == item:
-                options.append('{0} (on main hand)'.format(item.name))
-            elif player.equipment.slots.get("off_hand") == item:
-                options.append('{0} (on off hand)'.format(item.name))                
-            elif player.equipment.slots.get("head") == item:
-                options.append('{0} (on head)'.format(item.name))
-            elif player.equipment.slots.get("under_torso") == item:
-                options.append('{0} (on body)'.format(item.name))
-            elif player.equipment.slots.get("over_torso") == item:
-                options.append('{0} (on body)'.format(item.name))
-            elif player.equipment.slots.get("legs") == item:
-                options.append('{0} (on legs)'.format(item.name))
-            elif player.equipment.slots.get("feet") == item:
-                options.append('{0} (on feet)'.format(item.name))
-            elif player.equipment.slots.get("left_finger") == item:
-                options.append('{0} (on left hand)'.format(item.name))
-            elif player.equipment.slots.get("right_finger") == item:
-                options.append('{0} (on right hand)'.format(item.name))
-                
-            elif item.item.count > 1:
-                options.append("({0}) {1}".format(item.item.count, item.name))
+
+        temp_inv = []
+
+        slots = [
+            "main_hand", "off_hand", "head",
+            "under_torso", "over_torso", "legs",
+            "feet", "left_finger", "right_finger"
+        ]
+
+        # equipped items
+        for i in player.inventory.items:
+            for s in slots:
+                if player.equipment.slots.get(s) == i:
+                    if player.equipment.slots.get("main_hand") == i:
+                        options.append('{0} (in main hand)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("off_hand") == i:
+                        options.append('{0} (in off hand)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("head") == i:
+                        options.append('{0} (on head)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("under_torso") == i:
+                        options.append('{0} (on body)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("over_torso") == i:
+                        options.append('{0} (on body)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("legs") == i:
+                        options.append('{0} (on legs)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("feet") == i:
+                        options.append('{0} (on feet)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("left_finger") == i:
+                        options.append('{0} (on left hand)'.format(i.name))
+                        temp_inv.append(i)
+                    elif player.equipment.slots.get("right_finger") == i:
+                        options.append('{0} (on right hand)'.format(i.name))
+                        temp_inv.append(i)
+                    break
+
+        # all other items
+        for i in player.inventory.items:
+            for s in slots:
+                if player.equipment.slots.get(s) == i:
+                    break
             else:
-                options.append(item.name)
+                if i.item.count > 1:
+                    options.append("({0}) {1}".format(i.item.count, i.name))
+                    temp_inv.append(i)
+                else:
+                    options.append(i.name)
+                    temp_inv.append(i)
+
+        player.inventory.items = temp_inv
+        
     menu(con, header, options, inventory_width, screen_width, screen_height)
 
 def main_menu(con, background_image, screen_width, screen_height, lowest_level, highest_score):
@@ -63,28 +94,15 @@ def main_menu(con, background_image, screen_width, screen_height, lowest_level, 
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height / 2) - 4,
                              libtcod.BKGND_NONE, libtcod.CENTER,
                              'Dungeon Star')
+    libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 6),
+                             libtcod.BKGND_NONE, libtcod.CENTER, "Deepest level reached: Floor " + str(lowest_level))
+    libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 5),
+                             libtcod.BKGND_NONE, libtcod.CENTER, "Largest hoard gained: " + str(highest_score) + " gold")
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 2),
                              libtcod.BKGND_NONE, libtcod.CENTER, 'Nic Gard (C) 2019')
 
-    height = menu(con, '', ['Play a new game', 'Continue last game', 'Load test map', 'Quit'], 24,
+    menu(con, '', ['Play a new game', 'Continue last game', 'Load test map', 'Quit'], 24,
          screen_width, screen_height)
-    
-    width = 36
-    window = libtcod.console_new(width, 2)
-    
-    libtcod.console_set_default_foreground(window, libtcod.white)
-    libtcod.console_print_rect_ex(window, 0, screen_height - 2, screen_width, 2, libtcod.BKGND_NONE, libtcod.LEFT, "")
-
-    libtcod.console_print_ex(window, 0, 0, libtcod.BKGND_NONE, libtcod.LEFT, "Lowest level reached: level " + str(lowest_level))
-    libtcod.console_print_ex(window, 0, 1, libtcod.BKGND_NONE, libtcod.LEFT, "Largest hoard gained: " + str(highest_score) + " gold")
-
-    x = int(screen_width / 2 - width / 2)
-    y = height + 2
-    libtcod.console_blit(window, 0, 0, screen_width, screen_height, 0, x, y, 1.0, 0.7)
-
-
-
-
     
 
 def level_up_menu(con, header, player, menu_width, screen_width, screen_height):

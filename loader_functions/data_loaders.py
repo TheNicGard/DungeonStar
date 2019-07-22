@@ -137,11 +137,13 @@ def load_items():
             color = item.get("color")
             weight = item.get("weight")
             spawn_rate = item.get("spawn_rate")
+            classification = item.get("classification")
 
             if item_id == "dungeon_star":
                 equipment_component = Equippable("head", defense_bonus=1)
                 animation_component = Animation(['['], [libtcod.white, libtcod.red, libtcod.green, libtcod.blue], 0.333)
-                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, animation=animation_component, spawn_rate=spawn_rate)
+                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component,
+                                      animation=animation_component, spawn_rate=spawn_rate, classification=classification)
                 item_defs[item_id] = item
                 
             elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
