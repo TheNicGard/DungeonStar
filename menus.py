@@ -43,22 +43,31 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                 if player.equipment.slots.get(s) == i:
                     if player.equipment.slots.get("main_hand") == i:
                         options.append('{0} (in main hand)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("off_hand") == i:
-                        options.append('{0} (in off hand)'.format(i.name))                
+                        options.append('{0} (in off hand)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("head") == i:
                         options.append('{0} (on head)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("under_torso") == i:
                         options.append('{0} (on body)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("over_torso") == i:
                         options.append('{0} (on body)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("legs") == i:
                         options.append('{0} (on legs)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("feet") == i:
                         options.append('{0} (on feet)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("left_finger") == i:
                         options.append('{0} (on left hand)'.format(i.name))
+                        temp_inv.append(i)
                     elif player.equipment.slots.get("right_finger") == i:
                         options.append('{0} (on right hand)'.format(i.name))
+                        temp_inv.append(i)
                     break
 
         # all other items
@@ -69,35 +78,12 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
             else:
                 if i.item.count > 1:
                     options.append("({0}) {1}".format(i.item.count, i.name))
+                    temp_inv.append(i)
                 else:
                     options.append(i.name)
+                    temp_inv.append(i)
 
-        """
-        for item in player.inventory.items:
-            if player.equipment.slots.get("main_hand") == item:
-                options.append('{0} (on main hand)'.format(item.name))
-            elif player.equipment.slots.get("off_hand") == item:
-                options.append('{0} (on off hand)'.format(item.name))                
-            elif player.equipment.slots.get("head") == item:
-                options.append('{0} (on head)'.format(item.name))
-            elif player.equipment.slots.get("under_torso") == item:
-                options.append('{0} (on body)'.format(item.name))
-            elif player.equipment.slots.get("over_torso") == item:
-                options.append('{0} (on body)'.format(item.name))
-            elif player.equipment.slots.get("legs") == item:
-                options.append('{0} (on legs)'.format(item.name))
-            elif player.equipment.slots.get("feet") == item:
-                options.append('{0} (on feet)'.format(item.name))
-            elif player.equipment.slots.get("left_finger") == item:
-                options.append('{0} (on left hand)'.format(item.name))
-            elif player.equipment.slots.get("right_finger") == item:
-                options.append('{0} (on right hand)'.format(item.name))
-                
-            elif item.item.count > 1:
-                options.append("({0}) {1}".format(item.item.count, item.name))
-            else:
-                options.append(item.name)
-        """
+        player.inventory.items = temp_inv
         
     menu(con, header, options, inventory_width, screen_width, screen_height)
 
