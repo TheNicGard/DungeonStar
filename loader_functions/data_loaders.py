@@ -23,7 +23,7 @@ item_definitions = "assets/item_definitions.json"
 test_map_filename = "assets/test_map.csv"
 high_scores_filename = "high_scores.dat"
 
-def save_game(player, entities, game_map, message_log, game_state):
+def save_game(player, entities, game_map, message_log, game_state, turn):
     if not game_map.test_map:
         with shelve.open(savegame_filename, 'n') as data_file:
             data_file['player_index'] = entities.index(player)
@@ -31,6 +31,7 @@ def save_game(player, entities, game_map, message_log, game_state):
             data_file['game_map'] = game_map
             data_file['message_log'] = message_log
             data_file['game_state'] = game_state
+            data_file['turn'] = turn
 
 def load_game():
     if not os.path.isfile(savegame_filename):
@@ -42,9 +43,10 @@ def load_game():
         game_map = data_file['game_map']
         message_log = data_file['message_log']
         game_state = data_file['game_state']
+        turn = data_file['turn']
 
     player = entities[player_index]
-    return player, entities, game_map, message_log, game_state
+    return player, entities, game_map, message_log, game_state, turn
 
 def load_monsters():
     if not os.path.isfile(monster_definitions):
@@ -147,6 +149,12 @@ def load_items():
                 item_defs[item_id] = item
                 
             elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
+                
+                age = item.get("age")
+                max_age = None
+                if age:
+                    max_age = item.get("max_age")
+                    
                 use_function = None
                 use_function_name = item.get("use_function")
 
@@ -182,7 +190,7 @@ def load_items():
 
                 item_component = None
                 if positional:
-                    item_component = Item(1, use_function=use_function, targeting=targeting, **positional)
+                    item_component = Item(1, age=age, max_age=max_age, use_function=use_function, targeting=targeting, **positional)
 
                 item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, spawn_rate=spawn_rate)
                 item_defs[item_id] = item

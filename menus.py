@@ -76,12 +76,21 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                 if player.equipment.slots.get(s) == i:
                     break
             else:
+                temp_option = ""
+                
                 if i.item.count > 1:
-                    options.append("({0}) {1}".format(i.item.count, i.name))
-                    temp_inv.append(i)
+                    if i.item.age is not None:
+                        temp_option = "({0}) {1} ({2} turns old)".format(i.item.count, i.name, i.item.age)
+                    else:
+                        temp_option = "({0}) {1}".format(i.item.count, i.name)
                 else:
-                    options.append(i.name)
-                    temp_inv.append(i)
+                    if i.item.age is not None:
+                        temp_option = "{0} ({1} turns old)".format(i.name, i.item.age)
+                    else:
+                        temp_option = i.name
+
+                options.append(temp_option)
+                temp_inv.append(i)
 
         player.inventory.items = temp_inv
         

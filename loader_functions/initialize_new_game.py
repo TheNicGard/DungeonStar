@@ -105,8 +105,9 @@ def get_game_variables(constants):
                              constants['message_height'])
     
     game_state = GameStates.PLAYERS_TURN
+    turn = 1
 
-    return player, entities, game_map, message_log, game_state
+    return player, entities, game_map, message_log, game_state, turn
 
 def get_test_map_variables(constants):
     fighter_component = Fighter(hp=100, defense=1, power=2)
@@ -139,5 +140,6 @@ def get_test_map_variables(constants):
                              constants['message_height'])
     
     game_state = GameStates.PLAYERS_TURN
+    turn = 1
 
-    return player, entities, game_map, message_log, game_state
+    return player, entities, game_map, message_log, game_state, turn
