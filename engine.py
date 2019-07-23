@@ -381,12 +381,21 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
 
 def tick_turn(turn, entities):
     expired = []
+    expired_items = []
 
     for e in entities:
         if e.item and e.item.age is not None:
             e.item.age += 1
-            if e.item.age > e.item.max_age:
+            if e.item.age >= e.item.max_age:
                 expired.append(e)
+        if e.inventory:
+            for i in e.inventory.items:
+                if i.item and i.item.age is not None:
+                    i.item.age += 1
+                    if i.item.age >= i.item.max_age:
+                        expired_items.append(i)
+            for i in expired_items:
+                e.inventory.remove_item(i, i.item.count)
 
     for e in expired:
         entities.remove(e)
