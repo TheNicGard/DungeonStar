@@ -300,5 +300,18 @@
 	"nutrition": 600,
 	"spawn_rate": [[10, 1]],
 	"classification": ["food"]
+    },
+
+    {
+	"item_id": "pizza",
+	"name": "slice of pizza",
+	"color": [255, 255, 0],
+	"symbol": "%",
+	"weight": 1,
+	"targeting": false,
+	"positional": {},
+	"nutrition": 200,
+	"spawn_rate": [[10, 1]],
+	"classification": ["food"]
     }
 ]
