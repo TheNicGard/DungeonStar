@@ -10,7 +10,7 @@
 	"positional": {
 	    "amount": 40
 	},
-	"spawn_rate": [[70, 1]],
+	"spawn_rate": [[40, 1]],
 	"classification": ["potion"]
     },
 
@@ -248,5 +248,57 @@
 	},
 	"spawn_rate": [[0, 0]],
 	"classification": ["armor", "treasure"]
+    },
+
+    {
+	"item_id": "mre",
+	"name": "MRE",
+	"color": [127, 101, 63],
+	"symbol": "%",
+	"weight": 1,
+	"targeting": false,
+	"positional": {},
+	"nutrition": 800,
+	"spawn_rate": [[10, 1]],
+	"classification": ["food"]
+    },
+
+    {
+	"item_id": "bento",
+	"name": "bento box",
+	"color": [94, 75, 47],
+	"symbol": "%",
+	"weight": 1,
+	"targeting": false,
+	"positional": {},
+	"nutrition": 1000,
+	"spawn_rate": [[10, 1]],
+	"classification": ["food"]
+    },
+
+    {
+	"item_id": "number_1_combo",
+	"name": "The #1 Combo Meal",
+	"color": [255, 63, 0],
+	"symbol": "%",
+	"weight": 1,
+	"targeting": false,
+	"positional": {},
+	"nutrition": 1000,
+	"spawn_rate": [[10, 1]],
+	"classification": ["food"]
+    },
+
+    {
+	"item_id": "fish_n_chips",
+	"name": "fish n' chips",
+	"color": [0, 0, 191],
+	"symbol": "%",
+	"weight": 1,
+	"targeting": false,
+	"positional": {},
+	"nutrition": 600,
+	"spawn_rate": [[10, 1]],
+	"classification": ["food"]
     }
 ]

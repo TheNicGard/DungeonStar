@@ -170,19 +170,10 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                     invisible_tick = player.fighter.tick_invisibility()
                     if invisible_tick:
                         message_log.add_message(invisible_tick)
-                    
-                    print("\n")
-                    print(player.hunger)
-                    if player.hunger.status:
-                        print(player.hunger.status)
-                        
+
                     game_state = GameStates.ENEMY_TURN
             elif wait:
                 player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
-                print("\n")
-                print(player.hunger)
-                if player.hunger.status:
-                    print(player.hunger.status)
                 game_state = GameStates.ENEMY_TURN
             elif pickup:
                 for entity in entities:
@@ -298,6 +289,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
             item_added = player_turn_result.get('item_added')
             gold_added = player_turn_result.get('gold_added')
             item_consumed = player_turn_result.get('consumed')
+            food_eaten = player_turn_result.get("food_eaten")
             item_dropped = player_turn_result.get('item_dropped')
             equip = player_turn_result.get('equip')
             targeting = player_turn_result.get('targeting')
@@ -324,7 +316,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                 entities.remove(gold_added)
                 game_state = GameStates.ENEMY_TURN
 
-            if item_consumed:
+            if item_consumed or food_eaten:
                 game_state = GameStates.ENEMY_TURN
 
             if item_dropped:
@@ -394,10 +386,10 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                     if game_state == GameStates.PLAYER_DEAD:
                         break
             else:
-                turn = tick_turn(turn, entities)
+                turn = tick_turn(turn, player, entities)
                 game_state = GameStates.PLAYERS_TURN
 
-def tick_turn(turn, entities):
+def tick_turn(turn, player, entities):
     expired = []
     expired_items = []
 
@@ -417,6 +409,10 @@ def tick_turn(turn, entities):
 
     for e in expired:
         entities.remove(e)
+
+    if player.hunger.saturation > player.hunger.hungry_saturation:
+        if turn % 3 == 0:
+            player.fighter.hp += 1
                 
     return turn + 1
                 

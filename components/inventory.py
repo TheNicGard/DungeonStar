@@ -54,12 +54,19 @@ class Inventory:
 
         if item_component.use_function is None:
             equippable_component = item_entity.equippable
+            food_component = item_entity.food
 
             if equippable_component:
                 results.append({'equip': item_entity})
+            elif food_component:
+                results.extend(self.owner.hunger.eat(item_entity))
             else:
                 results.append({'message': Message('The {0} cannot be used!'.format(
                 item_entity.name), libtcod.yellow)})
+
+            for item_use_result in results:
+                    if item_use_result.get('food_eaten'):
+                        self.remove_item(item_entity, 1)
         else:
             if item_component.targeting and not (kwargs.get('target_x') or kwargs.get('target_y')):
                 results.append({'targeting': item_entity})

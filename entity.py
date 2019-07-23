@@ -8,7 +8,7 @@ class Entity:
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
                  equipment=None, equippable=None, valuable=None, door=None,
-                 animation=None, hunger=None, classification=[]):
+                 animation=None, hunger=None, food=None, classification=[]):
         self.id = id
         self.x = x
         self.y = y
@@ -30,6 +30,7 @@ class Entity:
         self.door = door
         self.animation = animation
         self.hunger = hunger
+        self.food = food
         self.classification = classification
 
         if self.fighter:

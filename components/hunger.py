@@ -1,4 +1,5 @@
 from enum import Enum
+from game_messages import Message
 from random import choice
 
 class HungerType(Enum):
@@ -27,18 +28,19 @@ class Hunger:
     def eat(self, item):
         results = []
 
-        if item and item.item is not None and item.item.food is not None:
-            food_sat = item.item.food.saturation
+        if item and item.item is not None and item.food is not None:
+            food_sat = item.food.nutrition
             if food_sat + self.saturation > self.maximum_saturation:
                 results.append({
                 'message': Message(
-                    choice[
+                    choice([
                         "You're stuffed!", "You couldn't eat another bite!",
-                        "Any more food would give you a real tummy ache!"
-                    ]
+                        "Any more food would give you a really tummy ache!"
+                    ])
                 )})
             else:
                 results.append({"food_eaten": item})
+                results.append({"message": Message("You eat the {0}!".format(item.name))})
                 self.saturation += food_sat
                     
         return results
