@@ -176,15 +176,19 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                 player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
                 game_state = GameStates.ENEMY_TURN
             elif pickup:
+                pickup_results = []
+
                 for entity in entities:
                     if entity.item or entity.valuable:
                         if entity.x == player.x and entity.y == player.y:
-                            pickup_results = player.inventory.add_item(entity)
-                            player_turn_results.extend(pickup_results)
-                            player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
-                            break
-                else:
+                            pickup_results.extend(player.inventory.add_item(entity))
+       
+                if len(pickup_results) > 0:
+                    player_turn_results.extend(pickup_results)
+                    player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
+                else:   
                     message_log.add_message(Message('There is nothing here to pickup.', libtcod.yellow))
+                    
             elif descend_stairs:
                 for entity in entities:
                     if entity.stairs and entity.x == player.x and entity.y == player.y:
@@ -411,7 +415,10 @@ def tick_turn(turn, player, entities):
         entities.remove(e)
 
     if player.hunger.saturation > player.hunger.hungry_saturation:
-        if turn % 3 == 0:
+        if turn % 10 == 0:
+            player.fighter.hp += 1
+    elif player.hunger.saturation > player.hunger.starving_saturation:
+        if turn % 20 == 0:
             player.fighter.hp += 1
                 
     return turn + 1
