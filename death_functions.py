@@ -16,7 +16,7 @@ def kill_monster(monster):
     death_message = Message('{0} is dead!'.format(monster.name.capitalize()), libtcod.orange)
 
     if monster.id == "jelly":
-        item_component = Item(1, use_function=heal, amount = 15)
+        item_component = Item(1, max_age=100, use_function=heal, amount = 15)
         monster.item = item_component
         monster.item.owner = monster
         monster.char = '%'
@@ -26,6 +26,9 @@ def kill_monster(monster):
         monster.name = 'remains of ' + monster.name
         monster.render_order = RenderOrder.CORPSE
     elif monster.id != "dummy":
+        item_component = Item(1, max_age=100, use_function=None)
+        monster.item = item_component
+        
         monster.char = '%'
         monster.color = libtcod.dark_red
         monster.blocks = False

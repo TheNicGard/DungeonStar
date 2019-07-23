@@ -376,9 +376,22 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                     if game_state == GameStates.PLAYER_DEAD:
                         break
             else:
-                turn += 1
+                turn = tick_turn(turn, entities)
                 game_state = GameStates.PLAYERS_TURN
 
+def tick_turn(turn, entities):
+    expired = []
 
+    for e in entities:
+        if e.item and e.item.age is not None:
+            e.item.age += 1
+            if e.item.age > e.item.max_age:
+                expired.append(e)
+
+    for e in expired:
+        entities.remove(e)
+                
+    return turn + 1
+                
 if __name__ == '__main__':
     main()
