@@ -23,7 +23,7 @@ item_definitions = "assets/item_definitions.json"
 test_map_filename = "assets/test_map.csv"
 high_scores_filename = "high_scores.dat"
 
-def save_game(player, entities, game_map, message_log, game_state):
+def save_game(player, entities, game_map, message_log, game_state, turn):
     if not game_map.test_map:
         with shelve.open(savegame_filename, 'n') as data_file:
             data_file['player_index'] = entities.index(player)
@@ -31,6 +31,7 @@ def save_game(player, entities, game_map, message_log, game_state):
             data_file['game_map'] = game_map
             data_file['message_log'] = message_log
             data_file['game_state'] = game_state
+            data_file['turn'] = turn
 
 def load_game():
     if not os.path.isfile(savegame_filename):
@@ -42,6 +43,7 @@ def load_game():
         game_map = data_file['game_map']
         message_log = data_file['message_log']
         game_state = data_file['game_state']
+        turn = data_file['turn']
 
     player = entities[player_index]
     return player, entities, game_map, message_log, game_state

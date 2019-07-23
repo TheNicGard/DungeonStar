@@ -30,6 +30,7 @@ def main():
     game_state = None
     lowest_level = None
     highest_score = None
+    turn = 1
 
     lowest_level, highest_score = load_high_scores()
     
@@ -64,17 +65,17 @@ def main():
             if show_load_error_message and (new_game or load_saved_game or exit_game):
                 show_load_error_message = False
             elif new_game:
-                player, entities, game_map, message_log, game_state = get_game_variables(constants)
+                player, entities, game_map, message_log, game_state, turn = get_game_variables(constants)
                 game_state = GameStates.PLAYERS_TURN
                 show_main_menu = False
             elif load_saved_game:
                 try:
-                    player, entities, game_map, message_log, game_state = load_game()
+                    player, entities, game_map, message_log, game_state, turn = load_game()
                     show_main_menu = False
                 except FileNotFoundError:
                     show_load_error_message = True
             elif load_test_map:
-                player, entities, game_map, message_log, game_state = get_test_map_variables(constants)
+                player, entities, game_map, message_log, game_state, turn = get_test_map_variables(constants)
                 show_main_menu = False
             elif exit_game:
                 save_high_scores(lowest_level, highest_score)
@@ -82,10 +83,10 @@ def main():
 
         else:
             libtcod.console_clear(con)
-            play_game(player, entities, game_map, message_log, game_state, con, panel, constants, lowest_level, highest_score)
+            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, constants, lowest_level, highest_score)
             show_main_menu = True
 
-def play_game(player, entities, game_map, message_log, game_state, con, panel,
+def play_game(player, entities, game_map, turn, message_log, game_state, con, panel,
               constants, lowest_level, highest_score):
     key_cursor = Entity("cursor", player.x, player.y, chr(219), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=[chr(219), ' '], speed=0.25))
@@ -109,7 +110,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                           constants['fov_algorithm'])
 
         render_all(con, panel, entities, player, game_map, fov_map, fov_recompute,
-                   message_log,
+                   turn, message_log,
                    constants['screen_width'], constants['screen_height'],
                    constants['bar_width'], constants['panel_height'],
                    constants['panel_y'], mouse, constants['colors'], game_state,
@@ -267,7 +268,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
             else:
-                save_game(player, entities, game_map, message_log, game_state)
+                save_game(player, entities, game_map, message_log, game_state, turn)
                 return True
         
         if fullscreen:
@@ -375,6 +376,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel,
                     if game_state == GameStates.PLAYER_DEAD:
                         break
             else:
+                turn += 1
                 game_state = GameStates.PLAYERS_TURN
 
 
