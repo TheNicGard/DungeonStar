@@ -6,17 +6,21 @@ class HungerType(Enum):
     EXERT = 1
 
 class Hunger:
-    def __init__(self, saturation=4000, emaciated_saturation=150
-                 startving_saturation=1000, hungry_saturation=2000,
-                 full_saturation=8000, maximum_saturation=8000,
+    def __init__(self, saturation=2000, emaciated_saturation=150,
+                 starving_saturation=500, hungry_saturation=1000,
+                 full_saturation=3000, maximum_saturation=4000,
                  movement_hunger=1, exertion_hunger=3):
         self.saturation = saturation
         self.starving_saturation = starving_saturation
+        self.emaciated_saturation = emaciated_saturation
         self.hungry_saturation = hungry_saturation
         self.full_saturation = full_saturation
         self.maximum_saturation = maximum_saturation
         self.movement_hunger = movement_hunger
         self.exertion_hunger = exertion_hunger
+
+    def __str__(self):
+        return "Saturation: {0} out of {1}".format(self.saturation, self.maximum_saturation)
 
     def eat(self, item):
         results = []
@@ -54,11 +58,12 @@ class Hunger:
     def status(self):
         if self.saturation > self.full_saturation:
             return "Full"
+        elif self.saturation < self.emaciated_saturation:
+            return "Emaciated"
         elif self.saturation < self.starving_saturation:
             return "Starving"
         elif self.saturation < self.hungry_saturation:
             return "Hungry"
-        elif self.saturation < self.emaciated_saturation:
-            return "Emaciated"
+        
         else:
             return None
