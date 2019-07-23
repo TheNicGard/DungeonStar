@@ -1,6 +1,7 @@
 #!/usr/bin/python3 -Wignore
 import tcod as libtcod
 from components.animation import Animation
+from components.hunger import Hunger, HungerType
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location, Entity
 from fov_functions import initialize_fov, recompute_fov
@@ -144,7 +145,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
         player_turn_results = []
 
         if game_state == GameStates.PLAYERS_TURN:
-            if move:
+            if move:    
                 dx, dy = move
                 destination_x = player.x + dx
                 destination_y = player.y + dy
@@ -155,19 +156,33 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                         if target.door:
                             if not target.door.ajar:
                                 target.door.open_door(game_map.tiles[destination_x][destination_y])
+                                player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                                 fov_recompute = True
                         else:
                             attack_results = player.fighter.attack(target)
+                            player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                             player_turn_results.extend(attack_results)
                     else:
                         player.move(dx, dy)
+                        player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
                         fov_recompute = True
 
                     invisible_tick = player.fighter.tick_invisibility()
                     if invisible_tick:
                         message_log.add_message(invisible_tick)
+                    
+                    print("\n")
+                    print(player.hunger)
+                    if player.hunger.status:
+                        print(player.hunger.status)
+                        
                     game_state = GameStates.ENEMY_TURN
             elif wait:
+                player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
+                print("\n")
+                print(player.hunger)
+                if player.hunger.status:
+                    print(player.hunger.status)
                 game_state = GameStates.ENEMY_TURN
             elif pickup:
                 for entity in entities:
@@ -175,6 +190,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                         if entity.x == player.x and entity.y == player.y:
                             pickup_results = player.inventory.add_item(entity)
                             player_turn_results.extend(pickup_results)
+                            player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
                             break
                 else:
                     message_log.add_message(Message('There is nothing here to pickup.', libtcod.yellow))
@@ -186,6 +202,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                         fov_recompute = True
                         libtcod.console_clear(con)
                         lowest_level = game_map.dungeon_level
+                        player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                         break
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
@@ -247,6 +264,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                                                         target_x=target_x,
                                                         target_y=target_y)
                 player_turn_results.extend(item_use_results)
+                player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
             elif right_click:
                 player_turn_results.append({'targeting_cancelled': True})
 

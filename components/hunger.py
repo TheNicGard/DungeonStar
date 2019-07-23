@@ -4,12 +4,13 @@ from random import choice
 class HungerType(Enum):
     MOVE = 0
     EXERT = 1
+    STATIC = 2
 
 class Hunger:
-    def __init__(self, saturation=2000, emaciated_saturation=150,
-                 starving_saturation=500, hungry_saturation=1000,
-                 full_saturation=3000, maximum_saturation=4000,
-                 movement_hunger=1, exertion_hunger=3):
+    def __init__(self, saturation=4000, emaciated_saturation=200,
+                 starving_saturation=1000, hungry_saturation=2000,
+                 full_saturation=6000, maximum_saturation=8000,
+                 movement_hunger=2, exertion_hunger=6, static_hunger=1):
         self.saturation = saturation
         self.starving_saturation = starving_saturation
         self.emaciated_saturation = emaciated_saturation
@@ -18,6 +19,7 @@ class Hunger:
         self.maximum_saturation = maximum_saturation
         self.movement_hunger = movement_hunger
         self.exertion_hunger = exertion_hunger
+        self.static_hunger = static_hunger
 
     def __str__(self):
         return "Saturation: {0} out of {1}".format(self.saturation, self.maximum_saturation)
@@ -48,8 +50,10 @@ class Hunger:
             self.saturation -= self.movement_hunger
         elif hunger_type == HungerType.EXERT:
             self.saturation -= self.exertion_hunger
+        elif hunger_type == HungerType.STATIC:
+            self.saturation -= self.static_hunger
 
-        if self.saturation < 0:
+        if self.saturation <= 0:
             results.append({"dead": self.owner})
         
         return results
