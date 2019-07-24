@@ -104,7 +104,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
     
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse)
-
+        
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y,
                           constants['fov_radius'], constants['fov_light_walls'],
@@ -157,6 +157,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                             if not target.door.ajar:
                                 target.door.open_door(game_map.tiles[destination_x][destination_y])
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
+                                fov_map = initialize_fov(game_map)
                                 fov_recompute = True
                         else:
                             attack_results = player.fighter.attack(target)
