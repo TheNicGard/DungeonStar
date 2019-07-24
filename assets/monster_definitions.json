@@ -15,6 +15,24 @@
 	"ai": "BasicMonster",
 	"spawn_rate": [[60, 1], [40, 3], [20, 5]]
     },
+    
+    {
+	"monster_id": "snake",
+	"name": "Snake",
+	"color": [64, 128, 64],
+	"symbol": "s",
+	"fighter": {
+	    "hp": 20,
+	    "power": 4,
+	    "defense": 0,
+	    "xp": 30,
+	    "max_gold_drop": 4,
+	    "golden": false
+	},
+	"ai": "BasicMonster",
+	"spawn_rate": [[10, 1]]
+    },
+    
     {
 	"monster_id": "orc",
 	"name": "Orc",
@@ -28,8 +46,11 @@
 	    "max_gold_drop": 4,
 	    "golden": false
 	},
-	"ai": "BasicMonster",
-	"spawn_rate": [[30, 1], [60, 3], [90, 5]]
+	"ai": "AggressiveMonster",
+	"ai_details": {
+	    "patience": 5
+	},
+	"spawn_rate": [[25, 1], [50, 3], [75, 5]]
     },   
     {
 	"monster_id": "thot",

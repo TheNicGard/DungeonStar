@@ -1,6 +1,7 @@
 #!/usr/bin/python3 -Wignore
 import tcod as libtcod
 from components.animation import Animation
+from components.hunger import Hunger, HungerType
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location, Entity
 from fov_functions import initialize_fov, recompute_fov
@@ -103,7 +104,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
     
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse)
-
+        
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y,
                           constants['fov_radius'], constants['fov_light_walls'],
@@ -144,7 +145,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
         player_turn_results = []
 
         if game_state == GameStates.PLAYERS_TURN:
-            if move:
+            if move:    
                 dx, dy = move
                 destination_x = player.x + dx
                 destination_y = player.y + dy
@@ -155,29 +156,40 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                         if target.door:
                             if not target.door.ajar:
                                 target.door.open_door(game_map.tiles[destination_x][destination_y])
+                                player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
+                                fov_map = initialize_fov(game_map)
                                 fov_recompute = True
                         else:
                             attack_results = player.fighter.attack(target)
+                            player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                             player_turn_results.extend(attack_results)
                     else:
                         player.move(dx, dy)
+                        player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
                         fov_recompute = True
 
                     invisible_tick = player.fighter.tick_invisibility()
                     if invisible_tick:
                         message_log.add_message(invisible_tick)
+
                     game_state = GameStates.ENEMY_TURN
             elif wait:
+                player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
                 game_state = GameStates.ENEMY_TURN
             elif pickup:
+                pickup_results = []
+
                 for entity in entities:
                     if entity.item or entity.valuable:
                         if entity.x == player.x and entity.y == player.y:
-                            pickup_results = player.inventory.add_item(entity)
-                            player_turn_results.extend(pickup_results)
-                            break
-                else:
+                            pickup_results.extend(player.inventory.add_item(entity))
+       
+                if len(pickup_results) > 0:
+                    player_turn_results.extend(pickup_results)
+                    player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
+                else:   
                     message_log.add_message(Message('There is nothing here to pickup.', libtcod.yellow))
+                    
             elif descend_stairs:
                 for entity in entities:
                     if entity.stairs and entity.x == player.x and entity.y == player.y:
@@ -186,6 +198,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                         fov_recompute = True
                         libtcod.console_clear(con)
                         lowest_level = game_map.dungeon_level
+                        player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                         break
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
@@ -247,6 +260,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                                                         target_x=target_x,
                                                         target_y=target_y)
                 player_turn_results.extend(item_use_results)
+                player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
             elif right_click:
                 player_turn_results.append({'targeting_cancelled': True})
 
@@ -280,6 +294,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
             item_added = player_turn_result.get('item_added')
             gold_added = player_turn_result.get('gold_added')
             item_consumed = player_turn_result.get('consumed')
+            food_eaten = player_turn_result.get("food_eaten")
             item_dropped = player_turn_result.get('item_dropped')
             equip = player_turn_result.get('equip')
             targeting = player_turn_result.get('targeting')
@@ -306,7 +321,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                 entities.remove(gold_added)
                 game_state = GameStates.ENEMY_TURN
 
-            if item_consumed:
+            if item_consumed or food_eaten:
                 game_state = GameStates.ENEMY_TURN
 
             if item_dropped:
@@ -376,10 +391,10 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                     if game_state == GameStates.PLAYER_DEAD:
                         break
             else:
-                turn = tick_turn(turn, entities)
+                turn = tick_turn(turn, player, entities)
                 game_state = GameStates.PLAYERS_TURN
 
-def tick_turn(turn, entities):
+def tick_turn(turn, player, entities):
     expired = []
     expired_items = []
 
@@ -399,6 +414,13 @@ def tick_turn(turn, entities):
 
     for e in expired:
         entities.remove(e)
+
+    if player.hunger.saturation > player.hunger.hungry_saturation:
+        if turn % 10 == 0:
+            player.fighter.heal(2)
+    elif player.hunger.saturation > player.hunger.starving_saturation:
+        if turn % 20 == 0:
+            player.fighter.heal(2)
                 
     return turn + 1
                 

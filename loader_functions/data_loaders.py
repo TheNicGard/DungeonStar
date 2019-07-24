@@ -9,6 +9,7 @@ from components.ai import BasicMonster, ConfusedMonster, DummyMonster, Aggressiv
 from components.animation import Animation
 from components.equippable import Equippable
 from components.fighter import Fighter
+from components.food import Food
 from components.item import Item
 from entity import Entity
 from game_messages import Message
@@ -143,12 +144,19 @@ def load_items():
 
             if item_id == "dungeon_star":
                 equipment_component = Equippable("head", defense_bonus=1)
-                animation_component = Animation(['['], [libtcod.white, libtcod.red, libtcod.green, libtcod.blue], 0.333)
-                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component,
-                                      animation=animation_component, spawn_rate=spawn_rate, classification=classification)
+                animation_component = Animation(['['], [libtcod.white, libtcod.red,
+                                                        libtcod.green, libtcod.blue], 0.333)
+                
+                item = ItemDefinition(item_id, char, color, name, weight=weight,
+                                      item_component=item_component, equippable=equipment_component,
+                                      animation=animation_component, spawn_rate=spawn_rate,
+                                      classification=classification)
                 item_defs[item_id] = item
                 
             elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
+                food_component = None
+                if item.get("nutrition"):
+                    food_component = Food(item.get("nutrition"))
                 
                 age = item.get("age")
                 max_age = None
@@ -189,10 +197,10 @@ def load_items():
                         equipment_component = Equippable(slot, power_bonus=power_bonus, defense_bonus=defense_bonus)
 
                 item_component = None
-                if positional:
+                if positional or food_component:
                     item_component = Item(1, age=age, max_age=max_age, use_function=use_function, targeting=targeting, **positional)
 
-                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, spawn_rate=spawn_rate)
+                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, food=food_component, spawn_rate=spawn_rate)
                 item_defs[item_id] = item
                     
     return item_defs

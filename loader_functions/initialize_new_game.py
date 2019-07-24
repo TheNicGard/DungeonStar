@@ -3,6 +3,7 @@ import tcod as libtcod
 from components.equipment import Equipment
 from components.equippable import Equippable
 from components.fighter import Fighter
+from components.hunger import Hunger
 from components.inventory import Inventory
 from components.level import Level
 from entity import Entity
@@ -76,7 +77,7 @@ def get_game_variables(constants):
     inventory_component = Inventory(26)
     level_component = Level()
     
-
+    hunger_component = Hunger()
 
     equipment_component = Equipment({"main_hand": None, "off_hand": None, "head": None,
                                      "under_torso": None, "over_torso": None, "legs": None,
@@ -84,7 +85,7 @@ def get_game_variables(constants):
     player = Entity("player", 0, 0, '@', libtcod.white, 'Player', blocks=True,
                     render_order=RenderOrder.ACTOR, fighter=fighter_component,
                     inventory=inventory_component, level=level_component,
-                    equipment=equipment_component)
+                    equipment=equipment_component, hunger=hunger_component)
     entities = [player]
 
     equippable_component = Equippable("main_hand", power_bonus=2)
@@ -92,9 +93,6 @@ def get_game_variables(constants):
                     weight=2, equippable=equippable_component)
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
-
-    
-    
 
     game_map = GameMap(constants['map_width'], constants['map_height'])
     game_map.make_map(constants['max_rooms'], constants['room_min_size'],
@@ -113,7 +111,7 @@ def get_test_map_variables(constants):
     fighter_component = Fighter(hp=100, defense=1, power=2)
     inventory_component = Inventory(26)
     level_component = Level()
-
+    hunger_component = Hunger()
 
     equipment_component = Equipment({"main_hand": None, "off_hand": None, "head": None,
                                      "under_torso": None, "over_torso": None, "legs": None,
@@ -121,7 +119,7 @@ def get_test_map_variables(constants):
     player = Entity("player", 0, 0, '@', libtcod.white, 'Player', blocks=True,
                     render_order=RenderOrder.ACTOR, fighter=fighter_component,
                     inventory=inventory_component, level=level_component,
-                    equipment=equipment_component)
+                    equipment=equipment_component, hunger=hunger_component)
     entities = [player]
 
     equippable_component = Equippable("main_hand", power_bonus=2)

@@ -83,8 +83,11 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
                              'Dungeon level {0}'.format(game_map.dungeon_level))
     libtcod.console_print_ex(panel, 1, 4, libtcod.BKGND_NONE, libtcod.LEFT,
                              'Turn {0}'.format(turn))
-    if game_state == GameStates.LOOK_AT:
+    if player.hunger.status is not None:
         libtcod.console_print_ex(panel, 1, 5, libtcod.BKGND_NONE, libtcod.LEFT,
+                                 '{0}'.format(player.hunger.status))
+    if game_state == GameStates.LOOK_AT:
+        libtcod.console_print_ex(panel, 1, 6, libtcod.BKGND_NONE, libtcod.LEFT,
                                  '({0}, {1})'.format(cursor.x, cursor.y))
 
     libtcod.console_set_default_foreground(panel, libtcod.light_grey)
