@@ -25,7 +25,7 @@ class Inventory:
             })
             self.gold_carried += item.valuable.value
         else:
-            if self.current_weight + item.weight >= self.capacity:
+            if self.current_weight + item.weight > self.capacity:
                 results.append({
                     'item_added': None,
                     'message': Message('You cannot carry any more!', libtcod.yellow)

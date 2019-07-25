@@ -218,12 +218,12 @@ def load_high_scores():
         with shelve.open(high_scores_filename, 'n') as data_file:
             data_file['lowest_level'] = 1
             data_file['highest_score'] = 0
+            return 1, 0
     else:
         with shelve.open(high_scores_filename, 'r') as data_file:
             lowest_level = data_file['lowest_level']
             highest_score = data_file['highest_score']
-
-    return lowest_level, highest_score
+            return lowest_level, highest_score
 
 def save_high_scores(lowest_level, highest_score):
     with shelve.open(high_scores_filename, 'n') as data_file:

@@ -1,7 +1,7 @@
 #!/usr/bin/python3 -Wignore
 import tcod as libtcod
 from components.animation import Animation
-from components.hunger import Hunger, HungerType
+from components.hunger import HungerType
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location, Entity
 from fov_functions import initialize_fov, recompute_fov
@@ -29,8 +29,10 @@ def main():
     game_map = None
     message_log = None
     game_state = None
-    lowest_level = None
-    highest_score = None
+    global lowest_level
+    lowest_level = 1
+    global highest_score
+    highest_score = 0
     turn = 1
 
     lowest_level, highest_score = load_high_scores()
@@ -84,11 +86,11 @@ def main():
 
         else:
             libtcod.console_clear(con)
-            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, constants, lowest_level, highest_score)
+            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, constants)
             show_main_menu = True
 
-def play_game(player, entities, game_map, turn, message_log, game_state, con, panel,
-              constants, lowest_level, highest_score):
+def play_game(player, entities, game_map, turn, message_log,
+              game_state, con, panel, constants):
     key_cursor = Entity("cursor", player.x, player.y, chr(219), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=[chr(219), ' '], speed=0.25))
     
@@ -101,6 +103,9 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
     previous_game_state = game_state
 
     targeting_item = None
+
+    global lowest_level
+    global highest_score
     
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse)
@@ -115,7 +120,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                    constants['screen_width'], constants['screen_height'],
                    constants['bar_width'], constants['panel_height'],
                    constants['panel_y'], mouse, constants['colors'], game_state,
-                   key_cursor)
+                   key_cursor, {"CLASSIC_COLOR": False})
         
         fov_recompute = False
         libtcod.console_flush()
@@ -283,6 +288,7 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
                 player_turn_results.append({'targeting_cancelled': True})
             else:
                 save_game(player, entities, game_map, message_log, game_state, turn)
+                save_high_scores(lowest_level, highest_score)
                 return True
         
         if fullscreen:
@@ -308,6 +314,8 @@ def play_game(player, entities, game_map, turn, message_log, game_state, con, pa
             if dead_entity:
                 if dead_entity == player:
                     message, game_state = kill_player(dead_entity)
+                    if player.inventory.gold_carried > highest_score:
+                        highest_score = player.inventory.gold_carried
                 else:
                     message = kill_monster(dead_entity)
 
