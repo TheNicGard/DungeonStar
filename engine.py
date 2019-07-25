@@ -120,7 +120,7 @@ def play_game(player, entities, game_map, turn, message_log,
                    constants['screen_width'], constants['screen_height'],
                    constants['bar_width'], constants['panel_height'],
                    constants['panel_y'], mouse, constants['colors'], game_state,
-                   key_cursor)
+                   key_cursor, {"CLASSIC_COLOR": False})
         
         fov_recompute = False
         libtcod.console_flush()
