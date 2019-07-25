@@ -11,6 +11,7 @@
 	    "amount": 40
 	},
 	"spawn_rate": [[40, 1]],
+	"nutrition": 50,
 	"classification": ["potion"]
     },
 
@@ -26,6 +27,7 @@
 	    "amount": 60
 	},
 	"spawn_rate": [[1, 1]],
+	"nutrition": 50,
 	"classification": ["potion"]
     },
 
@@ -41,6 +43,7 @@
 	    "turns": 10
 	},
 	"spawn_rate": [[2, 1]],
+	"nutrition": 50,
 	"classification": ["potion"]
     },
     
@@ -252,14 +255,14 @@
 
     {
 	"item_id": "mre",
-	"name": "MRE",
+	"name": "M.R.E.",
 	"color": [127, 101, 63],
 	"symbol": "%",
 	"weight": 1,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 800,
-	"spawn_rate": [[2, 1]],
+	"spawn_rate": [[2, 1], [4, 6]],
 	"classification": ["food"]
     },
 
@@ -272,7 +275,7 @@
 	"targeting": false,
 	"positional": {},
 	"nutrition": 1000,
-	"spawn_rate": [[1, 1]],
+	"spawn_rate": [[1, 1], [2, 6]],
 	"classification": ["food"]
     },
 
@@ -285,7 +288,7 @@
 	"targeting": false,
 	"positional": {},
 	"nutrition": 1000,
-	"spawn_rate": [[1, 1]],
+	"spawn_rate": [[1, 1], [2, 6]],
 	"classification": ["food"]
     },
 
@@ -298,7 +301,7 @@
 	"targeting": false,
 	"positional": {},
 	"nutrition": 600,
-	"spawn_rate": [[2, 1]],
+	"spawn_rate": [[2, 1], [4, 6]],
 	"classification": ["food"]
     },
 
@@ -311,7 +314,7 @@
 	"targeting": false,
 	"positional": {},
 	"nutrition": 200,
-	"spawn_rate": [[3, 1]],
+	"spawn_rate": [[3, 1], [6, 6]],
 	"classification": ["food"]
     },
 
@@ -324,7 +327,7 @@
 	"targeting": false,
 	"positional": {},
 	"nutrition": 500,
-	"spawn_rate": [[2, 1]],
+	"spawn_rate": [[2, 1], [4, 6]],
 	"classification": ["food"]
     },
 
@@ -337,7 +340,7 @@
 	"targeting": false,
 	"positional": {},
 	"nutrition": 500,
-	"spawn_rate": [[2, 1]],
+	"spawn_rate": [[2, 1], [4, 6]],
 	"classification": ["food"]
     },
 
@@ -350,7 +353,7 @@
 	"targeting": false,
 	"positional": {},
 	"nutrition": 500,
-	"spawn_rate": [[2, 1]],
+	"spawn_rate": [[2, 1], [4, 6]],
 	"classification": ["food"]
     }
 ]
