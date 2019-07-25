@@ -1,5 +1,3 @@
-from components.ai import BasicMonster
-from components.fighter import Fighter
 from entity import Entity
 from render_functions import RenderOrder
 
