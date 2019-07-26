@@ -135,7 +135,7 @@ class HardStoppedMonster:
         return results
 
 class SoftStoppedMonster:
-    def __init__(self, previous_ai, number_of_turns=10, chance_to_resume=0.333, resume_text="stopped"):
+    def __init__(self, previous_ai, number_of_turns=10, chance_to_resume=0.2, resume_text="stopped"):
         self.previous_ai = previous_ai
         self.number_of_turns = number_of_turns
         self.resume_text = resume_text
@@ -147,18 +147,15 @@ class SoftStoppedMonster:
 
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
-
         if self.first_turn:
             self.first_turn = False
         elif self.number_of_turns != 0:
+            self.number_of_turns -= 1
             if random() < self.chance_to_resume:
                 self.owner.ai = self.previous_ai
                 results.append({'message': Message(
                     'The {0} is no longer {1}!'.format(self.owner.name, self.resume_text),
                     libtcod.red)})
-            else:
-                if self.number_of_turns > 0:
-                    self.number_of_turns -= 1
         else:
             self.owner.ai = self.previous_ai
             results.append({'message': Message(
