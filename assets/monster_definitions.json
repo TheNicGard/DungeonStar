@@ -137,5 +137,41 @@
 	},
 	"ai": "DummyMonster",
 	"spawn_rate": [[0, 0]]
+    },
+    {
+	"monster_id": "mother_dough",
+	"name": "Mother Dough",
+	"color": [0, 255, 255],
+	"symbol": "S",
+	"fighter": {
+	    "hp": 80,
+	    "power": 6,
+	    "defense": 3,
+	    "xp": 45,
+	    "max_gold_drop": 50,
+	    "golden": true
+	},
+	"ai": "MotherDoughAI",
+	"spawn_rate": [[1, 8]]
+    },
+    {
+	"monster_id": "sourdough_starter",
+	"name": "Sourdough Starter",
+	"color": [211, 211, 195],
+	"symbol": "S",
+	"fighter": {
+	    "hp": 15,
+	    "power": 1,
+	    "defense": 1,
+	    "xp": 0,
+	    "max_gold_drop": 0,
+	    "golden": false
+	},
+	"ai": "SourdoughAI",
+	"ai_details": {
+	    "min_spread_time": 40,
+	    "max_spread_time": 80
+	},
+	"spawn_rate": [[0, 0]]
     }
 ]

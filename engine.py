@@ -3,7 +3,7 @@ import tcod as libtcod
 from components.animation import Animation
 from components.hunger import HungerType
 from death_functions import kill_monster, kill_player
-from entity import get_blocking_entities_at_location, Entity
+from entity import get_blocking_entities_at_location, Entity, get_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
@@ -171,6 +171,12 @@ def play_game(player, entities, game_map, turn, message_log,
                     else:
                         player.move(dx, dy)
                         player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
+
+                        entities_in_loc = get_entities_at_location(entities, destination_x, destination_y)
+                        for e in entities_in_loc:
+                            if e.sign:
+                                message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
+                                
                         fov_recompute = True
 
                     invisible_tick = player.fighter.tick_invisibility()
