@@ -1,6 +1,6 @@
 import tcod as libtcod
 from game_messages import Message
-from components.ai import ConfusedMonster, HardStoppedMonster, SoftStoppedMonster
+from components.ai import ConfusedMonster, HardStoppedMonster, SoftStoppedMonster, StaticMonster
 
 def heal(*args, **kwargs):
     entity = args[0]
@@ -96,13 +96,17 @@ def cast_confuse(*args, **kwargs):
 
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
-            confused_ai = ConfusedMonster(entity.ai, 10)
+            if isinstance(entity.ai, StaticMonster):
+                results.append({'consumed': True, 'message': Message('The {0} cannot be confused!'.format(entity.name), libtcod.yellow)})
+                break
+            else:
+                confused_ai = ConfusedMonster(entity.ai, 10)
 
-            confused_ai.owner = entity
-            entity.ai = confused_ai
+                confused_ai.owner = entity
+                entity.ai = confused_ai
 
-            results.append({'consumed': True, 'message': Message('The eyes of the {0} look vacant, as he starts to stumble around!'.format(entity.name), libtcod.light_green)})
-            break
+                results.append({'consumed': True, 'message': Message('The eyes of the {0} look vacant, as he starts to stumble around!'.format(entity.name), libtcod.light_green)})
+                break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 
@@ -122,13 +126,17 @@ def cast_stun(*args, **kwargs):
 
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
-            stopped_ai = HardStoppedMonster(entity.ai, number_of_turns=5, resume_text="stunned")
+            if isinstance(entity.ai, StaticMonster):
+                results.append({'consumed': True, 'message': Message('The {0} cannot be stunned!'.format(entity.name), libtcod.yellow)})
+                break
+            else:
+                stopped_ai = HardStoppedMonster(entity.ai, number_of_turns=5, resume_text="stunned")
+                
+                stopped_ai.owner = entity
+                entity.ai = stopped_ai
 
-            stopped_ai.owner = entity
-            entity.ai = stopped_ai
-
-            results.append({'consumed': True, 'message': Message('The eyes of the {0} look shocked, as he stops in his tracks!'.format(entity.name), libtcod.light_green)})
-            break
+                results.append({'consumed': True, 'message': Message('The eyes of the {0} look shocked, as he stops in his tracks!'.format(entity.name), libtcod.light_green)})
+                break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 
@@ -148,13 +156,17 @@ def cast_sleep(*args, **kwargs):
 
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
-            stopped_ai = SoftStoppedMonster(entity.ai, number_of_turns=10, resume_text="asleep")
+            if isinstance(entity.ai, StaticMonster):
+                results.append({'consumed': True, 'message': Message('The {0} cannot be put to sleep!'.format(entity.name), libtcod.yellow)})
+                break
+            else:
+                stopped_ai = SoftStoppedMonster(entity.ai, number_of_turns=10, resume_text="asleep")
 
-            stopped_ai.owner = entity
-            entity.ai = stopped_ai
+                stopped_ai.owner = entity
+                entity.ai = stopped_ai
 
-            results.append({'consumed': True, 'message': Message('The eyelids of the {0} look drop, as he falls over cold!'.format(entity.name), libtcod.light_green)})
-            break
+                results.append({'consumed': True, 'message': Message('The eyelids of the {0} look drop, as he falls over cold!'.format(entity.name), libtcod.light_green)})
+                break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 

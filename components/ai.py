@@ -163,3 +163,19 @@ class SoftStoppedMonster:
                 libtcod.red)})
 
         return results
+
+class StaticMonster:
+    def __str__(self):
+        return "Statuc monster AI. Attacks nearby targets, but does not move."
+    
+    def take_turn(self, target, fov_map, game_map, entities):
+        results = []
+        
+        monster = self.owner
+        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+            invisible = target.fighter.status.get("invisible")
+            if monster.distance_to(target) < 2 and not (invisible and invisible > 0) and target.fighter.hp > 0:
+                attack_results = monster.fighter.attack(target)
+                results.extend(attack_results)
+                
+        return results

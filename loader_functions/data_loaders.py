@@ -5,7 +5,7 @@ import shelve
 
 import tcod as libtcod
 
-from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster
+from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster, StaticMonster
 from components.animation import Animation
 from components.equippable import Equippable
 from components.fighter import Fighter
@@ -103,6 +103,8 @@ def load_monsters():
                     ai_component = HardStoppedMonster(BasicMonster())
                 elif ai_type == "SoftStoppedMonster":
                     ai_component = SoftStoppedMonster(BasicMonster())
+                elif ai_type == "StaticMonster":
+                    ai_component = StaticMonster()
                     
                 if hp is not None and defense is not None and power is not None:
                     fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)
