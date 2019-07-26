@@ -2,6 +2,7 @@ import copy
 import tcod as libtcod
 from components.door import Door, DoorPosition
 from components.item import Item
+from components.sign import Sign
 from components.stairs import Stairs
 from components.valuable import Valuable
 from entity import Entity
@@ -180,7 +181,12 @@ class GameMap:
                     if piece == "wall":
                         self.tiles[data_x][data_y].blocked = True
                         self.tiles[data_x][data_y].block_sight = True
-                    if piece == "door":
+                    elif piece[0:6] == "sign: ":
+                        sign_component = Sign(piece[6:])
+                        sign = Entity("sign", data_x, data_y, "|", libtcod.blue,
+                                             'Sign', blocks=False, render_order=RenderOrder.SIGN, sign=sign_component)
+                        entities.append(sign)
+                    elif piece == "door":
                         door_component = Door(False, DoorPosition.VERTICAL)
                         door = Entity("door", data_x, data_y, "+", libtcod.lightest_grey,
                                              'Door', blocks=True, render_order=RenderOrder.DOOR, door=door_component)

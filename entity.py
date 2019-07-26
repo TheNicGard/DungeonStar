@@ -8,7 +8,8 @@ class Entity:
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
                  equipment=None, equippable=None, valuable=None, door=None,
-                 animation=None, hunger=None, food=None, classification=[]):
+                 animation=None, hunger=None, food=None, classification=[],
+                 sign=None):
         self.id = id
         self.x = x
         self.y = y
@@ -32,6 +33,7 @@ class Entity:
         self.hunger = hunger
         self.food = food
         self.classification = classification
+        self.sign = sign
 
         if self.fighter:
             self.fighter.owner = self
@@ -61,6 +63,8 @@ class Entity:
             self.animation.owner = self
         if self.hunger:
             self.hunger.owner = self
+        if self.sign:
+            self.sign.owner = self
 
     def __str__(self):
         return "Entity \'{0}\' is represented by {1} at location ({2}, {3}).".format(self.name, self.char, self.x, self.y)
@@ -144,3 +148,12 @@ def get_blocking_entities_at_location(entities, destination_x, destination_y):
             else:
                 return entity
     return None
+
+def get_entities_at_location(entities, destination_x, destination_y):
+    found_entities = []
+    
+    for entity in entities:
+        if entity and entity.x == destination_x and entity.y == destination_y:
+            found_entities.append(entity)
+        
+    return found_entities

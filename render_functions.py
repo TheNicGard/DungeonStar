@@ -6,10 +6,11 @@ from menus import inventory_menu, level_up_menu, character_screen, help_screen
 class RenderOrder(Enum):
     STAIRS = 1
     DOOR = 2
-    CORPSE = 3
-    GOLD = 4
-    ITEM = 5
-    ACTOR = 6
+    SIGN = 3
+    CORPSE = 4
+    GOLD = 5
+    ITEM = 6
+    ACTOR = 7
 
 def get_names_under_mouse(mouse, entities, fov_map):
     (x, y) = (mouse.cx, mouse.cy)
@@ -133,7 +134,7 @@ def clear_all(con, entities, cursor):
     clear_entity(con, cursor)
 
 def draw_entity(con, entity, fov_map, game_map, always_visible):
-    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door) and game_map.tiles[entity.x][entity.y].explored):
+    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored):
         libtcod.console_set_default_foreground(con, entity.color)
         if entity.fighter and entity.ai and entity.fighter.status.get("invisible"):
             if entity.fighter.status.get("invisible") <= 0:
@@ -145,7 +146,7 @@ def draw_entity(con, entity, fov_map, game_map, always_visible):
         libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
 
 def draw_animated_entity(con, entity, fov_map, game_map, always_visible):
-    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door) and game_map.tiles[entity.x][entity.y].explored):
+    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored):
         libtcod.console_set_default_foreground(con, entity.animation.get_color)
         if entity.fighter and entity.ai and entity.fighter.status.get("invisible"):
             if entity.fighter.status.get("invisible") <= 0:
