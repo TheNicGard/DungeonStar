@@ -5,7 +5,7 @@ import shelve
 
 import tcod as libtcod
 
-from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster, StaticMonster
+from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster, StaticMonster, MotherDoughAI, SourdoughAI
 from components.animation import Animation
 from components.equippable import Equippable
 from components.fighter import Fighter
@@ -88,9 +88,15 @@ def load_monsters():
 
                 ai_details = monster.get("ai_details")
                 patience = 0
+                min_spread_time = 0
+                max_spread_time = 0
                 if ai_details:
                     if ai_details.get("patience"):
                         patience = ai_details.get("patience")
+                    if ai_details.get("min_spread_time"):
+                        min_spread_time = ai_details.get("min_spread_time")
+                    if ai_details.get("max_spread_time"):
+                        max_spread_time = ai_details.get("max_spread_time")
                     
                 ai_component = DummyMonster()
                 if ai_type == "BasicMonster":
@@ -105,6 +111,13 @@ def load_monsters():
                     ai_component = SoftStoppedMonster(BasicMonster())
                 elif ai_type == "StaticMonster":
                     ai_component = StaticMonster()
+                elif ai_type == "MotherDoughAI":
+                    ai_component = MotherDoughAI()
+                elif ai_type == "SourdoughAI":
+                    if min_spread_time == 0 and max_spread_time == 0:
+                        ai_component = SourdoughAI(40, 40)
+                    else:
+                        ai_component = SourdoughAI(min_spread_time, max_spread_time)
                     
                 if hp is not None and defense is not None and power is not None:
                     fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)

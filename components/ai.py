@@ -1,6 +1,7 @@
 import tcod as libtcod
-from random import randint, random
+from entity import get_blocking_entities_at_location
 from game_messages import Message
+from random import randint, random
 
 class BasicMonster:
     def __str__(self):
@@ -172,6 +173,80 @@ class StaticMonster:
         results = []
         
         monster = self.owner
+        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+            invisible = target.fighter.status.get("invisible")
+            if monster.distance_to(target) < 2 and not (invisible and invisible > 0) and target.fighter.hp > 0:
+                attack_results = monster.fighter.attack(target)
+                results.extend(attack_results)
+                
+        return results
+
+class MotherDoughAI(StaticMonster):
+    def __init__(self):
+        self.turns_to_spawn = 40
+        
+    def __str__(self):
+        return "AI for the Mother Dough. Attacks nearby targets, and spreads sourdough starters every few turns."
+    
+    def take_turn(self, target, fov_map, game_map, entities):
+        results = []
+
+        monster = self.owner
+        
+        done = False
+        if self.turns_to_spawn <= 0:
+            for y in [monster.y - 1, monster.y, monster.y + 1]:
+                for x in [monster.x - 1, monster.x, monster.x + 1]:
+                    if not (x == monster.x and y == monster.y) and not game_map.is_blocked(x, y):
+                            blocking_entities = get_blocking_entities_at_location(entities, x, y)
+                            if blocking_entities is None:
+                                entities.append(game_map.get_monster("sourdough_starter", x, y))
+                                monster.fighter.heal(10)
+                                self.turns_to_spawn = 40
+                                done = True
+                                break
+                if done:
+                    break
+        else:
+            self.turns_to_spawn -= 1
+                        
+        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+            invisible = target.fighter.status.get("invisible")
+            if monster.distance_to(target) < 2 and not (invisible and invisible > 0) and target.fighter.hp > 0:
+                attack_results = monster.fighter.attack(target)
+                results.extend(attack_results)
+                
+        return results
+
+class SourdoughAI(StaticMonster):
+    def __init__(self, min_spread_time, max_spread_time):
+        self.turns_to_spawn = randint(min_spread_time, max_spread_time)
+        
+    def __str__(self):
+        return "AI for the Sourdough Starter. Attacks nearby targets, and spreads sourdough starters more rarely than the mother dough."
+    
+    def take_turn(self, target, fov_map, game_map, entities):
+        results = []
+
+        monster = self.owner
+        
+        done = False
+        if self.turns_to_spawn <= 0:
+            for y in [monster.y - 1, monster.y, monster.y + 1]:
+                for x in [monster.x - 1, monster.x, monster.x + 1]:
+                    if not (x == monster.x and y == monster.y) and not game_map.is_blocked(x, y):
+                            blocking_entities = get_blocking_entities_at_location(entities, x, y)
+                            if blocking_entities is None:
+                                entities.append(game_map.get_monster("sourdough_starter", x, y))
+                                monster.fighter.heal(10)
+                                self.turns_to_spawn = 40
+                                done = True
+                                break
+                if done:
+                    break
+        else:
+            self.turns_to_spawn -= 1
+                        
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
             invisible = target.fighter.status.get("invisible")
             if monster.distance_to(target) < 2 and not (invisible and invisible > 0) and target.fighter.hp > 0:
