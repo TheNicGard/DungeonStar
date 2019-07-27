@@ -1,6 +1,6 @@
 import tcod as libtcod
 from game_messages import Message
-from components.ai import ConfusedMonster, HardStoppedMonster, SoftStoppedMonster, StaticMonster
+import components.ai
 
 def heal(*args, **kwargs):
     entity = args[0]

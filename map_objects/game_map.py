@@ -7,22 +7,21 @@ from components.stairs import Stairs
 from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
-from loader_functions.data_loaders import load_monsters, load_items, load_test_map_tiles
+from loader_functions.data_loaders import load_test_map_tiles
+from loader_functions.entity_definitions import get_item, get_monster, item_defs, monster_defs
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
 from random import randint, choice
 from random_utils import from_dungeon_level, random_choice_from_dict
 from render_functions import RenderOrder
 
-
 class GameMap:
+    
     def __init__(self, width, height, dungeon_level=1):
         self.width = width
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
-        self.monster_defs = load_monsters()
-        self.item_defs = load_items()
         
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
@@ -78,7 +77,7 @@ class GameMap:
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if not self.is_blocked(x, y):
                     monster_choice = random_choice_from_dict(monster_chances)
-                    monster = self.get_monster(monster_choice, x, y)
+                    monster = get_monster(monster_choice, x, y)
                     entities.append(monster)
         
         for i in range(number_of_items):
@@ -88,7 +87,7 @@ class GameMap:
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if not self.is_blocked(x, y):
                     item_choice = random_choice_from_dict(item_chances)
-                    item = self.get_item(item_choice, x, y)
+                    item = get_item(item_choice, x, y)
                     entities.append(item)
 
         for i in range(gold_passes):
@@ -192,11 +191,11 @@ class GameMap:
                                              'Door', blocks=True, render_order=RenderOrder.DOOR, door=door_component)
                         door.door.close_door(self.tiles[data_x][data_y])
                         entities.append(door)
-                    elif piece in self.item_defs:
-                        item = self.get_item(piece, data_x, data_y)
+                    elif piece in item_defs:
+                        item = get_item(piece, data_x, data_y)
                         entities.append(item)
-                    elif piece in self.monster_defs:
-                        monster = self.get_monster(piece, data_x, data_y)
+                    elif piece in monster_defs:
+                        monster = get_monster(piece, data_x, data_y)
                         entities.append(monster)
         
     def next_floor(self, player, message_log, constants):
@@ -211,11 +210,3 @@ class GameMap:
         message_log.add_message(Message('You take a moment to rest, and recover your strength.',
                                         libtcod.light_violet))
         return entities
-
-    def get_item(self, item_choice, x, y):
-        item = copy.deepcopy(self.item_defs.get(item_choice).get_item(x, y))
-        return item
-
-    def get_monster(self, monster_choice, x, y):
-        monster = copy.deepcopy(self.monster_defs.get(monster_choice).get_monster(x, y))
-        return monster

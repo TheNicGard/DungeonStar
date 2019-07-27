@@ -8,6 +8,7 @@ from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
+from loader_functions.entity_definitions import get_monster
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables
 from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores
 from menus import main_menu, message_box
@@ -389,6 +390,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     for enemy_turn_result in enemy_turn_results:
                         message = enemy_turn_result.get('message')
                         dead_entity = enemy_turn_result.get('dead')
+                        spawn_enemy = enemy_turn_result.get('spawn_enemy')
                         
                         if message:
                             message_log.add_message(message)
@@ -401,6 +403,10 @@ def play_game(player, entities, game_map, turn, message_log,
 
                             if game_state == GameStates.PLAYER_DEAD:
                                 break
+                        if spawn_enemy:
+                            entities.append(get_monster(spawn_enemy.get("name"),
+                                                        spawn_enemy.get("x"),
+                                                        spawn_enemy.get("y")))
 
                     if game_state == GameStates.PLAYER_DEAD:
                         break

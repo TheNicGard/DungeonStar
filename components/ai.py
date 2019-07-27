@@ -200,7 +200,8 @@ class MotherDoughAI(StaticMonster):
                     if not (x == monster.x and y == monster.y) and not game_map.is_blocked(x, y):
                             blocking_entities = get_blocking_entities_at_location(entities, x, y)
                             if blocking_entities is None:
-                                entities.append(game_map.get_monster("sourdough_starter", x, y))
+                                results.append({"spawn_enemy": {"name": "sourdough_starter",
+                                                               "x": x, "y": y}})
                                 monster.fighter.heal(10)
                                 self.turns_to_spawn = 40
                                 done = True
@@ -237,7 +238,7 @@ class SourdoughAI(StaticMonster):
                     if not (x == monster.x and y == monster.y) and not game_map.is_blocked(x, y):
                             blocking_entities = get_blocking_entities_at_location(entities, x, y)
                             if blocking_entities is None:
-                                entities.append(game_map.get_monster("sourdough_starter", x, y))
+                                results.append({"spawn_enemy": {"name": "sourdough_starter", "x": x, "y": y}})
                                 monster.fighter.heal(10)
                                 self.turns_to_spawn = 40
                                 done = True
