@@ -152,9 +152,9 @@
 	    "golden": true
 	},
 	"ai": "MotherDoughAI",
-	"inventory": [
+	"inventory": {
 	    "subterranean_sourdough": 1
-	],
+	},
 	"spawn_rate": [[1, 8]]
     },
     {
