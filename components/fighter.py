@@ -54,13 +54,16 @@ class Fighter:
         self.hp -= amount
 
         if self.hp <= 0:
-            if self.owner.ai:
-                results.append({'enemy_gold_dropped': self.get_gold()})
             results.append({
                 'dead': self.owner,
                 'xp': self.xp
             })
-            
+            if self.owner.ai:
+                results.append({
+                    'enemy_gold_dropped': self.get_gold(),
+                    'drop_inventory': self.owner.inventory
+                })
+
         return results
 
     def heal(self, amount):
@@ -112,10 +115,9 @@ class Fighter:
         message = None
         
         if self.status.get("invisible") and self.status.get("invisible") > 0:
-                print("Invisibility: " + str(self.status["invisible"]))
-                self.status["invisible"] -= 1
-                if self.status["invisible"] <= 0:
-                    message = Message("Color starts to reappear on your body!",
-                                           libtcod.yellow)
+            self.status["invisible"] -= 1
+            if self.status["invisible"] <= 0:
+                message = Message("Color starts to reappear on your body!",
+                                  libtcod.yellow)
                     
         return message

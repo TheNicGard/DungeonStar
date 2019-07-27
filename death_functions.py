@@ -26,7 +26,7 @@ def kill_monster(monster):
         monster.ai = None
         monster.name = 'remains of ' + monster.name
         monster.render_order = RenderOrder.CORPSE
-    elif monster.id != "dummy":
+    elif monster.id != "dummy":        
         if random() < monster.fighter.chance_to_drop_corpse:
             item_component = Item(1, max_age=100, use_function=None)
             monster.item = item_component

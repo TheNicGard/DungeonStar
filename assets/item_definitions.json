@@ -40,7 +40,7 @@
 	"use_function": "invisible",
 	"targeting": false,
 	"positional": {
-	    "turns": 10
+	    "turns": 20
 	},
 	"spawn_rate": [[2, 1]],
 	"nutrition": 50,
