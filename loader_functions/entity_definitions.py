@@ -255,6 +255,3 @@ def get_monster(monster_choice, x, y):
 
 item_defs = load_items()
 monster_defs = load_monsters()
-
-for v in monster_defs:
-    print(v)
