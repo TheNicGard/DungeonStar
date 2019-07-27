@@ -404,9 +404,12 @@ def play_game(player, entities, game_map, turn, message_log,
                             if game_state == GameStates.PLAYER_DEAD:
                                 break
                         if spawn_enemy:
-                            entities.append(get_monster(spawn_enemy.get("name"),
-                                                        spawn_enemy.get("x"),
-                                                        spawn_enemy.get("y")))
+                            new_enemy = get_monster(spawn_enemy.get("name"),
+                                                    spawn_enemy.get("x"),
+                                                    spawn_enemy.get("y"))
+                            if spawn_enemy.get("mother"):
+                                new_enemy.ai.mother = spawn_enemy.get("mother")
+                            entities.append(new_enemy)
 
                     if game_state == GameStates.PLAYER_DEAD:
                         break

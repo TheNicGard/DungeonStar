@@ -201,7 +201,8 @@ class MotherDoughAI(StaticMonster):
                             blocking_entities = get_blocking_entities_at_location(entities, x, y)
                             if blocking_entities is None:
                                 results.append({"spawn_enemy": {"name": "sourdough_starter",
-                                                               "x": x, "y": y}})
+                                                                "x": x, "y": y,
+                                                                "mother": monster}})
                                 monster.fighter.heal(10)
                                 self.turns_to_spawn = 40
                                 done = True
@@ -224,6 +225,7 @@ class SourdoughAI(StaticMonster):
         self.min_spread_time = min_spread_time
         self.max_spread_time = max_spread_time
         self.turns_to_spawn = randint(min_spread_time, max_spread_time)
+        self.mother = None
 
     def reroll(self):
         self.turns_to_spawn = randint(self.min_spread_time, self.max_spread_time)
@@ -238,18 +240,22 @@ class SourdoughAI(StaticMonster):
         
         done = False
         if self.turns_to_spawn <= 0:
-            for y in [monster.y - 1, monster.y, monster.y + 1]:
-                for x in [monster.x - 1, monster.x, monster.x + 1]:
-                    if not (x == monster.x and y == monster.y) and not game_map.is_blocked(x, y):
+            if self.mother and not self.mother.ai:
+                results.append({"dead": monster})
+            else:
+                for y in [monster.y - 1, monster.y, monster.y + 1]:
+                    for x in [monster.x - 1, monster.x, monster.x + 1]:
+                        if not (x == monster.x and y == monster.y) and not game_map.is_blocked(x, y):
                             blocking_entities = get_blocking_entities_at_location(entities, x, y)
                             if blocking_entities is None:
-                                results.append({"spawn_enemy": {"name": "sourdough_starter", "x": x, "y": y}})
+                                results.append({"spawn_enemy": {"name": "sourdough_starter",
+                                                                "x": x, "y": y, "mother": monster}})
                                 monster.fighter.heal(10)
                                 self.turns_to_spawn = 40
                                 done = True
                                 break
-                if done:
-                    break
+                    if done:
+                        break
         else:
             self.turns_to_spawn -= 1
                         
