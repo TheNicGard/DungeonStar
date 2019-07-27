@@ -10,6 +10,7 @@ from components.animation import Animation
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.food import Food
+from components.inventory import Inventory
 from components.item import Item
 from entity import Entity
 from game_messages import Message
@@ -97,6 +98,15 @@ def load_monsters():
                         min_spread_time = ai_details.get("min_spread_time")
                     if ai_details.get("max_spread_time"):
                         max_spread_time = ai_details.get("max_spread_time")
+
+                inventory_component = None
+                if monster.get("inventory"):
+                    inventory = monster.get("inventory")
+                    inventory_component = Inventory(500)
+                    #for key, value in inventory:
+                    #    if random() < value:
+                    #        inventory_component.add_item()
+                        
                     
                 ai_component = DummyMonster()
                 if ai_type == "BasicMonster":
@@ -118,9 +128,12 @@ def load_monsters():
                         ai_component = SourdoughAI(40, 40)
                     else:
                         ai_component = SourdoughAI(min_spread_time, max_spread_time)
-                    
+
                 if hp is not None and defense is not None and power is not None:
-                    fighter_component = Fighter(hp, defense, power, xp, golden, max_gold_drop)
+                    chance_to_drop = 0.25
+                    fighter_component = Fighter(hp, defense, power, xp, golden,
+                                                chance_to_drop_corpse=chance_to_drop,
+                                                max_gold_drop=max_gold_drop)
                     
                     monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, spawn_rate=spawn_rate)
                     monster_defs[monster_id] = monster

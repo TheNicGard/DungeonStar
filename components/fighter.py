@@ -7,7 +7,7 @@ from random import choice, randint
 from render_functions import RenderOrder
 
 class Fighter:
-    def __init__(self, hp, defense, power, xp=0, golden=False, max_gold_drop=0):
+    def __init__(self, hp, defense, power, xp=0, golden=False, chance_to_drop_corpse=0, max_gold_drop=0):
         self.base_max_hp = hp
         self.hp = hp
         self.base_defense = defense
@@ -16,6 +16,7 @@ class Fighter:
         self.max_gold_drop = max_gold_drop
         self.status = {}
         self.status["golden"] = golden
+        self.chance_to_drop_corpse = chance_to_drop_corpse
 
     def __str__(self):
         return "HP: " + str(self.hp) + """, Base Max HP: {1}, Buffed Max HP: {2}, Base Power: {3},

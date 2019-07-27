@@ -355,5 +355,18 @@
 	"nutrition": 500,
 	"spawn_rate": [[2, 1], [4, 6]],
 	"classification": ["food"]
+    },
+
+    {
+	"item_id": "subterranean_sourdough",
+	"name": "Subterranean Sourdough Loaf",
+	"color": [211, 211, 195],
+	"symbol": "%",
+	"weight": 1,
+	"targeting": false,
+	"positional": {},
+	"nutrition": 2000,
+	"spawn_rate": [[0, 0]],
+	"classification": ["food"]
     }
 ]
