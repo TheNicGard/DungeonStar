@@ -249,6 +249,8 @@ def get_item(item_choice, x, y):
 
 def get_monster(monster_choice, x, y):
     monster = copy.deepcopy(monster_defs.get(monster_choice).get_monster(x, y))
+    if monster.ai and hasattr(monster.ai, 'reroll'):
+        monster.ai.reroll()
     return monster
 
 item_defs = load_items()

@@ -184,7 +184,7 @@ class StaticMonster:
 class MotherDoughAI(StaticMonster):
     def __init__(self):
         self.turns_to_spawn = 40
-        
+
     def __str__(self):
         return "AI for the Mother Dough. Attacks nearby targets, and spreads sourdough starters every few turns."
     
@@ -221,7 +221,12 @@ class MotherDoughAI(StaticMonster):
 
 class SourdoughAI(StaticMonster):
     def __init__(self, min_spread_time, max_spread_time):
+        self.min_spread_time = min_spread_time
+        self.max_spread_time = max_spread_time
         self.turns_to_spawn = randint(min_spread_time, max_spread_time)
+
+    def reroll(self):
+        self.turns_to_spawn = randint(self.min_spread_time, self.max_spread_time)
         
     def __str__(self):
         return "AI for the Sourdough Starter. Attacks nearby targets, and spreads sourdough starters more rarely than the mother dough."
