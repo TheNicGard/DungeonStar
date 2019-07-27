@@ -3,3 +3,6 @@
 savegame.dat
 high_scores.dat
 TODO.org
+.eggs
+build/
+dist/
