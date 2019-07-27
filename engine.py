@@ -314,6 +314,7 @@ def play_game(player, entities, game_map, turn, message_log,
             targeting_cancelled = player_turn_result.get('targeting_cancelled')
             xp = player_turn_result.get('xp')
             enemy_gold_dropped = player_turn_result.get('enemy_gold_dropped')
+            drop_inventory = player_turn_result.get("drop_inventory")
             
             if message:
                 message_log.add_message(message)
@@ -382,11 +383,15 @@ def play_game(player, entities, game_map, turn, message_log,
             if enemy_gold_dropped:
                 entities.append(enemy_gold_dropped)
 
+            if drop_inventory:
+                for i in drop_inventory.items:
+                    entities.append(drop_inventory.drop_item(i)[0].get("item_dropped"))
+                    
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
                 if entity.ai:
                     enemy_turn_results = entity.ai.take_turn(player, fov_map, game_map, entities)
-
+                    
                     for enemy_turn_result in enemy_turn_results:
                         message = enemy_turn_result.get('message')
                         dead_entity = enemy_turn_result.get('dead')

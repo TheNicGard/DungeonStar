@@ -15,6 +15,7 @@ from components.item import Item
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed
+from random import random
 from render_functions import RenderOrder
 
 monster_definitions = "assets/monster_definitions.json"
@@ -44,7 +45,7 @@ class ItemDefinition:
         return item
 
 class MonsterDefinition:
-    def __init__(self, id, char, color, name, weight=0, fighter=None, ai=None, spawn_rate=[[0, 0]]):
+    def __init__(self, id, char, color, name, weight=0, fighter=None, ai=None, inventory=None, spawn_rate=[[0, 0]]):
         self.id = id
         self.char = char
         self.color = color
@@ -53,11 +54,12 @@ class MonsterDefinition:
         self.ai = ai
         self.weight = weight
         self.spawn_rate = spawn_rate
+        self.inventory = inventory
 
     def get_monster(self, x, y):
         monster = Entity(self.id, x, y, self.char, self.color, self.name, weight=self.weight,
                          blocks=True, render_order=RenderOrder.ACTOR,
-                         fighter=self.fighter, ai=self.ai)
+                         fighter=self.fighter, ai=self.ai, inventory=self.inventory)
         return monster
 
 def load_monsters():
@@ -113,11 +115,14 @@ def load_monsters():
                 if monster.get("inventory"):
                     inventory = monster.get("inventory")
                     inventory_component = Inventory(500)
-                    #for key, value in inventory:
-                    #    if random() < value:
-                    #        inventory_component.add_item()
+                    print(inventory)
+                    for key, value in inventory.items():
+                        print(key + ": " + str(value))
+                        # accomodate for weights greater than 1
+                        if random() < value:
+                            inventory_component.add_item(get_item(key, -1, -1))
+                            #print(inventory_component.caritems[0])
                         
-                    
                 ai_component = DummyMonster()
                 if ai_type == "BasicMonster":
                     ai_component = BasicMonster()
@@ -145,7 +150,7 @@ def load_monsters():
                                                 chance_to_drop_corpse=chance_to_drop,
                                                 max_gold_drop=max_gold_drop)
                     
-                    monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, spawn_rate=spawn_rate)
+                    monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, inventory=inventory_component, spawn_rate=spawn_rate)
                     monster_defs[monster_id] = monster
                     
     return monster_defs
