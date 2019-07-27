@@ -115,13 +115,10 @@ def load_monsters():
                 if monster.get("inventory"):
                     inventory = monster.get("inventory")
                     inventory_component = Inventory(500)
-                    print(inventory)
                     for key, value in inventory.items():
-                        print(key + ": " + str(value))
                         # accomodate for weights greater than 1
                         if random() < value:
                             inventory_component.add_item(get_item(key, -1, -1))
-                            #print(inventory_component.caritems[0])
                         
                 ai_component = DummyMonster()
                 if ai_type == "BasicMonster":
