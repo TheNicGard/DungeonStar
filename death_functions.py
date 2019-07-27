@@ -3,6 +3,7 @@ from components.item import Item
 from game_messages import Message
 from game_states import GameStates
 from item_functions import heal
+from random import random
 from render_functions import RenderOrder
 
 def kill_player(player):
@@ -26,15 +27,23 @@ def kill_monster(monster):
         monster.name = 'remains of ' + monster.name
         monster.render_order = RenderOrder.CORPSE
     elif monster.id != "dummy":
-        item_component = Item(1, max_age=100, use_function=None)
-        monster.item = item_component
-        
-        monster.char = '%'
-        monster.color = libtcod.dark_red
-        monster.blocks = False
-        monster.fighter = None
-        monster.ai = None
-        monster.name = 'remains of ' + monster.name
-        monster.render_order = RenderOrder.CORPSE
+        if random() < monster.fighter.chance_to_drop_corpse:
+            item_component = Item(1, max_age=100, use_function=None)
+            monster.item = item_component
+            monster.char = '%'
+            monster.color = libtcod.dark_red
+            monster.blocks = False
+            monster.fighter = None
+            monster.ai = None
+            monster.name = 'remains of ' + monster.name
+            monster.render_order = RenderOrder.CORPSE
+        else:
+            monster.char = ','
+            monster.color = libtcod.dark_red
+            monster.blocks = False
+            monster.fighter = None
+            monster.ai = None
+            monster.name = 'bits of ' + monster.name
+            monster.render_order = RenderOrder.CORPSE
 
     return death_message
