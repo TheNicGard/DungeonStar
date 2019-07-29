@@ -166,7 +166,7 @@
 	"positional": {
 	    "dummy": "fix this later"
 	},
-	"spawn_rate": [[10, 6]],
+	"spawn_rate": [[10, 2]],
 	"classification": ["scroll"]
     },
 
