@@ -4,6 +4,7 @@ from components.door import Door, DoorPosition
 from components.item import Item
 from components.sign import Sign
 from components.stairs import Stairs
+from components.trap import Trap
 from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
@@ -51,9 +52,12 @@ class GameMap:
     def place_entities(self, room, entities):
         max_monsters_per_room = from_dungeon_level([[2, 1], [3, 10], [5, 20]], self.dungeon_level)
         max_items_per_room = from_dungeon_level([[1, 1]], self.dungeon_level)
+        max_traps_per_room = from_dungeon_level([[1, 1], [2, 5]], self.dungeon_level)
+        # update later to have traps per floor
         
         number_of_monsters = randint(0, max_monsters_per_room)
         number_of_items = randint(0, max_items_per_room)
+        number_of_traps = randint(0, max_traps_per_room)
         amount_of_gold = randint(0, 20 + (10 * self.dungeon_level)) + 2
         gold_passes = choice([
             0, 0, 0, 0, 0, 0, 0, 0,
@@ -62,11 +66,11 @@ class GameMap:
         ])
 
         monster_chances = {}
-        for key, value in self.monster_defs.items():
+        for key, value in monster_defs.items():
             monster_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
 
         item_chances = {}
-        for key, value in self.item_defs.items():
+        for key, value in item_defs.items():
             item_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
         
         for i in range(number_of_monsters):
@@ -89,6 +93,18 @@ class GameMap:
                     item_choice = random_choice_from_dict(item_chances)
                     item = get_item(item_choice, x, y)
                     entities.append(item)
+
+        for i in range(number_of_traps):
+            x = randint(room.x1 + 1, room.x2 - 1)
+            y = randint(room.y1 + 1, room.y2 - 1)
+
+            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+                if not self.is_blocked(x, y):
+                    trap_component = Trap()
+                    trap = Entity("trap", x, y, " ", libtcod.red,
+                                  'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                  trap=trap_component)
+                    entities.append(trap)
 
         for i in range(gold_passes):
             if amount_of_gold == 0:
@@ -183,14 +199,22 @@ class GameMap:
                     elif piece[0:6] == "sign: ":
                         sign_component = Sign(piece[6:])
                         sign = Entity("sign", data_x, data_y, "|", libtcod.blue,
-                                             'Sign', blocks=False, render_order=RenderOrder.SIGN, sign=sign_component)
+                                             'Sign', blocks=False, render_order=RenderOrder.SIGN,
+                                      sign=sign_component)
                         entities.append(sign)
                     elif piece == "door":
                         door_component = Door(False, DoorPosition.VERTICAL)
                         door = Entity("door", data_x, data_y, "+", libtcod.lightest_grey,
-                                             'Door', blocks=True, render_order=RenderOrder.DOOR, door=door_component)
+                                             'Door', blocks=True, render_order=RenderOrder.DOOR,
+                                      door=door_component)
                         door.door.close_door(self.tiles[data_x][data_y])
                         entities.append(door)
+                    elif piece == "trap":
+                        trap_component = Trap()
+                        trap = Entity("trap", data_x, data_y, " ", libtcod.red,
+                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                        entities.append(trap)
                     elif piece in item_defs:
                         item = get_item(piece, data_x, data_y)
                         entities.append(item)

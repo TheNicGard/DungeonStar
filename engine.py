@@ -13,6 +13,8 @@ from loader_functions.initialize_new_game import get_constants, get_game_variabl
 from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores
 from menus import main_menu, message_box
 from render_functions import clear_all, render_all
+#from rpg_mechanics import die
+from random import randint
 
 def main():
     constants = get_constants()
@@ -177,6 +179,8 @@ def play_game(player, entities, game_map, turn, message_log,
                         for e in entities_in_loc:
                             if e.sign:
                                 message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
+                            if e.trap:
+                                player_turn_results.append({"stepped_on_trap": e.trap})
                                 
                         fov_recompute = True
 
@@ -315,6 +319,8 @@ def play_game(player, entities, game_map, turn, message_log,
             xp = player_turn_result.get('xp')
             enemy_gold_dropped = player_turn_result.get('enemy_gold_dropped')
             drop_inventory = player_turn_result.get("drop_inventory")
+            stepped_on_trap = player_turn_result.get("stepped_on_trap")
+            detect_traps = player_turn_result.get("detect_traps")
             
             if message:
                 message_log.add_message(message)
@@ -386,6 +392,30 @@ def play_game(player, entities, game_map, turn, message_log,
             if drop_inventory:
                 for i in drop_inventory.items:
                     entities.append(drop_inventory.drop_item(i)[0].get("item_dropped"))
+
+            if stepped_on_trap:
+                if not stepped_on_trap.revealed:
+                    stepped_on_trap.set_reveal(True)
+                    """
+                    damage_taken = die(stepped_on_trap.trap.damage[0],
+                                       stepped_on_trap.trap.damage[1])
+                    """
+                    damage_taken = randint(1, 4)
+                    message_log.add_message(Message(
+                        'You step on a trap of hidden spikes, taking {0} points of damage!'.format(
+                            damage_taken), libtcod.yellow))
+                    player.fighter.take_damage(damage_taken)
+
+            if detect_traps:
+                traps_found = False
+                for e in entities:
+                    if e.trap:
+                        e.trap.set_reveal(True)
+                        traps_found = True
+                if traps_found:
+                    message_log.add_message(Message(
+                        "You become aware of the presence of traps on this floor!", libtcod.white
+                    ))
                     
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
