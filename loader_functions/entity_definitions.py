@@ -189,7 +189,7 @@ def load_items():
             classification = item.get("classification")
 
             if item_id == "dungeon_star":
-                equipment_component = Equippable("head", defense_bonus=1)
+                equipment_component = Equippable("head", armor_bonus=1)
                 animation_component = Animation(['['], [libtcod.white, libtcod.red,
                                                         libtcod.green, libtcod.blue], 0.333)
                 
@@ -230,17 +230,20 @@ def load_items():
                     potential_slot = item.get("equipment").get("slot")
                     if potential_slot in equipment_types:
                         slot = potential_slot
+                        
+                    hit_dice = [0, 0]
+                    if item.get("equipment").get("hit_dice_count") and item.get("equipment").get("hit_dice_side_count"):
+                        count = item.get("equipment").get("hit_dice_count")
+                        side_count = item.get("equipment").get("hit_dice_count")
+                        hit_dice = [count, side_count]
                     
-                    power_bonus = 0
-                    if item.get("equipment").get("power_bonus"):
-                        power_bonus = item.get("equipment").get("power_bonus")
-                    
-                    defense_bonus = 0
-                    if item.get("equipment").get("defense_bonus"):
-                        defense_bonus = item.get("equipment").get("defense_bonus")
+                    armor_bonus = 0
+                    if item.get("equipment").get("armor_bonus"):
+                        armor_bonus = item.get("equipment").get("armor_bonus")
 
                     if slot:
-                        equipment_component = Equippable(slot, power_bonus=power_bonus, defense_bonus=defense_bonus)
+                        equipment_component = Equippable(slot, hit_dice=hit_dice,
+                                                         armor_bonus=armor_bonus)
 
                 item_component = None
                 if positional or food_component:

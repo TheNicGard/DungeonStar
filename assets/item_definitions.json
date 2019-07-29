@@ -163,7 +163,7 @@
 	"weight": 2,
 	"equipment": {
 	    "slot": "main_hand",
-	    "power_bonus": 2
+	    "hit_dice": "1d4"
 	},
 	"spawn_rate": [[5, 2]],
 	"classification": ["weapon", "short_blade"]

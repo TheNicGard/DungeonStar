@@ -1,3 +1,4 @@
+from rpg_mechanics import die
 
 class Equipment:
     def __init__(self, slots={}):
@@ -13,34 +14,23 @@ class Equipment:
                 temp_str += "Equipped to the \"" + v + "\" is a " + k.name + ". "
                 
         return temp_str
-                
+
+    def make_attack(self):
+        damage = 0
+
+        for slot in self.slots.values():
+            if slot and slot.equippable:
+                damage += die(slot.equippable.hit_dice[0], slot.equippable.hit_dice[1])
+
+        return damage
+
     @property
-    def max_hp_bonus(self):
+    def armor_bonus(self):
         bonus = 0
 
         for slot in self.slots.values():
             if slot and slot.equippable:
-                bonus += slot.equippable.max_hp_bonus
-
-        return bonus
-
-    @property
-    def power_bonus(self):
-        bonus = 0
-
-        for slot in self.slots.values():
-            if slot and slot.equippable:
-                bonus += slot.equippable.power_bonus
-
-        return bonus
-
-    @property
-    def defense_bonus(self):
-        bonus = 0
-
-        for slot in self.slots.values():
-            if slot and slot.equippable:
-                bonus += slot.equippable.defense_bonus
+                bonus += slot.equippable.armor_bonus
 
         return bonus
 

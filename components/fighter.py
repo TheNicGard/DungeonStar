@@ -5,7 +5,7 @@ from entity import Entity
 from game_messages import Message
 from random import choice, randint
 from render_functions import RenderOrder
-from rpg_mechanics import attack_success, d20, get_modifier
+from rpg_mechanics import attack_success, die, get_modifier
 
 class Fighter:
     def __init__(self, strength, dexterity, constitution,
@@ -21,7 +21,7 @@ class Fighter:
         self.fixed_max_hp = fixed_max_hp
         self.hp = self.max_hp
 
-        # self.size = size
+        # self.size = size, adjusts attack bonus
         
         self.xp = xp
         self.max_gold_drop = max_gold_drop
@@ -38,7 +38,7 @@ class Fighter:
         if self.fixed_max_hp is not None:
             hp = self.fixed_max_hp
         else:
-            hp = 12
+            hp = 12 + get_modifier(self.constitution)
         return hp
 
     @property
@@ -47,8 +47,10 @@ class Fighter:
 
     @property
     def armor_class(self):
-        # add armor and shield bonuses
-        return 10 + get_modifier(self.dexterity)
+        if self.owner and self.owner.equipment:
+            return 10 + get_modifier(self.dexterity) + self.owner.equipment.armor_bonus
+        else:
+            return 10 + get_modifier(self.dexterity)
             
     def take_damage(self, amount):
         results = []
@@ -79,8 +81,9 @@ class Fighter:
 
         success = attack_success(self.attack_bonus, target.fighter.armor_class)
 
-        damage = 10
-        #damage = self.power - target.fighter.defense
+        damage = get_modifier(self.strength)
+        if self.owner.equipment:
+            damage += self.owner.equipment.make_attack()
 
         if damage > 0:
             target.fighter.take_damage(damage)
