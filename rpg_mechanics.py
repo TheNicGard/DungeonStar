@@ -24,6 +24,15 @@ def attack_success(attack_bonus, armor_class):
         if (roll + attack_bonus) >= armor_class or roll == 20:
             return True
     return False
-        
+
+def str_to_dice(dice_string):
+    # use later for converting values in item loading, regex
+    return [[0, 0]]
+
+def dice_to_str(dice):
+    dice_string = ""
+    for d in dice:
+        dice_string += d[0] + "d" + d[1] + " "
+    return dice_string
         
     

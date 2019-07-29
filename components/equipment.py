@@ -18,11 +18,16 @@ class Equipment:
     def make_attack(self):
         damage = 0
 
-        for slot in self.slots.values():
-            if slot and slot.equippable:
-                damage += die(slot.equippable.hit_dice[0], slot.equippable.hit_dice[1])
-
-        return damage
+        if self.slots.get("main_hand") is None and self.slots.get("off_hand") is None:
+            return die(1, 3)
+        else:
+            if self.slots.get("main_hand") and self.slots.get("main_hand").equippable:
+                damage += die(self.slots.get("main_hand").equippable.hit_dice[0],
+                              self.slots.get("main_hand").equippable.hit_dice[1])
+                if self.slots.get("off_hand") and self.slots.get("off_hand").equippable:
+                    damage += die(self.slots.get("off_hand").equippable.hit_dice[0],
+                                  self.slots.get("off_hand").equippable.hit_dice[1])
+            return damage
 
     @property
     def armor_bonus(self):
