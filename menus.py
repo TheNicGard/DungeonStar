@@ -157,6 +157,7 @@ def character_screen(player, character_screen_width, screen_width, screen_height
         "Wisdom:       {0}".format(display_ability(player.fighter.wisdom)),
         "Charisma:     {0}".format(display_ability(player.fighter.charisma)),
         '',
+        "Armor class: {0}".format(player.fighter.armor_class),
         'Gold: {0}'.format(player.inventory.gold_carried)
     ]
     
