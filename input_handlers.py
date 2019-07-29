@@ -123,11 +123,17 @@ def handle_level_up_menu(key):
         key_char = chr(key.c)
 
         if key_char == 'a':
-            return {'level_up': 'hp'}
+            return {'level_up': 'STR'}
         if key_char == 'b':
-            return {'level_up': 'str'}
+            return {'level_up': 'DEX'}
         if key_char == 'c':
-            return {'level_up': 'def'}
+            return {'level_up': 'CON'}
+        if key_char == 'd':
+            return {'level_up': 'INT'}
+        if key_char == 'e':
+            return {'level_up': 'WIS'}
+        if key_char == 'f':
+            return {'level_up': 'CHA'}
     return {}
 
 def handle_character_screen(key):

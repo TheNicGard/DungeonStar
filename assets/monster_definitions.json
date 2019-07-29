@@ -129,8 +129,12 @@
 	"symbol": 2,
 	"fighter": {
 	    "hp": 1,
-	    "power": 0,
-	    "defense": 0,
+	    "STR": 1,
+	    "DEX": 1,
+	    "CON": 1,
+	    "INT": 1,
+	    "WIS": 1,
+	    "CHA": 1,
 	    "xp": 400,
 	    "max_gold_drop": 0,
 	    "golden": false

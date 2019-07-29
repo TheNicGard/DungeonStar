@@ -231,13 +231,19 @@ def play_game(player, entities, game_map, turn, message_log,
                 player_turn_results.extend(player.inventory.drop_item(item))
 
         if level_up:
-            if level_up == 'hp':
-                player.fighter.base_max_hp += 20
-                player.fighter.hp += 20
-            elif level_up == 'str':
-                player.fighter.base_power += 1
-            elif level_up == 'def':
-                player.fighter.base_defense += 1
+            if level_up == 'STR':
+                player.fighter.strength += 1
+            if level_up == 'DEX':
+                player.fighter.dexterity += 1
+            if level_up == 'CON':
+                player.fighter.constitution += 1
+            if level_up == 'INT':
+                player.fighter.intelligence += 1
+            if level_up == 'WIS':
+                player.fighter.wisdom += 1
+            if level_up == 'CHA':
+                player.fighter.charisma += 1
+
             game_state = previous_game_state
 
         if show_character_screen:

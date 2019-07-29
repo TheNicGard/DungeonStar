@@ -84,8 +84,13 @@ def load_monsters():
             
             if (monster_id and name and char and isinstance(color, list) and fighter and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
                 hp = fighter.get("hp")
-                defense = fighter.get("defense")
-                power = fighter.get("power")
+                
+                strength = fighter.get("STR")
+                dexterity = fighter.get("DEX")
+                constitution = fighter.get("CON")
+                intelligence = fighter.get("INT")
+                wisdom = fighter.get("WIS")
+                charisma = fighter.get("CHA")
 
                 xp = 0
                 if fighter.get("xp"):
@@ -141,10 +146,11 @@ def load_monsters():
                     else:
                         ai_component = SourdoughAI(min_spread_time, max_spread_time)
 
-                if hp is not None and defense is not None and power is not None:
+                if strength is not None and dexterity is not None and constitution is not None and intelligence is not None and wisdom is not None and charisma is not None:
                     chance_to_drop = 0.25
-                    fighter_component = Fighter(hp, defense, power, xp, golden,
-                                                chance_to_drop_corpse=chance_to_drop,
+                    fighter_component = Fighter(strength, dexterity, constitution, intelligence,
+                                                wisdom, charisma, fixed_max_hp=hp, xp=xp,
+                                                golden=golden, chance_to_drop_corpse=chance_to_drop,
                                                 max_gold_drop=max_gold_drop)
                     
                     monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, inventory=inventory_component, spawn_rate=spawn_rate)

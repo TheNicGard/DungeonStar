@@ -1,5 +1,7 @@
 import tcod as libtcod
 
+from rpg_mechanics import display_ability
+
 def menu(con, header, options, width, screen_width, screen_height):
     if len(options) > 26: raise ValueError('Cannot have a menu with more than 26 options')
 
@@ -115,9 +117,14 @@ def main_menu(con, background_image, screen_width, screen_height, lowest_level, 
     
 
 def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
-    options = ['Constitution (+20 HP, from {0})'.format(player.fighter.max_hp),
-               'Strength (+1 attack, from {0})'.format(player.fighter.power),
-               'Agility (+1 defense, from {0})'.format(player.fighter.defense)]
+    options = [
+        'Strength (from {0})'.format(player.fighter.strength),
+        'Dexterity (from {0})'.format(player.fighter.dexterity),
+        'Constitution (from {0})'.format(player.fighter.constitution),
+        'Intelligence (from {0})'.format(player.fighter.intelligence),
+        'Wisdom (from {0})'.format(player.fighter.wisdom),
+        'Charisma (from {0})'.format(player.fighter.charisma)
+    ]
     menu(con, header, options, menu_width, screen_width, screen_height)
 
 def message_box(con, header, screen_width, screen_height):
@@ -141,10 +148,14 @@ def character_screen(player, character_screen_width, screen_width, screen_height
         'Level: {0}'.format(player.level.current_level),
         'Experience: {0}'.format(player.level.current_xp),
         'Experience to level up: {0}'.format(player.level.experience_to_next_level),
-        '',
         'Maximum HP: {0}'.format(player.fighter.max_hp),
-        'Attack: {0}'.format(player.fighter.power),
-        'Defense: {0}'.format(player.fighter.defense),
+        '',
+        "Strength:     {0}".format(display_ability(player.fighter.strength)),
+        "Dexterity:    {0}".format(display_ability(player.fighter.dexterity)),
+        "Constitution: {0}".format(display_ability(player.fighter.constitution)),
+        "Intelligence: {0}".format(display_ability(player.fighter.intelligence)),
+        "Wisdom:       {0}".format(display_ability(player.fighter.wisdom)),
+        "Charisma:     {0}".format(display_ability(player.fighter.charisma)),
         '',
         'Gold: {0}'.format(player.inventory.gold_carried)
     ]
