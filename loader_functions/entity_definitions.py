@@ -14,7 +14,7 @@ from components.inventory import Inventory
 from components.item import Item
 from entity import Entity
 from game_messages import Message
-from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed
+from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps
 from random import random
 from render_functions import RenderOrder
 
@@ -159,7 +159,7 @@ def load_items():
     item_function_names = [
         heal, cast_fireball, cast_lightning,
         cast_confuse, cast_stun, cast_sleep,
-        cast_greed, invisible
+        cast_greed, invisible, cast_detect_traps
     ]
 
     equipment_types = [
@@ -204,7 +204,7 @@ def load_items():
                     max_age = item.get("max_age")
                     
                 use_function = None
-                use_function_name = item.get("use_function")
+                use_function_name = item.get("use_function")                
 
                 for f in item_function_names:
                     if f.__name__ == use_function_name:
@@ -238,7 +238,8 @@ def load_items():
 
                 item_component = None
                 if positional or food_component:
-                    item_component = Item(1, age=age, max_age=max_age, use_function=use_function, targeting=targeting, **positional)
+                    item_component = Item(1, age=age, max_age=max_age, use_function=use_function,
+                                          targeting=targeting, **positional)
 
                 item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, food=food_component, spawn_rate=spawn_rate)
                 item_defs[item_id] = item

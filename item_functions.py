@@ -194,3 +194,8 @@ def cast_greed(*args, **kwargs):
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 
     return results
+
+def cast_detect_traps(*args, **kwargs):
+    results = []
+    results.append({"consumed": True, "detect_traps": True})
+    return results

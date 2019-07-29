@@ -156,6 +156,21 @@
     },
 
     {
+	"item_id": "detect_traps_scroll",
+	"name": "scroll of Detect Traps",
+	"color": [255, 0, 0],
+	"symbol": "?",
+	"weight": 1,
+	"use_function": "cast_detect_traps",
+	"targeting": false,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[10, 6]],
+	"classification": ["scroll"]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],
