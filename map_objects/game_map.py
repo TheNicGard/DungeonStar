@@ -4,6 +4,7 @@ from components.door import Door, DoorPosition
 from components.item import Item
 from components.sign import Sign
 from components.stairs import Stairs
+from components.trap import Trap
 from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
@@ -183,14 +184,22 @@ class GameMap:
                     elif piece[0:6] == "sign: ":
                         sign_component = Sign(piece[6:])
                         sign = Entity("sign", data_x, data_y, "|", libtcod.blue,
-                                             'Sign', blocks=False, render_order=RenderOrder.SIGN, sign=sign_component)
+                                             'Sign', blocks=False, render_order=RenderOrder.SIGN,
+                                      sign=sign_component)
                         entities.append(sign)
                     elif piece == "door":
                         door_component = Door(False, DoorPosition.VERTICAL)
                         door = Entity("door", data_x, data_y, "+", libtcod.lightest_grey,
-                                             'Door', blocks=True, render_order=RenderOrder.DOOR, door=door_component)
+                                             'Door', blocks=True, render_order=RenderOrder.DOOR,
+                                      door=door_component)
                         door.door.close_door(self.tiles[data_x][data_y])
                         entities.append(door)
+                    elif piece == "trap":
+                        trap_component = Trap()
+                        trap = Entity("trap", data_x, data_y, " ", libtcod.red,
+                                             'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                        entities.append(trap)
                     elif piece in item_defs:
                         item = get_item(piece, data_x, data_y)
                         entities.append(item)

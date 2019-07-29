@@ -8,8 +8,8 @@ class Entity:
                  render_order = RenderOrder.CORPSE, fighter=None, ai=None,
                  item=None, inventory=None, stairs=None, level=None,
                  equipment=None, equippable=None, valuable=None, door=None,
-                 animation=None, hunger=None, food=None, classification=[],
-                 sign=None):
+                 animation=None, hunger=None, food=None, trap=None,
+                 classification=[], sign=None):
         self.id = id
         self.x = x
         self.y = y
@@ -32,6 +32,7 @@ class Entity:
         self.animation = animation
         self.hunger = hunger
         self.food = food
+        self.trap = trap
         self.classification = classification
         self.sign = sign
 
@@ -65,6 +66,8 @@ class Entity:
             self.hunger.owner = self
         if self.sign:
             self.sign.owner = self
+        if self.trap:
+            self.trap.owner = self
 
     def __str__(self):
         return "Entity \'{0}\' is represented by {1} at location ({2}, {3}).".format(self.name, self.char, self.x, self.y)
