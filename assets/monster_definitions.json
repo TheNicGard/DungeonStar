@@ -1,13 +1,41 @@
 [
     {
+	"monster_id": "dummy",
+	"name": "Training Dummy",
+	"color": [255, 255, 255],
+	"symbol": 2,
+	"fighter": {
+	    "hp": 1,
+	    "STR": 1,
+	    "DEX": 1,
+	    "CON": 1,
+	    "INT": 1,
+	    "WIS": 1,
+	    "CHA": 1,
+	    "xp": 400,
+	    "max_gold_drop": 0,
+	    "golden": false
+	},
+	"ai": "DummyMonster",
+	"spawn_rate": [[0, 0]]
+    },
+    
+    {
 	"monster_id": "rat",
 	"name": "Rat",
 	"color": [159, 159, 159],
 	"symbol": "r",
 	"fighter": {
-	    "hp": 15,
-	    "power": 4,
-	    "defense": 0,
+	    "hp": 4,
+	    "STR": 10,
+	    "DEX": 10,
+	    "CON": 10,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 1,
+	    "attacks": [
+		[1, 4]
+	    ],
 	    "xp": 10,
 	    "max_gold_drop": 2,
 	    "golden": false
@@ -122,26 +150,7 @@
 	"ai": "BasicMonster",
 	"spawn_rate": [[2, 1]]
     },
-    {
-	"monster_id": "dummy",
-	"name": "Training Dummy",
-	"color": [255, 255, 255],
-	"symbol": 2,
-	"fighter": {
-	    "hp": 1,
-	    "STR": 1,
-	    "DEX": 1,
-	    "CON": 1,
-	    "INT": 1,
-	    "WIS": 1,
-	    "CHA": 1,
-	    "xp": 400,
-	    "max_gold_drop": 0,
-	    "golden": false
-	},
-	"ai": "DummyMonster",
-	"spawn_rate": [[0, 0]]
-    },
+    
     {
 	"monster_id": "mother_dough",
 	"name": "Mother Dough",

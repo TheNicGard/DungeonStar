@@ -20,6 +20,8 @@ class Fighter:
         
         self.fixed_max_hp = fixed_max_hp
         self.hp = self.max_hp
+        self.attack_list = []
+        self.proficiency = 2 #needs to scale with level
 
         # self.size = size, adjusts attack bonus
         
@@ -43,7 +45,7 @@ class Fighter:
 
     @property
     def attack_bonus(self):
-        return get_modifier(self.strength)
+        return get_modifier(self.strength) + self.proficiency
 
     @property
     def armor_class(self):
@@ -51,6 +53,12 @@ class Fighter:
             return 10 + get_modifier(self.dexterity) + self.owner.equipment.armor_bonus
         else:
             return 10 + get_modifier(self.dexterity)
+
+    def add_attack(self, dice):
+        self.attack_list.append(dice)
+        
+    def select_attack(self):
+        return choice(self.attack_list)
             
     def take_damage(self, amount):
         results = []
@@ -81,12 +89,18 @@ class Fighter:
 
         success = attack_success(self.attack_bonus, target.fighter.armor_class)
 
-        damage = get_modifier(self.strength)
-        if self.owner.equipment:
-            damage += self.owner.equipment.make_attack()
+        if success:
+            damage = get_modifier(self.strength)
+            if self.owner.equipment:
+                equipment_damage = self.owner.equipment.make_attack()
+                damage += equipment_damage
+            elif len(self.attack_list) > 0:
+                dice = self.select_attack()
+                roll = die(dice[0], dice[1])
+                damage += roll
+            if damage <= 0:
+                damage = 1
 
-        if damage > 0:
-            target.fighter.take_damage(damage)
             results.append({
                 'message': Message('{0} attacks {1} for {2} hit points.'.format(
                     self.owner.name.capitalize(), target.name, str(damage)),
@@ -94,9 +108,8 @@ class Fighter:
             results.extend(target.fighter.take_damage(damage))
         else:
             results.append({
-                'message': Message('{0} attacks {1} but does no damage.'.format(
-                    self.owner.name.capitalize(), target.name),
-                libtcod.white)})
+                'message': Message('{0} attacks {1} but misses.'.format(
+                    self.owner.name.capitalize(), target.name), libtcod.white)})
         return results
 
     def get_gold(self):

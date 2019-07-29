@@ -62,11 +62,11 @@ class GameMap:
         ])
 
         monster_chances = {}
-        for key, value in self.monster_defs.items():
+        for key, value in monster_defs.items():
             monster_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
 
         item_chances = {}
-        for key, value in self.item_defs.items():
+        for key, value in item_defs.items():
             item_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
         
         for i in range(number_of_monsters):

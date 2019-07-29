@@ -451,10 +451,10 @@ def tick_turn(turn, player, entities):
 
     if player.hunger.saturation > player.hunger.hungry_saturation:
         if turn % 10 == 0:
-            player.fighter.heal(2)
+            player.fighter.heal(1)
     elif player.hunger.saturation > player.hunger.starving_saturation:
         if turn % 20 == 0:
-            player.fighter.heal(2)
+            player.fighter.heal(1)
                 
     return turn + 1
                 
