@@ -59,6 +59,8 @@ def handle_player_turn_keys(key):
         return {'show_help_screen': True}
     elif key_char == ';':
         return {'look_at': True}
+    elif key_char == 'x':
+        return {'butcher': True}
     
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}

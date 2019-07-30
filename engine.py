@@ -1,7 +1,9 @@
 #!/usr/bin/python3 -Wignore
 import tcod as libtcod
 from components.animation import Animation
+from components.food import Food
 from components.hunger import HungerType
+from components.item import Item
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location, Entity, get_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
@@ -146,6 +148,7 @@ def play_game(player, entities, game_map, turn, message_log,
         show_help_screen = action.get('show_help_screen')
         look_at = action.get("look_at")
         look_at_entity = action.get("look_at_entity")
+        butcher = action.get("butcher")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -218,6 +221,22 @@ def play_game(player, entities, game_map, turn, message_log,
                         break
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
+            elif butcher:
+                entities_in_loc = get_entities_at_location(entities, destination_x, destination_y)
+                for e in entities_in_loc:
+                    if "corpse" in e.classification:
+                        item = Entity("flesh_of_" + e.id, e.x, e.y, "%", e.color,
+                                    e.name[11:] + " flesh", weight=1,
+                                    item=Item(1, max_age=300),
+                                    food=Food(300))
+                        message_log.add_message(Message("You butcher the flesh of the " +
+                                                        e.name[11:] + ".", libtcod.white))
+                        e.char = ','
+                        e.name = 'bits of ' + e.name[11:]
+                        # using 11: as a means to remove "remains of " is messy
+                        e.classification.remove("corpse")
+                        e.classification.append("corpse_bits")
+                        player.inventory.add_item(item)
                     
         if show_inventory:
             previous_game_state = game_state
