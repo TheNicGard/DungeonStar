@@ -34,5 +34,19 @@ def dice_to_str(dice):
     for d in dice:
         dice_string += d[0] + "d" + d[1] + " "
     return dice_string
+
+def advantage_roll(num_rolls, keep_rolls, count, side_count):
+    if num_rolls <= 1:
+        return die(count, side_count)
+    else:
+        rolls = []
+        for r in range(num_rolls):
+            rolls.append(die(count, side_count))
+        total = 0
+        for r in range(keep_rolls):
+            temp_roll = max(rolls)
+            total += temp_roll
+            rolls.remove(temp_roll)
+        return total
         
     
