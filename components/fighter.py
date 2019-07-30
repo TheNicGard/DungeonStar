@@ -10,7 +10,8 @@ from rpg_mechanics import attack_success, die, get_modifier
 class Fighter:
     def __init__(self, strength, dexterity, constitution,
                  intelligence, wisdom, charisma, fixed_max_hp=None,
-                 xp=0, golden=False, chance_to_drop_corpse=0, max_gold_drop=0):
+                 xp=0, golden=False, chance_to_drop_corpse=0, max_gold_drop=0,
+                 attack_list=None):
         self.strength = strength
         self.dexterity = dexterity
         self.constitution = constitution
@@ -30,6 +31,7 @@ class Fighter:
         self.status = {}
         self.status["golden"] = golden
         self.chance_to_drop_corpse = chance_to_drop_corpse
+        self.attack_list = attack_list
 
     def __str__(self):
         return "... NYI ..."
@@ -54,9 +56,6 @@ class Fighter:
         else:
             return 10 + get_modifier(self.dexterity)
 
-    def add_attack(self, dice):
-        self.attack_list.append(dice)
-        
     def select_attack(self):
         return choice(self.attack_list)
             
@@ -96,7 +95,7 @@ class Fighter:
                 damage += equipment_damage
             elif len(self.attack_list) > 0:
                 dice = self.select_attack()
-                roll = die(dice[0], dice[1])
+                roll = die(dice.count, dice.side_count)
                 damage += roll
             if damage <= 0:
                 damage = 1

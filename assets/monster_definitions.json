@@ -34,7 +34,7 @@
 	    "WIS": 4,
 	    "CHA": 1,
 	    "attacks": [
-		[1, 4]
+		[1, 4, 0]
 	    ],
 	    "xp": 10,
 	    "max_gold_drop": 2,

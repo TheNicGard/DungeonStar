@@ -7,6 +7,7 @@ import shelve
 import tcod as libtcod
 from components.ai import BasicMonster, AggressiveMonster, DummyMonster, ConfusedMonster, SoftStoppedMonster, HardStoppedMonster, MotherDoughAI, SourdoughAI, StaticMonster
 from components.animation import Animation
+from components.attacks import Attack
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.food import Food
@@ -146,12 +147,18 @@ def load_monsters():
                     else:
                         ai_component = SourdoughAI(min_spread_time, max_spread_time)
 
+                attack_list = None
+                if fighter.get("attacks"):
+                    attack_list = []
+                    for a in fighter.get("attacks"):
+                        attack_list.append(Attack(a[0], a[1], a[2]))
+
                 if strength is not None and dexterity is not None and constitution is not None and intelligence is not None and wisdom is not None and charisma is not None:
                     chance_to_drop = 0.25
                     fighter_component = Fighter(strength, dexterity, constitution, intelligence,
                                                 wisdom, charisma, fixed_max_hp=hp, xp=xp,
                                                 golden=golden, chance_to_drop_corpse=chance_to_drop,
-                                                max_gold_drop=max_gold_drop)
+                                                max_gold_drop=max_gold_drop, attack_list=attack_list)
                     
                     monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, inventory=inventory_component, spawn_rate=spawn_rate)
                     monster_defs[monster_id] = monster
