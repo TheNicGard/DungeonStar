@@ -152,9 +152,6 @@ def load_monsters():
                                                 wisdom, charisma, fixed_max_hp=hp, xp=xp,
                                                 golden=golden, chance_to_drop_corpse=chance_to_drop,
                                                 max_gold_drop=max_gold_drop)
-                    if type(fighter.get("attacks")) is list:
-                        for a in fighter.get("attacks"):
-                            fighter_component.add_attack(a)
                     
                     monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, inventory=inventory_component, spawn_rate=spawn_rate)
                     monster_defs[monster_id] = monster
