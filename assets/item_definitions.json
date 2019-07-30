@@ -336,7 +336,7 @@
     {
 	"item_id": "english_nachos",
 	"name": "\"English Nachos\"",
-	"color": [191, 143, 0],
+	"color": [64, 32, 0],
 	"symbol": "%",
 	"weight": 1,
 	"targeting": false,

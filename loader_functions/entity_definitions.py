@@ -180,8 +180,11 @@ def load_items():
             color = item.get("color")
             weight = item.get("weight")
             spawn_rate = item.get("spawn_rate")
-            classification = item.get("classification")
-
+            
+            classification = []
+            for c in item.get("classification"):
+                classification.append(c)
+            
             if item_id == "dungeon_star":
                 equipment_component = Equippable("head", defense_bonus=1)
                 animation_component = Animation(['['], [libtcod.white, libtcod.red,
@@ -198,9 +201,8 @@ def load_items():
                 if item.get("nutrition"):
                     food_component = Food(item.get("nutrition"))
                 
-                age = item.get("age")
                 max_age = None
-                if age:
+                if item.get("max_age"):
                     max_age = item.get("max_age")
                     
                 use_function = None
@@ -238,7 +240,7 @@ def load_items():
 
                 item_component = None
                 if positional or food_component:
-                    item_component = Item(1, age=age, max_age=max_age, use_function=use_function,
+                    item_component = Item(1, max_age=max_age, use_function=use_function,
                                           targeting=targeting, **positional)
 
                 item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, food=food_component, spawn_rate=spawn_rate)
