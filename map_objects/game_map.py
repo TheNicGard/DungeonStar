@@ -117,9 +117,18 @@ class GameMap:
                 if not self.is_blocked(x, y):
                     take_gold = randint(0, amount_of_gold)
                     amount_of_gold -= take_gold
-                    gold = Entity("gold", x, y, '$', libtcod.gold, 'Gold',
-                                  render_order=RenderOrder.GOLD,
-                                  valuable=Valuable(take_gold))
+                    if take_gold < 20:
+                        gold = Entity("gold", x, y, '$', libtcod.dark_sepia, 'Copper',
+                                      render_order=RenderOrder.GOLD,
+                                      valuable=Valuable(take_gold))
+                    elif take_gold < 75:
+                        gold = Entity("gold", x, y, '$', libtcod.silver, 'Silver',
+                                      render_order=RenderOrder.GOLD,
+                                      valuable=Valuable(take_gold))
+                    else:
+                        gold = Entity("gold", x, y, '$', libtcod.gold, 'Gold',
+                                      render_order=RenderOrder.GOLD,
+                                      valuable=Valuable(take_gold))
                     if gold.valuable.value:
                         entities.append(gold)
                     
