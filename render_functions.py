@@ -40,7 +40,26 @@ def render_bar(panel, x, y, total_width, value, maximum, bar_color, back_color):
     
     libtcod.console_rect(panel, x, y, total_width, 1, False, libtcod.BKGND_NONE)
 
-def render_status_panel(panel, x, y, width, height, player, entities, game_map, turn):
+def get_health_color(hp, max_hp):
+    hp_ratio = hp / max_hp
+
+    if hp_ratio <= 0.5:
+        r_value = 255
+    else:
+        r_value = max(0, int((-511 * hp_ratio) + 511))
+        
+    if hp_ratio >= 0.5:
+        g_value = 255
+    else:
+        g_value = max(0, int(511 * hp_ratio))
+
+    return [r_value, g_value, 0]
+    
+def render_status_panel(panel, x, y, width, height, player, entities, game_map, fov_map, turn):
+    for tmp_x in range(width):
+        for tmp_y in range(height):
+            libtcod.console_put_char(panel, x + tmp_x, y + tmp_y, ' ', libtcod.BKGND_NONE)
+            
     libtcod.console_set_default_background(panel, libtcod.darkest_grey)
     libtcod.console_rect(panel, x, y, width, height, False, libtcod.BKGND_SET)
 
@@ -60,8 +79,38 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
         libtcod.console_print_ex(panel, x + 1, y + 6, libtcod.BKGND_NONE, libtcod.LEFT,
                                  '{0}'.format(player.hunger.status))
 
+    entities_in_fov = entity_in_fov_list(entities, game_map, fov_map)
+    index = 0
+    for e in entities_in_fov:
+        # Entity char
+        libtcod.console_set_default_foreground(panel, e.color)
+        libtcod.console_put_char(panel, x + 1, y + 8 + index, e.char, libtcod.BKGND_NONE)
+
+        # Entity health
+        health_color = [0, 0, 0]
+        libtcod.console_set_default_foreground(panel, get_health_color(e.fighter.hp, e.fighter.max_hp))
+        libtcod.console_put_char(panel, x + 3, y + 8 + index, chr(219), libtcod.BKGND_NONE)
+        
+        # Entity name
+        libtcod.console_set_default_foreground(panel, libtcod.white)
+        libtcod.console_print_ex(panel, x + 5, y + 8 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+                                 e.name)
+        index += 1
+
     libtcod.console_set_default_background(panel, libtcod.black)
 
+def entity_in_fov_list(entities, game_map, fov_map):
+    entities_in_fov = []
+    
+    for entity in entities:
+        if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) and game_map.tiles[entity.x][entity.y].explored:
+            if entity.fighter and entity.ai:
+                if entity.fighter.status.get("invisible") and entity.fighter.status.get("invisible") <= 0:
+                    entities_in_fov.append(entity)
+                else:
+                    entities_in_fov.append(entity)
+    # can't get always visible status
+    return entities_in_fov
     
 def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, turn,
                message_log, screen_width, screen_height, bar_width, panel_height, panel_y,
@@ -124,7 +173,7 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
         y += 1
 
     ### STATUS PANEL ###
-    render_status_panel(con, screen_width - status_screen_width, 0, status_screen_width, status_screen_height, player, entities, game_map, turn)
+    render_status_panel(con, screen_width - status_screen_width, 0, status_screen_width, status_screen_height, player, entities, game_map, fov_map, turn)
 
     if game_state == GameStates.LOOK_AT:
         libtcod.console_print_ex(panel, 1, 6, libtcod.BKGND_NONE, libtcod.LEFT,
