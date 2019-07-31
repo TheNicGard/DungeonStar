@@ -16,8 +16,11 @@ from render_functions import RenderOrder
 def get_constants():
     window_title = 'Dungeon Star'
 
-    screen_width = 80
+    screen_width = 100
     screen_height = 50
+
+    status_screen_width = 20
+    status_screen_height = 50
 
     bar_width = 20
     panel_height = 7
@@ -70,7 +73,9 @@ def get_constants():
         'fov_algorithm': fov_algorithm,
         'fov_light_walls': fov_light_walls,
         'fov_radius': fov_radius,
-        'colors': colors
+        'colors': colors,
+        'status_screen_width': status_screen_width,
+        'status_screen_height': status_screen_height
     }
 
     return constants

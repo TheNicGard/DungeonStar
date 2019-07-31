@@ -22,7 +22,7 @@ def get_names_under_mouse(mouse, entities, fov_map):
 
     return names.capitalize()
     
-def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_color):
+def render_bar(panel, x, y, total_width, value, maximum, bar_color, back_color):
     bar_width = int(float(value) / maximum * total_width)
 
     libtcod.console_set_default_background(panel, back_color)
@@ -34,11 +34,27 @@ def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_c
 
     libtcod.console_set_default_foreground(panel, libtcod.white)
     libtcod.console_print_ex(panel, int(x + total_width / 2), y, libtcod.BKGND_NONE, libtcod.CENTER,
-                             '{0}: {1}/{2}'.format(name, value, maximum))
+                             '{0}/{1}'.format(value, maximum))
+    
+    libtcod.console_rect(panel, x, y, total_width, 1, False, libtcod.BKGND_NONE)
+
+def render_status_panel(panel, x, y, width, height, player, entities):
+    libtcod.console_set_default_background(panel, libtcod.darkest_grey)
+    libtcod.console_rect(panel, x, y, width, height, False, libtcod.BKGND_SET)
+
+    libtcod.console_set_default_foreground(panel, libtcod.white)
+    libtcod.console_print_ex(panel, int(x + width / 2), y, libtcod.BKGND_NONE, libtcod.CENTER, "The Rogue")
+
+    libtcod.console_print_ex(panel, x + 1, y + 2, libtcod.BKGND_NONE, libtcod.LEFT, "HP")
+    render_bar(panel, x + 4, y + 2, width - 5, player.fighter.hp, player.fighter.max_hp,
+               libtcod.light_red, libtcod.darker_red)
+
+    libtcod.console_set_default_background(panel, libtcod.black)
+
     
 def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, turn,
                message_log, screen_width, screen_height, bar_width, panel_height, panel_y,
-               mouse, colors, game_state, cursor, config):
+               mouse, colors, game_state, cursor, config, status_screen_width, status_screen_height):
     if fov_recompute:
         for y in range(game_map.height):
             for x in range(game_map.width):
@@ -96,8 +112,9 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
         libtcod.console_print_ex(panel, message_log.x, y, libtcod.BKGND_NONE, libtcod.LEFT, message.text)
         y += 1
 
-    render_bar(panel, 1, 1, bar_width, 'HP', player.fighter.hp, player.fighter.max_hp,
-               libtcod.light_red, libtcod.darker_red)
+    ######################################
+    render_status_panel(con, screen_width - status_screen_width, 0, status_screen_width, status_screen_height, player, entities)
+    
     libtcod.console_print_ex(panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,
                              'Dungeon level {0}'.format(game_map.dungeon_level))
     libtcod.console_print_ex(panel, 1, 4, libtcod.BKGND_NONE, libtcod.LEFT,
