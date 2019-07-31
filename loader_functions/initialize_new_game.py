@@ -16,15 +16,17 @@ from render_functions import RenderOrder
 def get_constants():
     window_title = 'Dungeon Star'
 
-    screen_width = 80
+    screen_width = 100
     screen_height = 50
 
-    bar_width = 20
-    panel_height = 7
-    panel_y = screen_height - panel_height
+    status_screen_width = 20
+    status_screen_height = 50
 
-    message_x = bar_width + 2
-    message_width = screen_width - bar_width - 2
+    panel_height = 6
+    panel_y = screen_height - panel_height - 1
+
+    message_x = 1
+    message_width = screen_width - status_screen_width - 1
     message_height = panel_height - 1
     
     map_width = 80
@@ -56,7 +58,6 @@ def get_constants():
         'window_title': window_title,
         'screen_width': screen_width,
         'screen_height': screen_height,
-        'bar_width': bar_width,
         'panel_height': panel_height,
         'panel_y': panel_y,
         'message_x': message_x,
@@ -70,7 +71,9 @@ def get_constants():
         'fov_algorithm': fov_algorithm,
         'fov_light_walls': fov_light_walls,
         'fov_radius': fov_radius,
-        'colors': colors
+        'colors': colors,
+        'status_screen_width': status_screen_width,
+        'status_screen_height': status_screen_height
     }
 
     return constants
