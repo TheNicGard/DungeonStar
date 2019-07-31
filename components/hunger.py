@@ -35,7 +35,7 @@ class Hunger:
                 'message': Message(
                     choice([
                         "You're stuffed!", "You couldn't eat another bite!",
-                        "Any more food would give you a really tummy ache!"
+                        "Any more food would give you a really bad tummy ache!"
                     ])
                 )})
             else:
