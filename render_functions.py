@@ -127,6 +127,36 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
         character_screen(player, 30, screen_width, screen_height)
     elif game_state == GameStates.HELP_SCREEN:
         help_screen(50, screen_width, screen_height)
+
+def render_character_creation(con, panel, screen_width, screen_height, creation_menu, menu_cursor):
+    libtcod.console_clear(con)
+
+    header_index = 1
+    menu_index = 0
+    
+    for h, m in creation_menu.items():
+    
+        index = 0
+        libtcod.console_set_default_foreground(con, libtcod.white)
+        libtcod.console_print_ex(con, header_index, index + 1, libtcod.BKGND_NONE, libtcod.LEFT, h)
+        for item in m:
+            if menu_index == menu_cursor.index[0] and index == menu_cursor.index[1]:
+                libtcod.console_set_default_foreground(con, libtcod.black)
+                draw_background_rect(con, header_index, 2 + menu_cursor.index[1], len(h), 1, libtcod.white)
+            else:
+                libtcod.console_set_default_foreground(con, libtcod.white)
+            libtcod.console_print_ex(con, header_index, index + 2, libtcod.BKGND_NONE, libtcod.LEFT, item)
+            index += 1
+
+        header_index += len(h) + 2
+        menu_index += 1
+
+    libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
+
+def draw_background_rect(con, x, y, w, h, color):
+    for i in range (w):
+        for k in range(h):
+            libtcod.console_set_char_background(con, x + i, y + k, color, libtcod.BKGND_SET)
     
 def clear_all(con, entities, cursor):
     for entity in entities:

@@ -12,7 +12,8 @@ from loader_functions.entity_definitions import get_monster
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables
 from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores
 from menus import main_menu, message_box
-from render_functions import clear_all, render_all
+from menu_cursor import MenuCursor
+from render_functions import clear_all, render_all, render_character_creation
 
 def main():
     constants = get_constants()
@@ -70,7 +71,8 @@ def main():
                 show_load_error_message = False
             elif new_game:
                 player, entities, game_map, message_log, game_state, turn = get_game_variables(constants)
-                game_state = GameStates.PLAYERS_TURN
+                #game_state = GameStates.PLAYERS_TURN
+                game_state = GameStates.CHARACTER_CREATION
                 show_main_menu = False
             elif load_saved_game:
                 try:
@@ -105,6 +107,12 @@ def play_game(player, entities, game_map, turn, message_log,
 
     targeting_item = None
 
+    creation_menu = {
+        "Ability scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
+        "Select a starting item": ["+2 dagger (1d4)", "+1 leather helmet", "(standard kit)"]
+    }
+    creation_menu_cursor = MenuCursor(max_index=[5, 2])
+
     global lowest_level
     global highest_score
     
@@ -116,16 +124,20 @@ def play_game(player, entities, game_map, turn, message_log,
                           constants['fov_radius'], constants['fov_light_walls'],
                           constants['fov_algorithm'])
 
-        render_all(con, panel, entities, player, game_map, fov_map, fov_recompute,
-                   turn, message_log,
-                   constants['screen_width'], constants['screen_height'],
-                   constants['bar_width'], constants['panel_height'],
-                   constants['panel_y'], mouse, constants['colors'], game_state,
-                   key_cursor, {"CLASSIC_COLOR": False})
+        if game_state == GameStates.CHARACTER_CREATION:
+            render_character_creation(con, panel, constants['screen_width'], constants['screen_height'], creation_menu, creation_menu_cursor)
+            libtcod.console_flush()
+        else:
+            render_all(con, panel, entities, player, game_map, fov_map, fov_recompute,
+                       turn, message_log,
+                       constants['screen_width'], constants['screen_height'],
+                       constants['bar_width'], constants['panel_height'],
+                       constants['panel_y'], mouse, constants['colors'], game_state,
+                       key_cursor, {"CLASSIC_COLOR": False})
         
-        fov_recompute = False
-        libtcod.console_flush()
-        clear_all(con, entities, key_cursor)
+            fov_recompute = False
+            libtcod.console_flush()
+            clear_all(con, entities, key_cursor)
         
         action = handle_keys(key, game_state)
         mouse_action = handle_mouse(mouse)
@@ -139,11 +151,14 @@ def play_game(player, entities, game_map, turn, message_log,
         drop_inventory = action.get('drop_inventory')
         inventory_index = action.get('inventory_index')
         descend_stairs = action.get('descend_stairs')
+        ascend_stairs = action.get('ascend_stairs')
         level_up = action.get('level_up')
         show_character_screen = action.get('show_character_screen')
         show_help_screen = action.get('show_help_screen')
         look_at = action.get("look_at")
         look_at_entity = action.get("look_at_entity")
+        menu_selection = action.get("menu_selection")
+        accept = action.get("accept")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -306,6 +321,31 @@ def play_game(player, entities, game_map, turn, message_log,
         
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
+
+        if game_state == GameStates.CHARACTER_CREATION:
+            menu_selection = action.get("menu_selection")
+            increase = action.get("increase")
+            decrease = action.get("decrease")
+            accept = action.get("accept")
+
+            if menu_selection:
+                if menu_selection == "up" and creation_menu_cursor.index[1] > 0:
+                    creation_menu_cursor.index[1] -= 1
+                if menu_selection == "down" and creation_menu_cursor.index[1] < creation_menu_cursor.max_index[creation_menu_cursor.index[0]]:
+                    creation_menu_cursor.index[1] += 1
+
+                if menu_selection == "left" and creation_menu_cursor.index[0] > 0:
+                    creation_menu_cursor.index[0] -= 1
+                    creation_menu_cursor.index[1] = 0
+                if menu_selection == "right" and creation_menu_cursor.index[0] < len(creation_menu_cursor.max_index) - 1:
+                    creation_menu_cursor.index[0] += 1
+                    creation_menu_cursor.index[1] = 0
+                
+            if accept:
+                if creation_menu_cursor.index[0] == len(creation_menu_cursor.max_index) - 1:
+                    game_state = GameStates.PLAYERS_TURN
+                    libtcod.console_clear(con)
+                    libtcod.console_flush()
 
         for player_turn_result in player_turn_results:
             message = player_turn_result.get('message')

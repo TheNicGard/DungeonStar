@@ -11,7 +11,7 @@ from game_messages import MessageLog
 from game_states import GameStates
 from map_objects.game_map import GameMap
 from render_functions import RenderOrder
-
+from rpg_mechanics import advantage_roll
 
 def get_constants():
     window_title = 'Dungeon Star'
@@ -77,7 +77,11 @@ def get_constants():
 
 
 def get_game_variables(constants):
-    fighter_component = Fighter(11, 11, 11, 11, 11, 11)
+    fighter_component = Fighter(
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6)
+    )
     inventory_component = Inventory(26)
     level_component = Level()
     
@@ -112,7 +116,11 @@ def get_game_variables(constants):
     return player, entities, game_map, message_log, game_state, turn
 
 def get_test_map_variables(constants):
-    fighter_component = Fighter(11, 11, 11, 11, 11, 11)
+    fighter_component = Fighter(
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6)
+    )
     inventory_component = Inventory(26)
     level_component = Level()
     hunger_component = Hunger()

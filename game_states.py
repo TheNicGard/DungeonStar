@@ -12,3 +12,4 @@ class GameStates(Enum):
     HELP_SCREEN = 9
     LOOK_AT = 10
     SHOW_PICKUP = 11
+    CHARACTER_CREATION = 12

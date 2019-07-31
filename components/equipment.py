@@ -18,7 +18,6 @@ class Equipment:
     def make_attack(self):
         damage = 0
 
-        print("I am " + self.owner.name)
         if self.slots.get("main_hand") is None and self.slots.get("off_hand") is None:
             damage = die(1, 3)
         elif hasattr(self.owner, "attack_list"):
