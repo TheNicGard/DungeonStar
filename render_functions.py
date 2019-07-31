@@ -22,7 +22,7 @@ def get_names_under_mouse(mouse, entities, fov_map):
 
     return names.capitalize()
     
-def render_bar(panel, x, y, total_width, value, maximum, bar_color, back_color):
+def render_bar(panel, x, y, total_width, value, maximum, bar_color, back_color):    
     bar_width = int(float(value) / maximum * total_width)
 
     libtcod.console_set_default_background(panel, back_color)
@@ -33,12 +33,14 @@ def render_bar(panel, x, y, total_width, value, maximum, bar_color, back_color):
         libtcod.console_rect(panel, x, y, bar_width, 1, False, libtcod.BKGND_SCREEN)
 
     libtcod.console_set_default_foreground(panel, libtcod.white)
+    for tmp_x in range(total_width):
+        libtcod.console_put_char(panel, x + tmp_x, y, ' ', libtcod.BKGND_NONE)
     libtcod.console_print_ex(panel, int(x + total_width / 2), y, libtcod.BKGND_NONE, libtcod.CENTER,
                              '{0}/{1}'.format(value, maximum))
     
     libtcod.console_rect(panel, x, y, total_width, 1, False, libtcod.BKGND_NONE)
 
-def render_status_panel(panel, x, y, width, height, player, entities):
+def render_status_panel(panel, x, y, width, height, player, entities, game_map, turn):
     libtcod.console_set_default_background(panel, libtcod.darkest_grey)
     libtcod.console_rect(panel, x, y, width, height, False, libtcod.BKGND_SET)
 
@@ -48,6 +50,15 @@ def render_status_panel(panel, x, y, width, height, player, entities):
     libtcod.console_print_ex(panel, x + 1, y + 2, libtcod.BKGND_NONE, libtcod.LEFT, "HP")
     render_bar(panel, x + 4, y + 2, width - 5, player.fighter.hp, player.fighter.max_hp,
                libtcod.light_red, libtcod.darker_red)
+
+    libtcod.console_set_default_foreground(panel, libtcod.white)
+    libtcod.console_print_ex(panel, x + 1, y + 4, libtcod.BKGND_NONE, libtcod.LEFT,
+                             'Dungeon level {0}'.format(game_map.dungeon_level))
+    libtcod.console_print_ex(panel, x + 1, y + 5, libtcod.BKGND_NONE, libtcod.LEFT,
+                             'Turn {0}'.format(turn))
+    if player.hunger.status is not None:
+        libtcod.console_print_ex(panel, x + 1, y + 6, libtcod.BKGND_NONE, libtcod.LEFT,
+                                 '{0}'.format(player.hunger.status))
 
     libtcod.console_set_default_background(panel, libtcod.black)
 
@@ -112,23 +123,19 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
         libtcod.console_print_ex(panel, message_log.x, y, libtcod.BKGND_NONE, libtcod.LEFT, message.text)
         y += 1
 
-    ######################################
-    render_status_panel(con, screen_width - status_screen_width, 0, status_screen_width, status_screen_height, player, entities)
-    
-    libtcod.console_print_ex(panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,
-                             'Dungeon level {0}'.format(game_map.dungeon_level))
-    libtcod.console_print_ex(panel, 1, 4, libtcod.BKGND_NONE, libtcod.LEFT,
-                             'Turn {0}'.format(turn))
-    if player.hunger.status is not None:
-        libtcod.console_print_ex(panel, 1, 5, libtcod.BKGND_NONE, libtcod.LEFT,
-                                 '{0}'.format(player.hunger.status))
+    ### STATUS PANEL ###
+    render_status_panel(con, screen_width - status_screen_width, 0, status_screen_width, status_screen_height, player, entities, game_map, turn)
+
     if game_state == GameStates.LOOK_AT:
         libtcod.console_print_ex(panel, 1, 6, libtcod.BKGND_NONE, libtcod.LEFT,
                                  '({0}, {1})'.format(cursor.x, cursor.y))
 
+    #### DO I STILL WANT TO KEEP THIS FUNCTIONALITY? ###
+    """
     libtcod.console_set_default_foreground(panel, libtcod.light_grey)
     libtcod.console_print_ex(panel, 1, 0, libtcod.BKGND_NONE, libtcod.LEFT,
                              get_names_under_mouse(mouse, entities, fov_map))
+    """
 
     libtcod.console_blit(panel, 0, 0, screen_width, panel_height, 0, 0, panel_y)
 
