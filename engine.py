@@ -27,7 +27,8 @@ def main():
                               constants['window_title'], False)
 
     con = libtcod.console_new(constants['screen_width'], constants['screen_height'])
-    panel = libtcod.console_new(constants['screen_width'], constants['panel_height'])
+    panel = libtcod.console_new(constants['message_width'], constants['panel_height'])
+    status_screen = libtcod.console_new(constants['status_screen_width'], constants['status_screen_height'])
 
     player = None
     entities = []
@@ -91,11 +92,11 @@ def main():
 
         else:
             libtcod.console_clear(con)
-            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, constants)
+            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, status_screen, constants)
             show_main_menu = True
 
 def play_game(player, entities, game_map, turn, message_log,
-              game_state, con, panel, constants):
+              game_state, con, panel, status_screen, constants):
     key_cursor = Entity("cursor", player.x, player.y, chr(219), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=[chr(219), ' '], speed=0.25))
     
@@ -120,13 +121,12 @@ def play_game(player, entities, game_map, turn, message_log,
                           constants['fov_radius'], constants['fov_light_walls'],
                           constants['fov_algorithm'])
 
-        render_all(con, panel, entities, player, game_map, fov_map, fov_recompute,
-                   turn, message_log,
+        render_all(con, panel, status_screen, entities, player, game_map,
+                   fov_map, fov_recompute, turn, message_log,
                    constants['screen_width'], constants['screen_height'],
-                   constants['bar_width'], constants['panel_height'],
-                   constants['panel_y'], mouse, constants['colors'], game_state,
-                   key_cursor, {"CLASSIC_COLOR": False}, constants["status_screen_width"],
-                   constants["status_screen_height"])
+                   constants['panel_height'], constants['panel_y'], mouse,
+                   constants['colors'], game_state, key_cursor, {"CLASSIC_COLOR": False},
+                   constants["status_screen_width"], constants["status_screen_height"])
         
         fov_recompute = False
         libtcod.console_flush()

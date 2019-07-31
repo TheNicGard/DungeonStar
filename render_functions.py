@@ -112,8 +112,8 @@ def entity_in_fov_list(entities, game_map, fov_map):
     # can't get always visible status
     return entities_in_fov
     
-def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, turn,
-               message_log, screen_width, screen_height, bar_width, panel_height, panel_y,
+def render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
+               turn, message_log, screen_width, screen_height, panel_height, panel_y,
                mouse, colors, game_state, cursor, config, status_screen_width, status_screen_height):
     if fov_recompute:
         for y in range(game_map.height):
@@ -153,6 +153,7 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
     if game_state == GameStates.LOOK_AT:
         render_cursor(con, cursor)
 
+    # ENTITIES
     entities_in_render_order = sorted(entities, key=lambda x: x.render_order.value)
     
     for entity in entities_in_render_order:
@@ -162,18 +163,16 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
             draw_entity(con, entity, fov_map, game_map, False)
 
     libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
-
+    
     libtcod.console_set_default_background(panel, libtcod.black)
     libtcod.console_clear(panel)
 
+    # MESSAGE LOG
     y = 1
     for message in message_log.messages:
         libtcod.console_set_default_foreground(panel, message.color)
         libtcod.console_print_ex(panel, message_log.x, y, libtcod.BKGND_NONE, libtcod.LEFT, message.text)
         y += 1
-
-    ### STATUS PANEL ###
-    render_status_panel(con, screen_width - status_screen_width, 0, status_screen_width, status_screen_height, player, entities, game_map, fov_map, turn)
 
     if game_state == GameStates.LOOK_AT:
         libtcod.console_print_ex(panel, 1, 6, libtcod.BKGND_NONE, libtcod.LEFT,
@@ -188,6 +187,15 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, t
 
     libtcod.console_blit(panel, 0, 0, screen_width, panel_height, 0, 0, panel_y)
 
+    ### STATUS PANEL ###
+    libtcod.console_set_default_background(status_screen, libtcod.black)
+    libtcod.console_clear(status_screen)
+    render_status_panel(status_screen, 0, 0, status_screen_width, status_screen_height, player, entities, game_map, fov_map, turn)
+    # THIS IS BUGGY AF, LIBTCOD IS SKETCHY
+    #libtcod.console_blit(status_screen, 0, 0, status_screen_width, screen_height, 0, screen_width - status_screen_width, 0)
+    status_screen.blit(con, screen_width - status_screen_width, 0, 0, 0, status_screen_width, status_screen_height)
+    
+    # MENUS
     if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
         if game_state == GameStates.SHOW_INVENTORY:
             inventory_title = 'Inventory ({0}{2}/{1}{2})\n'.format(player.inventory.current_weight, player.inventory.capacity, chr(169))
