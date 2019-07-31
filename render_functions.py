@@ -71,12 +71,12 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
                libtcod.light_red, libtcod.darker_red)
 
     libtcod.console_set_default_foreground(panel, libtcod.white)
-    libtcod.console_print_ex(panel, x + 1, y + 4, libtcod.BKGND_NONE, libtcod.LEFT,
+    libtcod.console_print_ex(panel, x + 1, height - 2, libtcod.BKGND_NONE, libtcod.LEFT,
                              'Dungeon level {0}'.format(game_map.dungeon_level))
-    libtcod.console_print_ex(panel, x + 1, y + 5, libtcod.BKGND_NONE, libtcod.LEFT,
+    libtcod.console_print_ex(panel, x + 1, height - 3, libtcod.BKGND_NONE, libtcod.LEFT,
                              'Turn {0}'.format(turn))
     if player.hunger.status is not None:
-        libtcod.console_print_ex(panel, x + 1, y + 6, libtcod.BKGND_NONE, libtcod.LEFT,
+        libtcod.console_print_ex(panel, x + 1, height - 4, libtcod.BKGND_NONE, libtcod.LEFT,
                                  '{0}'.format(player.hunger.status))
 
     entities_in_fov = entity_in_fov_list(entities, game_map, fov_map)
@@ -84,16 +84,16 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
     for e in entities_in_fov:
         # Entity char
         libtcod.console_set_default_foreground(panel, e.color)
-        libtcod.console_put_char(panel, x + 1, y + 8 + index, e.char, libtcod.BKGND_NONE)
+        libtcod.console_put_char(panel, x + 1, y + 5 + index, e.char, libtcod.BKGND_NONE)
 
         # Entity health
         health_color = [0, 0, 0]
         libtcod.console_set_default_foreground(panel, get_health_color(e.fighter.hp, e.fighter.max_hp))
-        libtcod.console_put_char(panel, x + 3, y + 8 + index, chr(219), libtcod.BKGND_NONE)
+        libtcod.console_put_char(panel, x + 3, y + 5 + index, chr(219), libtcod.BKGND_NONE)
         
         # Entity name
         libtcod.console_set_default_foreground(panel, libtcod.white)
-        libtcod.console_print_ex(panel, x + 5, y + 8 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+        libtcod.console_print_ex(panel, x + 5, y + 5 + index, libtcod.BKGND_NONE, libtcod.LEFT,
                                  e.name)
         index += 1
 
@@ -192,7 +192,6 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
     libtcod.console_clear(status_screen)
     render_status_panel(status_screen, 0, 0, status_screen_width, status_screen_height, player, entities, game_map, fov_map, turn)
     # THIS IS BUGGY AF, LIBTCOD IS SKETCHY
-    #libtcod.console_blit(status_screen, 0, 0, status_screen_width, screen_height, 0, screen_width - status_screen_width, 0)
     status_screen.blit(con, screen_width - status_screen_width, 0, 0, 0, status_screen_width, status_screen_height)
     
     # MENUS
