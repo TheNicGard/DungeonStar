@@ -92,6 +92,7 @@ def load_monsters():
                 intelligence = fighter.get("INT")
                 wisdom = fighter.get("WIS")
                 charisma = fighter.get("CHA")
+                determination = fighter.get("DET")
 
                 xp = 0
                 if fighter.get("xp"):
@@ -153,10 +154,10 @@ def load_monsters():
                     for a in fighter.get("attacks"):
                         attack_list.append(Attack(a[0], a[1], a[2]))
 
-                if strength is not None and dexterity is not None and constitution is not None and intelligence is not None and wisdom is not None and charisma is not None:
+                if all (v is not None for v in [strength, dexterity, constitution, intelligence, wisdom, charisma, determination]):
                     chance_to_drop = 0.25
                     fighter_component = Fighter(strength, dexterity, constitution, intelligence,
-                                                wisdom, charisma, fixed_max_hp=hp, xp=xp,
+                                                wisdom, charisma, determination, fixed_max_hp=hp, xp=xp,
                                                 golden=golden, chance_to_drop_corpse=chance_to_drop,
                                                 max_gold_drop=max_gold_drop, attack_list=attack_list)
                     

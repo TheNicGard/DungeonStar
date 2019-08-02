@@ -80,7 +80,8 @@ def get_game_variables(constants):
     fighter_component = Fighter(
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
-        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6)
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6)
     )
     inventory_component = Inventory(26)
     level_component = Level()
@@ -119,7 +120,8 @@ def get_test_map_variables(constants):
     fighter_component = Fighter(
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
-        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6)
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6)
     )
     inventory_component = Inventory(26)
     level_component = Level()

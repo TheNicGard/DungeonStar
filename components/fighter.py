@@ -9,15 +9,16 @@ from rpg_mechanics import attack_success, die, get_modifier
 
 class Fighter:
     def __init__(self, strength, dexterity, constitution,
-                 intelligence, wisdom, charisma, fixed_max_hp=None,
-                 xp=0, golden=False, chance_to_drop_corpse=0, max_gold_drop=0,
-                 attack_list=None):
+                 intelligence, wisdom, charisma, determination,
+                 fixed_max_hp=None, xp=0, golden=False, chance_to_drop_corpse=0,
+                 max_gold_drop=0, attack_list=None):
         self.strength = strength
         self.dexterity = dexterity
         self.constitution = constitution
         self.intelligence = intelligence
         self.wisdom = wisdom
         self.charisma = charisma
+        self.determination = determination
         
         self.fixed_max_hp = fixed_max_hp
         self.hp = self.max_hp

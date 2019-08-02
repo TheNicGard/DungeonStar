@@ -12,6 +12,7 @@
 	    "INT": 1,
 	    "WIS": 1,
 	    "CHA": 1,
+	    "DET": 1,
 	    "xp": 400,
 	    "max_gold_drop": 0,
 	    "golden": false
@@ -33,6 +34,7 @@
 	    "INT": 4,
 	    "WIS": 4,
 	    "CHA": 1,
+	    "DET": 1,
 	    "attacks": [
 		[1, 4, 0]
 	    ],
