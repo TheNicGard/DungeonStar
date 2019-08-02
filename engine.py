@@ -109,7 +109,7 @@ def play_game(player, entities, game_map, turn, message_log,
 
     creation_menu = {
         "Ability scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
-        "Select a starting item": ["+2 dagger (1d4)", "+1 leather helmet", "(standard kit)"]
+        "Select a starting item": ["(standard kit)", "+2 dagger (1d4)", "+1 leather helmet"]
     }
     creation_menu_cursor = MenuCursor(max_index=[5, 2])
 
@@ -346,6 +346,9 @@ def play_game(player, entities, game_map, turn, message_log,
                     game_state = GameStates.PLAYERS_TURN
                     libtcod.console_clear(con)
                     libtcod.console_flush()
+                elif creation_menu_cursor.index[0] < len(creation_menu_cursor.max_index) - 1:
+                    creation_menu_cursor.index[0] += 1
+                    creation_menu_cursor.index[1] = 0
 
         for player_turn_result in player_turn_results:
             message = player_turn_result.get('message')
