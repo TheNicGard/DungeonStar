@@ -40,9 +40,7 @@ def render_bar(panel, x, y, total_width, value, maximum, bar_color, back_color):
     
     libtcod.console_rect(panel, x, y, total_width, 1, False, libtcod.BKGND_NONE)
 
-def get_health_color(hp, max_hp):
-    hp_ratio = hp / max_hp
-
+def get_health_color(hp_ratio):
     if hp_ratio <= 0.5:
         r_value = 255
     else:
@@ -55,7 +53,7 @@ def get_health_color(hp, max_hp):
 
     return [r_value, g_value, 0]
     
-def render_status_panel(panel, x, y, width, height, player, entities, game_map, fov_map, turn):
+def render_status_panel(panel, x, y, width, height, player, entities, game_map, fov_map, turn, color_accessibility):
     for tmp_x in range(width):
         for tmp_y in range(height):
             libtcod.console_put_char(panel, x + tmp_x, y + tmp_y, ' ', libtcod.BKGND_NONE)
@@ -87,10 +85,24 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
         libtcod.console_put_char(panel, x + 1, y + 5 + index, e.char, libtcod.BKGND_NONE)
 
         # Entity health
-        health_color = [0, 0, 0]
-        libtcod.console_set_default_foreground(panel, get_health_color(e.fighter.hp, e.fighter.max_hp))
-        libtcod.console_put_char(panel, x + 3, y + 5 + index, chr(219), libtcod.BKGND_NONE)
-        
+        health_ratio = e.fighter.hp / e.fighter.max_hp
+        if not color_accessibility:
+            libtcod.console_set_default_foreground(panel, get_health_color(health_ratio))
+            libtcod.console_put_char(panel, x + 3, y + 5 + index, chr(219), libtcod.BKGND_NONE)
+        else:
+            health_char = ' '
+            if health_ratio > 0.75:
+                health_char = chr(219)
+            elif health_ratio > 0.50:
+                health_char = chr(178)
+            elif health_ratio > 0.25:
+                health_char = chr(177)
+            else:
+                health_char = chr(176)
+                
+            libtcod.console_set_default_foreground(panel, libtcod.white)
+            libtcod.console_put_char(panel, x + 3, y + 5 + index, health_char, libtcod.BKGND_NONE)
+            
         # Entity name
         libtcod.console_set_default_foreground(panel, libtcod.white)
         libtcod.console_print_ex(panel, x + 5, y + 5 + index, libtcod.BKGND_NONE, libtcod.LEFT,
@@ -190,7 +202,7 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
     ### STATUS PANEL ###
     libtcod.console_set_default_background(status_screen, libtcod.black)
     libtcod.console_clear(status_screen)
-    render_status_panel(status_screen, 0, 0, status_screen_width, status_screen_height, player, entities, game_map, fov_map, turn)
+    render_status_panel(status_screen, 0, 0, status_screen_width, status_screen_height, player, entities, game_map, fov_map, turn, False)
     # THIS IS BUGGY AF, LIBTCOD IS SKETCHY
     status_screen.blit(con, screen_width - status_screen_width, 0, 0, 0, status_screen_width, status_screen_height)
     
