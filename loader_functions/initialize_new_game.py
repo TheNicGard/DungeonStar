@@ -117,12 +117,16 @@ def get_game_variables(constants):
     return player, entities, game_map, message_log, game_state, turn
 
 def get_test_map_variables(constants):
+    """ I dont know if I want to continue using this
     fighter_component = Fighter(
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
         advantage_roll(4, 3, 1, 6)
     )
+    """
+    fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
+    
     inventory_component = Inventory(26)
     level_component = Level()
     hunger_component = Hunger()
