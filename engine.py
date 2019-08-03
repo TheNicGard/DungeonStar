@@ -21,10 +21,10 @@ from random import randint
 def main():
     constants = get_constants()
     
-    libtcod.console_set_custom_font('cp437_15x15.png',
+    libtcod.console_set_custom_font('cp437_10x10.png',
                                     libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW)
     libtcod.console_init_root(constants['screen_width'], constants['screen_height'],
-                              constants['window_title'], False)
+                              constants['window_title'], False, libtcod.RENDERER_OPENGL2)
 
     con = libtcod.console_new(constants['screen_width'], constants['screen_height'])
     panel = libtcod.console_new(constants['message_width'], constants['panel_height'])
