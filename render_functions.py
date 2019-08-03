@@ -2,6 +2,7 @@ import tcod as libtcod
 from enum import Enum
 from game_states import GameStates
 from menus import inventory_menu, level_up_menu, character_screen, help_screen
+from rpg_mechanics import display_ability
 
 class RenderOrder(Enum):
     STAIRS = 1
@@ -220,6 +221,54 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
         character_screen(player, 30, screen_width, screen_height)
     elif game_state == GameStates.HELP_SCREEN:
         help_screen(45, screen_width, screen_height)
+
+creation_menu = {
+        "Ability scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
+        "Select a starting item": ["(standard kit)", "+1 dagger (1d4)", "+1 leather helmet"]
+}
+        
+def render_character_creation(con, panel, screen_width, screen_height, menu_cursor, stat_diffs, points_available):
+    libtcod.console_clear(con)
+
+    libtcod.console_set_default_foreground(con, libtcod.white)
+    libtcod.console_print_ex(con, 1, 1, libtcod.BKGND_NONE, libtcod.LEFT, "The Rogue is born...")
+    
+    header_index = 1
+    menu_index = 0
+    table_margin = 7
+    
+    for h, m in creation_menu.items():
+    
+        index = 0
+        libtcod.console_set_default_foreground(con, libtcod.white)
+        libtcod.console_print_ex(con, header_index, index + 3, libtcod.BKGND_NONE, libtcod.LEFT, h)
+        for item in m:
+            if menu_index == menu_cursor.index[0] and index == menu_cursor.index[1]:
+                libtcod.console_set_default_foreground(con, libtcod.black)
+                draw_background_rect(con, header_index, 4 + menu_cursor.index[1], len(h) + table_margin - 1, 1, libtcod.white)
+            else:
+                libtcod.console_set_default_foreground(con, libtcod.white)
+            if menu_index == 0:
+                libtcod.console_print_ex(con, header_index, index + 4, libtcod.BKGND_NONE, libtcod.LEFT, item + ":")
+                libtcod.console_print_ex(con, len(h) + table_margin - 1, index + 4, libtcod.BKGND_NONE, libtcod.RIGHT, display_ability(8 + stat_diffs[index]))
+            else:
+                libtcod.console_print_ex(con, header_index, index + 4, libtcod.BKGND_NONE, libtcod.LEFT, item)
+            index += 1
+
+        header_index += len(h) + table_margin
+        menu_index += 1
+
+    libtcod.console_set_default_foreground(con, libtcod.white)
+    libtcod.console_print_ex(con, 1, 11, libtcod.BKGND_NONE, libtcod.LEFT, "{0} points available".format(points_available))
+    libtcod.console_print_ex(con, 1, 13, libtcod.BKGND_NONE, libtcod.LEFT, "+/- to add/subtract points")
+    libtcod.console_print_ex(con, 1, 14, libtcod.BKGND_NONE, libtcod.LEFT, "Enter to accept changes")
+
+    libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
+
+def draw_background_rect(con, x, y, w, h, color):
+    for i in range (w):
+        for k in range(h):
+            libtcod.console_set_char_background(con, x + i, y + k, color, libtcod.BKGND_SET)
     
 def clear_all(con, entities, cursor):
     for entity in entities:

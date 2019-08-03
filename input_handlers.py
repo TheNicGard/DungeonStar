@@ -18,6 +18,8 @@ def handle_keys(key, game_state):
         return handle_help_screen(key)
     elif game_state == GameStates.LOOK_AT:
         return handle_key_targeting(key)
+    elif game_state == GameStates.CHARACTER_CREATION:
+        return handle_creation_screen(key)
     return {}
 
 def handle_player_turn_keys(key):
@@ -42,10 +44,12 @@ def handle_player_turn_keys(key):
     
     elif key.vk == libtcod.KEY_KP5 or key_char == '.':
         return {'wait': True}
-    elif key.vk == libtcod.KEY_SHIFT:
+    elif key.text == ">":
         return {'descend_stairs': True}
-    elif key.vk == libtcod.KEY_ENTER:
+    elif key.text == "<":
         return {'ascend_stairs': True}
+    elif key.text == "R":
+        return {'rest': True}
     
     elif key_char == 'g' or key_char == ',':
         return {'pickup': True}
@@ -135,14 +139,19 @@ def handle_level_up_menu(key):
         key_char = chr(key.c)
 
         if key_char == 'a':
-            return {'level_up': 'hp'}
-        if key_char == 'b':
-            return {'level_up': 'str'}
-        if key_char == 'c':
-            return {'level_up': 'def'}
+            return {'level_up': 'STR'}
+        elif key_char == 'b':
+            return {'level_up': 'DEX'}
+        elif key_char == 'c':
+            return {'level_up': 'CON'}
+        elif key_char == 'd':
+            return {'level_up': 'INT'}
+        elif key_char == 'e':
+            return {'level_up': 'WIS'}
+        elif key_char == 'f':
+            return {'level_up': 'CHA'}
         elif key_char == 'f' and key.lctrl:
             return {'fullscreen': True}
-        
     return {}
 
 def handle_character_screen(key):
@@ -165,7 +174,7 @@ def handle_help_screen(key):
     
     if key:
         key_char = chr(key.c)
-        if key_char == 'q':
+        if key.text == "?":
             return {'end': True}
     return {}
 
@@ -201,4 +210,28 @@ def handle_key_targeting(key):
         if key_char == ';':
             return {'end': True}
 
+    return {}
+
+def handle_creation_screen(key):
+    if key.vk == libtcod.KEY_ESCAPE:
+        return {'end': True}
+
+    if key:
+        key_char = chr(key.c)
+
+        if key.vk == libtcod.KEY_UP or key.vk == libtcod.KEY_KP8 or key_char == 'k':
+            return {"menu_selection": "up"}
+        elif key.vk == libtcod.KEY_DOWN or key.vk == libtcod.KEY_KP2 or key_char == 'j':
+            return {"menu_selection": "down"}
+        elif key.vk == libtcod.KEY_LEFT or key.vk == libtcod.KEY_KP4 or key_char == 'h':
+            return {"menu_selection": "left"}
+        elif key.vk == libtcod.KEY_RIGHT or key.vk == libtcod.KEY_KP6 or key_char == 'l':
+            return {"menu_selection": "right"}
+        elif key.text == "+":
+            return {"increase": True}
+        elif key.text == '-':
+            return {"decrease": True}
+        elif key.vk == libtcod.KEY_ENTER:
+            return {"accept": True}
+        
     return {}

@@ -7,6 +7,7 @@ import shelve
 import tcod as libtcod
 from components.ai import BasicMonster, AggressiveMonster, DummyMonster, ConfusedMonster, SoftStoppedMonster, HardStoppedMonster, MotherDoughAI, SourdoughAI, StaticMonster
 from components.animation import Animation
+from components.attacks import Attack
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.food import Food
@@ -84,8 +85,14 @@ def load_monsters():
             
             if (monster_id and name and char and isinstance(color, list) and fighter and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
                 hp = fighter.get("hp")
-                defense = fighter.get("defense")
-                power = fighter.get("power")
+                
+                strength = fighter.get("STR")
+                dexterity = fighter.get("DEX")
+                constitution = fighter.get("CON")
+                intelligence = fighter.get("INT")
+                wisdom = fighter.get("WIS")
+                charisma = fighter.get("CHA")
+                determination = fighter.get("DET")
 
                 xp = 0
                 if fighter.get("xp"):
@@ -141,11 +148,18 @@ def load_monsters():
                     else:
                         ai_component = SourdoughAI(min_spread_time, max_spread_time)
 
-                if hp is not None and defense is not None and power is not None:
+                attack_list = None
+                if fighter.get("attacks"):
+                    attack_list = []
+                    for a in fighter.get("attacks"):
+                        attack_list.append(Attack(a[0], a[1], a[2]))
+
+                if all (v is not None for v in [strength, dexterity, constitution, intelligence, wisdom, charisma, determination]):
                     chance_to_drop = 0.25
-                    fighter_component = Fighter(hp, defense, power, xp, golden,
-                                                chance_to_drop_corpse=chance_to_drop,
-                                                max_gold_drop=max_gold_drop)
+                    fighter_component = Fighter(strength, dexterity, constitution, intelligence,
+                                                wisdom, charisma, determination, fixed_max_hp=hp, xp=xp,
+                                                golden=golden, chance_to_drop_corpse=chance_to_drop,
+                                                max_gold_drop=max_gold_drop, attack_list=attack_list)
                     
                     monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, inventory=inventory_component, spawn_rate=spawn_rate)
                     monster_defs[monster_id] = monster
@@ -186,7 +200,7 @@ def load_items():
                 classification.append(c)
             
             if item_id == "dungeon_star":
-                equipment_component = Equippable("head", defense_bonus=1)
+                equipment_component = Equippable("head", armor_bonus=1)
                 animation_component = Animation(['['], [libtcod.white, libtcod.red,
                                                         libtcod.green, libtcod.blue], 0.333)
                 
@@ -226,17 +240,20 @@ def load_items():
                     potential_slot = item.get("equipment").get("slot")
                     if potential_slot in equipment_types:
                         slot = potential_slot
+                        
+                    hit_dice = [0, 0]
+                    if item.get("equipment").get("hit_dice_count") and item.get("equipment").get("hit_dice_side_count"):
+                        count = item.get("equipment").get("hit_dice_count")
+                        side_count = item.get("equipment").get("hit_dice_count")
+                        hit_dice = [count, side_count]
                     
-                    power_bonus = 0
-                    if item.get("equipment").get("power_bonus"):
-                        power_bonus = item.get("equipment").get("power_bonus")
-                    
-                    defense_bonus = 0
-                    if item.get("equipment").get("defense_bonus"):
-                        defense_bonus = item.get("equipment").get("defense_bonus")
+                    armor_bonus = 0
+                    if item.get("equipment").get("armor_bonus"):
+                        armor_bonus = item.get("equipment").get("armor_bonus")
 
                     if slot:
-                        equipment_component = Equippable(slot, power_bonus=power_bonus, defense_bonus=defense_bonus)
+                        equipment_component = Equippable(slot, hit_dice=hit_dice,
+                                                         armor_bonus=armor_bonus)
 
                 item_component = None
                 if positional or food_component:

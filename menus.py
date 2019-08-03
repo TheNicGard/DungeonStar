@@ -1,5 +1,7 @@
 import tcod as libtcod
 
+from rpg_mechanics import display_ability
+
 def menu(con, header, options, width, screen_width, screen_height):
     if len(options) > 26: raise ValueError('Cannot have a menu with more than 26 options')
 
@@ -41,33 +43,32 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
         for i in player.inventory.items:
             for s in slots:
                 if player.equipment.slots.get(s) == i:
+                    temp_str = ""
+                    if i.equippable.enchantment > 0:
+                        temp_str += ("+" + str(i.equippable.enchantment))
+                    elif i.equippable.enchantment < 0:
+                        temp_str += str(i.equippable.enchantment)
+                    temp_str += " {0}"
                     if player.equipment.slots.get("main_hand") == i:
-                        options.append('{0} (in main hand)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (in main hand)"
                     elif player.equipment.slots.get("off_hand") == i:
-                        options.append('{0} (in off hand)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (in off hand)"
                     elif player.equipment.slots.get("head") == i:
-                        options.append('{0} (on head)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (on head)"
                     elif player.equipment.slots.get("under_torso") == i:
-                        options.append('{0} (on body)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (on body)"
                     elif player.equipment.slots.get("over_torso") == i:
-                        options.append('{0} (on body)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (over body)"
                     elif player.equipment.slots.get("legs") == i:
-                        options.append('{0} (on legs)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (on legs)"
                     elif player.equipment.slots.get("feet") == i:
-                        options.append('{0} (on feet)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (on feet)"
                     elif player.equipment.slots.get("left_finger") == i:
-                        options.append('{0} (on left hand)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (on left hand)"
                     elif player.equipment.slots.get("right_finger") == i:
-                        options.append('{0} (on right hand)'.format(i.name))
-                        temp_inv.append(i)
+                        temp_str +=  " (on right hand)"
+                    options.append(temp_str.format(i.name))
+                    temp_inv.append(i)
                     break
 
         # all other items
@@ -115,9 +116,14 @@ def main_menu(con, background_image, screen_width, screen_height, lowest_level, 
     
 
 def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
-    options = ['Constitution (+20 HP, from {0})'.format(player.fighter.max_hp),
-               'Strength (+1 attack, from {0})'.format(player.fighter.power),
-               'Agility (+1 defense, from {0})'.format(player.fighter.defense)]
+    options = [
+        'Strength (from {0})'.format(player.fighter.strength),
+        'Dexterity (from {0})'.format(player.fighter.dexterity),
+        'Constitution (from {0})'.format(player.fighter.constitution),
+        'Intelligence (from {0})'.format(player.fighter.intelligence),
+        'Wisdom (from {0})'.format(player.fighter.wisdom),
+        'Charisma (from {0})'.format(player.fighter.charisma)
+    ]
     menu(con, header, options, menu_width, screen_width, screen_height)
 
 def message_box(con, header, screen_width, screen_height):
@@ -141,11 +147,16 @@ def character_screen(player, character_screen_width, screen_width, screen_height
         'Level: {0}'.format(player.level.current_level),
         'Experience: {0}'.format(player.level.current_xp),
         'Experience to level up: {0}'.format(player.level.experience_to_next_level),
-        '',
         'Maximum HP: {0}'.format(player.fighter.max_hp),
-        'Attack: {0}'.format(player.fighter.power),
-        'Defense: {0}'.format(player.fighter.defense),
         '',
+        "Strength:     {0}".format(display_ability(player.fighter.strength)),
+        "Dexterity:    {0}".format(display_ability(player.fighter.dexterity)),
+        "Constitution: {0}".format(display_ability(player.fighter.constitution)),
+        "Intelligence: {0}".format(display_ability(player.fighter.intelligence)),
+        "Wisdom:       {0}".format(display_ability(player.fighter.wisdom)),
+        "Charisma:     {0}".format(display_ability(player.fighter.charisma)),
+        '',
+        "Armor class: {0}".format(player.fighter.armor_class),
         'Gold: {0}'.format(player.inventory.gold_carried)
     ]
     

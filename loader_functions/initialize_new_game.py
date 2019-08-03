@@ -11,7 +11,7 @@ from game_messages import MessageLog
 from game_states import GameStates
 from map_objects.game_map import GameMap
 from render_functions import RenderOrder
-
+from rpg_mechanics import advantage_roll
 
 def get_constants():
     window_title = 'Dungeon Star'
@@ -80,7 +80,12 @@ def get_constants():
 
 
 def get_game_variables(constants):
-    fighter_component = Fighter(hp=100, defense=1, power=2)
+    fighter_component = Fighter(
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6)
+    )
     inventory_component = Inventory(26)
     level_component = Level()
     
@@ -95,7 +100,7 @@ def get_game_variables(constants):
                     equipment=equipment_component, hunger=hunger_component)
     entities = [player]
 
-    equippable_component = Equippable("main_hand", power_bonus=2)
+    equippable_component = Equippable("main_hand", hit_dice=[1, 4], enchantment=0)
     dagger = Entity("dagger", 0, 0, ')', libtcod.silver, 'dagger',
                     weight=2, equippable=equippable_component)
     player.inventory.add_item(dagger)
@@ -115,7 +120,16 @@ def get_game_variables(constants):
     return player, entities, game_map, message_log, game_state, turn
 
 def get_test_map_variables(constants):
-    fighter_component = Fighter(hp=100, defense=1, power=2)
+    """ I dont know if I want to continue using this
+    fighter_component = Fighter(
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
+        advantage_roll(4, 3, 1, 6)
+    )
+    """
+    fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
+    
     inventory_component = Inventory(26)
     level_component = Level()
     hunger_component = Hunger()
@@ -129,7 +143,7 @@ def get_test_map_variables(constants):
                     equipment=equipment_component, hunger=hunger_component)
     entities = [player]
 
-    equippable_component = Equippable("main_hand", power_bonus=2)
+    equippable_component = Equippable("main_hand", hit_dice=[1, 4], enchantment=0)
     dagger = Entity("dagger", 0, 0, ')', libtcod.silver, 'dagger',
                     weight=2, equippable=equippable_component)
 

@@ -1,16 +1,45 @@
 [
     {
+	"monster_id": "dummy",
+	"name": "Training Dummy",
+	"color": [255, 255, 255],
+	"symbol": 2,
+	"fighter": {
+	    "hp": 1,
+	    "STR": 1,
+	    "DEX": 1,
+	    "CON": 1,
+	    "INT": 1,
+	    "WIS": 1,
+	    "CHA": 1,
+	    "DET": 1,
+	    "xp": 400,
+	    "max_gold_drop": 0,
+	    "golden": false
+	},
+	"ai": "DummyMonster",
+	"spawn_rate": [[0, 0]]
+    },
+    
+    {
 	"monster_id": "rat",
 	"name": "Rat",
 	"color": [159, 159, 159],
 	"symbol": "r",
 	"fighter": {
-	    "hp": 15,
-	    "power": 4,
-	    "defense": 0,
+	    "hp": 4,
+	    "STR": 10,
+	    "DEX": 10,
+	    "CON": 10,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0]
+	    ],
 	    "xp": 10,
-	    "max_gold_drop": 2,
-	    "golden": false
+	    "max_gold_drop": 2
 	},
 	"ai": "BasicMonster",
 	"spawn_rate": [[60, 1], [40, 3], [20, 5]]
@@ -22,132 +51,175 @@
 	"color": [64, 128, 64],
 	"symbol": "s",
 	"fighter": {
-	    "hp": 20,
-	    "power": 4,
-	    "defense": 0,
+	    "hp": 6,
+	    "STR": 10,
+	    "DEX": 12,
+	    "CON": 10,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0]
+	    ],
 	    "xp": 30,
-	    "max_gold_drop": 4,
-	    "golden": false
+	    "max_gold_drop": 4
 	},
 	"ai": "BasicMonster",
 	"spawn_rate": [[10, 1]]
     },
-    
+
     {
 	"monster_id": "orc",
 	"name": "Orc",
 	"color": [64, 128, 64],
 	"symbol": "o",
 	"fighter": {
-	    "hp": 25,
-	    "power": 4,
-	    "defense": 1,
+	    "hp": 9,
+	    "STR": 12,
+	    "DEX": 10,
+	    "CON": 12,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 4,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0],
+		[1, 6, 0]
+	    ],
 	    "xp": 35,
-	    "max_gold_drop": 4,
-	    "golden": false
+	    "max_gold_drop": 4
 	},
 	"ai": "AggressiveMonster",
 	"ai_details": {
 	    "patience": 5
 	},
-	"spawn_rate": [[25, 1], [50, 3], [75, 5]]
-    },   
+	"spawn_rate": [[15, 1], [30, 3], [45, 5]]
+    },
+
     {
 	"monster_id": "thot",
 	"name": "Thot",
 	"color": [0, 128, 0],
 	"symbol": "t",
 	"fighter": {
-	    "hp": 30,
-	    "power": 7,
-	    "defense": 2,
+	    "hp": 12,
+	    "STR": 13,
+	    "DEX": 10,
+	    "CON": 12,
+	    "INT": 6,
+	    "WIS": 6,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0],
+		[1, 6, 0]
+	    ],
 	    "xp": 100,
-	    "max_gold_drop": 8,
-	    "golden": false
+	    "max_gold_drop": 8
 	},
 	"ai": "AggressiveMonster",
 	"ai_details": {
 	    "patience": 10
 	},
-	"spawn_rate": [[15, 4], [30, 8], [60, 12]]
+	"spawn_rate": [[5, 4], [10, 8], [15, 12]]
     },
+
     {
 	"monster_id": "mega_thot",
 	"name": "Mega Thot",
 	"color": [0, 128, 0],
 	"symbol": "T",
 	"fighter": {
-	    "hp": 45,
-	    "power": 12,
-	    "defense": 3,
+	    "hp": 18,
+	    "STR": 13,
+	    "DEX": 10,
+	    "CON": 12,
+	    "INT": 6,
+	    "WIS": 6,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 8, 0],
+		[1, 6, 0]
+	    ],
 	    "xp": 150,
-	    "max_gold_drop": 15,
-	    "golden": false
+	    "max_gold_drop": 15
 	},
 	"ai": "AggressiveMonster",
 	"ai_details": {
 	    "patience": 20
 	},
-	"spawn_rate": [[5, 8], [10, 16], [15, 24]]
+	"spawn_rate": [[4, 8], [8, 16], [12, 24]]
     },
+
     {
 	"monster_id": "red_dragon",
 	"name": "Red Dragon",
 	"color": [255, 63, 0],
 	"symbol": "D",
 	"fighter": {
-	    "hp": 65,
-	    "power": 12,
-	    "defense": 4,
+	    "hp": 25,
+	    "STR": 14,
+	    "DEX": 10,
+	    "CON": 14,
+	    "INT": 6,
+	    "WIS": 8,
+	    "CHA": 8,
+	    "DET": 3,
+	    "attacks": [
+		[1, 8, 0]
+	    ],
 	    "xp": 300,
 	    "max_gold_drop": 150,
 	    "golden": true
 	},
 	"ai": "BasicMonster",
-	"spawn_rate": [[5, 15]]
+	"spawn_rate": [[3, 15]]
     },
+    
     {
 	"monster_id": "jelly",
 	"name": "Jelly",
 	"color": [255, 0, 127],
 	"symbol": "J",
 	"fighter": {
-	    "hp": 60,
-	    "power": 3,
-	    "defense": 2,
+	    "hp": 25,
+	    "STR": 11,
+	    "DEX": 10,
+	    "CON": 14,
+	    "INT": 1,
+	    "WIS": 1,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0]
+	    ],
 	    "xp": 40,
-	    "max_gold_drop": 0,
-	    "golden": false
+	    "max_gold_drop": 0
 	},
 	"ai": "BasicMonster",
 	"spawn_rate": [[2, 1]]
     },
-    {
-	"monster_id": "dummy",
-	"name": "Training Dummy",
-	"color": [255, 255, 255],
-	"symbol": 2,
-	"fighter": {
-	    "hp": 1,
-	    "power": 0,
-	    "defense": 0,
-	    "xp": 400,
-	    "max_gold_drop": 0,
-	    "golden": false
-	},
-	"ai": "DummyMonster",
-	"spawn_rate": [[0, 0]]
-    },
+    
     {
 	"monster_id": "mother_dough",
 	"name": "Mother Dough",
 	"color": [0, 255, 255],
 	"symbol": "S",
 	"fighter": {
-	    "hp": 80,
-	    "power": 6,
-	    "defense": 3,
-	    "xp": 45,
+	    "hp": 30,
+	    "STR": 10,
+	    "DEX": 10,
+	    "CON": 11,
+	    "INT": 1,
+	    "WIS": 1,
+	    "CHA": 1,
+	    "DET": 3,
+	    "attacks": [
+		[1, 6, 0]
+	    ],
+	    "xp": 50,
 	    "max_gold_drop": 50,
 	    "golden": true
 	},
@@ -163,12 +235,19 @@
 	"color": [211, 211, 195],
 	"symbol": "S",
 	"fighter": {
-	    "hp": 15,
-	    "power": 1,
-	    "defense": 1,
+	    "hp": 4,
+	    "STR": 9,
+	    "DEX": 1,
+	    "CON": 9,
+	    "INT": 1,
+	    "WIS": 1,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 3, 0]
+	    ],
 	    "xp": 0,
-	    "max_gold_drop": 0,
-	    "golden": false
+	    "max_gold_drop": 0
 	},
 	"ai": "SourdoughAI",
 	"ai_details": {

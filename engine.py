@@ -10,13 +10,14 @@ from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
-from loader_functions.entity_definitions import get_monster
+from loader_functions.entity_definitions import get_monster, get_item
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables
 from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores
 from menus import main_menu, message_box
-from render_functions import clear_all, render_all
-#from rpg_mechanics import die
+from menu_cursor import MenuCursor
 from random import randint
+from render_functions import clear_all, render_all, render_character_creation
+from rpg_mechanics import die, get_modifier
 
 def main():
     constants = get_constants()
@@ -76,7 +77,8 @@ def main():
                 show_load_error_message = False
             elif new_game:
                 player, entities, game_map, message_log, game_state, turn = get_game_variables(constants)
-                game_state = GameStates.PLAYERS_TURN
+                #game_state = GameStates.PLAYERS_TURN
+                game_state = GameStates.CHARACTER_CREATION
                 show_main_menu = False
             elif load_saved_game:
                 try:
@@ -114,6 +116,11 @@ def play_game(player, entities, game_map, turn, message_log,
 
     targeting_item = None
 
+    creation_menu_cursor = MenuCursor(max_index=[5, 2])
+    stat_diffs = [0, 0, 0, 0, 0, 0]
+    points_available = 27
+    max_points_available = 27
+
     global lowest_level
     global highest_score
     
@@ -148,12 +155,16 @@ def play_game(player, entities, game_map, turn, message_log,
         drop_inventory = action.get('drop_inventory')
         inventory_index = action.get('inventory_index')
         descend_stairs = action.get('descend_stairs')
+        ascend_stairs = action.get('ascend_stairs')
         level_up = action.get('level_up')
         show_character_screen = action.get('show_character_screen')
         show_help_screen = action.get('show_help_screen')
         look_at = action.get("look_at")
         look_at_entity = action.get("look_at_entity")
         butcher = action.get("butcher")
+        menu_selection = action.get("menu_selection")
+        accept = action.get("accept")
+        rest = action.get("rest")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -196,10 +207,14 @@ def play_game(player, entities, game_map, turn, message_log,
                     if invisible_tick:
                         message_log.add_message(invisible_tick)
 
+                    previous_game_state = game_state
                     game_state = GameStates.ENEMY_TURN
+                    
             elif wait:
                 player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
+                previous_game_state = game_state
                 game_state = GameStates.ENEMY_TURN
+
             elif pickup:
                 pickup_results = []
 
@@ -242,6 +257,15 @@ def play_game(player, entities, game_map, turn, message_log,
                         e.classification.remove("corpse")
                         e.classification.append("corpse_bits")
                         player.inventory.add_item(item)
+            elif rest:
+                if player.fighter.hp == player.fighter.max_hp:
+                    message_log.add_message(Message('You feel too awake to take a rest!', libtcod.yellow))
+                elif player.hunger.saturation < player.hunger.starving_saturation:
+                    message_log.add_message(Message('You are too hungry to sleep!', libtcod.yellow))
+                else:
+                    previous_game_state = game_state
+                    game_state = GameStates.RESTING
+
                     
         if show_inventory:
             previous_game_state = game_state
@@ -259,13 +283,19 @@ def play_game(player, entities, game_map, turn, message_log,
                 player_turn_results.extend(player.inventory.drop_item(item))
 
         if level_up:
-            if level_up == 'hp':
-                player.fighter.base_max_hp += 20
-                player.fighter.hp += 20
-            elif level_up == 'str':
-                player.fighter.base_power += 1
-            elif level_up == 'def':
-                player.fighter.base_defense += 1
+            if level_up == 'STR':
+                player.fighter.strength += 1
+            if level_up == 'DEX':
+                player.fighter.dexterity += 1
+            if level_up == 'CON':
+                player.fighter.constitution += 1
+            if level_up == 'INT':
+                player.fighter.intelligence += 1
+            if level_up == 'WIS':
+                player.fighter.wisdom += 1
+            if level_up == 'CHA':
+                player.fighter.charisma += 1
+
             game_state = previous_game_state
 
         if show_character_screen:
@@ -329,6 +359,87 @@ def play_game(player, entities, game_map, turn, message_log,
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
+        if game_state == GameStates.RESTING:
+            if player.fighter.hp == player.fighter.max_hp:
+                game_state = GameStates.PLAYERS_TURN
+            
+        if game_state == GameStates.CHARACTER_CREATION:
+            menu_selection = action.get("menu_selection")
+            increase = action.get("increase")
+            decrease = action.get("decrease")
+            accept = action.get("accept")
+
+            if menu_selection:
+                if menu_selection == "up" and creation_menu_cursor.index[1] > 0:
+                    creation_menu_cursor.index[1] -= 1
+                if menu_selection == "down" and creation_menu_cursor.index[1] < creation_menu_cursor.max_index[creation_menu_cursor.index[0]]:
+                    creation_menu_cursor.index[1] += 1
+
+                if menu_selection == "left" and creation_menu_cursor.index[0] > 0:
+                    creation_menu_cursor.index[0] -= 1
+                    creation_menu_cursor.index[1] = 0
+                if menu_selection == "right" and creation_menu_cursor.index[0] < len(creation_menu_cursor.max_index) - 1:
+                    creation_menu_cursor.index[0] += 1
+                    creation_menu_cursor.index[1] = 0
+
+            if increase and creation_menu_cursor.index[0] == 0:
+                cost = 7 - (stat_diffs[creation_menu_cursor.index[1]] + 8)
+
+                if points_available + cost >= 0:
+                    points_available += cost
+                    stat_diffs[creation_menu_cursor.index[1]] += 1
+
+            if decrease and creation_menu_cursor.index[0] == 0:
+                cost = stat_diffs[creation_menu_cursor.index[1]]
+
+                if points_available + cost <= max_points_available and stat_diffs[creation_menu_cursor.index[1]] > 0:    
+                    points_available += cost
+                    stat_diffs[creation_menu_cursor.index[1]] -= 1
+                
+            if accept:            
+                if creation_menu_cursor.index[0] == len(creation_menu_cursor.max_index) - 1:
+                    player.fighter.strength = 8 + stat_diffs[0]
+                    player.fighter.dexterity = 8 + stat_diffs[1]
+                    player.fighter.constitution = 8 + stat_diffs[2]
+                    player.fighter.intelligence = 8 + stat_diffs[3]
+                    player.fighter.wisdom = 8 + stat_diffs[4]
+                    player.fighter.charisma = 8 + stat_diffs[5]
+                    player.fighter.heal(50)
+                    # this needs to dynamic per character's strength
+                    player.inventory.capacity += get_modifier(player.fighter.strength)
+                    
+                    player.inventory.items = []
+                    # make item selectable instead of using just an index
+                    if creation_menu_cursor.index[1] == 0:
+                        dagger = get_item("dagger", -1, -1)
+                        player.inventory.add_item(dagger)
+                        player.equipment.toggle_equip(dagger)
+                        potion = get_item("healing_potion", -1, -1)
+                        player.inventory.add_item(potion)
+                    elif creation_menu_cursor.index[1] == 1:
+                        dagger = get_item("dagger", -1, -1)
+                        dagger.equippable.enchantment = 1
+                        player.inventory.add_item(dagger)
+                        player.equipment.toggle_equip(dagger)
+                        potion = get_item("healing_potion", -1, -1)
+                        player.inventory.add_item(potion)
+                    elif creation_menu_cursor.index[1] == 2:
+                        dagger = get_item("dagger", -1, -1,)
+                        helmet = get_item("leather_helmet", -1, -1)
+                        helmet.equippable.enchantment = 1
+                        player.inventory.add_item(dagger)
+                        player.equipment.toggle_equip(dagger)
+                        player.inventory.add_item(helmet)
+                        player.equipment.toggle_equip(helmet)
+                        potion = get_item("healing_potion", -1, -1)
+                        player.inventory.add_item(potion)
+                    game_state = GameStates.PLAYERS_TURN
+                    libtcod.console_clear(con)
+                    libtcod.console_flush()
+                elif creation_menu_cursor.index[0] < len(creation_menu_cursor.max_index) - 1:
+                    creation_menu_cursor.index[0] += 1
+                    creation_menu_cursor.index[1] = 0
+
         for player_turn_result in player_turn_results:
             message = player_turn_result.get('message')
             dead_entity = player_turn_result.get('dead')
@@ -361,17 +472,21 @@ def play_game(player, entities, game_map, turn, message_log,
                 
             if item_added:
                 entities.remove(item_added)
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if gold_added:
                 entities.remove(gold_added)
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if item_consumed or food_eaten:
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if item_dropped:
                 entities.append(item_dropped)
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if equip:
@@ -386,6 +501,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         message_log.add_message(Message(
                             'You unequipped the {0}.'.format(unequipped.name)))
 
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if targeting:
@@ -441,7 +557,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         "You become aware of the presence of traps on this floor!", libtcod.white
                     ))
                     
-        if game_state == GameStates.ENEMY_TURN:
+        if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
             for entity in entities:
                 if entity.ai:
                     enemy_turn_results = entity.ai.take_turn(player, fov_map, game_map, entities)
@@ -474,7 +590,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         break
             else:
                 turn = tick_turn(turn, player, entities)
-                game_state = GameStates.PLAYERS_TURN
+                game_state = previous_game_state
 
 def tick_turn(turn, player, entities):
     expired = []
@@ -499,10 +615,10 @@ def tick_turn(turn, player, entities):
 
     if player.hunger.saturation > player.hunger.hungry_saturation:
         if turn % 10 == 0:
-            player.fighter.heal(2)
+            player.fighter.heal(1)
     elif player.hunger.saturation > player.hunger.starving_saturation:
         if turn % 20 == 0:
-            player.fighter.heal(2)
+            player.fighter.heal(1)
                 
     return turn + 1
                 
