@@ -14,6 +14,9 @@ The current goal of **Dungeon Star** is to reach the lowest point of the dungeon
 * If you find yourself surrounded by enemies, retreat into a 1-tile wide tunnel. It will be easier to deal with one enemy at a time, instead of being assaulted on every side.
 * Use items to your advantage! Many deaths can be prevented not by running-and-gunning, or racing through the dungeon as soon as possible, but by using the right item at the right time.
 * Both the player and enemies can attack in all 8 directions, so if you are only using the arrow-keys to move adjacent to an enemy in the cardinal directions, they will almost certainly be able to get a hit on you.
+* As long as you aren't hungry, your health will heal automatically. There's almost no reason to rush through the dungeon.
+
+The threat of starvation is a constant threat in *The Depression*. Luckily for you, a current surplus of food stuffs caused by rampant item imbalancing means that you shouldn't face any real threat of starvation. For now. To eat food items, open the inventory with *i* and select the food item you want to eat. Sometimes, monster will drop their corpses (represented by %), and their flesh can be extracted by pressing *x*.
 
 # Controls
 
