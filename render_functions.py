@@ -167,6 +167,8 @@ def render_character_creation(con, panel, screen_width, screen_height, menu_curs
 
     libtcod.console_set_default_foreground(con, libtcod.white)
     libtcod.console_print_ex(con, 1, 11, libtcod.BKGND_NONE, libtcod.LEFT, "{0} points available".format(points_available))
+    libtcod.console_print_ex(con, 1, 13, libtcod.BKGND_NONE, libtcod.LEFT, "+/- to add/subtract points")
+    libtcod.console_print_ex(con, 1, 14, libtcod.BKGND_NONE, libtcod.LEFT, "Enter to accept changes")
 
     libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
 
