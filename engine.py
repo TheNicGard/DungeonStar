@@ -159,6 +159,7 @@ def play_game(player, entities, game_map, turn, message_log,
         look_at_entity = action.get("look_at_entity")
         menu_selection = action.get("menu_selection")
         accept = action.get("accept")
+        rest = action.get("rest")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -199,10 +200,14 @@ def play_game(player, entities, game_map, turn, message_log,
                     if invisible_tick:
                         message_log.add_message(invisible_tick)
 
+                    previous_game_state = game_state
                     game_state = GameStates.ENEMY_TURN
+                    
             elif wait:
                 player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
+                previous_game_state = game_state
                 game_state = GameStates.ENEMY_TURN
+
             elif pickup:
                 pickup_results = []
 
@@ -229,6 +234,14 @@ def play_game(player, entities, game_map, turn, message_log,
                         break
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
+            elif rest:
+                if player.fighter.hp == player.fighter.max_hp:
+                    message_log.add_message(Message('You feel too awake to take a rest!', libtcod.yellow))
+                elif player.hunger.saturation < player.hunger.starving_saturation:
+                    message_log.add_message(Message('You are too hungry to sleep!', libtcod.yellow))
+                else:
+                    previous_game_state = game_state
+                    game_state = GameStates.RESTING
                     
         if show_inventory:
             previous_game_state = game_state
@@ -322,6 +335,10 @@ def play_game(player, entities, game_map, turn, message_log,
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
+        if game_state == GameStates.RESTING:
+            if player.fighter.hp == player.fighter.max_hp:
+                game_state = GameStates.PLAYERS_TURN
+            
         if game_state == GameStates.CHARACTER_CREATION:
             menu_selection = action.get("menu_selection")
             increase = action.get("increase")
@@ -429,17 +446,21 @@ def play_game(player, entities, game_map, turn, message_log,
                 
             if item_added:
                 entities.remove(item_added)
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if gold_added:
                 entities.remove(gold_added)
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if item_consumed or food_eaten:
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if item_dropped:
                 entities.append(item_dropped)
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if equip:
@@ -454,6 +475,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         message_log.add_message(Message(
                             'You unequipped the {0}.'.format(unequipped.name)))
 
+                previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if targeting:
@@ -485,7 +507,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 for i in drop_inventory.items:
                     entities.append(drop_inventory.drop_item(i)[0].get("item_dropped"))
                     
-        if game_state == GameStates.ENEMY_TURN:
+        if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
             for entity in entities:
                 if entity.ai:
                     enemy_turn_results = entity.ai.take_turn(player, fov_map, game_map, entities)
@@ -518,7 +540,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         break
             else:
                 turn = tick_turn(turn, player, entities)
-                game_state = GameStates.PLAYERS_TURN
+                game_state = previous_game_state
 
 def tick_turn(turn, player, entities):
     expired = []

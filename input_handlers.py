@@ -48,6 +48,8 @@ def handle_player_turn_keys(key):
         return {'descend_stairs': True}
     elif key.text == "<":
         return {'ascend_stairs': True}
+    elif key.text == "R":
+        return {'rest': True}
     
     elif key_char == 'g' or key_char == ',':
         return {'pickup': True}
