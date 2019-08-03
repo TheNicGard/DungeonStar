@@ -97,7 +97,7 @@ def get_game_variables(constants):
                     equipment=equipment_component, hunger=hunger_component)
     entities = [player]
 
-    equippable_component = Equippable("main_hand", hit_dice=[1, 4], enchantment=1)
+    equippable_component = Equippable("main_hand", hit_dice=[1, 4], enchantment=0)
     dagger = Entity("dagger", 0, 0, ')', libtcod.silver, 'dagger',
                     weight=2, equippable=equippable_component)
     player.inventory.add_item(dagger)
@@ -136,7 +136,7 @@ def get_test_map_variables(constants):
                     equipment=equipment_component, hunger=hunger_component)
     entities = [player]
 
-    equippable_component = Equippable("main_hand", hit_dice=[1, 4], enchantment=1)
+    equippable_component = Equippable("main_hand", hit_dice=[1, 4], enchantment=0)
     dagger = Entity("dagger", 0, 0, ')', libtcod.silver, 'dagger',
                     weight=2, equippable=equippable_component)
 

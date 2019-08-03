@@ -8,7 +8,7 @@ from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
-from loader_functions.entity_definitions import get_monster
+from loader_functions.entity_definitions import get_monster, get_item
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables
 from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores
 from menus import main_menu, message_box
@@ -107,11 +107,10 @@ def play_game(player, entities, game_map, turn, message_log,
 
     targeting_item = None
 
-    creation_menu = {
-        "Ability scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
-        "Select a starting item": ["(standard kit)", "+2 dagger (1d4)", "+1 leather helmet"]
-    }
     creation_menu_cursor = MenuCursor(max_index=[5, 2])
+    stat_diffs = [0, 0, 0, 0, 0, 0]
+    points_available = 27
+    max_points_available = 27
 
     global lowest_level
     global highest_score
@@ -125,7 +124,7 @@ def play_game(player, entities, game_map, turn, message_log,
                           constants['fov_algorithm'])
 
         if game_state == GameStates.CHARACTER_CREATION:
-            render_character_creation(con, panel, constants['screen_width'], constants['screen_height'], creation_menu, creation_menu_cursor)
+            render_character_creation(con, panel, constants['screen_width'], constants['screen_height'], creation_menu_cursor, stat_diffs, points_available)
             libtcod.console_flush()
         else:
             render_all(con, panel, entities, player, game_map, fov_map, fov_recompute,
@@ -340,9 +339,52 @@ def play_game(player, entities, game_map, turn, message_log,
                 if menu_selection == "right" and creation_menu_cursor.index[0] < len(creation_menu_cursor.max_index) - 1:
                     creation_menu_cursor.index[0] += 1
                     creation_menu_cursor.index[1] = 0
+
+            if increase and creation_menu_cursor.index[0] == 0:
+                if points_available > 0:
+                    change = stat_diffs[creation_menu_cursor.index[1]]
+                    points_available -= 1
+                    stat_diffs[creation_menu_cursor.index[1]] += 1
+
+            if decrease and creation_menu_cursor.index[0] == 0:
+                if points_available < max_points_available and stat_diffs[creation_menu_cursor.index[1]] > 0:
+                    points_available += 1
+                    stat_diffs[creation_menu_cursor.index[1]] -= 1
                 
-            if accept:
+            if accept:            
                 if creation_menu_cursor.index[0] == len(creation_menu_cursor.max_index) - 1:
+                    player.fighter.strength = 8 + stat_diffs[0]
+                    player.fighter.dexterity = 8 + stat_diffs[1]
+                    player.fighter.constitution = 8 + stat_diffs[2]
+                    player.fighter.intelligence = 8 + stat_diffs[3]
+                    player.fighter.wisdom = 8 + stat_diffs[4]
+                    player.fighter.charisma = 8 + stat_diffs[5]
+                    
+                    player.inventory.items = []
+                    # make item selectable instead of using just an index
+                    if creation_menu_cursor.index[1] == 0:
+                        dagger = get_item("dagger", -1, -1)
+                        player.inventory.add_item(dagger)
+                        player.equipment.toggle_equip(dagger)
+                        potion = get_item("healing_potion", -1, -1)
+                        player.inventory.add_item(potion)
+                    elif creation_menu_cursor.index[1] == 1:
+                        dagger = get_item("dagger", -1, -1)
+                        dagger.equippable.enchantment = 1
+                        player.inventory.add_item(dagger)
+                        player.equipment.toggle_equip(dagger)
+                        potion = get_item("healing_potion", -1, -1)
+                        player.inventory.add_item(potion)
+                    elif creation_menu_cursor.index[1] == 2:
+                        dagger = get_item("dagger", -1, -1,)
+                        helmet = get_item("leather_helmet", -1, -1)
+                        helmet.equippable.enchantment = 1
+                        player.inventory.add_item(dagger)
+                        player.equipment.toggle_equip(dagger)
+                        player.inventory.add_item(helmet)
+                        player.equipment.toggle_equip(helmet)
+                        potion = get_item("healing_potion", -1, -1)
+                        player.inventory.add_item(potion)
                     game_state = GameStates.PLAYERS_TURN
                     libtcod.console_clear(con)
                     libtcod.console_flush()

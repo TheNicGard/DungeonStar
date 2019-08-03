@@ -203,9 +203,9 @@ def handle_creation_screen(key):
         elif key.vk == libtcod.KEY_RIGHT or key.vk == libtcod.KEY_KP6 or key_char == 'l':
             return {"menu_selection": "right"}
         elif key.text == "+":
-            return {"menu_selection": "right"}
+            return {"increase": True}
         elif key.text == '-':
-            return {"menu_selection": "left"}
+            return {"decrease": True}
         elif key.vk == libtcod.KEY_ENTER:
             return {"accept": True}
         
