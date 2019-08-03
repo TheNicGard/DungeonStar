@@ -170,21 +170,23 @@ def character_screen(player, character_screen_width, screen_width, screen_height
 
 def help_screen(help_screen_width, screen_width, screen_height):
     help_items = [
-        "7 8 9   Y K U",
+        "7 8 9   y k u",
         "",
-        "4   6   H   L   move in all 8 directions",
+        "4   6   h   l   move in all 8 directions",
         "",
-        "1 2 3   B J N",
+        "1 2 3   b j n",
         "",
         '          . 5   wait a turn',
-        '            I   open inventory',
-        '          , G   pick up item',
-        '            D   drop item',
-        '            C   show character screen',
+        '            i   open inventory',
+        '          , g   pick up item',
+        '            d   drop item',
+        '            c   show character screen',
         '        SHIFT   descend stairs',
         '        ENTER   (not yet implemented)',
         '            ;   look at entity',
         "            x   butcher corpse (%)"
+        "",
+        "     Ctrl + f   toggle fullscreen"
     ]
 
     help_screen_height = len(help_items) + 7
