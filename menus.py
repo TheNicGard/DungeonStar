@@ -170,20 +170,26 @@ def character_screen(player, character_screen_width, screen_width, screen_height
 
 def help_screen(help_screen_width, screen_width, screen_height):
     help_items = [
-        'Help (press Esc to exit)',
-        '8 2 4 6 (or J K H L)   move N S W E',
-        '7 9 1 3 (or Y U B N)   move diagonally',
-        '. (or 5)               wait a turn',
-        'I                      open inventory',
-        ', (or G)               pick up item',
-        'D                      drop item',
-        'C                      show character screen',
-        'SHIFT                  descend stairs',
-        'ENTER                  (not yet implemented)',
-        ';                      look at entity'
+        "7 8 9   y k u",
+        "",
+        "4   6   h   l   move in all 8 directions",
+        "",
+        "1 2 3   b j n",
+        "",
+        '          . 5   wait a turn',
+        '            i   open inventory',
+        '          , g   pick up item',
+        '            d   drop item',
+        '            c   show character screen',
+        '        SHIFT   descend stairs',
+        '        ENTER   (not yet implemented)',
+        '            ;   look at entity',
+        "            x   butcher corpse (%)"
+        "",
+        "     Ctrl + f   toggle fullscreen"
     ]
 
-    help_screen_height = len(help_items) + 2
+    help_screen_height = len(help_items) + 7
     window = libtcod.console_new(help_screen_width, help_screen_height)
     libtcod.console_set_default_foreground(window, libtcod.white)
     libtcod.console_set_background_flag(window, libtcod.BKGND_OVERLAY)
@@ -191,8 +197,31 @@ def help_screen(help_screen_width, screen_width, screen_height):
     libtcod.console_rect(window, 0, 0, help_screen_width,
                               help_screen_height, True)
 
+    libtcod.console_print_rect_ex(window, 1, 1, help_screen_width, help_screen_height,
+                                  libtcod.BKGND_NONE, libtcod.LEFT, "Help (press Esc to exit)")
+    
+    libtcod.console_print_rect_ex(window, 7, 3, help_screen_width, help_screen_height,
+                                  libtcod.BKGND_NONE, libtcod.LEFT, chr(24))
+    libtcod.console_print_rect_ex(window, 7, 4, help_screen_width, help_screen_height,
+                                  libtcod.BKGND_NONE, libtcod.LEFT, chr(25))
+    libtcod.console_print_rect_ex(window, 8, 4, help_screen_width, help_screen_height,
+                                  libtcod.BKGND_NONE, libtcod.LEFT, chr(26))
+    libtcod.console_print_rect_ex(window, 6, 4, help_screen_width, help_screen_height,
+                                  libtcod.BKGND_NONE, libtcod.LEFT, chr(27))
+    libtcod.console_print_rect_ex(window, 17, 4, help_screen_width, help_screen_height,
+                                  libtcod.BKGND_NONE, libtcod.LEFT, "move in cardinal directions")
+
+    libtcod.console_set_default_foreground(window, libtcod.cyan)
+
+    color_index = 0
     for i in range(len(help_items)):
-        libtcod.console_print_rect_ex(window, 1, i + 1,
+        if color_index % 2 == 0:
+            libtcod.console_set_default_foreground(window, libtcod.white)
+        else:
+            libtcod.console_set_default_foreground(window, libtcod.cyan)
+        color_index += 1
+            
+        libtcod.console_print_rect_ex(window, 1, i + 6,
                                       help_screen_width, help_screen_height,
                                       libtcod.BKGND_NONE, libtcod.LEFT,
                                       help_items[i])

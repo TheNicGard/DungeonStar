@@ -24,7 +24,7 @@ def main():
     libtcod.console_set_custom_font('cp437_10x10.png',
                                     libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW)
     libtcod.console_init_root(constants['screen_width'], constants['screen_height'],
-                              constants['window_title'], False)
+                              constants['window_title'], False, libtcod.RENDERER_OPENGL2)
 
     con = libtcod.console_new(constants['screen_width'], constants['screen_height'])
     panel = libtcod.console_new(constants['message_width'], constants['panel_height'])
@@ -70,6 +70,7 @@ def main():
             load_saved_game = action.get('load_game')
             load_test_map = action.get('load_test_map')
             exit_game = action.get('exit')
+            fullscreen = action.get('fullscreen')
         
             if show_load_error_message and (new_game or load_saved_game or exit_game):
                 show_load_error_message = False
@@ -89,6 +90,9 @@ def main():
             elif exit_game:
                 save_high_scores(lowest_level, highest_score)
                 break
+            
+            if fullscreen:
+                libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
         else:
             libtcod.console_clear(con)

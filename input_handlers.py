@@ -64,6 +64,8 @@ def handle_player_turn_keys(key):
     
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    elif key_char == 'f' and key.lctrl:
+        return {'fullscreen': True}
 
     return {}
 
@@ -78,6 +80,8 @@ def handle_player_dead_keys(key):
         return {'show_help_screen': True}
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    elif key_char == 'f' and key.lctrl:
+        return {'fullscreen': True}
 
     return {}
 
@@ -88,12 +92,16 @@ def handle_inventory_keys(key):
         return {'inventory_index': index}
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    elif chr(key.c) == 'f' and key.lctrl:
+        return {'fullscreen': True}
 
     return {}
 
 def handle_targeting_keys(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'exit': True}
+    elif chr(key.c) == 'f' and key.lctrl:
+        return {'fullscreen': True}
     return {}
 
 def handle_mouse(mouse):
@@ -117,6 +125,8 @@ def handle_main_menu(key):
         return {'load_test_map': True}
     elif key_char == 'd' or key.vk == libtcod.KEY_ESCAPE:
         return {'exit': True}
+    elif key_char == 'f' and key.lctrl:
+        return {'fullscreen': True}
 
     return {}
 
@@ -130,11 +140,17 @@ def handle_level_up_menu(key):
             return {'level_up': 'str'}
         if key_char == 'c':
             return {'level_up': 'def'}
+        elif key_char == 'f' and key.lctrl:
+            return {'fullscreen': True}
+        
     return {}
 
 def handle_character_screen(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    elif chr(key.c) == 'f' and key.lctrl:
+        return {'fullscreen': True}
+    
     if key:
         key_char = chr(key.c)
         if key_char == 'c':
@@ -144,6 +160,9 @@ def handle_character_screen(key):
 def handle_help_screen(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    elif chr(key.c) == 'f' and key.lctrl:
+        return {'fullscreen': True}
+    
     if key:
         key_char = chr(key.c)
         if key_char == 'q':
@@ -153,6 +172,9 @@ def handle_help_screen(key):
 def handle_key_targeting(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
+    elif chr(key.c) == 'f' and key.lctrl:
+        return {'fullscreen': True}
+    
     if key:
         key_char = chr(key.c)
 
