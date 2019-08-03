@@ -342,14 +342,17 @@ def play_game(player, entities, game_map, turn, message_log,
                     creation_menu_cursor.index[1] = 0
 
             if increase and creation_menu_cursor.index[0] == 0:
-                if points_available > 0:
-                    change = stat_diffs[creation_menu_cursor.index[1]]
-                    points_available -= 1
+                cost = 7 - (stat_diffs[creation_menu_cursor.index[1]] + 8)
+
+                if points_available + cost >= 0:
+                    points_available += cost
                     stat_diffs[creation_menu_cursor.index[1]] += 1
 
             if decrease and creation_menu_cursor.index[0] == 0:
-                if points_available < max_points_available and stat_diffs[creation_menu_cursor.index[1]] > 0:
-                    points_available += 1
+                cost = stat_diffs[creation_menu_cursor.index[1]]
+
+                if points_available + cost <= max_points_available and stat_diffs[creation_menu_cursor.index[1]] > 0:    
+                    points_available += cost
                     stat_diffs[creation_menu_cursor.index[1]] -= 1
                 
             if accept:            
