@@ -8,6 +8,13 @@ date: Last updated August 2, 2019
 
 This manual which you hold your hands is meant to guide you through the treacherous, and often bullshitingly unfair dungeon known as *The Depression* that shelters the *Dungeon Star*. This manual currently holds little useful information, but is meant to guide players who are new to the genre of roguelikes, or to provide specific information to **Dungeon Star**.
 
+# Gameplay
+The current goal of **Dungeon Star** is to reach the lowest point of the dungeon without dying, while collecting as much gold as possible. Your obstacles are the inhabitants of *The Depression*, who appear to be various creatures represented by the letters of the alphabet. To attack an enemy, attempt to walk into it. Not all enemies will be so easy to attack, so here are a few tips to deal with them:
+
+* If you find yourself surrounded by enemies, retreat into a 1-tile wide tunnel. It will be easier to deal with one enemy at a time, instead of being assaulted on every side.
+* Use items to your advantage! Many deaths can be prevented not by running-and-gunning, or racing through the dungeon as soon as possible, but by using the right item at the right time.
+* Both the player and enemies can attack in all 8 directions, so if you are only using the arrow-keys to move adjacent to an enemy in the cardinal directions, they will almost certainly be able to get a hit on you.
+
 # Controls
 
 The controls of **Dungeon Star** are ever-changing as new features are added, and as old controls are considered to be awful, but this list of controls is accurate to the vision of the game.
