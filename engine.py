@@ -14,6 +14,7 @@ from loader_functions.data_loaders import load_game, save_game, load_high_scores
 from menus import main_menu, message_box
 from menu_cursor import MenuCursor
 from render_functions import clear_all, render_all, render_character_creation
+from rpg_mechanics import get_modifier
 
 def main():
     constants = get_constants()
@@ -359,6 +360,9 @@ def play_game(player, entities, game_map, turn, message_log,
                     player.fighter.intelligence = 8 + stat_diffs[3]
                     player.fighter.wisdom = 8 + stat_diffs[4]
                     player.fighter.charisma = 8 + stat_diffs[5]
+                    player.fighter.heal(50)
+                    # this needs to dynamic per character's strength
+                    player.inventory.capacity += get_modifier(player.fighter.strength)
                     
                     player.inventory.items = []
                     # make item selectable instead of using just an index
