@@ -70,12 +70,12 @@
     },
 
     {
-	"monster_id": "orc",
-	"name": "Orc",
+	"monster_id": "goblin",
+	"name": "Goblin",
 	"color": [64, 128, 64],
-	"symbol": "o",
+	"symbol": "g",
 	"fighter": {
-	    "hp": 9,
+	    "hp": 8,
 	    "STR": 12,
 	    "DEX": 10,
 	    "CON": 12,
@@ -84,8 +84,7 @@
 	    "CHA": 4,
 	    "DET": 1,
 	    "attacks": [
-		[1, 4, 0],
-		[1, 6, 0]
+		[1, 4, 0]
 	    ],
 	    "xp": 35,
 	    "max_gold_drop": 4
@@ -185,7 +184,7 @@
 	"symbol": "J",
 	"fighter": {
 	    "hp": 15,
-	    "STR": 11,
+	    "STR": 8,
 	    "DEX": 10,
 	    "CON": 14,
 	    "INT": 1,

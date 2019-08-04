@@ -258,6 +258,20 @@
     },
 
     {
+	"item_id": "leather_armor",
+	"name": "leather armor",
+	"weight": 2,
+	"color": [128, 64, 0],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "over_torso",
+	    "armor_bonus": 2
+	},
+	"spawn_rate": [[10, 8]],
+	"classification": ["armor"]
+    },
+
+    {
 	"item_id": "dungeon_star",
 	"name": "Dungeon Star",
 	"weight": 2,

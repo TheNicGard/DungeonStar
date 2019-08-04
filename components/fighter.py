@@ -43,7 +43,7 @@ class Fighter:
         if self.fixed_max_hp is not None:
             hp = self.fixed_max_hp
         else:
-            hp = 12 + get_modifier(self.constitution)
+            hp = 16 + get_modifier(self.constitution)
         return hp
 
     @property

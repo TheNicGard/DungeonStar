@@ -235,7 +235,7 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
 
 creation_menu = {
         "Ability scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
-        "Select a starting item": ["(standard kit)", "+1 dagger (1d4)", "+1 leather helmet"]
+        "Select a starting item": ["(standard kit)", "+1 dagger (1d4)", "+1 leather armor"]
 }
         
 def render_character_creation(con, panel, screen_width, screen_height, menu_cursor, stat_diffs, points_available):

@@ -418,6 +418,9 @@ def play_game(player, entities, game_map, turn, message_log,
                         dagger = get_item("dagger", -1, -1)
                         player.inventory.add_item(dagger)
                         player.equipment.toggle_equip(dagger)
+                        armor = get_item("leather_armor", -1, -1)
+                        player.inventory.add_item(armor)
+                        player.equipment.toggle_equip(armor)
                         potion = get_item("healing_potion", -1, -1)
                         player.inventory.add_item(potion)
                     elif creation_menu_cursor.index[1] == 1:
@@ -425,16 +428,19 @@ def play_game(player, entities, game_map, turn, message_log,
                         dagger.equippable.enchantment = 1
                         player.inventory.add_item(dagger)
                         player.equipment.toggle_equip(dagger)
+                        armor = get_item("leather_armor", -1, -1)
+                        player.inventory.add_item(armor)
+                        player.equipment.toggle_equip(armor)
                         potion = get_item("healing_potion", -1, -1)
                         player.inventory.add_item(potion)
                     elif creation_menu_cursor.index[1] == 2:
                         dagger = get_item("dagger", -1, -1,)
-                        helmet = get_item("leather_helmet", -1, -1)
-                        helmet.equippable.enchantment = 1
                         player.inventory.add_item(dagger)
                         player.equipment.toggle_equip(dagger)
-                        player.inventory.add_item(helmet)
-                        player.equipment.toggle_equip(helmet)
+                        armor = get_item("leather_armor", -1, -1)
+                        armor.equippable.enchantment = 1
+                        player.inventory.add_item(armor)
+                        player.equipment.toggle_equip(armor)
                         potion = get_item("healing_potion", -1, -1)
                         player.inventory.add_item(potion)
                     game_state = GameStates.PLAYERS_TURN
@@ -527,7 +533,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     message_log.add_message(Message(
                         'Your battle skills grow stronger! You reached level {0}!'.format(
                             player.level.current_level), libtcod.yellow))
-                    previous_game_state = game_state
+                    previous_game_state = GameStates.PLAYERS_TURN
                     game_state = GameStates.LEVEL_UP
                     
             if enemy_gold_dropped:
