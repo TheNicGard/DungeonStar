@@ -181,7 +181,7 @@
 	"positional": {
 	    "dummy": "fix this later"
 	},
-	"spawn_rate": [[10000000, 1]],
+	"spawn_rate": [[10, 2]],
 	"classification": ["scroll"]
     },
 
