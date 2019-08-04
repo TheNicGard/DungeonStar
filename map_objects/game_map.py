@@ -205,6 +205,10 @@ class GameMap:
                     if piece == "wall":
                         self.tiles[data_x][data_y].blocked = True
                         self.tiles[data_x][data_y].block_sight = True
+                    if piece == "window":
+                        self.tiles[data_x][data_y].blocked = True
+                        self.tiles[data_x][data_y].block_sight = False
+                        self.tiles[data_x][data_y].window = True
                     elif piece[0:6] == "sign: ":
                         sign_component = Sign(piece[6:])
                         sign = Entity("sign", data_x, data_y, "|", libtcod.blue,

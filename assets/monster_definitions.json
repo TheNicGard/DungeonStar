@@ -159,7 +159,7 @@
 	"color": [255, 63, 0],
 	"symbol": "D",
 	"fighter": {
-	    "hp": 25,
+	    "hp": 20,
 	    "STR": 14,
 	    "DEX": 10,
 	    "CON": 14,
@@ -184,7 +184,7 @@
 	"color": [255, 0, 127],
 	"symbol": "J",
 	"fighter": {
-	    "hp": 25,
+	    "hp": 15,
 	    "STR": 11,
 	    "DEX": 10,
 	    "CON": 14,
@@ -193,7 +193,7 @@
 	    "CHA": 1,
 	    "DET": 1,
 	    "attacks": [
-		[1, 4, 0]
+		[1, 2, 0]
 	    ],
 	    "xp": 40,
 	    "max_gold_drop": 0
@@ -208,7 +208,7 @@
 	"color": [0, 255, 255],
 	"symbol": "S",
 	"fighter": {
-	    "hp": 30,
+	    "hp": 25,
 	    "STR": 10,
 	    "DEX": 10,
 	    "CON": 11,
@@ -217,7 +217,7 @@
 	    "CHA": 1,
 	    "DET": 3,
 	    "attacks": [
-		[1, 6, 0]
+		[1, 4, 0]
 	    ],
 	    "xp": 50,
 	    "max_gold_drop": 50,
@@ -227,7 +227,7 @@
 	"inventory": {
 	    "subterranean_sourdough": 1
 	},
-	"spawn_rate": [[1, 8]]
+	"spawn_rate": [[1, 12]]
     },
     {
 	"monster_id": "sourdough_starter",

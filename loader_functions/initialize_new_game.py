@@ -45,12 +45,16 @@ def get_constants():
 
     colors = {
         'dark_wall': libtcod.darkest_sepia,
+        'dark_window': libtcod.darker_cyan,
         'dark_ground': libtcod.darker_sepia,
         'light_wall': libtcod.sepia,
+        'light_window': libtcod.cyan,
         'light_ground': libtcod.light_sepia,
         'classic_dark_wall': libtcod.lighter_grey,
+        'classic_dark_window': libtcod.lighter_grey,
         'classic_dark_ground': libtcod.black,
         'classic_light_wall': libtcod.lightest_grey,
+        'classic_light_window': libtcod.lightest_grey,
         'classic_light_ground': libtcod.white
     }
 
