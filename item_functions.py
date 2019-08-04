@@ -1,6 +1,7 @@
 import tcod as libtcod
 from game_messages import Message
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster
+from random import randint
 
 def heal(*args, **kwargs):
     entity = args[0]
@@ -196,6 +197,78 @@ def cast_greed(*args, **kwargs):
     return results
 
 def cast_detect_traps(*args, **kwargs):
+    entities = kwargs.get('entities')
+    
     results = []
-    results.append({"consumed": True, "detect_traps": True})
+
+    traps_found = False
+    
+    for e in entities:
+        if e.trap and not e.trap.revealed:
+            e.trap.set_reveal(True)
+            traps_found = True
+    if traps_found:
+        results.append({"consumed": True, "message": Message("You become aware of the presence of traps on this floor!", libtcod.white)})
+    else:
+        results.append({"consumed": True, "message": Message("You couldn't detect any traps!", libtcod.white)})
+    
+    return results
+
+def cast_detect_stairs(*args, **kwargs):
+    entities = kwargs.get('entities')
+    game_map = kwargs.get('game_map')
+    
+    results = []
+
+    stairs_found = False
+    
+    for e in entities:
+        if e.stairs and not game_map.tiles[e.x][e.y].explored:
+            game_map.tiles[e.x][e.y].explored = True
+            stairs_found = True
+    if stairs_found:
+        results.append({"consumed": True, "message": Message("You become aware of the stairs on this floor!", libtcod.white)})
+    else:
+        results.append({"consumed": True, "message": Message("You couldn't detect any stairs!", libtcod.white)})
+    
+    return results
+
+def cast_random_teleportation(*args, **kwargs):
+    caster = args[0]
+    entities = kwargs.get('entities')
+    game_map = kwargs.get('game_map')
+    
+    results = []
+
+    while True:
+        x = randint(0, game_map.width - 1)
+        y = randint(0, game_map.height - 1)
+
+        if not game_map.is_blocked(x, y) and not any([entity for entity in entities if entity.x == x and entity.y == y]):
+            caster.x = x
+            caster.y = y
+            results.append({'consumed': True, 'message': Message('You teleported!', libtcod.purple), "teleport": True})
+            break
+
+    return results
+
+def cast_blink(*args, **kwargs):
+    caster = args[0]
+    entities = kwargs.get('entities')
+    game_map = kwargs.get("game_map")
+    fov_map = kwargs.get('fov_map')
+    target_x = kwargs.get('target_x')
+    target_y = kwargs.get('target_y')
+    
+    results = []
+
+    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+        results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
+    elif game_map.is_blocked(target_x, target_y) or any([entity for entity in entities if entity.x == target_x and entity.y == target_y]):
+        results.append({'consumed': False, 'message': Message("You can't seem to blink there.", libtcod.yellow)})
+    else:
+        caster.x = target_x
+        caster.y = target_y
+        results.append({'consumed': True, 'message': Message('You blinked!', libtcod.purple), "teleport": True})
+
     return results

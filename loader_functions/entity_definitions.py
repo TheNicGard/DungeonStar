@@ -15,7 +15,7 @@ from components.inventory import Inventory
 from components.item import Item
 from entity import Entity
 from game_messages import Message
-from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps
+from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs
 from random import random
 from render_functions import RenderOrder
 
@@ -173,7 +173,9 @@ def load_items():
     item_function_names = [
         heal, cast_fireball, cast_lightning,
         cast_confuse, cast_stun, cast_sleep,
-        cast_greed, invisible, cast_detect_traps
+        cast_greed, invisible, cast_detect_traps,
+        cast_random_teleportation, cast_blink,
+        cast_detect_stairs
     ]
 
     equipment_types = [

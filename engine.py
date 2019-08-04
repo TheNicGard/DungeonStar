@@ -282,7 +282,7 @@ def play_game(player, entities, game_map, turn, message_log,
         if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(player.inventory.items):
             item = player.inventory.items[inventory_index]
             if game_state == GameStates.SHOW_INVENTORY:
-                player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map))
+                player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map, game_map=game_map))
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
 
@@ -331,6 +331,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 item_use_results = player.inventory.use(targeting_item,
                                                         entities=entities,
                                                         fov_map=fov_map,
+                                                        game_map=game_map,
                                                         target_x=target_x,
                                                         target_y=target_y)
                 player_turn_results.extend(item_use_results)
@@ -465,8 +466,8 @@ def play_game(player, entities, game_map, turn, message_log,
             enemy_gold_dropped = player_turn_result.get('enemy_gold_dropped')
             drop_inventory = player_turn_result.get("drop_inventory")
             stepped_on_trap = player_turn_result.get("stepped_on_trap")
-            detect_traps = player_turn_result.get("detect_traps")
-            
+            teleport = player_turn_result.get("teleport")
+
             if message:
                 message_log.add_message(message)
                 
@@ -556,16 +557,9 @@ def play_game(player, entities, game_map, turn, message_log,
                             damage_taken), libtcod.yellow))
                     player.fighter.take_damage(damage_taken)
 
-            if detect_traps:
-                traps_found = False
-                for e in entities:
-                    if e.trap:
-                        e.trap.set_reveal(True)
-                        traps_found = True
-                if traps_found:
-                    message_log.add_message(Message(
-                        "You become aware of the presence of traps on this floor!", libtcod.white
-                    ))
+            if teleport:
+                fov_map = initialize_fov(game_map)
+                fov_recompute = True
                     
         if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
             for entity in entities:
