@@ -45,10 +45,10 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                 if player.equipment.slots.get(s) == i:
                     temp_str = ""
                     if i.equippable.enchantment > 0:
-                        temp_str += ("+" + str(i.equippable.enchantment))
+                        temp_str += ("+" + str(i.equippable.enchantment) + " ")
                     elif i.equippable.enchantment < 0:
-                        temp_str += str(i.equippable.enchantment)
-                    temp_str += " {0}"
+                        temp_str += str(i.equippable.enchantment) + " "
+                    temp_str += "{0}"
                     if player.equipment.slots.get("main_hand") == i:
                         temp_str +=  " (in main hand)"
                     elif player.equipment.slots.get("off_hand") == i:

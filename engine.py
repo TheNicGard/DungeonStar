@@ -77,7 +77,6 @@ def main():
                 show_load_error_message = False
             elif new_game:
                 player, entities, game_map, message_log, game_state, turn = get_game_variables(constants)
-                #game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.CHARACTER_CREATION
                 show_main_menu = False
             elif load_saved_game:
@@ -132,16 +131,21 @@ def play_game(player, entities, game_map, turn, message_log,
                           constants['fov_radius'], constants['fov_light_walls'],
                           constants['fov_algorithm'])
 
-        render_all(con, panel, status_screen, entities, player, game_map,
-                   fov_map, fov_recompute, turn, message_log,
-                   constants['screen_width'], constants['screen_height'],
-                   constants['panel_height'], constants['panel_y'], mouse,
-                   constants['colors'], game_state, key_cursor, {"CLASSIC_COLOR": False},
-                   constants["status_screen_width"], constants["status_screen_height"])
+        if game_state == GameStates.CHARACTER_CREATION:
+            render_character_creation(con, panel, constants['screen_width'], constants['screen_height'], creation_menu_cursor, stat_diffs, points_available)
+            libtcod.console_flush()
+        else:
+            render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
+                       turn, message_log,
+                       constants['screen_width'], constants['screen_height'],
+                       constants['panel_height'], constants['panel_y'], mouse,
+                       constants['colors'], game_state, key_cursor, {"CLASSIC_COLOR": False},
+                       constants["status_screen_width"], constants["status_screen_height"]
+            )
         
-        fov_recompute = False
-        libtcod.console_flush()
-        clear_all(con, entities, key_cursor)
+            fov_recompute = False
+            libtcod.console_flush()
+            clear_all(con, entities, key_cursor)
         
         action = handle_keys(key, game_state)
         mouse_action = handle_mouse(mouse)
