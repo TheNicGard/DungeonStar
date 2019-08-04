@@ -111,7 +111,7 @@ def main_menu(con, background_image, screen_width, screen_height, lowest_level, 
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 2),
                              libtcod.BKGND_NONE, libtcod.CENTER, 'Nic Gard (C) 2019')
 
-    menu(con, '', ['Play a new game', 'Continue last game', 'Load test map', 'Quit'], 24,
+    menu(con, '', ['Play a new game', 'Continue last game', "Play Tutorial", 'Quit'], 24,
          screen_width, screen_height)
     
 

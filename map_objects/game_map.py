@@ -8,7 +8,7 @@ from components.trap import Trap
 from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
-from loader_functions.data_loaders import load_test_map_tiles
+from loader_functions.data_loaders import load_test_map_tiles, load_tutorial_map_tiles
 from loader_functions.entity_definitions import get_item, get_monster, item_defs, monster_defs
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
@@ -180,7 +180,7 @@ class GameMap:
                              'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
         entities.append(down_stairs)
 
-    def make_test_map(self, map_width, map_height, player, entities):
+    def make_test_map(self, map_width, map_height, player, entities, map_type):
         self.test_map = True
         w = map_width - 2
         h = map_height - 2
@@ -197,7 +197,11 @@ class GameMap:
         player.x = new_x
         player.y = new_y
 
-        data = load_test_map_tiles()
+        if map_type == "test_map":
+            data = load_test_map_tiles()
+        if map_type == "tutorial_map":
+            data = load_tutorial_map_tiles()
+            
         for data_y in range(len(data)):
             for data_x in range(len(data[x])):
                 if data[data_y][data_x] != '':
@@ -205,10 +209,13 @@ class GameMap:
                     if piece == "wall":
                         self.tiles[data_x][data_y].blocked = True
                         self.tiles[data_x][data_y].block_sight = True
-                    if piece == "window":
+                    elif piece == "window":
                         self.tiles[data_x][data_y].blocked = True
                         self.tiles[data_x][data_y].block_sight = False
                         self.tiles[data_x][data_y].window = True
+                    if piece == "player":
+                        player.x = data_x
+                        player.y = data_y
                     elif piece[0:6] == "sign: ":
                         sign_component = Sign(piece[6:])
                         sign = Entity("sign", data_x, data_y, "|", libtcod.blue,

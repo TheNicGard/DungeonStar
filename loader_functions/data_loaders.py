@@ -18,6 +18,7 @@ from render_functions import RenderOrder
 
 savegame_filename = "savegame.dat"
 test_map_filename = "assets/test_map.csv"
+tutorial_map_filename = "assets/tutorial_map.csv"
 high_scores_filename = "high_scores.dat"
 
 def save_game(player, entities, game_map, message_log, game_state, turn):
@@ -47,6 +48,14 @@ def load_game():
 
 def load_test_map_tiles():
     datafile = open(test_map_filename, 'r')
+    datareader = csv.reader(datafile, delimiter='|')
+    data = []
+    for row in datareader:
+        data.append(row)
+    return data
+
+def load_tutorial_map_tiles():
+    datafile = open(tutorial_map_filename, 'r')
     datareader = csv.reader(datafile, delimiter='|')
     data = []
     for row in datareader:

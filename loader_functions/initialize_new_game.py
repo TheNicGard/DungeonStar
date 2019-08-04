@@ -124,14 +124,6 @@ def get_game_variables(constants):
     return player, entities, game_map, message_log, game_state, turn
 
 def get_test_map_variables(constants):
-    """ I dont know if I want to continue using this
-    fighter_component = Fighter(
-        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
-        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
-        advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
-        advantage_roll(4, 3, 1, 6)
-    )
-    """
     fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
     
     inventory_component = Inventory(26)
@@ -154,10 +146,35 @@ def get_test_map_variables(constants):
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
     
-
-    
     game_map = GameMap(constants['map_width'], constants['map_height'])
-    game_map.make_test_map(constants['map_width'], constants['map_height'], player, entities)
+    game_map.make_test_map(constants['map_width'], constants['map_height'], player, entities, "test_map")
+
+    message_log = MessageLog(constants['message_x'], constants['message_width'],
+                             constants['message_height'])
+    
+    game_state = GameStates.PLAYERS_TURN
+    turn = 1
+
+    return player, entities, game_map, message_log, game_state, turn
+
+def get_tutorial_map_variables(constants):
+    fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
+    
+    inventory_component = Inventory(26)
+    level_component = Level()
+    hunger_component = Hunger()
+
+    equipment_component = Equipment({"main_hand": None, "off_hand": None, "head": None,
+                                     "under_torso": None, "over_torso": None, "legs": None,
+                                     "feet": None, "left_finger": None, "right_finger": None})    
+    player = Entity("player", 0, 0, '@', libtcod.white, 'Player', blocks=True,
+                    render_order=RenderOrder.ACTOR, fighter=fighter_component,
+                    inventory=inventory_component, level=level_component,
+                    equipment=equipment_component, hunger=hunger_component)
+    entities = [player]
+
+    game_map = GameMap(constants['map_width'], constants['map_height'])
+    game_map.make_test_map(constants['map_width'], constants['map_height'], player, entities, "tutorial_map")
 
     message_log = MessageLog(constants['message_x'], constants['message_width'],
                              constants['message_height'])

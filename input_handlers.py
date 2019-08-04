@@ -59,7 +59,7 @@ def handle_player_turn_keys(key):
         return {'drop_inventory': True}
     elif key_char == 'c':
         return {'show_character_screen': True}
-    elif key_char == 'q':
+    elif key.text == '?':
         return {'show_help_screen': True}
     elif key_char == ';':
         return {'look_at': True}
@@ -126,9 +126,11 @@ def handle_main_menu(key):
     elif key_char == 'b':
         return {'load_game': True}
     elif key_char == 'c':
-        return {'load_test_map': True}
+        return {'load_tutorial_map': True}
     elif key_char == 'd' or key.vk == libtcod.KEY_ESCAPE:
         return {'exit': True}
+    elif key_char == 'q':
+        return {'load_test_map': True}
     elif key_char == 'f' and key.lctrl:
         return {'fullscreen': True}
 
