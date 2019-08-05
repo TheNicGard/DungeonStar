@@ -62,18 +62,6 @@ def load_tutorial_map_tiles():
         data.append(row)
     return data
 
-def load_high_scores():
-    if not os.path.isfile(high_scores_filename):
-        with shelve.open(high_scores_filename, 'n') as data_file:
-            data_file['lowest_level'] = 1
-            data_file['highest_score'] = 0
-            return 1, 0
-    else:
-        with shelve.open(high_scores_filename, 'r') as data_file:
-            lowest_level = data_file['lowest_level']
-            highest_score = data_file['highest_score']
-            return lowest_level, highest_score
-
 def load_game_data():
     if not os.path.isfile(high_scores_filename):
         with shelve.open(high_scores_filename, 'n') as data_file:
@@ -89,11 +77,6 @@ def load_game_data():
             stat_diffs = data_file['stat_diffs']
             points_available = data_file['points_available']
             return lowest_level, highest_score, stat_diffs, points_available
-
-def save_high_scores(lowest_level, highest_score):
-    with shelve.open(high_scores_filename, 'n') as data_file:
-        data_file['lowest_level'] = lowest_level
-        data_file['highest_score'] = highest_score
 
 def save_game_data(lowest_level, highest_score, stat_diffs, points_available):
     with shelve.open(high_scores_filename, 'n') as data_file:

@@ -12,7 +12,7 @@ from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
 from loader_functions.entity_definitions import get_monster, get_item
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables, get_tutorial_map_variables
-from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores, save_game_data, load_game_data
+from loader_functions.data_loaders import load_game, save_game, save_game_data, load_game_data
 from menus import main_menu, message_box
 from menu_cursor import MenuCursor
 from random import randint
