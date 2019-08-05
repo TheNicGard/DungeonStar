@@ -119,10 +119,19 @@ def play_game(player, entities, game_map, turn, message_log,
 
     targeting_item = None
 
-    creation_menu_cursor = MenuCursor(max_index=[5, 2])
+    creation_menu_cursor = MenuCursor(max_index=[5, 5])
     stat_diffs = [0, 0, 0, 0, 0, 0]
     points_available = 27
     max_points_available = 27
+    stat_boosts = [[3, 4], [2, 5], [1, 2], [6, 3], [5, 6], [4, 1]]
+    # This could be coded better
+    # s_b[x] selects inspiration, s_b[x][0 to 1] major and minor boost
+    # self       provides +2 CON, +1 INT
+    # life       provides +2 DEX, +1 WIS
+    # peace      provides +2 STR, +1 DEX
+    # prosperity provides +2 CHA, +1 CON
+    # the arts   provides +2 WIS, +1 CHA
+    # the stars  provides +2 INT, +1 STR
 
     global lowest_level
     global highest_score
@@ -136,7 +145,8 @@ def play_game(player, entities, game_map, turn, message_log,
                           constants['fov_algorithm'])
 
         if game_state == GameStates.CHARACTER_CREATION:
-            render_character_creation(con, panel, constants['screen_width'], constants['screen_height'], creation_menu_cursor, stat_diffs, points_available)
+            render_character_creation(con, panel, constants['screen_width'], constants['screen_height'],
+                                      creation_menu_cursor, stat_diffs, points_available, stat_boosts)
             libtcod.console_flush()
         else:
             render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
@@ -415,7 +425,8 @@ def play_game(player, entities, game_map, turn, message_log,
                 if points_available + cost <= max_points_available and stat_diffs[creation_menu_cursor.index[1]] > 0:    
                     points_available += cost
                     stat_diffs[creation_menu_cursor.index[1]] -= 1
-                
+
+            # This needs to be separated to a new module
             if accept:            
                 if creation_menu_cursor.index[0] == len(creation_menu_cursor.max_index) - 1:
                     player.fighter.strength = 8 + stat_diffs[0]
@@ -424,6 +435,26 @@ def play_game(player, entities, game_map, turn, message_log,
                     player.fighter.intelligence = 8 + stat_diffs[3]
                     player.fighter.wisdom = 8 + stat_diffs[4]
                     player.fighter.charisma = 8 + stat_diffs[5]
+
+                    if creation_menu_cursor.index[1] == 0:
+                        player.fighter.constituion += 2
+                        player.fighter.intelligence += 1
+                    elif creation_menu_cursor.index[1] == 1:
+                        player.fighter.dexterity += 2
+                        player.fighter.wisdom += 1
+                    elif creation_menu_cursor.index[1] == 2:
+                        player.fighter.strength += 2
+                        player.fighter.dexterity += 1
+                    elif creation_menu_cursor.index[1] == 3:
+                        player.fighter.charisma += 2
+                        player.fighter.constituion += 1
+                    elif creation_menu_cursor.index[1] == 4:
+                        player.fighter.wisdom += 2
+                        player.fighter.charisma += 1
+                    elif creation_menu_cursor.index[1] == 5:
+                        player.fighter.intelligence += 2
+                        player.fighter.strength += 1
+                    
                     player.fighter.heal(50)
                     # this needs to dynamic per character's strength
                     player.inventory.capacity += get_modifier(player.fighter.strength)

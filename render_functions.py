@@ -235,35 +235,64 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
 
 creation_menu = {
         "Ability scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
-        "Select a starting item": ["(standard kit)", "+1 dagger (1d4)", "+1 leather armor"]
+        "Inspiration:": ["Self", "Life", "Peace", "Prosperity", "The Arts", "The Stars"]
 }
         
-def render_character_creation(con, panel, screen_width, screen_height, menu_cursor, stat_diffs, points_available):
+def render_character_creation(con, panel, screen_width, screen_height, menu_cursor, stat_diffs, points_available, stat_boosts):
     libtcod.console_clear(con)
 
     libtcod.console_set_default_foreground(con, libtcod.white)
     libtcod.console_print_ex(con, 1, 1, libtcod.BKGND_NONE, libtcod.LEFT, "The Rogue is born...")
+
+    # holy fuck don't look at the next section, you'll get lost in the spaghetti before you even get to the sauce
     
     header_index = 1
     menu_index = 0
-    table_margin = 7
+    table_margin = 12
+
+    current_num = menu_cursor.index[1]
     
+    #iterates over each column in the menu
     for h, m in creation_menu.items():
     
         index = 0
         libtcod.console_set_default_foreground(con, libtcod.white)
         libtcod.console_print_ex(con, header_index, index + 3, libtcod.BKGND_NONE, libtcod.LEFT, h)
+
+        # iterates over each item in a column of the menu
         for item in m:
+            # draw highlighting rectangle and change text color
             if menu_index == menu_cursor.index[0] and index == menu_cursor.index[1]:
                 libtcod.console_set_default_foreground(con, libtcod.black)
-                draw_background_rect(con, header_index, 4 + menu_cursor.index[1], len(h) + table_margin - 1, 1, libtcod.white)
+                draw_background_rect(con, header_index, 4 + menu_cursor.index[1], len(h) + table_margin - 5, 1, libtcod.white)
             else:
                 libtcod.console_set_default_foreground(con, libtcod.white)
+
+            # first column
             if menu_index == 0:
+                # stat boost from second column
+                if index + 1 in stat_boosts[current_num] and menu_cursor.index[0] == 1:
+                    libtcod.console_set_default_foreground(con, libtcod.cyan)
+                else:
+                    libtcod.console_set_default_foreground(con, libtcod.white)
+
+                if menu_index == menu_cursor.index[0] and index == menu_cursor.index[1]:
+                    libtcod.console_set_default_foreground(con, libtcod.black)
                 libtcod.console_print_ex(con, header_index, index + 4, libtcod.BKGND_NONE, libtcod.LEFT, item + ":")
-                libtcod.console_print_ex(con, len(h) + table_margin - 1, index + 4, libtcod.BKGND_NONE, libtcod.RIGHT, display_ability(8 + stat_diffs[index]))
+                if index + 1 in stat_boosts[current_num] and menu_cursor.index[0] == 1:
+                    if stat_boosts[current_num][0] == index + 1:
+                        libtcod.console_print_ex(con, len(h) + table_margin - 5, index + 4, libtcod.BKGND_NONE, libtcod.RIGHT, display_ability(8 + stat_diffs[index] + 2))
+                        libtcod.console_print_ex(con, len(h) + table_margin - 2, index + 4, libtcod.BKGND_NONE, libtcod.RIGHT, "+2")
+                    elif stat_boosts[current_num][1] == index + 1:
+                        libtcod.console_print_ex(con, len(h) + table_margin - 5, index + 4, libtcod.BKGND_NONE, libtcod.RIGHT, display_ability(8 + stat_diffs[index] + 1))
+                        libtcod.console_print_ex(con, len(h) + table_margin - 2, index + 4, libtcod.BKGND_NONE, libtcod.RIGHT, "+1")
+                else:
+                    libtcod.console_print_ex(con, len(h) + table_margin - 5, index + 4, libtcod.BKGND_NONE, libtcod.RIGHT, display_ability(8 + stat_diffs[index]))
+                    
+            # second column
             else:
                 libtcod.console_print_ex(con, header_index, index + 4, libtcod.BKGND_NONE, libtcod.LEFT, item)
+                
             index += 1
 
         header_index += len(h) + table_margin
