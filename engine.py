@@ -12,7 +12,7 @@ from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
 from loader_functions.entity_definitions import get_monster, get_item
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables, get_tutorial_map_variables
-from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores
+from loader_functions.data_loaders import load_game, save_game, load_high_scores, save_high_scores, save_game_data, load_game_data
 from menus import main_menu, message_box
 from menu_cursor import MenuCursor
 from random import randint
@@ -36,13 +36,21 @@ def main():
     game_map = None
     message_log = None
     game_state = None
+    
     global lowest_level
     lowest_level = 1
     global highest_score
     highest_score = 0
+    global stat_diffs
+    stat_diffs = [0, 0, 0, 0, 0, 0]
+    global points_available
+    points_available = 27
+    global max_points_available
+    max_points_available = 27
+    
     turn = 1
 
-    lowest_level, highest_score = load_high_scores()
+    lowest_level, highest_score, stat_diffs, points_available = load_game_data()
     
     show_main_menu = True
     show_load_error_message = False
@@ -93,7 +101,7 @@ def main():
                 player, entities, game_map, message_log, game_state, turn = get_test_map_variables(constants)
                 show_main_menu = False
             elif exit_game:
-                save_high_scores(lowest_level, highest_score)
+                save_game_data(lowest_level, highest_score, stat_diffs, points_available)
                 break
             
             if fullscreen:
@@ -120,9 +128,6 @@ def play_game(player, entities, game_map, turn, message_log,
     targeting_item = None
 
     creation_menu_cursor = MenuCursor(max_index=[5, 5])
-    stat_diffs = [0, 0, 0, 0, 0, 0]
-    points_available = 27
-    max_points_available = 27
     stat_boosts = [[3, 4], [2, 5], [1, 2], [6, 3], [5, 6], [4, 1]]
     # This could be coded better
     # s_b[x] selects inspiration, s_b[x][0 to 1] major and minor boost
@@ -135,6 +140,8 @@ def play_game(player, entities, game_map, turn, message_log,
 
     global lowest_level
     global highest_score
+    global points_available
+    global max_points_available
     
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse)
@@ -383,7 +390,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 player_turn_results.append({'targeting_cancelled': True})
             else:
                 save_game(player, entities, game_map, message_log, game_state, turn)
-                save_high_scores(lowest_level, highest_score)
+                save_game_data(lowest_level, highest_score, stat_diffs, points_available)
                 return True
         
         if fullscreen:
