@@ -38,7 +38,10 @@ class ItemDefinition:
         self.spawn_rate = spawn_rate
         self.classification = classification
 
-    def get_item(self, x, y):
+    def get_item(self, x, y, count=1):
+        if count > 1:
+            self.item_component.count = count
+
         item = Entity(self.id, x, y, self.char, self.color, self.name, weight=self.weight,
                       blocks=False, render_order=RenderOrder.ITEM,
                       item=self.item_component, equippable=self.equippable, animation=self.animation,
@@ -267,8 +270,8 @@ def load_items():
                     
     return item_defs
 
-def get_item(item_choice, x, y):
-    item = copy.deepcopy(item_defs.get(item_choice).get_item(x, y))
+def get_item(item_choice, x, y, count=1):
+    item = copy.deepcopy(item_defs.get(item_choice).get_item(x, y, count))
     return item
 
 def get_monster(monster_choice, x, y):

@@ -171,7 +171,7 @@
     },
 
     {
-	"item_id": "detect_stairss_scroll",
+	"item_id": "detect_stairs_scroll",
 	"name": "scroll of Detect Stairs",
 	"color": [240, 240, 240],
 	"symbol": "?",
@@ -288,6 +288,20 @@
 	    "armor_bonus": 2
 	},
 	"spawn_rate": [[10, 16]],
+	"classification": ["armor"]
+    },
+
+    {
+	"item_id": "tower_shield",
+	"name": "tower_shield",
+	"weight": 2,
+	"color": [128, 64, 0],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "off_hand",
+	    "armor_bonus": 3
+	},
+	"spawn_rate": [[15, 8]],
 	"classification": ["armor"]
     },
 

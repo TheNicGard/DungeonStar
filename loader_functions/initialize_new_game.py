@@ -168,7 +168,7 @@ def get_tutorial_map_variables(constants):
 
     equipment_component = Equipment({"main_hand": None, "off_hand": None, "head": None,
                                      "under_torso": None, "over_torso": None, "legs": None,
-                                     "feet": None, "left_finger": None, "right_finger": None
+                                     "feet": None, "left_finger": None, "right_finger": None,
                                      "cloak": None})    
     player = Entity("player", 0, 0, '@', libtcod.white, 'Player', blocks=True,
                     render_order=RenderOrder.ACTOR, fighter=fighter_component,

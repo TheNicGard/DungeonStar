@@ -465,38 +465,56 @@ def play_game(player, entities, game_map, turn, message_log,
                     player.fighter.heal(50)
                     # this needs to dynamic per character's strength
                     player.inventory.capacity += get_modifier(player.fighter.strength)
+
+
+                    dagger = get_item("dagger", -1, -1)
+                    armor = get_item("leather_armor", -1, -1)
+                    potion = get_item("healing_potion", -1, -1)
+                    
+                    extra_potions = get_item("healing_potion", -1, -1, 2)
+                    shield = get_item("tower_shield", -1, -1)
+                    greed_scrolls = get_item("greed_scroll", -1, -1, 3)
+                    lightning_scrolls = get_item("lightning_scroll", -1, -1, 3)
+                    #item_scrolls = get_item("detect_items_scroll", -1, -1, 2)
+                    stairs_scrolls = get_item("detect_stairs_scroll", -1, -1, 2)
+                    traps_scrolls = get_item("detect_traps_scroll", -1, -1, 2)
+                    
                     
                     player.inventory.items = []
                     # make item selectable instead of using just an index
+                    # self: tower shield
                     if creation_menu_cursor.index[1] == 0:
-                        dagger = get_item("dagger", -1, -1)
-                        player.inventory.add_item(dagger)
-                        player.equipment.toggle_equip(dagger)
-                        armor = get_item("leather_armor", -1, -1)
-                        player.inventory.add_item(armor)
-                        player.equipment.toggle_equip(armor)
-                        potion = get_item("healing_potion", -1, -1)
-                        player.inventory.add_item(potion)
+                        player.inventory.add_item(shield)
+                        player.equipment.toggle_equip(shield)
+                        
+                    # life: TODO taming scrolls
                     elif creation_menu_cursor.index[1] == 1:
-                        dagger = get_item("dagger", -1, -1)
-                        dagger.equippable.enchantment = 1
-                        player.inventory.add_item(dagger)
-                        player.equipment.toggle_equip(dagger)
-                        armor = get_item("leather_armor", -1, -1)
-                        player.inventory.add_item(armor)
-                        player.equipment.toggle_equip(armor)
-                        potion = get_item("healing_potion", -1, -1)
-                        player.inventory.add_item(potion)
+                        player.inventory.add_item(extra_potions)
+
+                    # peace: +2 dagger
                     elif creation_menu_cursor.index[1] == 2:
-                        dagger = get_item("dagger", -1, -1,)
-                        player.inventory.add_item(dagger)
-                        player.equipment.toggle_equip(dagger)
-                        armor = get_item("leather_armor", -1, -1)
-                        armor.equippable.enchantment = 1
-                        player.inventory.add_item(armor)
-                        player.equipment.toggle_equip(armor)
-                        potion = get_item("healing_potion", -1, -1)
-                        player.inventory.add_item(potion)
+                        dagger.equippable.enchantment = 2
+                        
+                    # prospertiy: greed scrolls 
+                    elif creation_menu_cursor.index[1] == 3:
+                        player.inventory.add_item(extra_potions)
+                    
+                    # the arts: lightning scrolls
+                    elif creation_menu_cursor.index[1] == 4:
+                        player.inventory.add_item(extra_potions)
+                    
+                    # the stars: detect items, stairs, trap, and aura scrolls
+                    elif creation_menu_cursor.index[1] == 5:
+                        player.inventory.add_item(stairs_scrolls)
+                        player.inventory.add_item(traps_scrolls)
+
+                    # items across all inspirations
+                    player.inventory.add_item(dagger)
+                    player.equipment.toggle_equip(dagger)    
+                    player.inventory.add_item(armor)
+                    player.equipment.toggle_equip(armor)
+                    player.inventory.add_item(potion)
+                    
                     game_state = GameStates.PLAYERS_TURN
                     libtcod.console_clear(con)
                     libtcod.console_flush()
