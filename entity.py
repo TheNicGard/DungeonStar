@@ -72,6 +72,10 @@ class Entity:
     def __str__(self):
         return "Entity \'{0}\' is represented by {1} at location ({2}, {3}).".format(self.name, self.char, self.x, self.y)
 
+    def get_name(self):
+        # TODO: add ID name
+        return self.name
+
     def move(self, dx, dy):
         self.x += dx
         self.y += dy

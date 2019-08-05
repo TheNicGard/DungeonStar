@@ -203,11 +203,22 @@ def play_game(player, entities, game_map, turn, message_log,
                         player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
 
                         entities_in_loc = get_entities_at_location(entities, destination_x, destination_y)
+                        items_in_loc = []
                         for e in entities_in_loc:
                             if e.sign:
                                 message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
                             if e.trap:
                                 player_turn_results.append({"stepped_on_trap": e.trap})
+                            if e.item:
+                                items_in_loc.append(e.get_name())
+                        if len(items_in_loc) == 1:
+                            message_log.add_message(Message("You see here " + items_in_loc[0] + ".", libtcod.white))
+                        elif len(items_in_loc) > 1:
+                            temp_str = "You see here "
+                            for i in range(len(items_in_loc) - 1):
+                                temp_str += items_in_loc[i] + ", "
+                            temp_str += items_in_loc[len(items_in_loc) - 1] + "."
+                            message_log.add_message(Message(temp_str, libtcod.white))
                                 
                         fov_recompute = True
 
