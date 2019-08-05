@@ -69,7 +69,7 @@
 
     {
 	"item_id": "confuse_scroll",
-	"name": "scroll of Confusion Opponent",
+	"name": "scroll of Confuse Opponent",
 	"color": [255, 115, 185],
 	"symbol": "?",
 	"weight": 1,

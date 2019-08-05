@@ -1,7 +1,7 @@
 [
     {
 	"monster_id": "dummy",
-	"name": "Training Dummy",
+	"name": "training dummy",
 	"color": [255, 255, 255],
 	"symbol": 2,
 	"fighter": {
@@ -23,7 +23,7 @@
     
     {
 	"monster_id": "rat",
-	"name": "Rat",
+	"name": "rat",
 	"color": [159, 159, 159],
 	"symbol": "r",
 	"fighter": {
@@ -47,7 +47,7 @@
     
     {
 	"monster_id": "snake",
-	"name": "Snake",
+	"name": "snake",
 	"color": [64, 128, 64],
 	"symbol": "s",
 	"fighter": {
@@ -71,7 +71,7 @@
 
     {
 	"monster_id": "goblin",
-	"name": "Goblin",
+	"name": "goblin",
 	"color": [64, 128, 64],
 	"symbol": "g",
 	"fighter": {
@@ -98,7 +98,7 @@
 
     {
 	"monster_id": "thot",
-	"name": "Thot",
+	"name": "thot",
 	"color": [0, 128, 0],
 	"symbol": "t",
 	"fighter": {
@@ -126,7 +126,7 @@
 
     {
 	"monster_id": "mega_thot",
-	"name": "Mega Thot",
+	"name": "mega thot",
 	"color": [0, 128, 0],
 	"symbol": "T",
 	"fighter": {
@@ -154,7 +154,7 @@
 
     {
 	"monster_id": "red_dragon",
-	"name": "Red Dragon",
+	"name": "red dragon",
 	"color": [255, 63, 0],
 	"symbol": "D",
 	"fighter": {
@@ -179,7 +179,7 @@
     
     {
 	"monster_id": "jelly",
-	"name": "Jelly",
+	"name": "jelly",
 	"color": [255, 0, 127],
 	"symbol": "J",
 	"fighter": {
@@ -230,7 +230,7 @@
     },
     {
 	"monster_id": "sourdough_starter",
-	"name": "Sourdough Starter",
+	"name": "sourdough starter",
 	"color": [211, 211, 195],
 	"symbol": "S",
 	"fighter": {
