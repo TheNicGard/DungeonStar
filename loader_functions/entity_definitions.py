@@ -239,7 +239,7 @@ def load_items():
                 chargeable_component = None
                 if item.get("max_charges"):
                     max_charge = item.get("max_charges")
-                    chargeable_component = Chargeable(randint(max_charge / 2, max_charge), max_charge)
+                    chargeable_component = Chargeable(max_charge)
                     
                 use_function = None
                 use_function_name = item.get("use_function")                
@@ -289,6 +289,8 @@ def load_items():
 
 def get_item(item_choice, x, y, count=1):
     item = copy.deepcopy(item_defs.get(item_choice).get_item(x, y, count))
+    if item.item.chargeable:
+        item.item.chargeable.init_charge()
     return item
 
 def get_monster(monster_choice, x, y):

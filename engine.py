@@ -481,14 +481,14 @@ def play_game(player, entities, game_map, turn, message_log,
                     armor = get_item("leather_armor", -1, -1)
                     potion = get_item("healing_potion", -1, -1)
                     
-                    pacify_scrolls = get_item("pacify_scroll", -1, -1, 4)
+                    pacify_wand = get_item("pacify_wand", -1, -1)
                     shield = get_item("tower_shield", -1, -1)
-                    greed_scrolls = get_item("greed_scroll", -1, -1, 4)
-                    lightning_scrolls = get_item("lightning_scroll", -1, -1, 4)
+                    greed_wand = get_item("greed_wand", -1, -1)
+                    lightning_wand = get_item("lightning_wand", -1, -1)
                     #aura_scrolls = get_item("detect_items_scroll", -1, -1, 2)
                     #item_scrolls = get_item("detect_items_scroll", -1, -1, 2)
-                    stairs_scrolls = get_item("detect_stairs_scroll", -1, -1, 2)
-                    traps_scrolls = get_item("detect_traps_scroll", -1, -1, 2)
+                    stairs_wand = get_item("detect_stairs_wand", -1, -1)
+                    traps_wand = get_item("detect_traps_wand", -1, -1)
                     
                     player.inventory.items = []
                     # make item selectable instead of using just an index
@@ -496,27 +496,27 @@ def play_game(player, entities, game_map, turn, message_log,
                     if creation_menu_cursor.index[1] == 0:
                         player.inventory.add_item(shield)
                         player.equipment.toggle_equip(shield)
-                        
-                    # life: pacify scrolls
+                    # life: pacify wand
                     elif creation_menu_cursor.index[1] == 1:
-                        player.inventory.add_item(pacify_scrolls)
-
+                        pacify_wand.item.chargeable.recharge(20)
+                        player.inventory.add_item(pacify_wand)
                     # peace: +2 dagger
                     elif creation_menu_cursor.index[1] == 2:
                         dagger.equippable.enchantment = 2
-                        
-                    # prospertiy: greed scrolls 
+                    # prospertiy: greed wand
                     elif creation_menu_cursor.index[1] == 3:
-                        player.inventory.add_item(greed_scrolls)
-                    
-                    # the arts: lightning scrolls
+                        greed_wand.item.chargeable.recharge(20)
+                        player.inventory.add_item(greed_wand)
+                    # the arts: lightning wand TODO: find a better item
                     elif creation_menu_cursor.index[1] == 4:
-                        player.inventory.add_item(lightning_scrolls)
-                    
-                    # the stars: detect items, stairs, trap, and aura scrolls
+                        lightning_wand.item.chargeable.recharge(20)
+                        player.inventory.add_item(lightning_wand)
+                    # the stars: detect items, stairs, trap, and aura wands
                     elif creation_menu_cursor.index[1] == 5:
-                        player.inventory.add_item(stairs_scrolls)
-                        player.inventory.add_item(traps_scrolls)
+                        stairs_wand.item.chargeable.recharge(20)
+                        traps_wand.item.chargeable.recharge(20)
+                        player.inventory.add_item(stairs_wand)
+                        player.inventory.add_item(traps_wand)
 
                     # items across all inspirations
                     player.inventory.add_item(dagger)

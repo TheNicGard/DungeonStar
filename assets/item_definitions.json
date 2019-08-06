@@ -244,7 +244,7 @@
 	"weight": 10,
 	"use_function": "cast_fireball",
 	"targeting": true,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "targeting_message": {
 		"message": "Left-click a target tile for the fireball, or right-click to cancel.",
@@ -265,7 +265,7 @@
 	"weight": 10,
 	"use_function": "cast_confuse",
 	"targeting": true,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "targeting_message": {
 		"message": "Left-click an enemy to confuse it, or right-click to cancel.",
@@ -284,7 +284,7 @@
 	"weight": 10,
 	"use_function": "cast_lightning",
 	"targeting": false,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "damage": 40,
 	    "maximum_range": 5
@@ -301,7 +301,7 @@
 	"weight": 10,
 	"use_function": "cast_stun",
 	"targeting": true,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "targeting_message": {
 		"message": "Left-click an enemy to stun it, or right-click to cancel.",
@@ -320,7 +320,7 @@
 	"weight": 10,
 	"use_function": "cast_sleep",
 	"targeting": true,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "targeting_message": {
 		"message": "Left-click an enemy to put it to sleep, or right-click to cancel.",
@@ -339,7 +339,7 @@
 	"weight": 10,
 	"use_function": "cast_greed",
 	"targeting": true,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "targeting_message": {
 		"message": "Left-click an enemy to enchant it, or right-click to cancel.",
@@ -390,7 +390,7 @@
 	"weight": 10,
 	"use_function": "cast_random_teleportation",
 	"targeting": false,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "dummy": "fix this later"
 	},
@@ -406,7 +406,7 @@
 	"weight": 10,
 	"use_function": "cast_blink",
 	"targeting": true,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "targeting_message": {
 		"message": "Left-click a tile to blink to, or right-click to cancel.",
@@ -425,7 +425,7 @@
 	"weight": 10,
 	"use_function": "cast_pacify",
 	"targeting": true,
-	"max_charges": 8,
+	"max_charges": 12,
 	"positional": {
 	    "targeting_message": {
 		"message": "Left-click an enemy to enchant it, or right-click to cancel.",

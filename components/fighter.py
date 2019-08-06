@@ -118,15 +118,14 @@ class Fighter:
         return results
 
     def get_gold(self):
-        initial_gold = randint(0, self.max_gold_drop)
+        gold = randint(0, self.max_gold_drop)
         
         if self.status["golden"]:
-            gold = initial_gold
             second_roll = randint(0, self.max_gold_drop)
             if second_roll > gold:
                 gold = second_roll
         else:   
-            gold = choice([0, 0, 0, initial_gold]) # 1/4 chance of gold drop
+            gold = choice([0, 0, 0, gold]) # 1/4 chance of gold drop
 
         if gold > 0:
             valuable_component = Valuable(gold)
