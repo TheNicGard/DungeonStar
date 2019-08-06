@@ -4,7 +4,7 @@
 	"name": "can of Dr. Fabulous",
 	"color": [127, 0, 255],
 	"symbol": "!",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "heal",
 	"targeting": false,
 	"positional": {
@@ -20,7 +20,7 @@
 	"name": "can of Dr. Fabulous \"w/ Real Sugar!\"",
 	"color": [229, 191, 0],
 	"symbol": "!",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "heal",
 	"targeting": false,
 	"positional": {
@@ -36,7 +36,7 @@
 	"name": "can of Crystal Dr. Fabulous",
 	"color": [191, 239, 255],
 	"symbol": "!",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "invisible",
 	"targeting": false,
 	"positional": {
@@ -52,7 +52,7 @@
 	"name": "scroll of Fireball",
 	"color": [255, 63, 0],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_fireball",
 	"targeting": true,
 	"positional": {
@@ -72,7 +72,7 @@
 	"name": "scroll of Confuse Opponent",
 	"color": [255, 115, 185],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_confuse",
 	"targeting": true,
 	"positional": {
@@ -90,7 +90,7 @@
 	"name": "scroll of Lightning",
 	"color": [115, 255, 255],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_lightning",
 	"targeting": false,
 	"positional": {
@@ -106,7 +106,7 @@
 	"name": "scroll of Stun Opponent",
 	"color": [0, 255, 127],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_stun",
 	"targeting": true,
 	"positional": {
@@ -124,7 +124,7 @@
 	"name": "scroll of Sleep",
 	"color": [166, 255, 255],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_sleep",
 	"targeting": true,
 	"positional": {
@@ -142,7 +142,7 @@
 	"name": "scroll of Greed",
 	"color": [229, 191, 0],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_greed",
 	"targeting": true,
 	"positional": {
@@ -160,7 +160,7 @@
 	"name": "scroll of Detect Traps",
 	"color": [255, 0, 0],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_detect_traps",
 	"targeting": false,
 	"positional": {
@@ -175,7 +175,7 @@
 	"name": "scroll of Detect Stairs",
 	"color": [240, 240, 240],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_detect_stairs",
 	"targeting": false,
 	"positional": {
@@ -190,7 +190,7 @@
 	"name": "scroll of Random Teleportation",
 	"color": [140, 0, 240],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_random_teleportation",
 	"targeting": false,
 	"positional": {
@@ -205,7 +205,7 @@
 	"name": "scroll of Blinking",
 	"color": [140, 0, 240],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_blink",
 	"targeting": true,
 	"positional": {
@@ -223,7 +223,7 @@
 	"name": "scroll of Pacification",
 	"color": [143, 191, 0],
 	"symbol": "?",
-	"weight": 1,
+	"weight": 5,
 	"use_function": "cast_pacify",
 	"targeting": true,
 	"positional": {
@@ -241,7 +241,7 @@
 	"name": "dagger",
 	"color": [203, 203, 203],
 	"symbol": ")",
-	"weight": 2,
+	"weight": 20,
 	"equipment": {
 	    "slot": "main_hand",
 	    "hit_dice_count": 1,
@@ -256,7 +256,7 @@
 	"name": "shortsword",
 	"color": [0, 191, 255],
 	"symbol": ")",
-	"weight": 2,
+	"weight": 20,
 	"equipment": {
 	    "slot": "main_hand",
 	    "hit_dice_count": 1,
@@ -271,7 +271,7 @@
 	"name": "longsword",
 	"color": [0, 191, 255],
 	"symbol": ")",
-	"weight": 2,
+	"weight": 20,
 	"equipment": {
 	    "slot": "main_hand",
 	    "hit_dice_count": 1,
@@ -284,7 +284,7 @@
     {
 	"item_id": "buckler",
 	"name": "buckler",
-	"weight": 2,
+	"weight": 20,
 	"color": [128, 64, 0],
 	"symbol": "[",
 	"equipment": {
@@ -298,7 +298,7 @@
     {
 	"item_id": "shield",
 	"name": "shield",
-	"weight": 2,
+	"weight": 20,
 	"color": [128, 64, 0],
 	"symbol": "[",
 	"equipment": {
@@ -312,7 +312,7 @@
     {
 	"item_id": "tower_shield",
 	"name": "tower_shield",
-	"weight": 2,
+	"weight": 20,
 	"color": [128, 64, 0],
 	"symbol": "[",
 	"equipment": {
@@ -326,7 +326,7 @@
     {
 	"item_id": "leather_helmet",
 	"name": "leather helmet",
-	"weight": 2,
+	"weight": 20,
 	"color": [128, 64, 0],
 	"symbol": "[",
 	"equipment": {
@@ -340,7 +340,7 @@
     {
 	"item_id": "leather_armor",
 	"name": "leather armor",
-	"weight": 2,
+	"weight": 20,
 	"color": [128, 64, 0],
 	"symbol": "[",
 	"equipment": {
@@ -354,7 +354,7 @@
     {
 	"item_id": "dungeon_star",
 	"name": "Dungeon Star",
-	"weight": 2,
+	"weight": 0,
 	"color": [255, 255, 255],
 	"symbol": "[",
 	"equipment": {
@@ -370,7 +370,7 @@
 	"name": "M.R.E.",
 	"color": [127, 101, 63],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 800,
@@ -383,7 +383,7 @@
 	"name": "bento box",
 	"color": [94, 75, 47],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 1000,
@@ -396,7 +396,7 @@
 	"name": "The #1 Combo Meal",
 	"color": [255, 63, 0],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 1000,
@@ -409,7 +409,7 @@
 	"name": "fish n' chips",
 	"color": [0, 0, 191],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 600,
@@ -422,7 +422,7 @@
 	"name": "slice of pizza",
 	"color": [255, 255, 0],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 200,
@@ -435,7 +435,7 @@
 	"name": "\"English Nachos\"",
 	"color": [64, 32, 0],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 500,
@@ -448,7 +448,7 @@
 	"name": "ploughman's lunch",
 	"color": [0, 191, 0],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 500,
@@ -461,7 +461,7 @@
 	"name": "take-out leftovers",
 	"color": [191, 191, 191],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 500,
@@ -474,7 +474,7 @@
 	"name": "Subterranean Sourdough Loaf",
 	"color": [211, 211, 195],
 	"symbol": "%",
-	"weight": 1,
+	"weight": 10,
 	"targeting": false,
 	"positional": {},
 	"nutrition": 2000,

@@ -87,7 +87,7 @@ def get_game_variables(constants):
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
         advantage_roll(4, 3, 1, 6)
     )
-    inventory_component = Inventory(26)
+    inventory_component = Inventory(260)
     level_component = Level()
     
     hunger_component = Hunger()
@@ -124,7 +124,7 @@ def get_game_variables(constants):
 def get_test_map_variables(constants):
     fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
     
-    inventory_component = Inventory(26)
+    inventory_component = Inventory(260)
     level_component = Level()
     hunger_component = Hunger()
 
@@ -159,7 +159,7 @@ def get_test_map_variables(constants):
 def get_tutorial_map_variables(constants):
     fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
     
-    inventory_component = Inventory(26)
+    inventory_component = Inventory(260)
     level_component = Level()
     hunger_component = Hunger()
 

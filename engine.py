@@ -467,8 +467,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     
                     player.fighter.heal(50)
                     # this needs to dynamic per character's strength
-                    player.inventory.capacity += get_modifier(player.fighter.strength)
-
+                    player.inventory.capacity += (get_modifier(player.fighter.strength) * 10)
 
                     dagger = get_item("dagger", -1, -1)
                     armor = get_item("leather_armor", -1, -1)
