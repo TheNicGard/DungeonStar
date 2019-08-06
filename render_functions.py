@@ -2,7 +2,7 @@ import tcod as libtcod
 from enum import Enum
 from game_states import GameStates
 from math import sqrt
-from menus import inventory_menu, level_up_menu, character_screen, help_screen
+from menus import inventory_menu, level_up_menu, character_screen, help_screen, format_weight
 from rpg_mechanics import display_ability
 
 class RenderOrder(Enum):
@@ -240,7 +240,7 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
     # MENUS
     if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
         if game_state == GameStates.SHOW_INVENTORY:
-            inventory_title = 'Inventory ({0}{2}/{1}{2})\n'.format(player.inventory.current_weight, player.inventory.capacity, chr(169))
+            inventory_title = 'Inventory ({0}/{1})\n'.format(format_weight(player.inventory.current_weight, 1), format_weight(player.inventory.capacity, 1))
         elif game_state == GameStates.DROP_INVENTORY:
             inventory_title = 'Press the key next to an item to drop it, or Esc to cancel.\n'
         inventory_menu(con, inventory_title, player, 50, screen_width, screen_height)

@@ -25,6 +25,10 @@ def menu(con, header, options, width, screen_width, screen_height):
     y = int(screen_height / 2 - height / 2)
     libtcod.console_blit(window, 0, 0, width, height, 0, x, y, 1.0, 0.7)
 
+def format_weight(weight_int, count):
+    weight = weight_int * count
+    return str(weight // 10) + "." + str(weight % 10) + chr(169)
+    
 def inventory_menu(con, header, player, inventory_width, screen_width, screen_height):
     if len(player.inventory.items) == 0:
         options = ['Inventory is empty.']
@@ -68,7 +72,8 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                     elif player.equipment.slots.get("right_finger") == i:
                         temp_str +=  " (on right hand)"
 
-                    weight = str(i.weight) + chr(169)
+                    #weight = str(i.weight) + chr(169)
+                    weight = format_weight(i.weight, i.item.count)
                     offset = inventory_width - (4 + len(temp_str) + len(weight))
                     temp_str += (' ' * offset) + weight
                     
@@ -87,25 +92,17 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                 if i.item.count > 1:
                     if i.item.age is not None:
                         temp_str = "({0}) {1} ({2} turns old)".format(i.item.count, i.name, i.item.age)
-                        weight = str(i.weight) + chr(169)
-                        offset = inventory_width - (4 + len(temp_str) + len(weight))
-                        temp_str += (' ' * offset) + weight
                     else:
                         temp_str = "({0}) {1}".format(i.item.count, i.name)
-                        weight = str(i.weight) + chr(169)
-                        offset = inventory_width - (4 + len(temp_str) + len(weight))
-                        temp_str += (' ' * offset) + weight
                 else:
                     if i.item.age is not None:
                         temp_str = "{0} ({1} turns old)".format(i.name, i.item.age)
-                        weight = str(i.weight) + chr(169)
-                        offset = inventory_width - (4 + len(temp_str) + len(weight))
-                        temp_str += (' ' * offset) + weight
                     else:
                         temp_str = i.name
-                        weight = str(i.weight) + chr(169)
-                        offset = inventory_width - (4 + len(temp_str) + len(weight))
-                        temp_str += (' ' * offset) + weight
+
+                weight = format_weight(i.weight, i.item.count)
+                offset = inventory_width - (4 + len(temp_str) + len(weight))
+                temp_str += (' ' * offset) + weight
 
                 options.append(temp_str)
                 temp_inv.append(i)
