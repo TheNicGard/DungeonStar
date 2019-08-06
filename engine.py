@@ -118,8 +118,12 @@ def play_game(player, entities, game_map, turn, message_log,
     key_cursor = Entity("cursor", player.x, player.y, chr(0), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=['X', ' '], speed=0.2))
 
-    p = Plot()
-    player.name = p.protagonist.name
+    if hasattr(player, "plot"):
+        p = player.plot
+    else:
+        p = Plot()
+        player.plot = p
+        player.name = p.protagonist.name
     
     fov_recompute = True
     fov_map = initialize_fov(game_map)
