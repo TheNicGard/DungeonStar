@@ -130,17 +130,18 @@ class Fighter:
 
         if gold > 0:
             valuable_component = Valuable(gold)
-
+            gold_item = None
+            
             if gold < 20:
                 gold_item = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.dark_sepia, 'Copper',
                                    render_order=RenderOrder.GOLD,
                                    valuable=valuable_component)
             elif gold < 75:
-                gold = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.silver, 'Silver',
+                gold_item = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.silver, 'Silver',
                               render_order=RenderOrder.GOLD,
                               valuable=valuable_component)
             else:
-                gold = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.gold, 'Gold',
+                gold_item = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.gold, 'Gold',
                               render_order=RenderOrder.GOLD,
                               valuable=valuable_component)
             return gold_item
