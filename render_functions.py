@@ -3,7 +3,9 @@ from enum import Enum
 from game_states import GameStates
 from math import sqrt
 from menus import inventory_menu, level_up_menu, character_screen, help_screen, format_weight
+from plot_gen import get_name
 from rpg_mechanics import display_ability
+import textwrap
 
 class RenderOrder(Enum):
     STAIRS = 1
@@ -28,7 +30,7 @@ def render_bar(panel, x, y, total_width, value, maximum, bar_color, back_color):
     bar_width = int(float(value) / maximum * total_width)
 
     libtcod.console_set_default_background(panel, back_color)
-    libtcod.console_rect(panel, x, y, total_width, 1, False, libtcod.BKGND_NONE)
+    libtcod.console_rect(panel, x, y, total_width, 1, False, libtcod.BKGND_SCREEN)
 
     libtcod.console_set_default_background(panel, bar_color)
     if bar_width > 0:
@@ -64,10 +66,10 @@ def render_status_panel(panel, x, y, width, height, player, game_state, entities
     libtcod.console_rect(panel, x, y, width, height, False, libtcod.BKGND_SET)
 
     libtcod.console_set_default_foreground(panel, libtcod.white)
-    libtcod.console_print_ex(panel, int(x + width / 2), y, libtcod.BKGND_NONE, libtcod.CENTER, "The Rogue")
+    libtcod.console_print_ex(panel, int(x + width / 2), y + 1, libtcod.BKGND_NONE, libtcod.CENTER, player.name)
 
-    libtcod.console_print_ex(panel, x + 1, y + 2, libtcod.BKGND_NONE, libtcod.LEFT, "HP")
-    render_bar(panel, x + 4, y + 2, width - 5, player.fighter.hp, player.fighter.max_hp,
+    libtcod.console_print_ex(panel, x + 1, y + 3, libtcod.BKGND_NONE, libtcod.LEFT, "HP")
+    render_bar(panel, x + 4, y + 3, width - 5, player.fighter.hp, player.fighter.max_hp,
                libtcod.light_red, libtcod.darker_red)
 
     libtcod.console_set_default_foreground(panel, libtcod.white)
@@ -89,13 +91,13 @@ def render_status_panel(panel, x, y, width, height, player, game_state, entities
     for e in entities_in_fov:
         # Entity char
         libtcod.console_set_default_foreground(panel, e.color)
-        libtcod.console_put_char(panel, x + 1, y + 5 + index, e.char, libtcod.BKGND_NONE)
+        libtcod.console_put_char(panel, x + 1, y + 6 + index, e.char, libtcod.BKGND_NONE)
 
         # Entity health
         health_ratio = e.fighter.hp / e.fighter.max_hp
         if not color_accessibility:
             libtcod.console_set_default_foreground(panel, get_health_color(health_ratio))
-            libtcod.console_put_char(panel, x + 3, y + 5 + index, chr(219), libtcod.BKGND_NONE)
+            libtcod.console_put_char(panel, x + 3, y + 6 + index, chr(219), libtcod.BKGND_NONE)
         else:
             health_char = ' '
             if health_ratio > 0.75:
@@ -108,17 +110,17 @@ def render_status_panel(panel, x, y, width, height, player, game_state, entities
                 health_char = chr(176)
                 
             libtcod.console_set_default_foreground(panel, libtcod.white)
-            libtcod.console_put_char(panel, x + 3, y + 5 + index, health_char, libtcod.BKGND_NONE)
+            libtcod.console_put_char(panel, x + 3, y + 6 + index, health_char, libtcod.BKGND_NONE)
             
         # Entity name
         libtcod.console_set_default_foreground(panel, libtcod.white)
         if e.ai.__class__.__name__ == "NeutralMonster":
-            libtcod.console_print_ex(panel, x + 5, y + 5 + index, libtcod.BKGND_NONE, libtcod.LEFT,
-                                     e.name)
             libtcod.console_print_ex(panel, x + 5, y + 6 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+                                     e.name)
+            libtcod.console_print_ex(panel, x + 5, y + 7 + index, libtcod.BKGND_NONE, libtcod.LEFT,
                                      "(neutral)")
         else:
-            libtcod.console_print_ex(panel, x + 5, y + 5 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+            libtcod.console_print_ex(panel, x + 5, y + 6 + index, libtcod.BKGND_NONE, libtcod.LEFT,
                                      e.name)
         index += 3
 
@@ -257,11 +259,11 @@ creation_menu = {
         "Inspiration:": ["Self", "Life", "Peace", "Prosperity", "The Arts", "The Stars"]
 }
         
-def render_character_creation(con, panel, screen_width, screen_height, menu_cursor, stat_diffs, points_available, stat_boosts):
+def render_character_creation(con, panel, screen_width, screen_height, menu_cursor, stat_diffs, points_available, stat_boosts, plot):
     libtcod.console_clear(con)
 
     libtcod.console_set_default_foreground(con, libtcod.white)
-    libtcod.console_print_ex(con, 1, 1, libtcod.BKGND_NONE, libtcod.LEFT, "The Rogue is born...")
+    libtcod.console_print_ex(con, 1, 1, libtcod.BKGND_NONE, libtcod.LEFT, "{0} is born...".format(plot.protagonist.name))
 
     # holy fuck don't look at the next section, you'll get lost in the spaghetti before you even get to the sauce
     
@@ -321,6 +323,12 @@ def render_character_creation(con, panel, screen_width, screen_height, menu_curs
     libtcod.console_print_ex(con, 1, 11, libtcod.BKGND_NONE, libtcod.LEFT, "{0} points available".format(points_available))
     libtcod.console_print_ex(con, 1, 13, libtcod.BKGND_NONE, libtcod.LEFT, "+/- to add/subtract points")
     libtcod.console_print_ex(con, 1, 14, libtcod.BKGND_NONE, libtcod.LEFT, "Enter to accept changes")
+
+    # PLOT 
+    y = 16
+    for line in plot.lines:
+        libtcod.console_print_ex(con, 1, y, libtcod.BKGND_NONE, libtcod.LEFT, line)
+        y += 1
 
     libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
 

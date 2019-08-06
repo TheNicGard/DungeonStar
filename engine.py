@@ -15,6 +15,7 @@ from loader_functions.initialize_new_game import get_constants, get_game_variabl
 from loader_functions.data_loaders import load_game, save_game, save_game_data, load_game_data
 from menus import main_menu, message_box
 from menu_cursor import MenuCursor
+from plot_gen import Plot
 from random import randint
 from render_functions import clear_all, render_all, render_character_creation
 from rpg_mechanics import get_modifier
@@ -116,6 +117,9 @@ def play_game(player, entities, game_map, turn, message_log,
               game_state, con, panel, status_screen, constants):
     key_cursor = Entity("cursor", player.x, player.y, chr(0), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=['X', ' '], speed=0.2))
+
+    p = Plot()
+    player.name = p.protagonist.name
     
     fov_recompute = True
     fov_map = initialize_fov(game_map)
@@ -153,7 +157,7 @@ def play_game(player, entities, game_map, turn, message_log,
 
         if game_state == GameStates.CHARACTER_CREATION:
             render_character_creation(con, panel, constants['screen_width'], constants['screen_height'],
-                                      creation_menu_cursor, stat_diffs, points_available, stat_boosts)
+                                      creation_menu_cursor, stat_diffs, points_available, stat_boosts, p)
             libtcod.console_flush()
         else:
             render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
