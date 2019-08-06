@@ -1,6 +1,7 @@
 import tcod as libtcod
 from enum import Enum
 from game_states import GameStates
+from math import sqrt
 from menus import inventory_menu, level_up_menu, character_screen, help_screen
 from rpg_mechanics import display_ability
 
@@ -79,6 +80,8 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
                                  '{0}'.format(player.hunger.status))
 
     entities_in_fov = entity_in_fov_list(entities, game_map, fov_map)
+    entities_in_fov.sort(key = lambda e: sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2))
+    
     index = 0
     for e in entities_in_fov:
         # Entity char
@@ -116,6 +119,10 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
                                      e.name)
         index += 3
 
+        # max number of entities who can comfortably fit on screen
+        if index >= 3 * 12:
+            break
+
     libtcod.console_set_default_background(panel, libtcod.black)
 
 def entity_in_fov_list(entities, game_map, fov_map):
@@ -128,7 +135,7 @@ def entity_in_fov_list(entities, game_map, fov_map):
                     entities_in_fov.append(entity)
                 else:
                     entities_in_fov.append(entity)
-    # can't get always visible status
+    # can't get always_visible status
     return entities_in_fov
     
 def render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
