@@ -114,8 +114,8 @@ def main():
 
 def play_game(player, entities, game_map, turn, message_log,
               game_state, con, panel, status_screen, constants):
-    key_cursor = Entity("cursor", player.x, player.y, chr(219), libtcod.white, "Cursor",
-                        animation=Animation(cycle_char=[chr(219), ' '], speed=0.25))
+    key_cursor = Entity("cursor", player.x, player.y, chr(0), libtcod.white, "Cursor",
+                        animation=Animation(cycle_char=['X', ' '], speed=0.2))
     
     fov_recompute = True
     fov_map = initialize_fov(game_map)
@@ -351,7 +351,8 @@ def play_game(player, entities, game_map, turn, message_log,
         if look_at_entity:
             matching_entities = []
             for e in entities:
-                if e.x == key_cursor.x and e.y == key_cursor.y:
+                if e.x == key_cursor.x and e.y == key_cursor.y and (libtcod.map_is_in_fov(fov_map, key_cursor.x, key_cursor.y) or
+                                                                    ((e.stairs or e.door or e.sign) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
                     matching_entities.append(e.name)
 
             message_log.add_message(Message(", ".join(matching_entities), libtcod.lightest_sepia))
@@ -378,6 +379,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     key_cursor.x += dx
                 if key_cursor.y + dy >= 0 and key_cursor.y + dy < constants["map_height"]:
                     key_cursor.y += dy
+                fov_recompute = True
                 
         if end:
             if game_state in (GameStates.SHOW_INVENTORY,
@@ -386,6 +388,7 @@ def play_game(player, entities, game_map, turn, message_log,
                               GameStates.HELP_SCREEN,
                               GameStates.LOOK_AT):
                 game_state = previous_game_state
+                fov_recompute = True
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
             else:

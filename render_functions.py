@@ -55,7 +55,7 @@ def get_health_color(hp_ratio):
 
     return [r_value, g_value, 0]
     
-def render_status_panel(panel, x, y, width, height, player, entities, game_map, fov_map, turn, color_accessibility):
+def render_status_panel(panel, x, y, width, height, player, game_state, entities, game_map, fov_map, turn, color_accessibility, cursor):
     for tmp_x in range(width):
         for tmp_y in range(height):
             libtcod.console_put_char(panel, x + tmp_x, y + tmp_y, ' ', libtcod.BKGND_NONE)
@@ -78,6 +78,9 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
     if player.hunger.status is not None:
         libtcod.console_print_ex(panel, x + 1, height - 4, libtcod.BKGND_NONE, libtcod.LEFT,
                                  '{0}'.format(player.hunger.status))
+    if game_state == GameStates.LOOK_AT:
+        libtcod.console_print_ex(panel, x + 1, height - 5, libtcod.BKGND_NONE, libtcod.LEFT,
+                                 '({0}, {1})'.format(cursor.x, cursor.y))
 
     entities_in_fov = entity_in_fov_list(entities, game_map, fov_map)
     entities_in_fov.sort(key = lambda e: sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2))
@@ -137,59 +140,60 @@ def entity_in_fov_list(entities, game_map, fov_map):
                     entities_in_fov.append(entity)
     # can't get always_visible status
     return entities_in_fov
-    
+
+def render_tile(con, game_state, game_map, fov_map, cursor, x, y, colors, config):
+    visible = libtcod.map_is_in_fov(fov_map, x, y)
+    wall = game_map.tiles[x][y].block_sight
+    window = game_map.tiles[x][y].window
+
+    if config.get("CLASSIC_COLOR"):
+        if visible:
+            if wall:
+                libtcod.console_set_default_foreground(con, colors.get('classic_light_wall'))
+                libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
+            elif window:
+                libtcod.console_set_default_foreground(con, colors.get('classic_light_window'))
+                libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
+            else:
+                libtcod.console_set_default_foreground(con, colors.get('classic_light_ground'))
+                libtcod.console_put_char(con, x, y, '.', libtcod.BKGND_NONE)
+            game_map.tiles[x][y].explored = True
+        elif game_map.tiles[x][y].explored:
+            if wall:
+                libtcod.console_set_default_foreground(con, colors.get('classic_dark_wall'))
+                libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
+            if window:
+                libtcod.console_set_default_foreground(con, colors.get('classic_dark_window'))
+                libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
+            else:
+                libtcod.console_set_default_foreground(con, colors.get('classic_dark_ground'))
+                libtcod.console_put_char(con, x, y, ' ', libtcod.BKGND_NONE)
+    else:
+        if visible:
+            if wall:
+                libtcod.console_set_char_background(con, x, y, colors.get('light_wall'), libtcod.BKGND_SET)
+            elif window:
+                libtcod.console_set_char_background(con, x, y, colors.get('light_window'), libtcod.BKGND_SET)
+            else:
+                libtcod.console_set_char_background(con, x, y, colors.get('light_ground'), libtcod.BKGND_SET)
+            game_map.tiles[x][y].explored = True
+        elif game_map.tiles[x][y].explored:
+            if wall:
+                libtcod.console_set_char_background(con, x, y, colors.get('dark_wall'), libtcod.BKGND_SET)
+            elif window:
+                libtcod.console_set_char_background(con, x, y, colors.get('dark_window'), libtcod.BKGND_SET)
+            else:
+                libtcod.console_set_char_background(con, x, y, colors.get('dark_ground'), libtcod.BKGND_SET)
+
 def render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
                turn, message_log, screen_width, screen_height, panel_height, panel_y,
                mouse, colors, game_state, cursor, config, status_screen_width, status_screen_height):
+
     if fov_recompute:
         for y in range(game_map.height):
             for x in range(game_map.width):
-                visible = libtcod.map_is_in_fov(fov_map, x, y)
-                wall = game_map.tiles[x][y].block_sight
-                window = game_map.tiles[x][y].window
+                render_tile(con, game_state, game_map, fov_map, False, x, y, colors, config)
                 
-                if config.get("CLASSIC_COLOR"):
-                    if visible:
-                        if wall:
-                            libtcod.console_set_default_foreground(con, colors.get('classic_light_wall'))
-                            libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
-                        if window:
-                            libtcod.console_set_default_foreground(con, colors.get('classic_light_window'))
-                            libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
-                        else:
-                            libtcod.console_set_default_foreground(con, colors.get('classic_light_ground'))
-                            libtcod.console_put_char(con, x, y, '.', libtcod.BKGND_NONE)
-                        game_map.tiles[x][y].explored = True
-                    elif game_map.tiles[x][y].explored:
-                        if wall:
-                            libtcod.console_set_default_foreground(con, colors.get('classic_dark_wall'))
-                            libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
-                        if window:
-                            libtcod.console_set_default_foreground(con, colors.get('classic_dark_window'))
-                            libtcod.console_put_char(con, x, y, '#', libtcod.BKGND_NONE)
-                        else:
-                            libtcod.console_set_default_foreground(con, colors.get('classic_dark_ground'))
-                            libtcod.console_put_char(con, x, y, ' ', libtcod.BKGND_NONE)
-                else:
-                    if visible:
-                        if wall:
-                            libtcod.console_set_char_background(con, x, y, colors.get('light_wall'), libtcod.BKGND_SET)
-                        elif window:
-                            libtcod.console_set_char_background(con, x, y, colors.get('light_window'), libtcod.BKGND_SET)
-                        else:
-                            libtcod.console_set_char_background(con, x, y, colors.get('light_ground'), libtcod.BKGND_SET)
-                        game_map.tiles[x][y].explored = True
-                    elif game_map.tiles[x][y].explored:
-                        if wall:
-                            libtcod.console_set_char_background(con, x, y, colors.get('dark_wall'), libtcod.BKGND_SET)
-                        elif window:
-                            libtcod.console_set_char_background(con, x, y, colors.get('dark_window'), libtcod.BKGND_SET)
-                        else:
-                            libtcod.console_set_char_background(con, x, y, colors.get('dark_ground'), libtcod.BKGND_SET)
-
-    if game_state == GameStates.LOOK_AT:
-        render_cursor(con, cursor)
-
     # ENTITIES
     entities_in_render_order = sorted(entities, key=lambda x: x.render_order.value)
     
@@ -199,6 +203,12 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
         else:
             draw_entity(con, entity, fov_map, game_map, False)
 
+    # CURSOR
+    if game_state == GameStates.LOOK_AT:
+        cursor.animation.tick()
+        libtcod.console_set_default_foreground(con, libtcod.white)
+        libtcod.console_put_char(con, cursor.x, cursor.y, cursor.animation.get_char, libtcod.BKGND_NONE)
+            
     libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
     
     libtcod.console_set_default_background(panel, libtcod.black)
@@ -210,10 +220,6 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
         libtcod.console_set_default_foreground(panel, message.color)
         libtcod.console_print_ex(panel, message_log.x, y, libtcod.BKGND_NONE, libtcod.LEFT, message.text)
         y += 1
-
-    if game_state == GameStates.LOOK_AT:
-        libtcod.console_print_ex(panel, 1, 6, libtcod.BKGND_NONE, libtcod.LEFT,
-                                 '({0}, {1})'.format(cursor.x, cursor.y))
 
     #### DO I STILL WANT TO KEEP THIS FUNCTIONALITY? ###
     """
@@ -227,7 +233,7 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
     ### STATUS PANEL ###
     libtcod.console_set_default_background(status_screen, libtcod.black)
     libtcod.console_clear(status_screen)
-    render_status_panel(status_screen, 0, 0, status_screen_width, status_screen_height, player, entities, game_map, fov_map, turn, False)
+    render_status_panel(status_screen, 0, 0, status_screen_width, status_screen_height, player, game_state, entities, game_map, fov_map, turn, False, cursor)
     # THIS IS BUGGY AF, LIBTCOD IS SKETCHY
     status_screen.blit(con, screen_width - status_screen_width, 0, 0, 0, status_screen_width, status_screen_height)
     
@@ -355,8 +361,3 @@ def draw_animated_entity(con, entity, fov_map, game_map, always_visible):
 
 def clear_entity(con, entity):
     libtcod.console_put_char(con, entity.x, entity.y, ' ', libtcod.BKGND_NONE)
-
-def render_cursor(con, cursor):
-    libtcod.console_set_default_foreground(con, cursor.animation.get_color)
-    libtcod.console_put_char(con, cursor.x, cursor.y, cursor.animation.get_char, libtcod.BKGND_NONE)
-    cursor.animation.tick()
