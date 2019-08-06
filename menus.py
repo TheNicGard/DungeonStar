@@ -98,7 +98,10 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                     if i.item.age is not None:
                         temp_str = "{0} ({1} turns old)".format(i.name, i.item.age)
                     else:
-                        temp_str = i.name
+                        if i.item.chargeable:
+                            temp_str = i.name + " *" + str(i.item.chargeable.charge) + ":" + str(i.item.chargeable.max_charge) + '*'
+                        else:
+                            temp_str = i.name
 
                 weight = format_weight(i.weight, i.item.count)
                 offset = inventory_width - (4 + len(temp_str) + len(weight))

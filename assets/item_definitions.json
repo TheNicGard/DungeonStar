@@ -237,6 +237,206 @@
     },
 
     {
+	"item_id": "fireball_wand",
+	"name": "wand of Fireball",
+	"color": [255, 63, 0],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_fireball",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click a target tile for the fireball, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    },
+	    "damage": 25,
+	    "radius": 3
+	},
+	"spawn_rate": [[3, 6]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "confuse_wand",
+	"name": "wand of Confuse Opponent",
+	"color": [255, 115, 185],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_confuse",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to confuse it, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[1, 2]],
+	"classification": ["wand"]
+    },
+    
+    {
+	"item_id": "lightning_wand",
+	"name": "wand of Lightning",
+	"color": [115, 255, 255],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_lightning",
+	"targeting": false,
+	"max_charges": 8,
+	"positional": {
+	    "damage": 40,
+	    "maximum_range": 5
+	},
+	"spawn_rate": [[2, 4]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "stun_wand",
+	"name": "wand of Stun Opponent",
+	"color": [0, 255, 127],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_stun",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to stun it, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[1, 6]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "sleep_wand",
+	"name": "wand of Sleep",
+	"color": [166, 255, 255],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_sleep",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to put it to sleep, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[1, 6]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "greed_wand",
+	"name": "wand of Greed",
+	"color": [229, 191, 0],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_greed",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to enchant it, or right-click to cancel.",
+		"color": [115, 255, 255]
+	    }
+	},
+	"spawn_rate": [[1, 6]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "detect_traps_wand",
+	"name": "wand of Detect Traps",
+	"color": [255, 0, 0],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_detect_traps",
+	"targeting": false,
+	"max_charges": 16,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[1, 2]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "detect_stairs_wand",
+	"name": "wand of Detect Stairs",
+	"color": [240, 240, 240],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_detect_stairs",
+	"targeting": false,
+	"max_charges": 16,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[1, 2]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "random_teleportation_wand",
+	"name": "wand of Random Teleportation",
+	"color": [140, 0, 240],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_random_teleportation",
+	"targeting": false,
+	"max_charges": 8,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[1, 2]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "blink_wand",
+	"name": "wand of Blinking",
+	"color": [140, 0, 240],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_blink",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click a tile to blink to, or right-click to cancel.",
+		"color": [140, 0, 240]
+	    }
+	},
+	"spawn_rate": [[1, 2]],
+	"classification": ["wand"]
+    },
+
+    {
+	"item_id": "pacify_wand",
+	"name": "wand of Pacification",
+	"color": [143, 191, 0],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_pacify",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to enchant it, or right-click to cancel.",
+		"color": [143, 191, 0]
+	    }
+	},
+	"spawn_rate": [[1, 2]],
+	"classification": ["wand"]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],

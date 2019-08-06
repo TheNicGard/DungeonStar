@@ -40,7 +40,7 @@ class Inventory:
                 for i in self.items:
                     if i.id == item.id:
                         matching_entry = i
-                if matching_entry and not (matching_entry.equippable):
+                if matching_entry and not (matching_entry.equippable or matching_entry.chargeable):
                     matching_entry.item.count += item.item.count
                 else:
                     self.items.append(item)
@@ -68,18 +68,24 @@ class Inventory:
                     if item_use_result.get('food_eaten'):
                         self.remove_item(item_entity, 1)
         else:
-            if item_component.targeting and not (kwargs.get('target_x') or kwargs.get('target_y')):
-                results.append({'targeting': item_entity})
+            if item_component.chargeable and item_component.chargeable.charge == 0:
+                results.append({'message': Message('The {0} is out of charges!'.format(item_entity.name))})
             else:
-                # I'm told by pyflakes this is incorrect syntax, but it only works with the ** ?
-                kwargs = {**item_component.function_kwargs, **kwargs}
-                item_use_results = item_component.use_function(self.owner, **kwargs)
+                if item_component.targeting and not (kwargs.get('target_x') or kwargs.get('target_y')):
+                    results.append({'targeting': item_entity})
+                else:
+                    # I'm told by pyflakes this is incorrect syntax, but it only works with the ** ?
+                    kwargs = {**item_component.function_kwargs, **kwargs}
+                    item_use_results = item_component.use_function(self.owner, **kwargs)
 
-                for item_use_result in item_use_results:
-                    if item_use_result.get('consumed'):
-                        self.remove_item(item_entity, 1)
+                    for item_use_result in item_use_results:
+                        if item_use_result.get('consumed'):
+                            if item_component.chargeable:
+                                item_component.chargeable.charge -= 1
+                            else:
+                                self.remove_item(item_entity, 1)
 
-                results.extend(item_use_results)
+                    results.extend(item_use_results)
             
         return results
 

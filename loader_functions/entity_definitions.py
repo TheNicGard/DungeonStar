@@ -6,6 +6,7 @@ import tcod as libtcod
 from components.ai import BasicMonster, AggressiveMonster, DummyMonster, ConfusedMonster, SoftStoppedMonster, HardStoppedMonster, MotherDoughAI, SourdoughAI, StaticMonster, NeutralMonster
 from components.animation import Animation
 from components.attacks import Attack
+from components.chargeable import Chargeable
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.food import Food
@@ -14,7 +15,7 @@ from components.item import Item
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs, cast_pacify
-from random import random
+from random import random, randint
 from render_functions import RenderOrder
 
 monster_definitions = "assets/monster_definitions.json"
@@ -234,6 +235,11 @@ def load_items():
                 max_age = None
                 if item.get("max_age"):
                     max_age = item.get("max_age")
+
+                chargeable_component = None
+                if item.get("max_charges"):
+                    max_charge = item.get("max_charges")
+                    chargeable_component = Chargeable(randint(max_charge / 2, max_charge), max_charge)
                     
                 use_function = None
                 use_function_name = item.get("use_function")                
@@ -274,7 +280,7 @@ def load_items():
                 item_component = None
                 if positional or food_component:
                     item_component = Item(1, max_age=max_age, use_function=use_function,
-                                          targeting=targeting, **positional)
+                                          targeting=targeting, chargeable=chargeable_component, **positional)
 
                 item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, food=food_component, spawn_rate=spawn_rate)
                 item_defs[item_id] = item
