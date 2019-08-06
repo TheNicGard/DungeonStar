@@ -48,7 +48,7 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                         temp_str += ("+" + str(i.equippable.enchantment) + " ")
                     elif i.equippable.enchantment < 0:
                         temp_str += str(i.equippable.enchantment) + " "
-                    temp_str += "{0}"
+                    temp_str += i.name
                     if player.equipment.slots.get("main_hand") == i:
                         temp_str +=  " (in main hand)"
                     elif player.equipment.slots.get("off_hand") == i:
@@ -67,7 +67,12 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                         temp_str +=  " (on left hand)"
                     elif player.equipment.slots.get("right_finger") == i:
                         temp_str +=  " (on right hand)"
-                    options.append(temp_str.format(i.name))
+
+                    weight = str(i.weight) + chr(169)
+                    offset = inventory_width - (4 + len(temp_str) + len(weight))
+                    temp_str += (' ' * offset) + weight
+                    
+                    options.append(temp_str)
                     temp_inv.append(i)
                     break
 
@@ -77,20 +82,32 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                 if player.equipment.slots.get(s) == i:
                     break
             else:
-                temp_option = ""
+                temp_str = ""
                 
                 if i.item.count > 1:
                     if i.item.age is not None:
-                        temp_option = "({0}) {1} ({2} turns old)".format(i.item.count, i.name, i.item.age)
+                        temp_str = "({0}) {1} ({2} turns old)".format(i.item.count, i.name, i.item.age)
+                        weight = str(i.weight) + chr(169)
+                        offset = inventory_width - (4 + len(temp_str) + len(weight))
+                        temp_str += (' ' * offset) + weight
                     else:
-                        temp_option = "({0}) {1}".format(i.item.count, i.name)
+                        temp_str = "({0}) {1}".format(i.item.count, i.name)
+                        weight = str(i.weight) + chr(169)
+                        offset = inventory_width - (4 + len(temp_str) + len(weight))
+                        temp_str += (' ' * offset) + weight
                 else:
                     if i.item.age is not None:
-                        temp_option = "{0} ({1} turns old)".format(i.name, i.item.age)
+                        temp_str = "{0} ({1} turns old)".format(i.name, i.item.age)
+                        weight = str(i.weight) + chr(169)
+                        offset = inventory_width - (4 + len(temp_str) + len(weight))
+                        temp_str += (' ' * offset) + weight
                     else:
-                        temp_option = i.name
+                        temp_str = i.name
+                        weight = str(i.weight) + chr(169)
+                        offset = inventory_width - (4 + len(temp_str) + len(weight))
+                        temp_str += (' ' * offset) + weight
 
-                options.append(temp_option)
+                options.append(temp_str)
                 temp_inv.append(i)
 
         player.inventory.items = temp_inv

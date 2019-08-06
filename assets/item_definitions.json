@@ -311,7 +311,7 @@
 
     {
 	"item_id": "tower_shield",
-	"name": "tower_shield",
+	"name": "tower shield",
 	"weight": 20,
 	"color": [128, 64, 0],
 	"symbol": "[",
