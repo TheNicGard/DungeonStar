@@ -24,7 +24,7 @@
     {
 	"monster_id": "rat",
 	"name": "rat",
-	"color": [159, 159, 159],
+	"color": [150, 150, 150],
 	"symbol": "r",
 	"fighter": {
 	    "hp": 4,
@@ -66,6 +66,34 @@
 	    "max_gold_drop": 4
 	},
 	"ai": "BasicMonster",
+	"spawn_rate": [[10, 1]]
+    },
+
+    {
+	"monster_id": "wolf",
+	"name": "wolf",
+	"color": [150, 150, 150],
+	"symbol": "d",
+	"fighter": {
+	    "hp": 8,
+	    "STR": 12,
+	    "DEX": 10,
+	    "CON": 12,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 4,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0]
+	    ],
+	    "xp": 25,
+	    "max_gold_drop": 2
+	},
+	"ai": "NeutralMonster",
+	"ai_details": {
+	    "aggressive_ai": "AggressiveMonster",
+	    "patience": 30
+	},
 	"spawn_rate": [[10, 1]]
     },
 

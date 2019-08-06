@@ -10,22 +10,22 @@
 |||||||||||||||||||||||||wall||||||door|sign: Food|||||wall||||||||||||||
 |||||||||||||||||||||||||wall||||||wall||||||window||||||||||||||
 |||||||||||||||||||||||||wall|bento|bento|bento|bento|bento|wall||||||wall||||||||||||||
-|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall||||||window||||||||||||||
-|||||||||||||||||||||||||wall|healing_potion|super_healing_potion|invisibility_potion|||wall||||||wall||||||||||||wall|wall|wall
-|||||||||||||||||||||||||wall||||||wall||||||window|||||||||||sign: Rat|door|rat|wall
-|||||||||||||||||||||||||wall||||||door|sign: Potions|||||wall||||||||||||wall|wall|wall
-|||||||||||||||||||||||||wall||||||wall||||||window|||||||||||sign: Snake|door|snake|wall
-|||||||||||||||||||||||||wall||||||wall||||||wall||||||||||||wall|wall|wall
-|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall||||||wall|wall|wall|wall|wall|wall|wall|||||sign: Goblin|door|goblin|wall
-|||||||||||||||||||||||||wall|fireball_scroll|lightning_scroll|confuse_scroll|stun_scroll|sleep_scroll|wall||||||wall|||dummy|||wall||||||wall|wall|wall
-|||||||||||||||||||||||||wall|greed_scroll|detect_traps_scroll|random_teleportation_scroll|blink_scroll||wall||||||wall||||||wall|||||sign: Thot|door|thot|wall
-|||||||||||||||||||||||||door||||||door|sign: Scrolls|||||door||||||||||||wall|wall|wall
-|||||||||||||||||||||||||wall||||||wall||||||wall||||||wall|||||sign: Mega Thot|door|mega_thot|wall
-|||||||||||||||||||||||||wall||||||wall||||||wall|||dungeon_star|||wall||||||wall|wall|wall
-|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall||||||wall|wall|wall|wall|wall|wall|wall|trap||||sign: Red Dragon|door|red_dragon|wall
-|||||||||||||||||||||||||wall|dagger|dagger|dagger|shortsword|longsword|wall||||||wall||||||||||||wall|wall|wall
-|||||||||||||||||||||||||wall||||||wall||||||window|||||||||||sign: Jelly|door|jelly|wall
-|||||||||||||||||||||||||wall||||||door|sign: Arms and Armor|||||wall||||||||||||wall|wall|wall
-|||||||||||||||||||||||||wall||||||wall||||||window|||||||||||sign: Mother Dough|door|mother_dough|wall
-|||||||||||||||||||||||||wall|buckler|shield|leather_helmet|||wall||||||wall||||||||||||wall|wall|wall
-|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall||||||||||||||
+|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall||||||window||||||||||||wall|wall|wall
+|||||||||||||||||||||||||wall|healing_potion|super_healing_potion|invisibility_potion|||wall||||||wall|||||||||||sign: Rat|door|rat|wall
+|||||||||||||||||||||||||wall||||||wall||||||window||||||||||||wall|wall|wall
+|||||||||||||||||||||||||wall||||||door|sign: Potions|||||wall|||||||||||sign: Snake|door|snake|wall
+|||||||||||||||||||||||||wall||||||wall||||||window||||||||||||wall|wall|wall
+|||||||||||||||||||||||||wall||||||wall||||||wall|||||||||||sign: Wolf|door|wolf|wall
+|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall||||||wall|wall|wall|wall|wall|wall|wall||||||wall|wall|wall
+|||||||||||||||||||||||||wall|fireball_scroll|lightning_scroll|confuse_scroll|stun_scroll|sleep_scroll|wall||||||wall|||dummy|||wall|||||sign: Goblin|door|goblin|wall
+|||||||||||||||||||||||||wall|greed_scroll|detect_traps_scroll|random_teleportation_scroll|blink_scroll|pacify_scroll|wall||||||wall||||||wall||||||wall|wall|wall
+|||||||||||||||||||||||||door||||||door|sign: Scrolls|||||door|||||||||||sign: Thot|door|thot|wall
+|||||||||||||||||||||||||wall||||||wall||||||wall||||||wall||||||wall|wall|wall
+|||||||||||||||||||||||||wall||||||wall||||||wall|||dungeon_star|||wall|||||sign: Mega Thot|door|mega_thot|wall
+|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall||||||wall|wall|wall|wall|wall|wall|wall|trap|||||wall|wall|wall
+|||||||||||||||||||||||||wall|dagger|dagger|dagger|shortsword|longsword|wall||||||wall|||||||||||sign: Red Dragon|door|red_dragon|wall
+|||||||||||||||||||||||||wall||||||wall||||||window||||||||||||wall|wall|wall
+|||||||||||||||||||||||||wall||||||door|sign: Arms and Armor|||||wall|||||||||||sign: Jelly|door|jelly|wall
+|||||||||||||||||||||||||wall||||||wall||||||window||||||||||||wall|wall|wall
+|||||||||||||||||||||||||wall|buckler|shield|leather_helmet|||wall||||||wall|||||||||||sign: Mother Dough|door|mother_dough|wall
+|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall||||||||||||wall|wall|wall

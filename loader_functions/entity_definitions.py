@@ -1,11 +1,9 @@
 import copy
-import csv
 import json
 import os
-import shelve
 
 import tcod as libtcod
-from components.ai import BasicMonster, AggressiveMonster, DummyMonster, ConfusedMonster, SoftStoppedMonster, HardStoppedMonster, MotherDoughAI, SourdoughAI, StaticMonster
+from components.ai import BasicMonster, AggressiveMonster, DummyMonster, ConfusedMonster, SoftStoppedMonster, HardStoppedMonster, MotherDoughAI, SourdoughAI, StaticMonster, NeutralMonster
 from components.animation import Animation
 from components.attacks import Attack
 from components.equippable import Equippable
@@ -48,6 +46,32 @@ class ItemDefinition:
                       food=self.food, classification=self.classification)
         return item
 
+def get_ai(ai_type, patience=0, min_spread_time=0, max_spread_time=0, aggressive_ai="DummyMonster"):
+    if ai_type == "BasicMonster":
+        ai_component = BasicMonster()
+    elif ai_type == "ConfusedMonster":
+        ai_component = ConfusedMonster(BasicMonster(), 10)
+    elif ai_type == "AggressiveMonster":
+        ai_component = AggressiveMonster(patience)
+    elif ai_type == "HardStoppedMonster":
+        ai_component = HardStoppedMonster(BasicMonster())
+    elif ai_type == "SoftStoppedMonster":
+        ai_component = SoftStoppedMonster(BasicMonster())
+    elif ai_type == "StaticMonster":
+        ai_component = StaticMonster()
+    elif ai_type == "MotherDoughAI":
+        ai_component = MotherDoughAI()
+    elif ai_type == "SourdoughAI":
+        if min_spread_time == 0 and max_spread_time == 0:
+            ai_component = SourdoughAI(40, 40)
+        else:
+            ai_component = SourdoughAI(min_spread_time, max_spread_time)
+    elif ai_type == "NeutralMonster":
+        ai_component = NeutralMonster(get_ai(aggressive_ai, patience, min_spread_time, max_spread_time, aggressive_ai))
+    else:
+        ai_component = DummyMonster()
+    return ai_component
+    
 class MonsterDefinition:
     def __init__(self, id, char, color, name, weight=0, fighter=None, ai=None, inventory=None, spawn_rate=[[0, 0]]):
         self.id = id
@@ -113,6 +137,8 @@ def load_monsters():
                 patience = 0
                 min_spread_time = 0
                 max_spread_time = 0
+                aggressive_ai = "DummyMonster"
+                
                 if ai_details:
                     if ai_details.get("patience"):
                         patience = ai_details.get("patience")
@@ -120,6 +146,8 @@ def load_monsters():
                         min_spread_time = ai_details.get("min_spread_time")
                     if ai_details.get("max_spread_time"):
                         max_spread_time = ai_details.get("max_spread_time")
+                    if ai_details.get("aggressive_ai"):
+                        aggressive_ai = ai_details.get("aggressive_ai")
 
                 inventory_component = None
                 if monster.get("inventory"):
@@ -129,27 +157,8 @@ def load_monsters():
                         # accomodate for weights greater than 1
                         if random() < value:
                             inventory_component.add_item(get_item(key, -1, -1))
-                        
-                ai_component = DummyMonster()
-                if ai_type == "BasicMonster":
-                    ai_component = BasicMonster()
-                elif ai_type == "ConfusedMonster":
-                    ai_component = ConfusedMonster(BasicMonster(), 10)
-                elif ai_type == "AggressiveMonster":
-                    ai_component = AggressiveMonster(patience)
-                elif ai_type == "HardStoppedMonster":
-                    ai_component = HardStoppedMonster(BasicMonster())
-                elif ai_type == "SoftStoppedMonster":
-                    ai_component = SoftStoppedMonster(BasicMonster())
-                elif ai_type == "StaticMonster":
-                    ai_component = StaticMonster()
-                elif ai_type == "MotherDoughAI":
-                    ai_component = MotherDoughAI()
-                elif ai_type == "SourdoughAI":
-                    if min_spread_time == 0 and max_spread_time == 0:
-                        ai_component = SourdoughAI(40, 40)
-                    else:
-                        ai_component = SourdoughAI(min_spread_time, max_spread_time)
+
+                ai_component = get_ai(ai_type, patience, min_spread_time, max_spread_time, aggressive_ai)
 
                 attack_list = None
                 if fighter.get("attacks"):
@@ -165,6 +174,7 @@ def load_monsters():
                                                 max_gold_drop=max_gold_drop, attack_list=attack_list)
                     
                     monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, inventory=inventory_component, spawn_rate=spawn_rate)
+                    
                     monster_defs[monster_id] = monster
                     
     return monster_defs

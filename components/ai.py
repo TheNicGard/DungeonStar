@@ -266,3 +266,31 @@ class SourdoughAI(StaticMonster):
                 results.extend(attack_results)
                 
         return results
+
+class NeutralMonster:
+    def __init__(self, aggressive_ai):
+        self.aggressive_ai = aggressive_ai
+        
+    def __str__(self):
+        return "Neutral monster AI. Will remain neutral to the player unless attacked."
+    
+    def take_turn(self, target, fov_map, game_map, entities):
+        results = []
+        
+        monster = self.owner
+
+        random_x = self.owner.x + randint(0, 2) - 1
+        random_y = self.owner.y + randint(0, 2) - 1
+        monster.move_towards(random_x, random_y, game_map, entities)
+                    
+        return results
+
+    def become_aggressive(self):
+        results = []
+
+        self.owner.ai = self.aggressive_ai
+        self.aggressive_ai.owner = self.owner
+        
+        results.append({'message': Message('The {0} become agressive!'.format(self.owner.name),
+                                           libtcod.red)})
+        return results

@@ -1,20 +1,6 @@
 import csv
-import json
 import os
 import shelve
-
-import tcod as libtcod
-from components.ai import BasicMonster, ConfusedMonster, DummyMonster, AggressiveMonster, HardStoppedMonster, SoftStoppedMonster, StaticMonster, MotherDoughAI, SourdoughAI
-from components.animation import Animation
-from components.equippable import Equippable
-from components.fighter import Fighter
-from components.food import Food
-from components.inventory import Inventory
-from components.item import Item
-from entity import Entity
-from game_messages import Message
-from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed
-from render_functions import RenderOrder
 
 savegame_filename = "savegame.dat"
 test_map_filename = "assets/test_map.csv"

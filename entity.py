@@ -85,6 +85,9 @@ class Entity:
         dy = target_y - self.y
         distance = math.sqrt((dx ** 2) + (dy ** 2))
 
+        if distance == 0:
+            return
+
         dx = int(round(dx / distance))
         dy = int(round(dy / distance))
 

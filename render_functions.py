@@ -106,9 +106,15 @@ def render_status_panel(panel, x, y, width, height, player, entities, game_map, 
             
         # Entity name
         libtcod.console_set_default_foreground(panel, libtcod.white)
-        libtcod.console_print_ex(panel, x + 5, y + 5 + index, libtcod.BKGND_NONE, libtcod.LEFT,
-                                 e.name)
-        index += 1
+        if e.ai.__class__.__name__ == "NeutralMonster":
+            libtcod.console_print_ex(panel, x + 5, y + 5 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+                                     e.name)
+            libtcod.console_print_ex(panel, x + 5, y + 6 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+                                     "(neutral)")
+        else:
+            libtcod.console_print_ex(panel, x + 5, y + 5 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+                                     e.name)
+        index += 3
 
     libtcod.console_set_default_background(panel, libtcod.black)
 

@@ -110,6 +110,10 @@ class Fighter:
             results.append({
                 'message': Message('{0} attacks {1} but misses.'.format(
                     self.owner.name.capitalize(), target.name), libtcod.white)})
+
+        if target.ai.__class__.__name__ == "NeutralMonster":
+            results.extend(target.ai.become_aggressive())
+        
         return results
 
     def get_gold(self):
