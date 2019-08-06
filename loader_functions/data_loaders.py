@@ -55,7 +55,7 @@ def load_game_data():
             data_file['highest_score'] = 0
             data_file['stat_diffs'] = [0, 0, 0, 0, 0, 0]
             data_file['points_available'] = 27
-            return 1, 0
+            return 1, 0, [0, 0, 0, 0, 0, 0], 27
     else:
         with shelve.open(high_scores_filename, 'r') as data_file:
             lowest_level = data_file['lowest_level']
