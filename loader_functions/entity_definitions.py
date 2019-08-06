@@ -13,7 +13,7 @@ from components.inventory import Inventory
 from components.item import Item
 from entity import Entity
 from game_messages import Message
-from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs
+from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs, cast_pacify
 from random import random
 from render_functions import RenderOrder
 
@@ -138,6 +138,7 @@ def load_monsters():
                 min_spread_time = 0
                 max_spread_time = 0
                 aggressive_ai = "DummyMonster"
+                can_be_pacified = False
                 
                 if ai_details:
                     if ai_details.get("patience"):
@@ -148,6 +149,8 @@ def load_monsters():
                         max_spread_time = ai_details.get("max_spread_time")
                     if ai_details.get("aggressive_ai"):
                         aggressive_ai = ai_details.get("aggressive_ai")
+                    if ai_details.get("can_be_pacified"):
+                        can_be_pacified = ai_details.get("can_be_pacified")
 
                 inventory_component = None
                 if monster.get("inventory"):
@@ -171,7 +174,8 @@ def load_monsters():
                     fighter_component = Fighter(strength, dexterity, constitution, intelligence,
                                                 wisdom, charisma, determination, fixed_max_hp=hp, xp=xp,
                                                 golden=golden, chance_to_drop_corpse=chance_to_drop,
-                                                max_gold_drop=max_gold_drop, attack_list=attack_list)
+                                                max_gold_drop=max_gold_drop, attack_list=attack_list,
+                                                can_be_pacified=can_be_pacified)
                     
                     monster = MonsterDefinition(monster_id, char, color, name, weight=0, fighter=fighter_component, ai=ai_component, inventory=inventory_component, spawn_rate=spawn_rate)
                     
@@ -188,7 +192,7 @@ def load_items():
         cast_confuse, cast_stun, cast_sleep,
         cast_greed, invisible, cast_detect_traps,
         cast_random_teleportation, cast_blink,
-        cast_detect_stairs
+        cast_detect_stairs, cast_pacify
     ]
 
     equipment_types = [

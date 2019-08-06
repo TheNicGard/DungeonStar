@@ -18,6 +18,9 @@
 	    "golden": false
 	},
 	"ai": "DummyMonster",
+	"ai_details": {
+	    "can_be_pacified": false
+	},
 	"spawn_rate": [[0, 0]]
     },
     
@@ -42,6 +45,9 @@
 	    "max_gold_drop": 2
 	},
 	"ai": "BasicMonster",
+	"ai_details": {
+	    "can_be_pacified": true
+	},
 	"spawn_rate": [[60, 1], [40, 3], [20, 5]]
     },
     
@@ -66,6 +72,9 @@
 	    "max_gold_drop": 4
 	},
 	"ai": "BasicMonster",
+	"ai_details": {
+	    "can_be_pacified": true
+	},
 	"spawn_rate": [[10, 1]]
     },
 
@@ -92,7 +101,8 @@
 	"ai": "NeutralMonster",
 	"ai_details": {
 	    "aggressive_ai": "AggressiveMonster",
-	    "patience": 30
+	    "patience": 30,
+	    "can_be_pacified": true
 	},
 	"spawn_rate": [[10, 1]]
     },
@@ -119,7 +129,8 @@
 	},
 	"ai": "AggressiveMonster",
 	"ai_details": {
-	    "patience": 5
+	    "patience": 5,
+	    "can_be_pacified": false
 	},
 	"spawn_rate": [[15, 1], [30, 3], [45, 5]]
     },
@@ -147,7 +158,8 @@
 	},
 	"ai": "AggressiveMonster",
 	"ai_details": {
-	    "patience": 10
+	    "patience": 10,
+	    "can_be_pacified": false
 	},
 	"spawn_rate": [[5, 4], [10, 8], [15, 12]]
     },
@@ -175,7 +187,8 @@
 	},
 	"ai": "AggressiveMonster",
 	"ai_details": {
-	    "patience": 20
+	    "patience": 20,
+	    "can_be_pacified": false
 	},
 	"spawn_rate": [[4, 8], [8, 16], [12, 24]]
     },
@@ -202,6 +215,10 @@
 	    "golden": true
 	},
 	"ai": "BasicMonster",
+	"ai_details": {
+	    "patience": 50,
+	    "can_be_pacified": false
+	},
 	"spawn_rate": [[3, 15]]
     },
     
@@ -226,6 +243,9 @@
 	    "max_gold_drop": 0
 	},
 	"ai": "BasicMonster",
+	"ai_details": {
+	    "can_be_pacified": false
+	},
 	"spawn_rate": [[2, 1]]
     },
     
@@ -251,6 +271,9 @@
 	    "golden": true
 	},
 	"ai": "MotherDoughAI",
+	"ai_details": {
+	    "can_be_pacified": false
+	},
 	"inventory": {
 	    "subterranean_sourdough": 1
 	},
@@ -279,7 +302,8 @@
 	"ai": "SourdoughAI",
 	"ai_details": {
 	    "min_spread_time": 40,
-	    "max_spread_time": 80
+	    "max_spread_time": 80,
+	    "can_be_pacified": false
 	},
 	"spawn_rate": [[0, 0]]
     }

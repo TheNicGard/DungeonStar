@@ -1,6 +1,6 @@
 import tcod as libtcod
 from game_messages import Message
-from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster
+from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
 from random import randint
 
 def heal(*args, **kwargs):
@@ -270,5 +270,34 @@ def cast_blink(*args, **kwargs):
         caster.x = target_x
         caster.y = target_y
         results.append({'consumed': True, 'message': Message('You blinked!', libtcod.purple), "teleport": True})
+
+    return results
+
+def cast_pacify(*args, **kwargs):
+    entities = kwargs.get('entities')
+    fov_map = kwargs.get('fov_map')
+    target_x = kwargs.get('target_x')
+    target_y = kwargs.get('target_y')
+
+    results = []
+
+    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+        results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
+        return results
+
+    for entity in entities:
+        if entity.x == target_x and entity.y == target_y and entity.ai:
+            if entity.fighter.can_be_pacified == False:
+                results.append({'consumed': True, 'message': Message('The {0} cannot be pacified!'.format(entity.name), libtcod.yellow)})
+                break
+            else:
+                neutral_ai = NeutralMonster(entity.ai)
+                neutral_ai.owner = entity
+                entity.ai = neutral_ai
+
+                results.append({'consumed': True, 'message': Message('The {0} has been pacified!'.format(entity.name), libtcod.light_green)})
+                break
+    else:
+        results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 
     return results
