@@ -8,7 +8,7 @@ class Equippable:
     def __str__(self):
         temp_str = "This item can be equipped to \"" + self.slot
         temp_str += "\" and has the following properties: dice: "
-        temp_str += str(hit_dice[0]) + "d" + str(hit_dice[1])
+        temp_str += str(self.hit_dice[0]) + "d" + str(self.hit_dice[1])
         temp_str += ", armor bonus: " + str(self.armor_bonus)
         temp_str += ", and enchantment: "
         if self.enchantment >= 0:

@@ -1,3 +1,4 @@
+from random import choice
 from rpg_mechanics import die
 
 class Equipment:

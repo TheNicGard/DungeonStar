@@ -175,7 +175,6 @@ def handle_help_screen(key):
         return {'fullscreen': True}
     
     if key:
-        key_char = chr(key.c)
         if key.text == "?":
             return {'end': True}
     return {}

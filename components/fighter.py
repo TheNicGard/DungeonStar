@@ -135,7 +135,7 @@ class Fighter:
                 gold_item = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.dark_sepia, 'Copper',
                                    render_order=RenderOrder.GOLD,
                                    valuable=valuable_component)
-            elif take_gold < 75:
+            elif gold < 75:
                 gold = Entity("gold", self.owner.x, self.owner.y, '$', libtcod.silver, 'Silver',
                               render_order=RenderOrder.GOLD,
                               valuable=valuable_component)

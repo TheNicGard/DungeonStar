@@ -95,7 +95,6 @@ def load_monsters():
         raise FileNotFoundError
 
     monster_defs = {}
-    spawn_rates = {}
 
     with open(monster_definitions, "r") as json_file:
         data = json.load(json_file)
@@ -202,7 +201,6 @@ def load_items():
     ]
     
     item_defs = {}
-    spawn_rates = {}
 
     with open(item_definitions, "r") as json_file:
         data = json.load(json_file)
@@ -224,9 +222,8 @@ def load_items():
                                                         libtcod.green, libtcod.blue], 0.333)
                 
                 item = ItemDefinition(item_id, char, color, name, weight=weight,
-                                      item_component=item_component, equippable=equipment_component,
-                                      animation=animation_component, spawn_rate=spawn_rate,
-                                      classification=classification)
+                                      equippable=equipment_component, animation=animation_component,
+                                      spawn_rate=spawn_rate, classification=classification)
                 item_defs[item_id] = item
                 
             elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):

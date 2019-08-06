@@ -17,7 +17,7 @@ from menus import main_menu, message_box
 from menu_cursor import MenuCursor
 from random import randint
 from render_functions import clear_all, render_all, render_character_creation
-from rpg_mechanics import die, get_modifier
+from rpg_mechanics import get_modifier
 
 def main():
     constants = get_constants()
@@ -500,11 +500,11 @@ def play_game(player, entities, game_map, turn, message_log,
                         
                     # prospertiy: greed scrolls 
                     elif creation_menu_cursor.index[1] == 3:
-                        player.inventory.add_item(extra_potions)
+                        player.inventory.add_item(greed_scrolls)
                     
                     # the arts: lightning scrolls
                     elif creation_menu_cursor.index[1] == 4:
-                        player.inventory.add_item(extra_potions)
+                        player.inventory.add_item(lightning_scrolls)
                     
                     # the stars: detect items, stairs, trap, and aura scrolls
                     elif creation_menu_cursor.index[1] == 5:

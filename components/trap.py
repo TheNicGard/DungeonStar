@@ -1,4 +1,3 @@
-from random import randint
 
 class Trap:
     def __init__(self, revealed=False):

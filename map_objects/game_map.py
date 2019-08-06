@@ -1,7 +1,5 @@
-import copy
 import tcod as libtcod
 from components.door import Door, DoorPosition
-from components.item import Item
 from components.sign import Sign
 from components.stairs import Stairs
 from components.trap import Trap
@@ -76,7 +74,6 @@ class GameMap:
         for i in range(number_of_monsters):
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
-            blocked = False
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if not self.is_blocked(x, y):
@@ -191,8 +188,6 @@ class GameMap:
         self.create_room(new_room)
         
         (new_x, new_y) = new_room.center()
-        center_of_last_room_x = new_x
-        center_of_last_room_y = new_y
                 
         player.x = new_x
         player.y = new_y
