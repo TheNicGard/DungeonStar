@@ -192,8 +192,8 @@ def help_screen(help_screen_width, screen_width, screen_height):
         '          , g   pick up item',
         '            d   drop item',
         '            c   show character screen',
-        '        SHIFT   descend stairs',
-        '        ENTER   (not yet implemented)',
+        '            >   descend stairs',
+        '            <   (not yet implemented)',
         '            ;   look at entity',
         "            x   butcher corpse (%)"
         "",
