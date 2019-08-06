@@ -474,14 +474,14 @@ def play_game(player, entities, game_map, turn, message_log,
                     armor = get_item("leather_armor", -1, -1)
                     potion = get_item("healing_potion", -1, -1)
                     
-                    extra_potions = get_item("healing_potion", -1, -1, 2)
+                    pacify_scrolls = get_item("pacify_scroll", -1, -1, 4)
                     shield = get_item("tower_shield", -1, -1)
-                    greed_scrolls = get_item("greed_scroll", -1, -1, 3)
-                    lightning_scrolls = get_item("lightning_scroll", -1, -1, 3)
+                    greed_scrolls = get_item("greed_scroll", -1, -1, 4)
+                    lightning_scrolls = get_item("lightning_scroll", -1, -1, 4)
+                    #aura_scrolls = get_item("detect_items_scroll", -1, -1, 2)
                     #item_scrolls = get_item("detect_items_scroll", -1, -1, 2)
                     stairs_scrolls = get_item("detect_stairs_scroll", -1, -1, 2)
                     traps_scrolls = get_item("detect_traps_scroll", -1, -1, 2)
-                    
                     
                     player.inventory.items = []
                     # make item selectable instead of using just an index
@@ -490,9 +490,9 @@ def play_game(player, entities, game_map, turn, message_log,
                         player.inventory.add_item(shield)
                         player.equipment.toggle_equip(shield)
                         
-                    # life: TODO taming scrolls
+                    # life: pacify scrolls
                     elif creation_menu_cursor.index[1] == 1:
-                        player.inventory.add_item(extra_potions)
+                        player.inventory.add_item(pacify_scroll)
 
                     # peace: +2 dagger
                     elif creation_menu_cursor.index[1] == 2:
