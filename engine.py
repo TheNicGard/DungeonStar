@@ -447,7 +447,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     player.fighter.charisma = 8 + stat_diffs[5]
 
                     if creation_menu_cursor.index[1] == 0:
-                        player.fighter.constituion += 2
+                        player.fighter.constitution += 2
                         player.fighter.intelligence += 1
                     elif creation_menu_cursor.index[1] == 1:
                         player.fighter.dexterity += 2
@@ -457,7 +457,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         player.fighter.dexterity += 1
                     elif creation_menu_cursor.index[1] == 3:
                         player.fighter.charisma += 2
-                        player.fighter.constituion += 1
+                        player.fighter.constitution += 1
                     elif creation_menu_cursor.index[1] == 4:
                         player.fighter.wisdom += 2
                         player.fighter.charisma += 1
@@ -492,7 +492,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         
                     # life: pacify scrolls
                     elif creation_menu_cursor.index[1] == 1:
-                        player.inventory.add_item(pacify_scroll)
+                        player.inventory.add_item(pacify_scrolls)
 
                     # peace: +2 dagger
                     elif creation_menu_cursor.index[1] == 2:
