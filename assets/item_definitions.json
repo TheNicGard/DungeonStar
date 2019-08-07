@@ -437,6 +437,25 @@
     },
 
     {
+	"item_id": "striking_wand",
+	"name": "wand of Striking",
+	"color": [63, 50, 31],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_force_bolt",
+	"targeting": true,
+	"max_charges": 12,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to strike it, or right-click to cancel.",
+		"color": [255, 0, 63]
+	    }
+	},
+	"spawn_rate": [[3, 2]],
+	"classification": ["wand"]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],

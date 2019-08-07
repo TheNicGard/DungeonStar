@@ -2,6 +2,7 @@ import tcod as libtcod
 from game_messages import Message
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
 from random import randint
+from rpg_mechanics import die
 
 def heal(*args, **kwargs):
     entity = args[0]
@@ -297,6 +298,29 @@ def cast_pacify(*args, **kwargs):
 
                 results.append({'consumed': True, 'message': Message('The {0} has been pacified!'.format(entity.name), libtcod.light_green)})
                 break
+    else:
+        results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
+
+    return results
+
+def cast_force_bolt(*args, **kwargs):
+    entities = kwargs.get('entities')
+    fov_map = kwargs.get('fov_map')
+    target_x = kwargs.get('target_x')
+    target_y = kwargs.get('target_y')
+
+    results = []
+
+    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+        results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
+        return results
+
+    for entity in entities:
+        if entity.x == target_x and entity.y == target_y and entity.ai:
+            damage = die(2, 12)
+            results.append({'consumed': True, 'message': Message('The magic bolt dealing {1} hit points of damage to {0}.'.format(entity.name, damage), libtcod.crimson)})
+            results.extend(entity.fighter.take_damage(damage))
+            break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 

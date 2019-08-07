@@ -18,7 +18,7 @@ from menu_cursor import MenuCursor
 from plot_gen import Plot
 from random import randint
 from render_functions import clear_all, render_all, render_character_creation
-from rpg_mechanics import get_modifier
+from rpg_mechanics import get_modifier, die
 
 def main():
     constants = get_constants()
@@ -605,7 +605,7 @@ def play_game(player, entities, game_map, turn, message_log,
 
             if targeting_cancelled:
                 game_state = previous_game_state
-                message_log.add_message(Message('Targeting cancelled'))
+                message_log.add_message(Message('Targeting cancelled.'))
 
             if xp:
                 leveled_up = player.level.add_xp(xp)
@@ -628,11 +628,7 @@ def play_game(player, entities, game_map, turn, message_log,
             if stepped_on_trap:
                 if not stepped_on_trap.revealed:
                     stepped_on_trap.set_reveal(True)
-                    """
-                    damage_taken = die(stepped_on_trap.trap.damage[0],
-                                       stepped_on_trap.trap.damage[1])
-                    """
-                    damage_taken = randint(1, 4)
+                    damage_taken = die(1, 4)
                     message_log.add_message(Message(
                         'You step on a trap of hidden spikes, taking {0} points of damage!'.format(
                             damage_taken), libtcod.yellow))
