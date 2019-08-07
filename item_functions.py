@@ -1,6 +1,7 @@
 import tcod as libtcod
-from game_messages import Message
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
+from effect import Effect, tick_invisible
+from game_messages import Message
 from random import randint
 from rpg_mechanics import die
 
@@ -27,7 +28,7 @@ def invisible(*args, **kwargs):
 
     results = []
 
-    entity.fighter.status["invisible"] = turns
+    entity.fighter.status["invisible"] = Effect(True, turns, tick_invisible)
     results.append({'consumed': True,
                     'message': Message('Light starts to pass through your body!',
                                        libtcod.green)})

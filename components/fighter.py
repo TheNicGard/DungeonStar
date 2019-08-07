@@ -1,6 +1,7 @@
 import tcod as libtcod
 
 from components.valuable import Valuable
+from effect import Effect, tick_invisible
 from entity import Entity
 from game_messages import Message
 from random import choice, randint

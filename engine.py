@@ -246,11 +246,7 @@ def play_game(player, entities, game_map, turn, message_log,
                             message_log.add_message(Message(temp_str, libtcod.white))
                                 
                         fov_recompute = True
-
-                    invisible_tick = player.fighter.tick_invisibility()
-                    if invisible_tick:
-                        message_log.add_message(invisible_tick)
-
+                        
                     previous_game_state = game_state
                     game_state = GameStates.ENEMY_TURN
                     
@@ -673,13 +669,13 @@ def play_game(player, entities, game_map, turn, message_log,
                     if game_state == GameStates.PLAYER_DEAD:
                         break
             else:
-                turn = tick_turn(turn, player, entities)
+                turn = tick_turn(turn, player, entities, message_log)
                 game_state = previous_game_state
 
-def tick_turn(turn, player, entities):
+def tick_turn(turn, player, entities, message_log):
     expired = []
     expired_items = []
-
+    
     for e in entities:
         if e.item and e.item.age is not None:
             e.item.age += 1
@@ -693,6 +689,13 @@ def tick_turn(turn, player, entities):
                         expired_items.append(i)
             for i in expired_items:
                 e.inventory.remove_item(i, i.item.count)
+        if e.fighter:
+            for k, v in e.fighter.status.items():
+                # improve once other effects are removed
+                if v.__class__.__name__ == "Effect":
+                    m = v.tick()
+                    if m:
+                        message_log.add_message(m)
 
     for e in expired:
         entities.remove(e)
