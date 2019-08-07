@@ -189,7 +189,7 @@ def cast_greed(*args, **kwargs):
 
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai and entity.fighter:
-            entity.fighter.golden = True
+            entity.fighter.status["golden"] = Effect(False, -1, None)
             results.append({'consumed': True, 'message': Message(
                 'The body of the {0} glimmers!'.format(entity.name), libtcod.light_green)})
             break

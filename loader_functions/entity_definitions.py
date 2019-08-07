@@ -12,6 +12,7 @@ from components.fighter import Fighter
 from components.food import Food
 from components.inventory import Inventory
 from components.item import Item
+from effect import Effect
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs, cast_pacify, cast_force_bolt
@@ -125,9 +126,10 @@ def load_monsters():
                 if fighter.get("xp"):
                     xp = fighter.get("xp")
                     
-                golden = False
+                golden = None
                 if fighter.get("golden"):
-                    golden = fighter.get("golden")
+                    if fighter.get("golden"):
+                        golden = Effect(False, -1, None)
                     
                 max_gold_drop = 0
                 if fighter.get("max_gold_drop"):

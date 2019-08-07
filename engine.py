@@ -692,7 +692,7 @@ def tick_turn(turn, player, entities, message_log):
         if e.fighter:
             for k, v in e.fighter.status.items():
                 # improve once other effects are removed
-                if v.__class__.__name__ == "Effect":
+                if v.__class__.__name__ == "Effect" and v.temporary:
                     m = v.tick()
                     if m:
                         message_log.add_message(m)

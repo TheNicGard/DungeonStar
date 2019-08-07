@@ -121,7 +121,7 @@ class Fighter:
     def get_gold(self):
         gold = randint(0, self.max_gold_drop)
         
-        if self.status["golden"]:
+        if self.status.get("golden"):
             second_roll = randint(0, self.max_gold_drop)
             if second_roll > gold:
                 gold = second_roll
@@ -147,14 +147,3 @@ class Fighter:
             return gold_item
         else:
             return None
-
-    def tick_invisibility(self):
-        message = None
-        
-        if self.status.get("invisible") and self.status.get("invisible") > 0:
-            self.status["invisible"] -= 1
-            if self.status["invisible"] <= 0:
-                message = Message("Color starts to reappear on your body!",
-                                  libtcod.yellow)
-                    
-        return message
