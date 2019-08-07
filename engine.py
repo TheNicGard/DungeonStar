@@ -482,6 +482,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     potion = get_item("healing_potion", -1, -1)
                     
                     pacify_wand = get_item("pacify_wand", -1, -1)
+                    striking_wand = get_item("striking_wand", -1, -1)
                     shield = get_item("tower_shield", -1, -1)
                     greed_wand = get_item("greed_wand", -1, -1)
                     lightning_wand = get_item("lightning_wand", -1, -1)
@@ -503,6 +504,8 @@ def play_game(player, entities, game_map, turn, message_log,
                     # peace: +2 dagger
                     elif creation_menu_cursor.index[1] == 2:
                         dagger.equippable.enchantment = 2
+                        striking_wand.item.chargeable.recharge(20)
+                        player.inventory.add_item(striking_wand)
                     # prospertiy: greed wand
                     elif creation_menu_cursor.index[1] == 3:
                         greed_wand.item.chargeable.recharge(20)

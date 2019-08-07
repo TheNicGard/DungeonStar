@@ -317,7 +317,7 @@ def cast_force_bolt(*args, **kwargs):
 
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
-            damage = die(2, 12)
+            damage = die(1, 12)
             results.append({'consumed': True, 'message': Message('The magic bolt dealing {1} hit points of damage to {0}.'.format(entity.name, damage), libtcod.crimson)})
             results.extend(entity.fighter.take_damage(damage))
             break
