@@ -233,7 +233,8 @@ def play_game(player, entities, game_map, turn, message_log,
                             if e.sign:
                                 message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
                             if e.trap:
-                                player_turn_results.append({"stepped_on_trap": e.trap})
+                                e.trap.set_reveal(True)
+                                player_turn_results.extend(e.trap.trap_function(player))
                             if e.item:
                                 items_in_loc.append(e.get_name())
                         if len(items_in_loc) == 1:
@@ -545,7 +546,6 @@ def play_game(player, entities, game_map, turn, message_log,
             xp = player_turn_result.get('xp')
             enemy_gold_dropped = player_turn_result.get('enemy_gold_dropped')
             drop_inventory = player_turn_result.get("drop_inventory")
-            stepped_on_trap = player_turn_result.get("stepped_on_trap")
             teleport = player_turn_result.get("teleport")
 
             if message:
@@ -623,15 +623,6 @@ def play_game(player, entities, game_map, turn, message_log,
             if drop_inventory:
                 for i in drop_inventory.items:
                     entities.append(drop_inventory.drop_item(i)[0].get("item_dropped"))
-
-            if stepped_on_trap:
-                if not stepped_on_trap.revealed:
-                    stepped_on_trap.set_reveal(True)
-                    damage_taken = die(1, 4)
-                    message_log.add_message(Message(
-                        'You step on a trap of hidden spikes, taking {0} points of damage!'.format(
-                            damage_taken), libtcod.yellow))
-                    player.fighter.take_damage(damage_taken)
 
             if teleport:
                 fov_map = initialize_fov(game_map)
