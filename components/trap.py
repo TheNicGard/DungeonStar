@@ -41,13 +41,8 @@ def poison_trap(target, **kwargs):
         'You step on a trap of hidden poisoned spikes, taking {0} point of damage!'.format(
         damage_taken), libtcod.yellow)})
     results.extend(target.fighter.take_damage(damage_taken))
-
-    # TODO: change this to be a general roll later
-    if not attack_success(get_modifier(target.fighter.constitution) + 10, 15):
-        results.extend(poison(target, **{"turns": 50}))
-    else:
-        results.append({"message": Message(
-            'You resisted the poison!', libtcod.green)})
+        
+    results.extend(poison(target, **{"turns": 50}))
     
     return results
 

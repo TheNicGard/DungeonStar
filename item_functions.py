@@ -3,7 +3,7 @@ from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, So
 from effect import Effect, tick_invisible, tick_poison
 from game_messages import Message
 from random import randint
-from rpg_mechanics import die
+from rpg_mechanics import attack_success, die, get_modifier
 
 def heal(*args, **kwargs):
     entity = args[0]
@@ -28,10 +28,16 @@ def poison(*args, **kwargs):
 
     results = []
 
-    entity.fighter.effects.effects["poison"] = Effect(True, turns, tick_poison)
-    results.append({'consumed': True,
-                    'message': Message('You start to feel ill!',
-                                       libtcod.dark_purple)})
+    # TODO: change this to be a general roll later
+    if not attack_success(get_modifier(entity.fighter.constitution), 10):
+        entity.fighter.effects.effects["poison"] = Effect(True, turns, tick_poison)
+        results.append({'consumed': True,
+                        'message': Message('You start to feel ill!',
+                                           libtcod.dark_purple)})
+    else:
+        results.append({"consumed": True, "message": Message(
+            'You resisted the poison!', libtcod.green)})
+        
     return results
 
 def cure_poison(*args, **kwargs):
