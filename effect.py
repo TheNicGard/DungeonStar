@@ -5,9 +5,17 @@ class EffectGroup:
     def __init__(self):
         self.effects = {}
 
-    def tick_effects(self):
+    def get(self, key):
+        return self.effects.get(key)
+
+    def tick(self):
+        results = []
+
         for e in self.effects.values():
-            v.tick()
+            if e and e.temporary:
+                results.extend(e.tick())
+
+        return results
 
 class Effect:
     def __init__(self, temporary, turns_remaining, turn_tick_function):
@@ -37,7 +45,7 @@ def tick_poison(turns_remaining):
     results = []
     
     if turns_remaining > 0:
-        results.append({"poison_damage": True})
+        results.append({"poison_damage": str(turns_remaining)})        
         
     return results
 

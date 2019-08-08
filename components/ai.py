@@ -4,7 +4,7 @@ from game_messages import Message
 from random import randint, random
 
 def is_invisible(target):
-    invisible = target.fighter.status.get("invisible")
+    invisible = target.fighter.effects.get("invisible")
     return invisible and (not invisible.temporary or invisible.turns_remaining > 0)
     
 class BasicMonster:

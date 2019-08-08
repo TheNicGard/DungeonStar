@@ -28,7 +28,7 @@ def poison(*args, **kwargs):
 
     results = []
 
-    entity.fighter.status["poison"] = Effect(True, turns, tick_poison)
+    entity.fighter.effects.effects["poison"] = Effect(True, turns, tick_poison)
     results.append({'consumed': True,
                     'message': Message('You start to feel ill!',
                                        libtcod.dark_purple)})
@@ -40,7 +40,7 @@ def invisible(*args, **kwargs):
 
     results = []
 
-    entity.fighter.status["invisible"] = Effect(True, turns, tick_invisible)
+    entity.fighter.effects.effects["invisible"] = Effect(True, turns, tick_invisible)
     results.append({'consumed': True,
                     'message': Message('Light starts to pass through your body!',
                                        libtcod.green)})
@@ -201,7 +201,7 @@ def cast_greed(*args, **kwargs):
 
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai and entity.fighter:
-            entity.fighter.status["golden"] = Effect(False, -1, None)
+            entity.fighter.effects.effects["golden"] = Effect(False, -1, None)
             results.append({'consumed': True, 'message': Message(
                 'The body of the {0} glimmers!'.format(entity.name), libtcod.light_green)})
             break

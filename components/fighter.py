@@ -1,7 +1,7 @@
 import tcod as libtcod
 
 from components.valuable import Valuable
-from effect import Effect, tick_invisible
+from effect import Effect, EffectGroup
 from entity import Entity
 from game_messages import Message
 from random import choice, randint
@@ -11,7 +11,7 @@ from rpg_mechanics import attack_success, die, get_modifier
 class Fighter:
     def __init__(self, strength, dexterity, constitution,
                  intelligence, wisdom, charisma, determination,
-                 fixed_max_hp=None, xp=0, golden=False, chance_to_drop_corpse=0,
+                 fixed_max_hp=None, xp=0, golden=None, chance_to_drop_corpse=0,
                  max_gold_drop=0, attack_list=None, can_be_pacified=False):
         self.strength = strength
         self.dexterity = dexterity
@@ -30,8 +30,10 @@ class Fighter:
         
         self.xp = xp
         self.max_gold_drop = max_gold_drop
-        self.status = {}
-        self.status["golden"] = golden
+
+        self.effects = EffectGroup()
+        self.effects.effects["golden"] = golden
+        
         self.chance_to_drop_corpse = chance_to_drop_corpse
         self.attack_list = attack_list
         self.can_be_pacified = can_be_pacified
@@ -121,7 +123,7 @@ class Fighter:
     def get_gold(self):
         gold = randint(0, self.max_gold_drop)
         
-        if self.status.get("golden"):
+        if self.effects.get("golden"):
             second_roll = randint(0, self.max_gold_drop)
             if second_roll > gold:
                 gold = second_roll

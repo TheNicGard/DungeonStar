@@ -669,14 +669,14 @@ def play_game(player, entities, game_map, turn, message_log,
                     if game_state == GameStates.PLAYER_DEAD:
                         break
             else:
-                turn = tick_turn(turn, player, entities, message_log)
-                game_state = previous_game_state
+                old_game_state = game_state
+                turn, game_state = tick_turn(turn, player, entities, game_state, message_log)
+                if game_state == old_game_state:
+                    game_state = previous_game_state
 
-def tick_turn(turn, player, entities, message_log):
+def tick_turn(turn, player, entities, game_state, message_log):
     expired = []
     expired_items = []
-
-    results = []
     
     for e in entities:
         if e.item and e.item.age is not None:
@@ -692,10 +692,30 @@ def tick_turn(turn, player, entities, message_log):
             for i in expired_items:
                 e.inventory.remove_item(i, i.item.count)
         if e.fighter:
-            for k, v in e.fighter.status.items():
-                # improve once other effects are removed
-                if v.__class__.__name__ == "Effect" and v.temporary:
-                    results.extend(v.tick())
+            results = []
+            
+            results.extend(e.fighter.effects.tick())
+            
+            for result in results:
+                message = result.get('message')
+                poison_damage = result.get("poison_damage")
+    
+                if message:
+                    message_log.add_message(message)
+
+                if poison_damage:
+                    print("receiving " + poison_damage + " poison damage...")
+                    
+                    death_results = []
+                    death_results.extend(e.fighter.take_damage(1))
+                    for death_result in death_results:
+                        dead_entity = death_result.get('dead')
+                        if dead_entity:
+                            if dead_entity == player:
+                                message, game_state = kill_player(e)
+                            else:
+                                message = kill_monster(e)
+                            message_log.add_message(message)
 
     for e in expired:
         entities.remove(e)
@@ -706,18 +726,8 @@ def tick_turn(turn, player, entities, message_log):
     elif player.hunger.saturation > player.hunger.starving_saturation:
         if turn % 20 == 0:
             player.fighter.heal(1)
-
-    for result in results:
-        message = result.get('message')
-        poison_damage = result.get("poison_damage")
-    
-        if message:
-            message_log.add_message(message)
-
-        if poison_damage:
-            print("receiving " + poison_damage + " poison damage...")
                 
-    return turn + 1
+    return turn + 1, game_state
                 
 if __name__ == '__main__':
     main()
