@@ -8,11 +8,11 @@ from rpg_mechanics import display_ability
 import textwrap
 
 class RenderOrder(Enum):
-    STAIRS = 1
-    DOOR = 2
-    SIGN = 3
-    TRAP = 4
-    CORPSE = 5
+    TRAP = 1
+    CORPSE = 2
+    STAIRS = 3
+    DOOR = 4
+    SIGN = 5
     GOLD = 6
     ITEM = 7
     ACTOR = 8

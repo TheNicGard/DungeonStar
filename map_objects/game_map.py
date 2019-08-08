@@ -10,7 +10,7 @@ from loader_functions.data_loaders import load_test_map_tiles, load_tutorial_map
 from loader_functions.entity_definitions import get_item, get_monster, item_defs, monster_defs
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
-from random import randint, choice
+from random import randint, random, choice
 from random_utils import from_dungeon_level, random_choice_from_dict
 from render_functions import RenderOrder
 
@@ -100,12 +100,12 @@ class GameMap:
                     trap_chance = random()
                     if trap_chance < .05:
                         trap_component = Trap(poison_trap)
-                        trap = Entity("trap", x, y, " ", libtcod.red,
+                        trap = Entity("trap", x, y, " ", libtcod.dark_lime,
                                       'Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                     elif trap_chance < .1:
                         trap_component = Trap(teleport_trap)
-                        trap = Entity("trap", x, y, " ", libtcod.red,
+                        trap = Entity("trap", x, y, " ", libtcod.dark_fuchsia,
                                       'Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                     else:
