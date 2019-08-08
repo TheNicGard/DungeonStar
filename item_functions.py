@@ -34,6 +34,17 @@ def poison(*args, **kwargs):
                                        libtcod.dark_purple)})
     return results
 
+def cure_poison(*args, **kwargs):
+    entity = args[0]
+
+    results = []
+
+    entity.fighter.effects.effects["poison"] = Effect(True, 0, tick_poison)
+    results.append({'consumed': True,
+                    'message': Message('Your sickness dissipates!',
+                                       libtcod.green)})
+    return results
+
 def invisible(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')

@@ -15,7 +15,7 @@ from components.item import Item
 from effect import Effect
 from entity import Entity
 from game_messages import Message
-from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs, cast_pacify, cast_force_bolt, poison
+from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs, cast_pacify, cast_force_bolt, poison, cure_poison
 from random import random, randint
 from render_functions import RenderOrder
 
@@ -195,7 +195,7 @@ def load_items():
         cast_greed, invisible, cast_detect_traps,
         cast_random_teleportation, cast_blink,
         cast_detect_stairs, cast_pacify,
-        cast_force_bolt, poison
+        cast_force_bolt, poison, cure_poison
     ]
 
     equipment_types = [

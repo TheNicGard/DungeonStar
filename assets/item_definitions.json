@@ -47,6 +47,22 @@
     },
 
     {
+	"item_id": "cure_poison_potion",
+	"name": "can of Vanilla Dr. Fabulous",
+	"color": [191, 95, 0],
+	"symbol": "!",
+	"weight": 5,
+	"use_function": "cure_poison",
+	"targeting": false,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[3, 1]],
+	"nutrition": 50,
+	"classification": ["potion"]
+    },
+
+    {
 	"item_id": "invisibility_potion",
 	"name": "can of Crystal Dr. Fabulous",
 	"color": [191, 239, 255],
