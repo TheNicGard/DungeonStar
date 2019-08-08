@@ -4,7 +4,7 @@ from components.sign import Sign
 from components.stairs import Stairs
 from components.trap import Trap, poison_trap, teleport_trap
 from components.valuable import Valuable
-from entity import Entity
+from entity import Entity, get_entities_at_location
 from game_messages import Message
 from loader_functions.data_loaders import load_test_map_tiles, load_tutorial_map_tiles
 from loader_functions.entity_definitions import get_item, get_monster, item_defs, monster_defs
@@ -185,6 +185,11 @@ class GameMap:
                 rooms.append(new_room)
                 num_rooms += 1
         stairs_component = Stairs(self.dungeon_level + 1)
+
+        entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
+        for e in entities_blocking_stairs:
+            entities.remove(e)
+        
         down_stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31, libtcod.white,
                              'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
         entities.append(down_stairs)
