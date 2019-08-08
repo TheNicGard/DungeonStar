@@ -2,7 +2,7 @@ import tcod as libtcod
 from components.door import Door, DoorPosition
 from components.sign import Sign
 from components.stairs import Stairs
-from components.trap import Trap
+from components.trap import Trap, poison_trap, teleport_trap
 from components.valuable import Valuable
 from entity import Entity
 from game_messages import Message
@@ -97,10 +97,22 @@ class GameMap:
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if not self.is_blocked(x, y):
-                    trap_component = Trap()
-                    trap = Entity("trap", x, y, " ", libtcod.red,
-                                  'Trap', blocks=False, render_order=RenderOrder.TRAP,
-                                  trap=trap_component)
+                    trap_chance = random()
+                    if trap_chance < .05:
+                        trap_component = Trap(poison_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.red,
+                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    elif trap_chance < .1:
+                        trap_component = Trap(teleport_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.red,
+                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    else:
+                        trap_component = Trap()
+                        trap = Entity("trap", x, y, " ", libtcod.red,
+                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
                     entities.append(trap)
 
         for i in range(gold_passes):
@@ -227,6 +239,18 @@ class GameMap:
                     elif piece == "trap":
                         trap_component = Trap()
                         trap = Entity("trap", data_x, data_y, " ", libtcod.red,
+                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                        entities.append(trap)
+                    elif piece == "poison_trap":
+                        trap_component = Trap(poison_trap)
+                        trap = Entity("trap", data_x, data_y, " ", libtcod.dark_lime,
+                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                        entities.append(trap)
+                    elif piece == "teleport_trap":
+                        trap_component = Trap(teleport_trap)
+                        trap = Entity("trap", data_x, data_y, " ", libtcod.dark_fuchsia,
                                       'Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                         entities.append(trap)

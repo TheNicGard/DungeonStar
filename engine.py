@@ -234,7 +234,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
                             if e.trap:
                                 e.trap.set_reveal(True)
-                                player_turn_results.extend(e.trap.trap_function(player))
+                                player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities}))
                             if e.item:
                                 items_in_loc.append(e.get_name())
                         if len(items_in_loc) == 1:
