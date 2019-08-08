@@ -677,6 +677,13 @@ def play_game(player, entities, game_map, turn, message_log,
 def tick_turn(turn, player, entities, game_state, message_log):
     expired = []
     expired_items = []
+
+    if player.hunger.saturation > player.hunger.hungry_saturation:
+        if turn % 10 == 0:
+            player.fighter.heal(1)
+    elif player.hunger.saturation > player.hunger.starving_saturation:
+        if turn % 20 == 0:
+            player.fighter.heal(1)
     
     for e in entities:
         if e.item and e.item.age is not None:
@@ -703,11 +710,9 @@ def tick_turn(turn, player, entities, game_state, message_log):
                 if message:
                     message_log.add_message(message)
 
-                if poison_damage:
-                    print("receiving " + poison_damage + " poison damage...")
-                    
+                if poison_damage and turn % 10 == 0:
                     death_results = []
-                    death_results.extend(e.fighter.take_damage(1))
+                    death_results.extend(e.fighter.take_damage(4))
                     for death_result in death_results:
                         dead_entity = death_result.get('dead')
                         if dead_entity:
@@ -719,13 +724,6 @@ def tick_turn(turn, player, entities, game_state, message_log):
 
     for e in expired:
         entities.remove(e)
-
-    if player.hunger.saturation > player.hunger.hungry_saturation:
-        if turn % 10 == 0:
-            player.fighter.heal(1)
-    elif player.hunger.saturation > player.hunger.starving_saturation:
-        if turn % 20 == 0:
-            player.fighter.heal(1)
                 
     return turn + 1, game_state
                 

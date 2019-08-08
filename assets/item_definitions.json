@@ -40,7 +40,7 @@
 	"use_function": "poison",
 	"targeting": false,
 	"positional": {
-	    "turns": 25
+	    "turns": 50
 	},
 	"spawn_rate": [[3, 1]],
 	"classification": ["potion"]
