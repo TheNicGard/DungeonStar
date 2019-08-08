@@ -50,12 +50,39 @@
 	},
 	"spawn_rate": [[60, 1], [40, 3], [20, 5]]
     },
+
+    {
+	"monster_id": "spider",
+	"name": "spider",
+	"color": [40, 40, 40],
+	"symbol": "s",
+	"fighter": {
+	    "hp": 4,
+	    "STR": 10,
+	    "DEX": 12,
+	    "CON": 10,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0]
+	    ],
+	    "xp": 30,
+	    "max_gold_drop": 4
+	},
+	"ai": "BasicMonster",
+	"ai_details": {
+	    "can_be_pacified": true
+	},
+	"spawn_rate": [[8, 1]]
+    },
     
     {
 	"monster_id": "snake",
 	"name": "snake",
 	"color": [64, 128, 64],
-	"symbol": "s",
+	"symbol": "w",
 	"fighter": {
 	    "hp": 6,
 	    "STR": 10,
