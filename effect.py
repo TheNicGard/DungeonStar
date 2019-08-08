@@ -1,6 +1,14 @@
 import tcod as libtcod
 from game_messages import Message
 
+class EffectGroup:
+    def __init__(self):
+        self.effects = {}
+
+    def tick_effects(self):
+        for e in self.effects.values():
+            v.tick()
+
 class Effect:
     def __init__(self, temporary, turns_remaining, turn_tick_function):
         self.temporary = temporary
@@ -8,20 +16,28 @@ class Effect:
         self.turn_tick_function = turn_tick_function
 
     def tick(self):
-        message = None
+        results = []
         
         if self.temporary:
             if self.turns_remaining > 0:
                 self.turns_remaining -= 1
-                message = self.turn_tick_function(self.turns_remaining)
+                results.extend(self.turn_tick_function(self.turns_remaining))
                 
-        return message
+        return results
 
 def tick_invisible(turns_remaining):
-    message = None
+    results = []
     
     if turns_remaining <= 0:
-        message = Message("Color starts to reappear on your body!",
-                          libtcod.yellow)        
-    return message
+        results.append({"message": Message("Color starts to reappear on your body!",
+                          libtcod.yellow)})
+    return results
+
+def tick_poison(turns_remaining):
+    results = []
+    
+    if turns_remaining > 0:
+        results.append({"poison_damage": True})
+        
+    return results
 

@@ -675,6 +675,8 @@ def play_game(player, entities, game_map, turn, message_log,
 def tick_turn(turn, player, entities, message_log):
     expired = []
     expired_items = []
+
+    results = []
     
     for e in entities:
         if e.item and e.item.age is not None:
@@ -693,9 +695,7 @@ def tick_turn(turn, player, entities, message_log):
             for k, v in e.fighter.status.items():
                 # improve once other effects are removed
                 if v.__class__.__name__ == "Effect" and v.temporary:
-                    m = v.tick()
-                    if m:
-                        message_log.add_message(m)
+                    results.extend(v.tick())
 
     for e in expired:
         entities.remove(e)
@@ -706,6 +706,16 @@ def tick_turn(turn, player, entities, message_log):
     elif player.hunger.saturation > player.hunger.starving_saturation:
         if turn % 20 == 0:
             player.fighter.heal(1)
+
+    for result in results:
+        message = result.get('message')
+        poison_damage = result.get("poison_damage")
+    
+        if message:
+            message_log.add_message(message)
+
+        if poison_damage:
+            print("receiving " + poison_damage + " poison damage...")
                 
     return turn + 1
                 

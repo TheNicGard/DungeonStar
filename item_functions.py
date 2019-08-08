@@ -1,6 +1,6 @@
 import tcod as libtcod
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
-from effect import Effect, tick_invisible
+from effect import Effect, tick_invisible, tick_poison
 from game_messages import Message
 from random import randint
 from rpg_mechanics import die
@@ -20,6 +20,18 @@ def heal(*args, **kwargs):
         results.append({'consumed': True,
                         'message': Message('Your wounds start to feel better!',
                                            libtcod.green)})
+    return results
+
+def poison(*args, **kwargs):
+    entity = args[0]
+    turns = kwargs.get('turns')
+
+    results = []
+
+    entity.fighter.status["poison"] = Effect(True, turns, tick_poison)
+    results.append({'consumed': True,
+                    'message': Message('You start to feel ill!',
+                                       libtcod.dark_purple)})
     return results
 
 def invisible(*args, **kwargs):
