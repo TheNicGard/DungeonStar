@@ -29,15 +29,26 @@ def poison(*args, **kwargs):
     results = []
 
     # TODO: change this to be a general roll later
-    if not attack_success(get_modifier(entity.fighter.constitution), 10):
+    if attack_success(get_modifier(entity.fighter.constitution), 10) or "poison_resistance" in entity.fighter.effects.effects.keys():
+        results.append({"consumed": True, "message": Message(
+            'You resisted the poison!', libtcod.green)})
+    else:
         entity.fighter.effects.effects["poison"] = Effect(True, turns, tick_poison)
         results.append({'consumed': True,
                         'message': Message('You start to feel ill!',
                                            libtcod.dark_purple)})
-    else:
-        results.append({"consumed": True, "message": Message(
-            'You resisted the poison!', libtcod.green)})
         
+    return results
+
+def poison_resistance(*args, **kwargs):
+    entity = args[0]
+
+    results = []
+
+    entity.fighter.effects.effects["poison_resistance"] = Effect(False, 0, None)
+    results.append({'consumed': True,
+                    'message': Message('Your blood feels thick!',
+                                       libtcod.green)})
     return results
 
 def cure_poison(*args, **kwargs):
