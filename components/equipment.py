@@ -16,6 +16,13 @@ class Equipment:
                 
         return temp_str
 
+    def get_effects(self):
+        effects = {}
+        for k, v in self.slots.items():
+            if v and v.equippable and v.equippable.get_effects() is not None:
+                effects.update(v.equippable.get_effects())
+        return effects
+
     def make_attack(self):
         damage = 0
 

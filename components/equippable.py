@@ -4,6 +4,7 @@ class Equippable:
         self.hit_dice = hit_dice 
         self.armor_bonus = armor_bonus
         self.enchantment = enchantment
+        self.effects = {}
 
     def __str__(self):
         temp_str = "This item can be equipped to \"" + self.slot
@@ -15,3 +16,6 @@ class Equippable:
             temp_str += "+"
         temp_str += str(self.enchantment)
         return temp_str
+
+    def get_effects(self):
+        return self.effects

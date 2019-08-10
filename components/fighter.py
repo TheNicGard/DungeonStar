@@ -63,6 +63,17 @@ class Fighter:
 
     def select_attack(self):
         return choice(self.attack_list)
+
+    def get_effects(self):
+        effects = {}
+        
+        if self.effects is not None and self.effects.effects is not None:
+            effects.update(self.effects.effects)
+
+        if hasattr(self.owner, "equipment"):
+            effects.update(self.owner.equipment.get_effects())
+
+        return effects
             
     def take_damage(self, amount):
         results = []
