@@ -55,18 +55,29 @@ class Equipment:
     def toggle_equip(self, equippable_entity):
         results = []
 
-        for k, s in self.slots.items():
-            # unequip item
-            if s is equippable_entity:
-                self.slots[k] = None
-                results.append({'unequipped': s})
-                break
-            # equip item
-            elif equippable_entity.equippable.slot == k:
-                results.append({'unequipped': s})
-                self.slots[k] = equippable_entity
-                results.append({'equipped': equippable_entity})
-                break
+        # unequip item
+        if equippable_entity in self.slots.values():
+            for slot_name, slot_item in self.slots.items():
+                if equippable_entity == slot_item:
+                    self.slots[slot_name] = None
+                    results.append({'unequipped': slot_item})
+                    break
+        else:
+            for slot_name, slot_item in self.slots.items():
+                # equip item
+                if equippable_entity.equippable.slot == slot_name:
+                    results.append({'unequipped': slot_item})
+                
+                    if equippable_entity.equippable.slot == "left_finger" and self.slots["left_finger"] is not None and self.slots["right_finger"] is None:
+                        self.slots["right_finger"] = equippable_entity
+                        results.append({'equipped': equippable_entity})
+                    elif equippable_entity.equippable.slot == "right_finger" and self.slots["right_finger"] is not None and self.slots["left_finger"] is None:
+                        self.slots["left_finger"] = equippable_entity
+                        results.append({'equipped': equippable_entity})
+                    else:
+                        self.slots[slot_name] = equippable_entity
+                        results.append({'equipped': equippable_entity})
+                    break
         
         return results
 
