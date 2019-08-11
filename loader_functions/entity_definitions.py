@@ -195,7 +195,7 @@ def load_items():
         cast_greed, invisible, cast_detect_traps,
         cast_random_teleportation, cast_blink,
         cast_detect_stairs, cast_pacify,
-        cast_force_bolt, poison, cure_poison, poison_resistance
+        cast_force_bolt, poison, cure_poison   #, poison_resistance
     ]
 
     equipment_types = [
@@ -276,17 +276,24 @@ def load_items():
                     if item.get("equipment").get("armor_bonus"):
                         armor_bonus = item.get("equipment").get("armor_bonus")
 
+                    effects = {}
+                    if item.get("effect"):
+                        if item.get("effect") == "poison_resistance":
+                            effects["poison_resistance"] = Effect(False, 0, None)
+                        
                     if slot:
                         equipment_component = Equippable(slot, hit_dice=hit_dice,
                                                          armor_bonus=armor_bonus)
+                        equipment_component.effects = effects
 
                 item_component = None
                 if positional or food_component:
                     item_component = Item(1, max_age=max_age, use_function=use_function,
                                           targeting=targeting, chargeable=chargeable_component, **positional)
 
-                item = ItemDefinition(item_id, char, color, name, weight=weight, item_component=item_component, equippable=equipment_component, food=food_component, spawn_rate=spawn_rate)
-                item_defs[item_id] = item
+                item_defs[item_id] = ItemDefinition(item_id, char, color, name, weight=weight,
+                                                    item_component=item_component, equippable=equipment_component,
+                                                    food=food_component, spawn_rate=spawn_rate)
                     
     return item_defs
 

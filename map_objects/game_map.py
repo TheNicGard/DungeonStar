@@ -263,13 +263,6 @@ class GameMap:
                                       'Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                         entities.append(trap)
-                    elif piece == "resist_poison_ring":
-                        print("YESS")
-                        equippable_component = Equippable("left_finger")
-                        equippable_component.effects["poison_resistance"] = Effect(False, 0, None)
-                        ring = Entity("ring", data_x, data_y, '=', libtcod.silver, 'ring',
-                                        weight=5, equippable=equippable_component)
-                        entities.append(ring)
                     elif piece in item_defs:
                         item = get_item(piece, data_x, data_y)
                         entities.append(item)
