@@ -47,21 +47,6 @@
     },
 
     {
-	"item_id": "resist_poison_potion",
-	"name": "can of Black Dr. Fabulous",
-	"color": [143, 0, 191],
-	"symbol": "!",
-	"weight": 5,
-	"use_function": "poison_resistance",
-	"targeting": false,
-	"positional": {
-	    "dummy": "uuhhhhhh"
-	},
-	"spawn_rate": [[0, 0]],
-	"classification": ["potion"]
-    },
-
-    {
 	"item_id": "cure_poison_potion",
 	"name": "can of Vanilla Dr. Fabulous",
 	"color": [191, 95, 0],
@@ -745,5 +730,23 @@
 	"nutrition": 2000,
 	"spawn_rate": [[0, 0]],
 	"classification": ["food"]
+    },
+
+    {
+	"item_id": "resist_poison_ring",
+	"name": "ring of Poison Resistance",
+	"color": [80, 140, 0],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "poison_resistance"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[3, 1]],
+	"classification": ["ring"]
     }
 ]
