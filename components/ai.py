@@ -2,6 +2,7 @@ import tcod as libtcod
 from entity import get_blocking_entities_at_location, get_entities_at_location
 from game_messages import Message
 from random import randint, random
+from rpg_mechanics import attack_success, get_modifier
 
 def is_invisible(target):
     invisible = target.fighter.effects.get("invisible")
@@ -28,7 +29,7 @@ class BasicMonster:
                 entities_in_loc = get_entities_at_location(entities, monster.x, monster.y)
                 for e in entities_in_loc:
                     # 50% chance to set off trap
-                    if e.trap and random() > 0.5:
+                    if e.trap and attack_success(get_modifier(monster.fighter.dexterity), 10):
                         e.trap.set_reveal(True)
                         results.extend(e.trap.trap_function(monster, **{"game_map": game_map, "entities": entities}))
             elif target.fighter.hp > 0:
