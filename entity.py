@@ -75,21 +75,21 @@ class Entity:
 
     @property
     def get_name(self):
-        if self.identity and self.identity.identified:
+        if self.identity and not self.identity.identified:
             return self.identity.name
         else:
             return self.name
 
     @property
     def get_char(self):
-        if self.identity and self.identity.identified:
+        if self.identity and not self.identity.identified:
             return self.identity.char
         else:
             return self.char
 
     @property
     def get_color(self):
-        if self.identity and self.identity.identified:
+        if self.identity and not self.identity.identified:
             return self.identity.color
         else:
             return self.color

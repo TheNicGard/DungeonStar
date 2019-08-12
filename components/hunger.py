@@ -40,7 +40,7 @@ class Hunger:
                 )})
             else:
                 results.append({"food_eaten": item})
-                results.append({"message": Message("You eat the {0}!".format(item.name))})
+                results.append({"message": Message("You eat the {0}!".format(item.get_name))})
                 self.saturation += food_sat
                     
         return results

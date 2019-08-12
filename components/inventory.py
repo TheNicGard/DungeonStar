@@ -33,7 +33,7 @@ class Inventory:
             else:
                 results.append({
                     'item_added': item,
-                    'message': Message('You pick up the {0}!'.format(item.name), libtcod.blue)
+                    'message': Message('You pick up the {0}!'.format(item.get_name), libtcod.blue)
                 })
 
                 matching_entry = None
@@ -62,14 +62,14 @@ class Inventory:
                 results.extend(self.owner.hunger.eat(item_entity))
             else:
                 results.append({'message': Message('The {0} cannot be used!'.format(
-                item_entity.name), libtcod.yellow)})
+                item_entity.get_name), libtcod.yellow)})
 
             for item_use_result in results:
                     if item_use_result.get('food_eaten'):
                         self.remove_item(item_entity, 1)
         else:
             if item_component.chargeable and item_component.chargeable.charge == 0:
-                results.append({'message': Message('The {0} is out of charges!'.format(item_entity.name))})
+                results.append({'message': Message('The {0} is out of charges!'.format(item_entity.get_name))})
             else:
                 if item_component.targeting and not (kwargs.get('target_x') or kwargs.get('target_y')):
                     results.append({'targeting': item_entity})
@@ -115,7 +115,7 @@ class Inventory:
         self.remove_item(item, count=item.item.count)
         results.append({'item_dropped': item})
         if not self.owner.ai:
-            results.append({'message': Message('You dropped the {0}.'.format(item.name),
+            results.append({'message': Message('You dropped the {0}.'.format(item.get_name),
                                                libtcod.yellow)})
 
         return results
