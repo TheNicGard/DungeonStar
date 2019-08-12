@@ -9,7 +9,7 @@ class Entity:
                  item=None, inventory=None, stairs=None, level=None,
                  equipment=None, equippable=None, valuable=None, door=None,
                  animation=None, hunger=None, food=None, trap=None,
-                 classification=[], sign=None):
+                 classification=[], sign=None, identity=None):
         self.id = id
         self.x = x
         self.y = y
@@ -35,6 +35,7 @@ class Entity:
         self.trap = trap
         self.classification = classification
         self.sign = sign
+        self.identity = identity 
 
         if self.fighter:
             self.fighter.owner = self
@@ -72,9 +73,26 @@ class Entity:
     def __str__(self):
         return "Entity \'{0}\' is represented by {1} at location ({2}, {3}).".format(self.name, self.char, self.x, self.y)
 
+    @property
     def get_name(self):
-        # TODO: add ID name
-        return self.name
+        if self.identity:
+            return self.identity.name
+        else:
+            return self.name
+
+    @property
+    def get_char(self):
+        if self.identity:
+            return self.identity.char
+        else:
+            return self.char
+
+    @property
+    def get_color(self):
+        if self.identity:
+            return self.identity.color
+        else:
+            return self.color
 
     def move(self, dx, dy):
         self.x += dx

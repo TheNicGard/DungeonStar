@@ -52,7 +52,7 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                         temp_str += ("+" + str(i.equippable.enchantment) + " ")
                     elif i.equippable.enchantment < 0:
                         temp_str += str(i.equippable.enchantment) + " "
-                    temp_str += i.name
+                    temp_str += i.get_name
                     if player.equipment.slots.get("main_hand") == i:
                         temp_str +=  " (in main hand)"
                     elif player.equipment.slots.get("off_hand") == i:
@@ -91,17 +91,17 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                 
                 if i.item.count > 1:
                     if i.item.age is not None:
-                        temp_str = "({0}) {1} ({2} turns old)".format(i.item.count, i.name, i.item.age)
+                        temp_str = "({0}) {1} ({2} turns old)".format(i.item.count, i.get_name, i.item.age)
                     else:
-                        temp_str = "({0}) {1}".format(i.item.count, i.name)
+                        temp_str = "({0}) {1}".format(i.item.count, i.get_name)
                 else:
                     if i.item.age is not None:
-                        temp_str = "{0} ({1} turns old)".format(i.name, i.item.age)
+                        temp_str = "{0} ({1} turns old)".format(i.get_name, i.item.age)
                     else:
                         if i.item.chargeable:
-                            temp_str = i.name + " *" + str(i.item.chargeable.charge) + ":" + str(i.item.chargeable.max_charge) + '*'
+                            temp_str = i.get_name + " *" + str(i.item.chargeable.charge) + ":" + str(i.item.chargeable.max_charge) + '*'
                         else:
-                            temp_str = i.name
+                            temp_str = i.get_name
 
                 weight = format_weight(i.weight, i.item.count)
                 offset = inventory_width - (4 + len(temp_str) + len(weight))

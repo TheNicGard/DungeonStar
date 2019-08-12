@@ -20,7 +20,7 @@ class RenderOrder(Enum):
 def get_names_under_mouse(mouse, entities, fov_map):
     (x, y) = (mouse.cx, mouse.cy)
 
-    names = [entity.name for entity in entities
+    names = [entity.get_name for entity in entities
              if entity.x == x and entity.y == y and libtcod.map_is_in_fov(fov_map, entity.x, entity.y)]
     names = ', '.join(names)
 
@@ -90,8 +90,8 @@ def render_status_panel(panel, x, y, width, height, player, game_state, entities
     index = 0
     for e in entities_in_fov:
         # Entity char
-        libtcod.console_set_default_foreground(panel, e.color)
-        libtcod.console_put_char(panel, x + 1, y + 6 + index, e.char, libtcod.BKGND_NONE)
+        libtcod.console_set_default_foreground(panel, e.get_color)
+        libtcod.console_put_char(panel, x + 1, y + 6 + index, e.get_char, libtcod.BKGND_NONE)
 
         # Entity health
         health_ratio = e.fighter.hp / e.fighter.max_hp
@@ -114,14 +114,11 @@ def render_status_panel(panel, x, y, width, height, player, game_state, entities
             
         # Entity name
         libtcod.console_set_default_foreground(panel, libtcod.white)
+        libtcod.console_print_ex(panel, x + 5, y + 6 + index, libtcod.BKGND_NONE, libtcod.LEFT,
+                                     e.get_name)
         if e.ai.__class__.__name__ == "NeutralMonster":
-            libtcod.console_print_ex(panel, x + 5, y + 6 + index, libtcod.BKGND_NONE, libtcod.LEFT,
-                                     e.name)
             libtcod.console_print_ex(panel, x + 5, y + 7 + index, libtcod.BKGND_NONE, libtcod.LEFT,
                                      "(neutral)")
-        else:
-            libtcod.console_print_ex(panel, x + 5, y + 6 + index, libtcod.BKGND_NONE, libtcod.LEFT,
-                                     e.name)
         index += 3
 
         # max number of entities who can comfortably fit on screen
@@ -344,15 +341,15 @@ def clear_all(con, entities, cursor):
 
 def draw_entity(con, entity, fov_map, game_map, always_visible):
     if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
-        libtcod.console_set_default_foreground(con, entity.color)
+        libtcod.console_set_default_foreground(con, entity.get_color)
         if entity.fighter and entity.ai and entity.fighter.effects.get("invisible"):
             if entity.fighter.effects.get("invisible").turns_remaining <= 0:
-                libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
+                libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
         else:
-            libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
+            libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
     elif always_visible:
-        libtcod.console_set_default_foreground(con, entity.color)
-        libtcod.console_put_char(con, entity.x, entity.y, entity.char, libtcod.BKGND_NONE)
+        libtcod.console_set_default_foreground(con, entity.get_color)
+        libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
 
 def draw_animated_entity(con, entity, fov_map, game_map, always_visible):
     if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):

@@ -587,10 +587,10 @@ def play_game(player, entities, game_map, turn, message_log,
                     unequipped = equip_result.get('unequipped')
                     if equipped:
                         message_log.add_message(Message(
-                            'You equipped the {0}.'.format(equipped.name)))
+                            'You equipped the {0}.'.format(equipped.get_name)))
                     if unequipped:
                         message_log.add_message(Message(
-                            'You unequipped the {0}.'.format(unequipped.name)))
+                            'You unequipped the {0}.'.format(unequipped.get_name)))
 
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN

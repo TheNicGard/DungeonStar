@@ -1,4 +1,6 @@
 
 class Identity:
-    def __init__(self, item_id):
-        self.item_id = item_id
+    def __init__(self, name):
+        self.name = name
+        self.char = char
+        self.color = color
