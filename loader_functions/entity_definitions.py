@@ -10,6 +10,7 @@ from components.chargeable import Chargeable
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.food import Food
+from components.identity import Identity
 from components.inventory import Inventory
 from components.item import Item
 from effect import Effect
@@ -301,6 +302,7 @@ def get_item(item_choice, x, y, count=1):
     item = copy.deepcopy(item_defs.get(item_choice).get_item(x, y, count))
     if item.item.chargeable:
         item.item.chargeable.init_charge()
+    item.identity = get_identity(item.id)
     return item
 
 def get_monster(monster_choice, x, y):
@@ -308,6 +310,12 @@ def get_monster(monster_choice, x, y):
     if monster.ai and hasattr(monster.ai, 'reroll'):
         monster.ai.reroll()
     return monster
+
+test_id = Identity("\"unknown\"", "!", [0, 0, 0], True)
+
+def get_identity(item_id):
+    if item_id == "healing_potion":
+        return test_id
 
 item_defs = load_items()
 monster_defs = load_monsters()

@@ -264,10 +264,6 @@ class GameMap:
                                       'Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                         entities.append(trap)
-                    elif piece == "unidentified_healing_potion":
-                        item = get_item("healing_potion", data_x, data_y)
-                        item.identity = Identity("\"what is this thing\"", "!", [0, 0, 0], False)
-                        entities.append(item)
                     elif piece in item_defs:
                         item = get_item(piece, data_x, data_y)
                         entities.append(item)

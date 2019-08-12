@@ -86,6 +86,9 @@ class Inventory:
                                 self.remove_item(item_entity, 1)
 
                     results.extend(item_use_results)
+
+                if item_entity.identity and item_entity.identity.identify_on_use and not item_entity.identity.identified:
+                    item_entity.identity.identified = True
             
         return results
 
