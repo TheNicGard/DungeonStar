@@ -236,7 +236,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 e.trap.set_reveal(True)
                                 player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities}))
                             if e.item:
-                                items_in_loc.append(e.get_name())
+                                items_in_loc.append(e.get_name)
                         if len(items_in_loc) == 1:
                             message_log.add_message(Message("You see here " + items_in_loc[0] + ".", libtcod.white))
                         elif len(items_in_loc) > 1:
