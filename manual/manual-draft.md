@@ -18,6 +18,20 @@ The current goal of **Dungeon Star** is to reach the lowest point of the dungeon
 
 The threat of starvation is a constant threat in *The Depression*. Luckily for you, a current surplus of food stuffs caused by rampant item imbalancing means that you shouldn't face any real threat of starvation. For now. To eat food items, open the inventory with *i* and select the food item you want to eat. Sometimes, monster will drop their corpses (represented by %), and their flesh can be extracted by pressing *x*.
 
+# Items
+
+There are several items to be found within *The Depression* to help you on your quest to finding the *Dungeon Star*.
+
+## Potions and Scrolls
+
+Potions are found in the dungeon as a variety of long lost soft drink cans. When consumed, they can provide some effect to the protagonist, and provide a small amount of nutrition.
+
+Scrolls are found labelled, and enable the user to perform some magic spell when read. However, they can only be used once, so consider the best opportunity to use them!
+
+## Wands
+
+Wands, like scrolls, allow the user to perform a magic spell when used. However, they have a limited number of charges, so they can be used multiple times before being depleted of energy.
+
 # Controls
 
 The controls of **Dungeon Star** are ever-changing as new features are added, and as old controls are considered to be awful, but this list of controls is accurate to the vision of the game.
