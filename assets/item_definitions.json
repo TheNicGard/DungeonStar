@@ -1,7 +1,7 @@
 [
     {
 	"item_id": "healing_potion",
-	"name": "can of Dr. Fabulous",
+	"name": "healing potion",
 	"color": [127, 0, 255],
 	"symbol": "!",
 	"weight": 5,
@@ -17,7 +17,7 @@
 
     {
 	"item_id": "super_healing_potion",
-	"name": "can of Dr. Fabulous \"w/ Real Sugar!\"",
+	"name": "super healing potion",
 	"color": [229, 191, 0],
 	"symbol": "!",
 	"weight": 5,
@@ -33,7 +33,7 @@
 
     {
 	"item_id": "poison_potion",
-	"name": "can of Diet Dr. Fabulous",
+	"name": "poison",
 	"color": [143, 0, 191],
 	"symbol": "!",
 	"weight": 5,
@@ -48,7 +48,7 @@
 
     {
 	"item_id": "cure_poison_potion",
-	"name": "can of Vanilla Dr. Fabulous",
+	"name": "cure poison potion",
 	"color": [191, 95, 0],
 	"symbol": "!",
 	"weight": 5,
@@ -64,7 +64,7 @@
 
     {
 	"item_id": "invisibility_potion",
-	"name": "can of Crystal Dr. Fabulous",
+	"name": "invisibility potion",
 	"color": [191, 239, 255],
 	"symbol": "!",
 	"weight": 5,
