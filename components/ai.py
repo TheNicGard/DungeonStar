@@ -1,5 +1,5 @@
 import tcod as libtcod
-from entity import get_blocking_entities_at_location
+from entity import get_blocking_entities_at_location, get_entities_at_location
 from game_messages import Message
 from random import randint, random
 
@@ -24,6 +24,13 @@ class BasicMonster:
                         self.owner.move_towards(random_x, random_y, game_map, entities)
                 else:
                     monster.move_astar(target, entities, game_map)
+
+                entities_in_loc = get_entities_at_location(entities, monster.x, monster.y)
+                for e in entities_in_loc:
+                    # 50% chance to set off trap
+                    if e.trap and random() > 0.5:
+                        e.trap.set_reveal(True)
+                        results.extend(e.trap.trap_function(monster, **{"game_map": game_map, "entities": entities}))
             elif target.fighter.hp > 0:
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)

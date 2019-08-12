@@ -26,9 +26,10 @@ def spike_trap(target, **kwargs):
     results = []
     
     damage_taken = die(1, 4)
-    results.append({"message": Message(
-        'You step on a trap of hidden spikes, taking {0} points of damage!'.format(
-        damage_taken), libtcod.yellow)})
+    if not target.ai:
+        results.append({"message": Message(
+            'You step on a trap of hidden spikes, taking {0} points of damage!'.format(
+                damage_taken), libtcod.yellow)})
     results.extend(target.fighter.take_damage(damage_taken))
 
     return results
@@ -37,9 +38,10 @@ def poison_trap(target, **kwargs):
     results = []
     
     damage_taken = 1
-    results.append({"message": Message(
-        'You step on a trap of hidden poisoned spikes, taking {0} point of damage!'.format(
-        damage_taken), libtcod.yellow)})
+    if not target.ai:
+        results.append({"message": Message(
+            'You step on a trap of hidden poisoned spikes, taking {0} point of damage!'.format(
+                damage_taken), libtcod.yellow)})
     results.extend(target.fighter.take_damage(damage_taken))
         
     results.extend(poison(target, **{"turns": 50}))
@@ -61,7 +63,8 @@ def teleport_trap(target, **kwargs):
         if not game_map.is_blocked(x, y) and not any([entity for entity in entities if entity.x == x and entity.y == y]):
             target.x = x
             target.y = y
-            results.append({'message': Message('You teleported!', libtcod.purple), "teleport": True})
+            if not target.ai:
+                results.append({'message': Message('You teleported!', libtcod.purple)})
             break
 
     return results

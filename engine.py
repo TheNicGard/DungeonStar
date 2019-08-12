@@ -16,7 +16,7 @@ from loader_functions.data_loaders import load_game, save_game, save_game_data, 
 from menus import main_menu, message_box
 from menu_cursor import MenuCursor
 from plot_gen import Plot
-from random import randint
+from random import randint, random
 from render_functions import clear_all, render_all, render_character_creation
 from rpg_mechanics import get_modifier, die
 
@@ -232,7 +232,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         for e in entities_in_loc:
                             if e.sign:
                                 message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
-                            if e.trap:
+                            if e.trap and random() > 0.5:
                                 e.trap.set_reveal(True)
                                 player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities}))
                             if e.item:
