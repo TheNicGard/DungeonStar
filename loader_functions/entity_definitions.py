@@ -17,11 +17,12 @@ from effect import Effect
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs, cast_pacify, cast_force_bolt, poison, cure_poison, poison_resistance
-from random import random, randint
+from random import random, randint, choice
 from render_functions import RenderOrder
 
 monster_definitions = "assets/monster_definitions.json"
 item_definitions = "assets/item_definitions.json"
+identity_definitions = "assets/identity_definitions.json"
 
 class ItemDefinition:
     def __init__(self, id, char, color, name, weight=0, item_component=None,
@@ -206,6 +207,7 @@ def load_items():
     ]
     
     item_defs = {}
+    item_identified_on_use = {}
 
     with open(item_definitions, "r") as json_file:
         data = json.load(json_file)
@@ -231,7 +233,7 @@ def load_items():
                                       spawn_rate=spawn_rate, classification=classification)
                 item_defs[item_id] = item
                 
-            elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):
+            elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):                
                 food_component = None
                 if item.get("nutrition"):
                     food_component = Food(item.get("nutrition"))
@@ -296,26 +298,88 @@ def load_items():
                                                     item_component=item_component, equippable=equipment_component,
                                                     food=food_component, spawn_rate=spawn_rate)
                     
-    return item_defs
+        return item_defs
+
+def load_identities():
+    if not os.path.isfile(identity_definitions):
+        raise FileNotFoundError
+    
+    identity_defs = {"potion": [], "scroll": [], "wand": [], "ring": []}
+
+    with open(identity_definitions, "r") as json_file:
+        data = json.load(json_file)
+        
+        potion_defs = data.get("potion")
+        for i in potion_defs:
+            name = i.get("name")
+            color = i.get("color")
+            if name and color:
+                identity_defs["potion"].append(Identity(name, color, True))
+            
+        scroll_defs = data.get("scroll")
+        for i in scroll_defs:
+            name = i.get("name")
+            color = i.get("color")
+            if name and color:
+                identity_defs["scroll"].append(Identity(name, color, True))
+
+        """
+        wand_defs = data.get("wand")    
+        for i in wand_defs:
+            name = i.get("name")
+            color = i.get("color")
+            if name and color:
+                identity_defs["wand"].append(Identity(name, color, True))
+        """
+            
+        ring_defs = data.get("ring")
+        for i in ring_defs:
+            name = i.get("name")
+            color = i.get("color")
+            if name and color:
+                identity_defs["ring"].append(Identity(name, color, True))
+                
+    return identity_defs
+
+# sort order of these
+
+identities = load_identities()
+item_defs = load_items()
+
+test_id = []
+for i in range(0, 5):
+    tentative_choice = choice(identities["potion"])
+    while True:
+        if not tentative_choice in test_id:
+            test_id.append(tentative_choice)
+            break
+        else:
+            tentative_choice = choice(identities["potion"])
+
+def get_identity(item):
+    # make not hard-coded
+    if item.id == "healing_potion":
+        return test_id[0]
+    elif item.id == "super_healing_potion":
+        return test_id[1]
+    elif item.id == "poison_potion":
+        return test_id[2]
+    elif item.id == "cure_poison_potion":
+        return test_id[3]
+    elif item.id == "invisibility_potion":
+        return test_id[4]
 
 def get_item(item_choice, x, y, count=1):
     item = copy.deepcopy(item_defs.get(item_choice).get_item(x, y, count))
     if item.item.chargeable:
         item.item.chargeable.init_charge()
-    item.identity = get_identity(item.id)
+    item.identity = get_identity(item)
     return item
+
+monster_defs = load_monsters()
 
 def get_monster(monster_choice, x, y):
     monster = copy.deepcopy(monster_defs.get(monster_choice).get_monster(x, y))
     if monster.ai and hasattr(monster.ai, 'reroll'):
         monster.ai.reroll()
     return monster
-
-test_id = Identity("\"unknown\"", "!", [0, 0, 0], True)
-
-def get_identity(item_id):
-    if item_id == "healing_potion":
-        return test_id
-
-item_defs = load_items()
-monster_defs = load_monsters()

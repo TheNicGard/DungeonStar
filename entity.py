@@ -82,10 +82,7 @@ class Entity:
 
     @property
     def get_char(self):
-        if self.identity and not self.identity.identified:
-            return self.identity.char
-        else:
-            return self.char
+        return self.char
 
     @property
     def get_color(self):
