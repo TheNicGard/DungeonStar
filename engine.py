@@ -477,6 +477,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     dagger = get_item("dagger", -1, -1)
                     armor = get_item("leather_armor", -1, -1)
                     potion = get_item("healing_potion", -1, -1)
+                    potion.identity.identify()
                     
                     pacify_wand = get_item("pacify_wand", -1, -1)
                     striking_wand = get_item("striking_wand", -1, -1)
