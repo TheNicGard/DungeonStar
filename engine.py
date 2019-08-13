@@ -236,7 +236,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 e.trap.set_reveal(True)
                                 player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities}))
                             if e.item:
-                                items_in_loc.append(e.get_name())
+                                items_in_loc.append(e.get_name)
                         if len(items_in_loc) == 1:
                             message_log.add_message(Message("You see here " + items_in_loc[0] + ".", libtcod.white))
                         elif len(items_in_loc) > 1:
@@ -477,6 +477,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     dagger = get_item("dagger", -1, -1)
                     armor = get_item("leather_armor", -1, -1)
                     potion = get_item("healing_potion", -1, -1)
+                    potion.identity.identify()
                     
                     pacify_wand = get_item("pacify_wand", -1, -1)
                     striking_wand = get_item("striking_wand", -1, -1)
@@ -587,10 +588,10 @@ def play_game(player, entities, game_map, turn, message_log,
                     unequipped = equip_result.get('unequipped')
                     if equipped:
                         message_log.add_message(Message(
-                            'You equipped the {0}.'.format(equipped.name)))
+                            'You equipped the {0}.'.format(equipped.get_name)))
                     if unequipped:
                         message_log.add_message(Message(
-                            'You unequipped the {0}.'.format(unequipped.name)))
+                            'You unequipped the {0}.'.format(unequipped.get_name)))
 
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN

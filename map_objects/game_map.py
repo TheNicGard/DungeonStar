@@ -4,6 +4,7 @@ from components.door import Door, DoorPosition
 from effect import Effect
 from components.equippable import Equippable
 
+from components.identity import Identity
 from components.sign import Sign
 from components.stairs import Stairs
 from components.trap import Trap, poison_trap, teleport_trap

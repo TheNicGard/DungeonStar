@@ -1,7 +1,7 @@
 [
     {
 	"item_id": "healing_potion",
-	"name": "can of Dr. Fabulous",
+	"name": "healing potion",
 	"color": [127, 0, 255],
 	"symbol": "!",
 	"weight": 5,
@@ -12,12 +12,13 @@
 	},
 	"spawn_rate": [[40, 1]],
 	"nutrition": 50,
+	"identified_on_use": true,
 	"classification": ["potion"]
     },
 
     {
 	"item_id": "super_healing_potion",
-	"name": "can of Dr. Fabulous \"w/ Real Sugar!\"",
+	"name": "super healing potion",
 	"color": [229, 191, 0],
 	"symbol": "!",
 	"weight": 5,
@@ -28,12 +29,13 @@
 	},
 	"spawn_rate": [[1, 1]],
 	"nutrition": 50,
+	"identified_on_use": true,
 	"classification": ["potion"]
     },
 
     {
 	"item_id": "poison_potion",
-	"name": "can of Diet Dr. Fabulous",
+	"name": "poison",
 	"color": [143, 0, 191],
 	"symbol": "!",
 	"weight": 5,
@@ -43,12 +45,13 @@
 	    "turns": 50
 	},
 	"spawn_rate": [[3, 1]],
+	"identified_on_use": true,
 	"classification": ["potion"]
     },
 
     {
 	"item_id": "cure_poison_potion",
-	"name": "can of Vanilla Dr. Fabulous",
+	"name": "cure poison potion",
 	"color": [191, 95, 0],
 	"symbol": "!",
 	"weight": 5,
@@ -59,12 +62,13 @@
 	},
 	"spawn_rate": [[3, 1]],
 	"nutrition": 50,
+	"identified_on_use": false,
 	"classification": ["potion"]
     },
 
     {
 	"item_id": "invisibility_potion",
-	"name": "can of Crystal Dr. Fabulous",
+	"name": "invisibility potion",
 	"color": [191, 239, 255],
 	"symbol": "!",
 	"weight": 5,
@@ -75,6 +79,7 @@
 	},
 	"spawn_rate": [[2, 1]],
 	"nutrition": 50,
+	"identified_on_use": true,
 	"classification": ["potion"]
     },
     
@@ -95,6 +100,7 @@
 	    "radius": 3
 	},
 	"spawn_rate": [[25, 6]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -113,6 +119,7 @@
 	    }
 	},
 	"spawn_rate": [[10, 2]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
     
@@ -129,6 +136,7 @@
 	    "maximum_range": 5
 	},
 	"spawn_rate": [[25, 4]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -147,6 +155,7 @@
 	    }
 	},
 	"spawn_rate": [[10, 6]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -165,6 +174,7 @@
 	    }
 	},
 	"spawn_rate": [[10, 6]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -183,6 +193,7 @@
 	    }
 	},
 	"spawn_rate": [[10, 6]],
+	"identified_on_use": false,
 	"classification": ["scroll"]
     },
 
@@ -198,6 +209,7 @@
 	    "dummy": "fix this later"
 	},
 	"spawn_rate": [[10, 2]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -213,6 +225,7 @@
 	    "dummy": "fix this later"
 	},
 	"spawn_rate": [[10, 2]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -228,6 +241,7 @@
 	    "dummy": "fix this later"
 	},
 	"spawn_rate": [[10, 2]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -246,6 +260,7 @@
 	    }
 	},
 	"spawn_rate": [[10, 2]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -264,6 +279,7 @@
 	    }
 	},
 	"spawn_rate": [[5, 2]],
+	"identified_on_use": true,
 	"classification": ["scroll"]
     },
 
@@ -285,6 +301,7 @@
 	    "radius": 3
 	},
 	"spawn_rate": [[3, 6]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -304,6 +321,7 @@
 	    }
 	},
 	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
     
@@ -321,6 +339,7 @@
 	    "maximum_range": 5
 	},
 	"spawn_rate": [[2, 4]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -340,6 +359,7 @@
 	    }
 	},
 	"spawn_rate": [[1, 6]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -359,6 +379,7 @@
 	    }
 	},
 	"spawn_rate": [[1, 6]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -378,6 +399,7 @@
 	    }
 	},
 	"spawn_rate": [[1, 6]],
+	"identified_on_use": false,
 	"classification": ["wand"]
     },
 
@@ -394,6 +416,7 @@
 	    "dummy": "fix this later"
 	},
 	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -410,6 +433,7 @@
 	    "dummy": "fix this later"
 	},
 	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -426,6 +450,7 @@
 	    "dummy": "fix this later"
 	},
 	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -445,6 +470,7 @@
 	    }
 	},
 	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -464,6 +490,7 @@
 	    }
 	},
 	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -483,6 +510,7 @@
 	    }
 	},
 	"spawn_rate": [[3, 2]],
+	"identified_on_use": true,
 	"classification": ["wand"]
     },
 
@@ -747,6 +775,7 @@
 	    "dummy": "uuhhhhhh"
 	},
 	"spawn_rate": [[3, 1]],
+	"identified_on_use": true,
 	"classification": ["ring"]
     }
 ]

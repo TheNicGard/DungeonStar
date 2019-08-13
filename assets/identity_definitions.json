@@ -1,0 +1,120 @@
+{
+    "scroll": [
+	{
+	    "name": "FLAMMA scroll",
+	    "color": [255, 63, 0]
+	},
+	{
+	    "name": "ELECTRICITAS scroll",
+	    "color": [115, 255, 255]
+	},
+	{
+	    "name": "TUMULTA scroll",
+	    "color": [255, 115, 185]
+	},
+	{
+	    "name": "STUPENDA scroll",
+	    "color": [0, 255, 127]
+	},
+	{
+	    "name": "DORMIA scroll",
+	    "color": [166, 255, 255]
+	},
+	{
+	    "name": "AVARATIA scroll",
+	    "color": [229, 191, 0]
+	},
+	{
+	    "name": "TENENDA scroll",
+	    "color": [255, 0, 0]
+	},
+	{
+	    "name": "SCALAE scroll",
+	    "color": [240, 240, 240]
+	},
+	{
+	    "name": "NICTATA scroll",
+	    "color": [140, 0, 240]
+	},
+	{
+	    "name": "CELERIS scroll",
+	    "color": [140, 0, 240]
+	},
+	{
+	    "name": "PACIFICA scroll",
+	    "color": [143, 191, 0]
+	}
+    ],
+
+    "potion": [
+	{
+	    "name": "can of Dr. Fabulous",
+	    "color": [137, 0, 36]
+	},
+	{
+	    "name": "can of Dr. Fabulous \"w/ Real Sugar!\"",
+	    "color": [197, 2, 60]
+	},
+	{
+	    "name": "can of Diet Dr. Fabulous",
+	    "color": [240, 240, 245]
+	},
+	{
+	    "name": "can of Cherry Dr. Fabulous",
+	    "color": [30, 30, 50]
+	},
+	{
+	    "name": "can of Vanilla Dr. Fabulous",
+	    "color": [255, 255, 0]
+	},
+	{
+
+	    "name": "can of Chocolate Dr. Fabulous",
+	    "color": [150, 100, 0]
+	},
+	{
+	    "name": "can of Cherry Vanilla Dr. Fabulous",
+	    "color": [220, 2, 60]
+	},
+	{
+	    "name": "can of Crystal Dr. Fabulous",
+	    "color": [191, 239, 255]
+	},
+	{
+	    "name": "can of Bexar Dr. Fabulous",
+	    "color": [100, 255, 175]
+	},
+	{
+	    "name": "bottle of Mexican Dr. Fabulous",
+	    "color": [0, 100, 70]
+	},
+	{
+	    "name": "can of out of date Dr. Fabulous",
+	    "color": [180, 90, 120]
+	},
+	{
+	    "name": "can of Orange Dr. Fabulous",
+	    "color": [255, 145, 0]
+	},
+	{
+	    "name": "can of Blue-flavored Dr. Fabulous",
+	    "color": [0, 47, 156]
+	},
+	{
+	    "name": "can of Dr. Fabulous \"w/ 69 calories\"",
+	    "color": [220, 220, 230]
+	},
+	{
+	    "name": "can of Caffiene Free Dr. Fabulous",
+	    "color": [229, 191, 0]
+	}
+    ],
+
+    "ring": [
+	{
+	    "name": "mood ring",
+	    "color": [255, 115, 185]
+	}
+    ]
+
+}
