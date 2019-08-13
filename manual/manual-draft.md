@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated August 2, 2019
+date: Last updated August 13, 2019
 ...
 \pagebreak
 # Introduction
@@ -18,15 +18,20 @@ Within the two-dimensional overhead view of a floor of the duneon, you are repre
 At the start of any new game, you will get the chance to customize the abilities and starting equipment of your characters. The six abilities you can choose from are:
 
 * **Strength** - determines how much damage the protagonist can deal, and the amount the player can carry in their inventory.
-* **Dexterity** - determines how likely the protagonist is to step on a trap.
-* **Constituion** - determines the amount of health the protagonist starts with.
+* **Dexterity** - determines how effective the protagonist's armor is, and how likely the protagonist is to step on a trap.
+* **Constituion** - determines the amount of health the protagonist starts with, and the protagonist's natural poison resistance.
 * **Intelligence** - *currently unused*.
 * **Wisdom** - *currently unused*.
 * **Charisma** - *currently unused*.
 
 The protagonist is also able to follow an **inspiration**, which gives them a boost to certain ability scores, and determines their starting equipment. Those inspirations are:
 
-* *currently unimplemented*.
+* **Self** - the protagonist gains their power from within themselves; no challenge is impossible, because they've made it this far without backing down. *Starts with a tower shield.*
+* **Life** - the protagonist sees the value in all life, and only wishes to kill in order to obtain the *Dungeon Star*. *Starts with a wand of Pacification.*
+* **Peace** - the protagonist seeks a silent future, devoid of all conflict. *Starts with a +2 dagger.*
+* **Prosperity** - the protagonist seeks to fulfill all of their material desires through whatever means they deem necessary. *Starts with a wand of Greed.*
+* **The Arts** - the protagonist is driven by the urge to preserve and cultivate the creation of arts. *Starts with a wand of Lightning.*
+* **The Stars** - the protagonist is motivated by the chance to study the vastness and wonders of the sky, and will scour every face of the planet to find the right tools to do so. *Starts with a wand of Detect Stairs and wand of Detect Traps.* 
 
 ## Combat
 
