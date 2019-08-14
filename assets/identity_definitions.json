@@ -113,8 +113,101 @@
     "ring": [
 	{
 	    "name": "mood ring",
-	    "color": [255, 115, 185]
+	    "color": [255, 70, 100]
+	},
+
+	{
+	    "name": "gold ring",
+	    "color": [229, 191, 0]
+	},
+
+	{
+	    "name": "silver ring",
+	    "color": [203, 203, 203]
+	},
+
+	{
+	    "name": "brass ring",
+	    "color": [140, 111, 50]
 	}
+    ],
+
+    "wand": [
+	{
+	    "name": "magician's wand",
+	    "color": [20, 20, 20]
+	},
+
+	{
+	    "name": "fairy wand",
+	    "color": [255, 215, 150]
+	},
+
+	{
+	    "name": "oak wand",
+	    "color": [127, 101, 63]
+	},
+
+	{
+	    "name": "birch wand",
+	    "color": [225, 225, 225]
+	},
+
+	{
+	    "name": "spruce wand",
+	    "color": [95, 75, 50]
+	},
+
+	{
+	    "name": "tin wand",
+	    "color": [180, 180, 180]
+	},
+	
+	{
+	    "name": "marble wand",
+	    "color": [245, 245, 255]
+	},
+
+	{
+	    "name": "ebony wand",
+	    "color": [40, 20, 40]
+	},
+
+	{
+	    "name": "steel wand",
+	    "color": [127, 127, 127]
+	},
+
+	{
+	    "name": "glass wand",
+	    "color": [0, 255, 255]
+	},
+
+	{
+	    "name": "runed wand",
+	    "color": [143, 191, 0]
+	},
+
+	{
+	    "name": "jeweled wand",
+	    "color": [255, 0, 63]
+	},
+
+	{
+	    "name": "cherry wand",
+	    "color": [135, 36, 0]
+	},
+	
+	{
+	    "name": "cystall wand",
+	    "color": [0, 255, 255]
+	},
+
+	{
+	    "name": "ceramic wand",
+	    "color": [153, 120, 0]
+	}
+	
     ]
 
 }
