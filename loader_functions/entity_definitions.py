@@ -219,9 +219,9 @@ def load_items():
             weight = item.get("weight")
             spawn_rate = item.get("spawn_rate")
             
-            classification = []
-            for c in item.get("classification"):
-                classification.append(c)
+            classification_list = []
+            if item.get("classification"):
+                classification_list = item.get("classification")
             
             if item_id == "dungeon_star":
                 equipment_component = Equippable("head", armor_bonus=1)
@@ -230,7 +230,7 @@ def load_items():
                 
                 item = ItemDefinition(item_id, char, color, name, weight=weight,
                                       equippable=equipment_component, animation=animation_component,
-                                      spawn_rate=spawn_rate, classification=classification)
+                                      spawn_rate=spawn_rate, classification=classification_list)
                 item_defs[item_id] = item
                 
             elif (item_id and name and char and weight and isinstance(color, list) and isinstance(spawn_rate, list) and len(spawn_rate) > 0):                
@@ -296,7 +296,7 @@ def load_items():
 
                 item_defs[item_id] = ItemDefinition(item_id, char, color, name, weight=weight,
                                                     item_component=item_component, equippable=equipment_component,
-                                                    food=food_component, spawn_rate=spawn_rate)
+                                                    food=food_component, spawn_rate=spawn_rate, classification=classification_list)
                     
         return item_defs
 
@@ -341,33 +341,19 @@ def load_identities():
                 
     return identity_defs
 
-# sort order of these
-
-identities = load_identities()
-item_defs = load_items()
-
-test_id = []
-for i in range(0, 5):
-    tentative_choice = choice(identities["potion"])
-    while True:
-        if not tentative_choice in test_id:
-            test_id.append(tentative_choice)
-            break
-        else:
-            tentative_choice = choice(identities["potion"])
+def associate_identities(identity_associations):
+    for i in range(0, 5):
+        tentative_choice = choice(identities["potion"])
+        while True:
+            if not tentative_choice in identity_associations:
+                identity_associations.append(tentative_choice)
+                break
+            else:
+                tentative_choice = choice(identities["potion"])
 
 def get_identity(item):
-    # make not hard-coded
-    if item.id == "healing_potion":
-        return test_id[0]
-    elif item.id == "super_healing_potion":
-        return test_id[1]
-    elif item.id == "poison_potion":
-        return test_id[2]
-    elif item.id == "cure_poison_potion":
-        return test_id[3]
-    elif item.id == "invisibility_potion":
-        return test_id[4]
+    if "potion" in item.classification:
+        return identity_associations[potion_ids.index(item.id)]
 
 def get_item(item_choice, x, y, count=1):
     item = copy.deepcopy(item_defs.get(item_choice).get_item(x, y, count))
@@ -376,10 +362,18 @@ def get_item(item_choice, x, y, count=1):
     item.identity = get_identity(item)
     return item
 
-monster_defs = load_monsters()
-
 def get_monster(monster_choice, x, y):
     monster = copy.deepcopy(monster_defs.get(monster_choice).get_monster(x, y))
     if monster.ai and hasattr(monster.ai, 'reroll'):
         monster.ai.reroll()
     return monster
+
+item_defs = load_items()
+monster_defs = load_monsters()
+
+potion_ids = [i.id for i in item_defs.values() if ("potion" in i.classification)]
+
+identity_associations = []
+identities = load_identities()
+associate_identities(identity_associations)
+
