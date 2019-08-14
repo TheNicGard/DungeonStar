@@ -488,6 +488,13 @@ def play_game(player, entities, game_map, turn, message_log,
                     #item_scrolls = get_item("detect_items_scroll", -1, -1, 2)
                     stairs_wand = get_item("detect_stairs_wand", -1, -1)
                     traps_wand = get_item("detect_traps_wand", -1, -1)
+
+                    pacify_wand.identity.identify()
+                    striking_wand.identity.identify()
+                    greed_wand.identity.identify()
+                    lightning_wand.identity.identify()
+                    stairs_wand.identity.identify()
+                    traps_wand.identity.identify()
                     
                     player.inventory.items = []
                     # make item selectable instead of using just an index
