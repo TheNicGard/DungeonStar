@@ -341,19 +341,41 @@ def load_identities():
                 
     return identity_defs
 
-def associate_identities(identity_associations):
-    for i in range(0, 5):
+def associate_identities():
+    for i in range(0, len(potion_ids)):
         tentative_choice = choice(identities["potion"])
         while True:
-            if not tentative_choice in identity_associations:
-                identity_associations.append(tentative_choice)
+            if not tentative_choice in potion_associations:
+                potion_associations.append(tentative_choice)
                 break
             else:
                 tentative_choice = choice(identities["potion"])
+                
+    for i in range(0, len(scroll_ids)):
+        tentative_choice = choice(identities["scroll"])
+        while True:
+            if not tentative_choice in scroll_associations:
+                scroll_associations.append(tentative_choice)
+                break
+            else:
+                tentative_choice = choice(identities["scroll"])
+                
+    for i in range(0, len(ring_ids)):
+        tentative_choice = choice(identities["ring"])
+        while True:
+            if not tentative_choice in ring_associations:
+                ring_associations.append(tentative_choice)
+                break
+            else:
+                tentative_choice = choice(identities["ring"])
 
 def get_identity(item):
     if "potion" in item.classification:
-        return identity_associations[potion_ids.index(item.id)]
+        return potion_associations[potion_ids.index(item.id)]
+    elif "scroll" in item.classification:
+        return scroll_associations[scroll_ids.index(item.id)]
+    elif "ring" in item.classification:
+        return ring_associations[ring_ids.index(item.id)]
 
 def get_item(item_choice, x, y, count=1):
     item = copy.deepcopy(item_defs.get(item_choice).get_item(x, y, count))
@@ -372,8 +394,12 @@ item_defs = load_items()
 monster_defs = load_monsters()
 
 potion_ids = [i.id for i in item_defs.values() if ("potion" in i.classification)]
+scroll_ids = [i.id for i in item_defs.values() if ("scroll" in i.classification)]
+ring_ids = [i.id for i in item_defs.values() if ("ring" in i.classification)]
 
-identity_associations = []
+potion_associations = []
+scroll_associations = []
+ring_associations = []
 identities = load_identities()
-associate_identities(identity_associations)
+associate_identities()
 
