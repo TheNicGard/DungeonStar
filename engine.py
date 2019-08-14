@@ -476,51 +476,47 @@ def play_game(player, entities, game_map, turn, message_log,
 
                     dagger = get_item("dagger", -1, -1)
                     armor = get_item("leather_armor", -1, -1)
-                    potion = get_item("healing_potion", -1, -1)
+                    potion = get_item("healing_potion", -1, -1)                    
                     potion.identity.identify()
-                    
-                    pacify_wand = get_item("pacify_wand", -1, -1)
-                    striking_wand = get_item("striking_wand", -1, -1)
-                    shield = get_item("tower_shield", -1, -1)
-                    greed_wand = get_item("greed_wand", -1, -1)
-                    lightning_wand = get_item("lightning_wand", -1, -1)
-                    #aura_scrolls = get_item("detect_items_scroll", -1, -1, 2)
-                    #item_scrolls = get_item("detect_items_scroll", -1, -1, 2)
-                    stairs_wand = get_item("detect_stairs_wand", -1, -1)
-                    traps_wand = get_item("detect_traps_wand", -1, -1)
-
-                    pacify_wand.identity.identify()
-                    striking_wand.identity.identify()
-                    greed_wand.identity.identify()
-                    lightning_wand.identity.identify()
-                    stairs_wand.identity.identify()
-                    traps_wand.identity.identify()
                     
                     player.inventory.items = []
                     # make item selectable instead of using just an index
                     # self: tower shield
                     if creation_menu_cursor.index[1] == 0:
+                        shield = get_item("tower_shield", -1, -1)
                         player.inventory.add_item(shield)
                         player.equipment.toggle_equip(shield)
                     # life: pacify wand
                     elif creation_menu_cursor.index[1] == 1:
+                        pacify_wand = get_item("pacify_wand", -1, -1)
+                        pacify_wand.identity.identify()
                         pacify_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(pacify_wand)
-                    # peace: +2 dagger
+                    # peace: +2 dagger and wand of striking
                     elif creation_menu_cursor.index[1] == 2:
                         dagger.equippable.enchantment = 2
+                        striking_wand = get_item("striking_wand", -1, -1)
+                        striking_wand.identity.identify()
                         striking_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(striking_wand)
                     # prospertiy: greed wand
                     elif creation_menu_cursor.index[1] == 3:
+                        greed_wand = get_item("greed_wand", -1, -1)
+                        greed_wand.identity.identify()
                         greed_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(greed_wand)
                     # the arts: lightning wand TODO: find a better item
                     elif creation_menu_cursor.index[1] == 4:
+                        lightning_wand = get_item("lightning_wand", -1, -1)
+                        lightning_wand.identity.identify()
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
                     # the stars: detect items, stairs, trap, and aura wands
                     elif creation_menu_cursor.index[1] == 5:
+                        stairs_wand = get_item("detect_stairs_wand", -1, -1)
+                        traps_wand = get_item("detect_traps_wand", -1, -1)
+                        stairs_wand.identity.identify()
+                        traps_wand.identity.identify()
                         stairs_wand.item.chargeable.recharge(20)
                         traps_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(stairs_wand)
