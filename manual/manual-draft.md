@@ -46,6 +46,10 @@ The threat of starvation is a constant threat in *The Depression*. Luckily for y
 
 As long as you aren't hungry, your health will heal automatically. There's almost no reason to rush through the dungeon.
 
+## Identification
+
+Many items within the *The Depression* are foreign to surface-dwellers, and as such, the protagonist will almost certainly be unable to recognize them. The types of items that appear **unidentified** include potions, scrolls, wands, and rings. Most items will be identified upon use, but this isn't universally true.
+
 # The Depression
 
 *The Depression* is a mega-dungeon formed via unknown means. Some theorize that it's the remnants of a crater left behind after the *Dungeon Star* fell to Earth; others believe that a great mage formed the dungeon using the power of the crown. Either way, your goal is to reach the bottom of *The Depression*, retreive the *Dungeon Star*, and return to the surface alive. Of course, you won't find the *Dungeon Star* in the current version of the game, and the variety in enemies and items spawned stops after around 20 levels down, so the overall method of getting to the lowest point should be of little concern to you.
@@ -60,13 +64,17 @@ There are several items to be found within *The Depression* to help you on your 
 
 ## Potions and Scrolls
 
-Potions (represented by **!**) are found in the dungeon as a variety of long lost soft drink cans. When consumed, they can provide some effect to the protagonist, and provide a small amount of nutrition.
+Potions (represented by **!**) are found in the dungeon as a cans of soft drink from the centuries-defunct Dr. Fabulous Corporation. When consumed, they may give some effect to the protagonist, and provide a small amount of nutrition.
 
-Scrolls (represented by **?**) are found labelled, and enable the user to perform some magic spell when read. However, they can only be used once, so consider the best opportunity to use them!
+Scrolls (represented by **?**) are found as mislabelled scrolls from a mad wizard who once roamed the dungeon. They enable the user to perform some magic spell when read. However, they can only be used once, so consider the best opportunity to use them!
 
 ## Wands
 
-Wands (represented by **/**), like scrolls, allow the user to perform a magic spell when used. However, they have a limited number of charges, so they can be used multiple times before being depleted of energy.
+Wands (represented by **/**) appear in many materials in the dungeon, and, like scrolls, allow the user to perform a magic spell when used. They have a limited number of charges, so they can be used multiple times before being depleted of energy.
+
+## Rings
+
+Rings (represented by **=**) give the protagonist a more permanent effect than spells or potions, and one can be worn on both the left and right hand.
 
 # Controls
 
