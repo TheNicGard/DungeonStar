@@ -19,8 +19,7 @@ from random import randint, random, choice
 from random_utils import from_dungeon_level, random_choice_from_dict
 from render_functions import RenderOrder
 
-class GameMap:
-    
+class GameMap:    
     def __init__(self, width, height, dungeon_level=1):
         self.width = width
         self.height = height
@@ -283,3 +282,100 @@ class GameMap:
         message_log.add_message(Message('You take a moment to rest, and recover your strength.',
                                         libtcod.light_violet))
         return entities
+
+    def make_bsp_map(self, max_rooms, room_min_size, room_max_size,
+                 map_width, map_height, player, entities):
+        self.test_map = False
+        rooms = []
+        num_rooms = 0
+        full_rooms = False
+
+        bsp = libtcod.bsp.BSP(x=0, y=0, width=map_width - 1, height=map_height - 1)
+        bsp.split_recursive(
+            depth=5,
+            min_width=room_min_size,
+            min_height=room_min_size,
+            max_horizontal_ratio=1.5,
+            max_vertical_ratio=1.5,
+        )
+        
+        center_of_last_room_x = None
+        center_of_last_room_y = None
+
+        # In pre order, leaf nodes are visited before the nodes that connect them.
+        for node in bsp.pre_order():
+            if node.children:
+                node1, node2 = node.children
+                print('Connect the rooms:\n%s\n%s' % (node1, node2))
+
+                if node.horizontal:
+                    self.create_h_tunnel((node1.x + node1.width) // 2, (node2.x + node2.width) // 2, randint(node1.y + 1, node1.y + node1.height - 1))
+                else:
+                    self.create_v_tunnel((node1.y + node1.height) // 2, (node2.y + node2.height) // 2, randint(node1.x + 1, node1.x + node1.width - 1))
+                    
+            else:
+                print('Dig a room for %s.' % node)
+                
+                if not full_rooms:
+                    pass #update later
+                    
+                new_room = Rect(node.x, node.y, node.width, node.height)
+                self.create_room(new_room)
+                
+                (new_x, new_y) = new_room.center()
+                center_of_last_room_x = new_x
+                center_of_last_room_y = new_y
+                
+                if num_rooms == 0:
+                    player.x = new_x
+                    player.y = new_y
+
+                self.place_entities(new_room, entities)
+                rooms.append(new_room)
+                num_rooms += 1
+
+                
+        """
+        for r in range(max_rooms):
+            w = randint(room_min_size, room_max_size)
+            h = randint(room_min_size, room_max_size)
+            x = randint(0, map_width - w - 1)
+            y = randint(0, map_height - h - 1)
+
+            new_room = Rect(x, y, w, h)
+
+            for other_room in rooms:
+                if new_room.intersect(other_room):
+                    break
+            else:
+                self.create_room(new_room)
+                
+                (new_x, new_y) = new_room.center()
+                center_of_last_room_x = new_x
+                center_of_last_room_y = new_y
+                
+                if num_rooms == 0:
+                    player.x = new_x
+                    player.y = new_y
+                else:
+                    (prev_x, prev_y) = rooms[num_rooms - 1].center()
+                    
+                    if randint(0, 1) == 1:
+                        self.create_h_tunnel(prev_x, new_x, prev_y)
+                        self.create_v_tunnel(prev_y, new_y, new_x)
+                    else:
+                        self.create_v_tunnel(prev_y, new_y, prev_x)
+                        self.create_h_tunnel(prev_x, new_x, new_y)
+                
+                self.place_entities(new_room, entities)
+                rooms.append(new_room)
+                num_rooms += 1
+        """
+                
+        stairs_component = Stairs(self.dungeon_level + 1)
+        entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
+        for e in entities_blocking_stairs:
+            entities.remove(e)
+        down_stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31, libtcod.white,
+                             'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
+        entities.append(down_stairs)
