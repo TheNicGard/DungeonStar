@@ -1,6 +1,6 @@
 import tcod as libtcod
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
-from effect import Effect, tick_invisible, tick_poison
+from effect import Effect, tick_invisible, tick_poison, tick_regeneration
 from game_messages import Message
 from random import randint
 from rpg_mechanics import attack_success, die, get_modifier
@@ -72,6 +72,17 @@ def invisible(*args, **kwargs):
     results.append({'consumed': True,
                     'message': Message('Light starts to pass through your body!',
                                        libtcod.green)})
+    return results
+
+def regeneration(*args, **kwargs):
+    entity = args[0]
+    turns = kwargs.get('turns')
+
+    results = []
+
+    entity.fighter.effects.effects["regeration"] = Effect(True, turns, tick_regeneration)
+    results.append({'consumed': True})
+    
     return results
 
 def cast_lightning(*args, **kwargs):

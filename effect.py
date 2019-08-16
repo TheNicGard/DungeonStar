@@ -49,3 +49,11 @@ def tick_poison(turns_remaining):
         
     return results
 
+def tick_regeneration(turns_remaining):
+    results = []
+    
+    if turns_remaining > 0:
+        results.append({"regeneration": str(turns_remaining)})        
+        
+    return results
+

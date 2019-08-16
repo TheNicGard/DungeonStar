@@ -82,6 +82,23 @@
 	"identified_on_use": true,
 	"classification": ["potion"]
     },
+
+    {
+	"item_id": "regeneration_potion",
+	"name": "regeneration potion",
+	"color": [191, 239, 255],
+	"symbol": "!",
+	"weight": 5,
+	"use_function": "regeneration",
+	"targeting": false,
+	"positional": {
+	    "turns": 50
+	},
+	"spawn_rate": [[2, 1]],
+	"nutrition": 50,
+	"identified_on_use": true,
+	"classification": ["potion"]
+    },
     
     {
 	"item_id": "fireball_scroll",

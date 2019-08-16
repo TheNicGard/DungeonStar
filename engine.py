@@ -701,6 +701,7 @@ def tick_turn(turn, player, entities, game_state, message_log):
             for result in results:
                 message = result.get('message')
                 poison_damage = result.get("poison_damage")
+                regeneration = result.get("regeneration")
     
                 if message:
                     message_log.add_message(message)
@@ -716,6 +717,9 @@ def tick_turn(turn, player, entities, game_state, message_log):
                             else:
                                 message = kill_monster(e)
                             message_log.add_message(message)
+
+                if regeneration and turn % 10 == 0:
+                    e.fighter.heal(2)
 
     for e in expired:
         entities.remove(e)
