@@ -25,14 +25,12 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
-        print(str(width) + ", " + str(height))
         
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
         return tiles
 
     def is_blocked(self, x, y):
-        print("checking if ({0}, {1}) is blocked...".format(x, y))
         if self.tiles[x][y].blocked:
             return True
         return False
@@ -42,30 +40,6 @@ class GameMap:
             for y in range(room.y1 + 1, room.y2):
                 self.tiles[x][y].blocked = False
                 self.tiles[x][y].block_sight = False
-
-    def create_h_tunnel(self, x1, x2, y):
-        for x in range(min(x1, x2), max(x1, x2) + 1):
-            self.tiles[x][y].blocked = False
-            self.tiles[x][y].block_sight = False
-
-    def create_v_tunnel(self, y1, y2, x):
-        for y in range(min(y1, y2), max(y1, y2) + 1):
-            self.tiles[x][y].blocked = False
-            self.tiles[x][y].block_sight = False
-
-    def create_stopping_h_tunnel(self, x1, x2, y):
-        for x in range(min(x1, x2), max(x1, x2) + 1):
-            if self.tiles[x][y].blocked:
-                break
-            self.tiles[x][y].blocked = False
-            self.tiles[x][y].block_sight = False
-
-    def create_stopping_v_tunnel(self, y1, y2, x):
-        for y in range(min(y1, y2), max(y1, y2) + 1):
-            if self.tiles[x][y].blocked:
-                break
-            self.tiles[x][y].blocked = False
-            self.tiles[x][y].block_sight = False
 
     def place_entities(self, room, entities):
         max_monsters_per_room = from_dungeon_level([[2, 1], [3, 10], [5, 20]], self.dungeon_level)
@@ -160,59 +134,6 @@ class GameMap:
                                       valuable=Valuable(take_gold))
                     if gold.valuable.value:
                         entities.append(gold)
-                    
-    def make_map(self, max_rooms, room_min_size, room_max_size,
-                 map_width, map_height, player, entities):
-        self.test_map = False
-        rooms = []
-        num_rooms = 0
-
-        center_of_last_room_x = None
-        center_of_last_room_y = None
-
-        for r in range(max_rooms):
-            w = randint(room_min_size, room_max_size)
-            h = randint(room_min_size, room_max_size)
-            x = randint(0, map_width - w - 1)
-            y = randint(0, map_height - h - 1)
-
-            new_room = Rect(x, y, w, h)
-
-            for other_room in rooms:
-                if new_room.intersect(other_room):
-                    break
-            else:
-                self.create_room(new_room)
-                
-                (new_x, new_y) = new_room.center()
-                center_of_last_room_x = new_x
-                center_of_last_room_y = new_y
-                
-                if num_rooms == 0:
-                    player.x = new_x
-                    player.y = new_y
-                else:
-                    (prev_x, prev_y) = rooms[num_rooms - 1].center()
-                    
-                    if randint(0, 1) == 1:
-                        self.create_h_tunnel(prev_x, new_x, prev_y)
-                        self.create_v_tunnel(prev_y, new_y, new_x)
-                    else:
-                        self.create_v_tunnel(prev_y, new_y, prev_x)
-                        self.create_h_tunnel(prev_x, new_x, new_y)
-                
-                self.place_entities(new_room, entities)
-                rooms.append(new_room)
-                num_rooms += 1
-        stairs_component = Stairs(self.dungeon_level + 1)
-
-        entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
-        for e in entities_blocking_stairs:
-            entities.remove(e)
-        
-        down_stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31, libtcod.white,
-                             'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
-        entities.append(down_stairs)
 
     def make_test_map(self, map_width, map_height, player, entities, map_type):
         self.test_map = True
@@ -294,15 +215,10 @@ class GameMap:
         self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],
                       constants['map_width'], constants['map_height'], player, entities)
 
-        player.fighter.heal(player.fighter.max_hp // 4)
+        player.fighter.heal(player.fighter.max_hp // 5)
         message_log.add_message(Message('You take a moment to rest, and recover your strength.',
                                         libtcod.light_violet))
         return entities
-
-
-
-
-
     
     def vline(self, x, y1, y2):
         if y1 > y2:
@@ -344,11 +260,10 @@ class GameMap:
             self.tiles[x][y].block_sight = False
             x += 1
 
-    def make_bsp_map(self, max_rooms, room_min_size, room_max_size,
+    def make_map(self, max_rooms, room_min_size, room_max_size,
                  map_width, map_height, player, entities):
         self.test_map = False
         rooms = []
-        num_rooms = 0
         full_rooms = False
 
         bsp = libtcod.bsp.BSP(x=0, y=0, width=map_width - 1, height=map_height - 1)
