@@ -19,19 +19,20 @@ from random import randint, random, choice
 from random_utils import from_dungeon_level, random_choice_from_dict
 from render_functions import RenderOrder
 
-class GameMap:
-    
+class GameMap:    
     def __init__(self, width, height, dungeon_level=1):
         self.width = width
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
+        print(str(width) + ", " + str(height))
         
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
         return tiles
 
     def is_blocked(self, x, y):
+        print("checking if ({0}, {1}) is blocked...".format(x, y))
         if self.tiles[x][y].blocked:
             return True
         return False
@@ -49,6 +50,20 @@ class GameMap:
 
     def create_v_tunnel(self, y1, y2, x):
         for y in range(min(y1, y2), max(y1, y2) + 1):
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+
+    def create_stopping_h_tunnel(self, x1, x2, y):
+        for x in range(min(x1, x2), max(x1, x2) + 1):
+            if self.tiles[x][y].blocked:
+                break
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+
+    def create_stopping_v_tunnel(self, y1, y2, x):
+        for y in range(min(y1, y2), max(y1, y2) + 1):
+            if self.tiles[x][y].blocked:
+                break
             self.tiles[x][y].blocked = False
             self.tiles[x][y].block_sight = False
 
@@ -283,3 +298,180 @@ class GameMap:
         message_log.add_message(Message('You take a moment to rest, and recover your strength.',
                                         libtcod.light_violet))
         return entities
+
+
+
+
+
+    
+    def vline(self, x, y1, y2):
+        if y1 > y2:
+            y1,y2 = y2,y1
+            
+        for y in range(y1,y2+1):
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+            
+    def vline_up(self, x, y):
+        while y >= 0 and self.tiles[x][y].blocked == True:
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+            y -= 1
+ 
+    def vline_down(self, x, y):
+        while y < self.height and self.tiles[x][y].blocked == True:
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+            y += 1
+ 
+    def hline(self, x1, y, x2):
+        if x1 > x2:
+            x1,x2 = x2,x1
+            
+        for x in range(x1,x2+1):
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+ 
+    def hline_left(self, x, y):
+        while x >= 0 and self.tiles[x][y].blocked == True:
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+            x -= 1
+ 
+    def hline_right(self, x, y):
+        while x < self.width and self.tiles[x][y].blocked == True:
+            self.tiles[x][y].blocked = False
+            self.tiles[x][y].block_sight = False
+            x += 1
+
+    def make_bsp_map(self, max_rooms, room_min_size, room_max_size,
+                 map_width, map_height, player, entities):
+        self.test_map = False
+        rooms = []
+        num_rooms = 0
+        full_rooms = False
+
+        bsp = libtcod.bsp.BSP(x=0, y=0, width=map_width - 1, height=map_height - 1)
+        bsp.split_recursive(
+            depth=5,
+            min_width=room_min_size + 1,
+            min_height=room_min_size + 1,
+            max_horizontal_ratio=1.5,
+            max_vertical_ratio=1.5,
+        )
+        
+        center_of_last_room_x = None
+        center_of_last_room_y = None
+
+        rooms_list = []
+
+        # In pre order, leaf nodes are visited before the nodes that connect them.
+        for node in bsp.inverted_level_order():
+            if node.children:
+                left, right = node.children
+                node.x = min(left.x, right.x)
+                node.y = min(left.y, right.y)
+                node.w = max(left.x + left.w, right.x + right.w) - node.x
+                node.h = max(left.y + left.h, right.y + right.h) - node.y
+                
+                if node.horizontal:
+                    if left.x + left.w - 1 < right.x or right.x + right.w - 1 < left.x:
+                        x1 = randint(left.x, left.x + left.w - 1)
+                        x2 = randint(right.x, right.x + right.w - 1)
+                        y = randint(left.y + left.h, right.y)
+
+                        self.vline_up(x1, y - 1)
+                        self.hline(x1, y, x2)
+                        self.vline_down(x2, y + 1)
+                        
+                    else:
+                        minx = max(left.x, right.x)
+                        maxx = min(left.x + left.w - 1, right.x + right.w - 1)
+                        x = randint(minx, maxx)
+                        
+                        # catch out-of-bounds attempts
+                        while x > map_width - 1:
+                            x -= 1
+                            
+                        self.vline_down(x, right.y)
+                        self.vline_up(x, right.y - 1)
+ 
+                else:
+                    if left.y + left.h - 1 < right.y or right.y + right.h - 1 < left.y:
+                        y1 = randint(left.y, left.y + left.h - 1)
+                        y2 = randint(right.y, right.y + right.h - 1)
+                        x = randint(left.x + left.w, right.x)
+                        
+                        self.hline_left(x - 1, y1)
+                        self.vline(x, y1, y2)
+                        self.hline_right(x + 1, y2)
+                    else:
+                        miny = max(left.y, right.y)
+                        maxy = min(left.y + left.h - 1, right.y + right.h - 1)
+                        y = randint(miny, maxy)
+                        
+                        # catch out-of-bounds attempts
+                        while y > map_height - 1:
+                            y -= 1
+
+                        self.hline_left(right.x - 1, y)
+                        self.hline_right(right.x, y)
+                    
+            else:
+                print('Dig a room for %s.' % node)
+
+                min_x = node.x + 1
+                min_y = node.y + 1
+                max_x = node.x + node.width - 1
+                max_y = node.y + node.height - 1
+
+                if max_x == map_width - 1:
+                    max_x -= 1
+                if max_y == map_height - 1:
+                    max_y -= 1
+                
+                if not full_rooms:
+                    min_x = randint(min_x, max_x - room_min_size + 1)
+                    min_y = randint(min_y, max_y - room_min_size + 1)
+                    max_x = randint(min_x + room_min_size - 2, max_x)
+                    max_y = randint(min_y + room_min_size - 2, max_y)
+
+                room_x = min_x
+                room_y = min_y
+                room_w = max_x - min_x + 1
+                room_h = max_y - min_y + 1
+                    
+                new_room = Rect(room_x, room_y, room_w, room_h)
+                self.create_room(new_room)
+                rooms_list.append(new_room)
+                
+                (new_x, new_y) = new_room.center()
+                center_of_last_room_x = new_x
+                center_of_last_room_y = new_y
+
+        # wall off map from exiting bounds
+        for x in range(0, self.width):
+            self.tiles[x][0].blocked = True
+            self.tiles[x][0].block_sight = True
+            self.tiles[x][self.height - 1].blocked = True
+            self.tiles[x][self.height - 1].block_sight = True
+        for y in range(0, self.height):
+            self.tiles[0][y].blocked = True
+            self.tiles[0][y].block_sight = True
+            self.tiles[self.width - 1][y].blocked = True
+            self.tiles[self.width - 1][y].block_sight = True
+                
+        player_room = choice(rooms_list)
+        (player.x, player.y) = player_room.center()
+
+        for r in rooms_list:
+            self.place_entities(r, entities)
+            rooms.append(r)
+                
+        stairs_component = Stairs(self.dungeon_level + 1)
+        entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
+        for e in entities_blocking_stairs:
+            entities.remove(e)
+        down_stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31, libtcod.white,
+                             'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
+        entities.append(down_stairs)
