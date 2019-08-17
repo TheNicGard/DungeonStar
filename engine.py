@@ -511,15 +511,14 @@ def play_game(player, entities, game_map, turn, message_log,
                         lightning_wand.identity.identify()
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
-                    # the stars: detect items, stairs, trap, and aura wands
+                    # the stars: detect items, trap, and aura wands, mapping
                     elif creation_menu_cursor.index[1] == 5:
-                        stairs_wand = get_item("detect_stairs_wand", -1, -1)
                         traps_wand = get_item("detect_traps_wand", -1, -1)
-                        stairs_wand.identity.identify()
+                        mapping_scrolls = get_item("mapping_scroll", -1, -1, 3)
+                        mapping_scrolls.identity.identify()
                         traps_wand.identity.identify()
-                        stairs_wand.item.chargeable.recharge(20)
                         traps_wand.item.chargeable.recharge(20)
-                        player.inventory.add_item(stairs_wand)
+                        player.inventory.add_item(mapping_scrolls)
                         player.inventory.add_item(traps_wand)
 
                     # items across all inspirations

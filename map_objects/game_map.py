@@ -330,8 +330,6 @@ class GameMap:
                         self.hline_right(right.x, y)
                     
             else:
-                print('Dig a room for %s.' % node)
-
                 min_x = node.x + 1
                 min_y = node.y + 1
                 max_x = node.x + node.width - 1

@@ -383,8 +383,21 @@ def cast_mapping(*args, **kwargs):
 
     results = []
 
+    all_tiles_explored = True
+    
     for x in range(0, game_map.width):
         for y in range(0, game_map.height):
-            game_map.tiles[x][y].explored = True
+            if not game_map.tiles[x][y].explored:
+                all_tiles_explored = False
+                break
+
+    if all_tiles_explored:
+        results.append({"message": Message("You've already explored the whole map!", libtcod.yellow)})
+    else:
+        for x in range(0, game_map.width):
+            for y in range(0, game_map.height):
+                game_map.tiles[x][y].explored = True
+
+    results.append({"consumed": True, "teleport": True})
 
     return results
