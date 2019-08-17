@@ -261,9 +261,8 @@ class GameMap:
         full_rooms = False
 
         bsp = libtcod.bsp.BSP(x=0, y=0, width=map_width - 1, height=map_height - 1)
-        room_min_size = 5
         bsp.split_recursive(
-            depth=10,
+            depth=5,
             min_width=room_min_size + 1,
             min_height=room_min_size + 1,
             max_horizontal_ratio=1.5,
