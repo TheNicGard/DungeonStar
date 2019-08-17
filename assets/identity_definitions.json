@@ -43,6 +43,10 @@
 	{
 	    "name": "PACIFICA scroll",
 	    "color": [143, 191, 0]
+	},
+	{
+	    "name": "CHARTA scroll",
+	    "color": [220, 220, 220]
 	}
     ],
 

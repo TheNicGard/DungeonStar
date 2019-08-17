@@ -137,7 +137,10 @@ class GameMap:
         y = 1
         
         new_room = Rect(x, y, w, h)
-        self.create_room(new_room)
+        for ax in range(x, x + w):
+            for ay in range(y, y + h):
+                self.tiles[ax][ay].blocked = False
+                self.tiles[ax][ay].block_sight = False
         
         (new_x, new_y) = new_room.center()
                 

@@ -301,6 +301,22 @@
     },
 
     {
+	"item_id": "mapping_scroll",
+	"name": "scroll of Mapping",
+	"color": [220, 220, 220],
+	"symbol": "?",
+	"weight": 5,
+	"use_function": "cast_mapping",
+	"targeting": false,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["scroll"]
+    },
+
+    {
 	"item_id": "fireball_wand",
 	"name": "wand of Fireball",
 	"color": [255, 63, 0],

@@ -377,3 +377,14 @@ def cast_force_bolt(*args, **kwargs):
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 
     return results
+
+def cast_mapping(*args, **kwargs):
+    game_map = kwargs.get('game_map')
+
+    results = []
+
+    for x in range(0, game_map.width):
+        for y in range(0, game_map.height):
+            game_map.tiles[x][y].explored = True
+
+    return results
