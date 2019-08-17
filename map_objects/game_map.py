@@ -35,12 +35,6 @@ class GameMap:
             return True
         return False
 
-    def create_room(self, room):
-        for x in range(room.x1 + 1, room.x2):
-            for y in range(room.y1 + 1, room.y2):
-                self.tiles[x][y].blocked = False
-                self.tiles[x][y].block_sight = False
-
     def place_entities(self, room, entities):
         max_monsters_per_room = from_dungeon_level([[2, 1], [3, 10], [5, 20]], self.dungeon_level)
         max_items_per_room = from_dungeon_level([[1, 1]], self.dungeon_level)
@@ -267,8 +261,9 @@ class GameMap:
         full_rooms = False
 
         bsp = libtcod.bsp.BSP(x=0, y=0, width=map_width - 1, height=map_height - 1)
+        room_min_size = 5
         bsp.split_recursive(
-            depth=5,
+            depth=10,
             min_width=room_min_size + 1,
             min_height=room_min_size + 1,
             max_horizontal_ratio=1.5,
@@ -351,13 +346,17 @@ class GameMap:
                     max_x = randint(min_x + room_min_size - 2, max_x)
                     max_y = randint(min_y + room_min_size - 2, max_y)
 
-                room_x = min_x
-                room_y = min_y
-                room_w = max_x - min_x + 1
-                room_h = max_y - min_y + 1
+                node.x = min_x
+                node.y = min_y
+                node.w = max_x - min_x + 1
+                node.h = max_y - min_y + 1
+
+                for x in range(min_x, max_x + 1):
+                    for y in range(min_y, max_y + 1):
+                        self.tiles[x][y].blocked = False
+                        self.tiles[x][y].block_sight = False
                     
-                new_room = Rect(room_x, room_y, room_w, room_h)
-                self.create_room(new_room)
+                new_room = Rect(node.x, node.y, node.w, node.h)
                 rooms_list.append(new_room)
                 
                 (new_x, new_y) = new_room.center()
