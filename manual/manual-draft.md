@@ -48,7 +48,7 @@ As long as you aren't hungry, your health will heal automatically. There's almos
 
 ## Identification
 
-Many items within the *The Depression* are foreign to surface-dwellers, and as such, the protagonist will almost certainly be unable to recognize them. The types of items that appear **unidentified** include potions, scrolls, wands, and rings. Most items will be identified upon use, but this isn't universally true.
+Many items within the *The Depression* are foreign to surface-dwellers, and as such, the protagonist will almost certainly be unable to recognize them. The types of items that appear **unidentified** include potions, scrolls, wands, and rings. Most items will be identified upon use, but this isn't universally true. As such, magics exist that can identify the protagonist's items.
 
 The identity of each item is different every new game, so don't rely the identity of one item to be the same from a previous game (e.g. a Diet Dr. Fabulous may be a poison potion one game, but be a potion of cure poison the next game).
 
