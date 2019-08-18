@@ -317,6 +317,38 @@
     },
 
     {
+	"item_id": "identify_scroll",
+	"name": "scroll of Identification",
+	"color": [166, 255, 255],
+	"symbol": "?",
+	"weight": 5,
+	"use_function": "cast_identify_item",
+	"targeting": false,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[2, 1]],
+	"identified_on_use": true,
+	"classification": ["scroll"]
+    },
+
+    {
+	"item_id": "charge_scroll",
+	"name": "scroll of Charging",
+	"color": [255, 159, 127],
+	"symbol": "?",
+	"weight": 5,
+	"use_function": "cast_charge_item",
+	"targeting": false,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
+	"classification": ["scroll"]
+    },
+
+    {
 	"item_id": "fireball_wand",
 	"name": "wand of Fireball",
 	"color": [255, 63, 0],

@@ -47,6 +47,14 @@
 	{
 	    "name": "CHARTA scroll",
 	    "color": [220, 220, 220]
+	},
+	{
+	    "name": "EADEM scroll",
+	    "color": [166, 255, 255]
+	},
+	{
+	    "name": "NAVITAS scroll",
+	    "color": [255, 159, 127]
 	}
     ],
 

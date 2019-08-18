@@ -122,6 +122,26 @@ class Inventory:
                                                libtcod.yellow)})
 
         return results
+
+    def identify_item(self, item):
+        results = []
+
+        results.append({'item_identified': item})
+        if not self.owner.ai:
+            results.append({'message': Message('You identified the {0}.'.format(item.get_name),
+                                               libtcod.yellow)})
+
+        return results
+
+    def charge_item(self, item):
+        results = []
+
+        results.append({'item_charged': item})
+        if not self.owner.ai:
+            results.append({'message': Message('You charged the {0}.'.format(item.get_name),
+                                               libtcod.yellow)})
+            
+        return results
             
 
             

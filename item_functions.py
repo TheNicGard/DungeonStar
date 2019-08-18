@@ -401,3 +401,23 @@ def cast_mapping(*args, **kwargs):
     results.append({"consumed": True, "teleport": True})
 
     return results
+
+def cast_identify_item(*args, **kwargs):
+    caster = args[0]
+    
+    results = []
+
+    results.append({'consumed': True, 'message': Message('attempting to identify...', libtcod.purple),
+                    "identify_menu": True})
+
+    return results
+
+def cast_charge_item(*args, **kwargs):
+    caster = args[0]
+    
+    results = []
+
+    results.append({'consumed': True, 'message': Message('attempting to charge...', libtcod.purple),
+                    "charge_menu": True})
+
+    return results
