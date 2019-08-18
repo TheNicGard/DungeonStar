@@ -580,6 +580,23 @@
     },
 
     {
+	"item_id": "identify_wand",
+	"name": "wand of Identification",
+	"color": [240, 240, 240],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_identify_item",
+	"targeting": false,
+	"max_charges": 4,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[2, 1]],
+	"identified_on_use": true,
+	"classification": ["wand"]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],
