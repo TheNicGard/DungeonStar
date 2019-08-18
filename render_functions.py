@@ -253,7 +253,7 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
 
 creation_menu = {
         "Ability scores": ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
-        "Inspiration:": ["Self", "Life", "Peace", "Prosperity", "The Arts", "The Stars"]
+        "Inspiration:": ["Self", "Love", "Peace", "Prosperity", "The Arts", "The Stars"]
 }
         
 def render_character_creation(con, panel, screen_width, screen_height, menu_cursor, stat_diffs, points_available, stat_boosts, plot):

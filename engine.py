@@ -140,7 +140,7 @@ def play_game(player, entities, game_map, turn, message_log,
     # This could be coded better
     # s_b[x] selects inspiration, s_b[x][0 to 1] major and minor boost
     # self       provides +2 CON, +1 INT
-    # life       provides +2 DEX, +1 WIS
+    # love       provides +2 DEX, +1 WIS
     # peace      provides +2 STR, +1 DEX
     # prosperity provides +2 CHA, +1 CON
     # the arts   provides +2 WIS, +1 CHA
@@ -486,7 +486,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         shield = get_item("tower_shield", -1, -1)
                         player.inventory.add_item(shield)
                         player.equipment.toggle_equip(shield)
-                    # life: pacify wand
+                    # love: pacify wand
                     elif creation_menu_cursor.index[1] == 1:
                         pacify_wand = get_item("pacify_wand", -1, -1)
                         pacify_wand.identity.identify()
