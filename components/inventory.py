@@ -1,5 +1,6 @@
 import tcod as libtcod
 from game_messages import Message
+from random import randint
 
 class Inventory:
     def __init__(self, capacity, gold_carried=0):
@@ -126,20 +127,30 @@ class Inventory:
     def identify_item(self, item):
         results = []
 
-        results.append({'item_identified': item})
-        if not self.owner.ai:
-            results.append({'message': Message('You identified the {0}.'.format(item.get_name),
+        if not item.identity.identified:
+            item.identity.identify()
+            results.append({'item_identified': item, "consumed": True})
+            if not self.owner.ai:
+                results.append({'message': Message('You identified the {0}.'.format(item.get_name),
+                                                   libtcod.lightest_grey)})
+        else:
+            results.append({"message": Message('The {0} is already identified!'.format(item.get_name),
                                                libtcod.yellow)})
-
         return results
 
     def charge_item(self, item):
         results = []
 
-        results.append({'item_charged': item})
-        if not self.owner.ai:
-            results.append({'message': Message('You charged the {0}.'.format(item.get_name),
-                                               libtcod.yellow)})
+        if item.item.chargeable:
+            item.item.chargeable.recharge(randint(4, 8))
+            results.append({'item_charged': item, "consumed": True})
+            if not self.owner.ai:
+                results.append({'message': Message('You charged the {0}.'.format(item.get_name),
+                                                   libtcod.peach)})
+        else:
+            results.append({"message": Message('The {0} cannot be sealed!'.format(item.get_name),
+                                                   libtcod.yellow),
+                            "consumed": False})
             
         return results
             

@@ -306,7 +306,6 @@ def play_game(player, entities, game_map, turn, message_log,
                 else:
                     previous_game_state = game_state
                     game_state = GameStates.RESTING
-
                     
         if show_inventory:
             previous_game_state = game_state
@@ -322,6 +321,10 @@ def play_game(player, entities, game_map, turn, message_log,
                 player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map, game_map=game_map))
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
+            elif game_state == GameStates.IDENTIFY_INVENTORY:
+                player_turn_results.extend(player.inventory.identify_item(item))
+            elif game_state == GameStates.CHARGE_INVENTORY:
+                player_turn_results.extend(player.inventory.charge_item(item))
 
         if level_up:
             if level_up == 'STR':
@@ -543,6 +546,8 @@ def play_game(player, entities, game_map, turn, message_log,
             item_consumed = player_turn_result.get('consumed')
             food_eaten = player_turn_result.get("food_eaten")
             item_dropped = player_turn_result.get('item_dropped')
+            item_identified = player_turn_result.get('item_identified')
+            item_charged = player_turn_result.get('item_charged')
             equip = player_turn_result.get('equip')
             targeting = player_turn_result.get('targeting')
             targeting_cancelled = player_turn_result.get('targeting_cancelled')
@@ -550,6 +555,8 @@ def play_game(player, entities, game_map, turn, message_log,
             enemy_gold_dropped = player_turn_result.get('enemy_gold_dropped')
             drop_inventory = player_turn_result.get("drop_inventory")
             teleport = player_turn_result.get("teleport")
+            identify_menu = player_turn_result.get("identify_menu")
+            charge_menu = player_turn_result.get("charge_menu")
 
             if message:
                 message_log.add_message(message)
@@ -580,6 +587,14 @@ def play_game(player, entities, game_map, turn, message_log,
 
             if item_dropped:
                 entities.append(item_dropped)
+                previous_game_state = GameStates.PLAYERS_TURN
+                game_state = GameStates.ENEMY_TURN
+
+            if item_identified:
+                previous_game_state = GameStates.PLAYERS_TURN
+                game_state = GameStates.ENEMY_TURN
+
+            if item_charged:
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
@@ -630,6 +645,14 @@ def play_game(player, entities, game_map, turn, message_log,
             if teleport:
                 fov_map = initialize_fov(game_map)
                 fov_recompute = True
+
+            if identify_menu:
+                previous_game_state = game_state
+                game_state = GameStates.IDENTIFY_INVENTORY
+            
+            if charge_menu:
+                previous_game_state = game_state
+                game_state = GameStates.CHARGE_INVENTORY
                     
         if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
             for entity in entities:
