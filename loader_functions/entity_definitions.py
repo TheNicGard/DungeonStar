@@ -41,12 +41,14 @@ class ItemDefinition:
         self.classification = classification
 
     def get_item(self, x, y, count=1):
-        if count > 1:
-            self.item_component.count = count
+        new_item_component = copy.deepcopy(self.item_component)
 
+        if count > 1:
+            new_item_component.count = count
+            
         item = Entity(self.id, x, y, self.char, self.color, self.name, weight=self.weight,
                       blocks=False, render_order=RenderOrder.ITEM,
-                      item=self.item_component, equippable=self.equippable, animation=self.animation,
+                      item=new_item_component, equippable=self.equippable, animation=self.animation,
                       food=self.food, classification=self.classification)
         return item
 

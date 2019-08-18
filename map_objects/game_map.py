@@ -385,7 +385,19 @@ class GameMap:
         stairs_component = Stairs(self.dungeon_level + 1)
         entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
         for e in entities_blocking_stairs:
-            entities.remove(e)
+            if e.id == "player":
+                random_x = self.owner.x + randint(0, 2) - 1
+                random_y = self.owner.y + randint(0, 2) - 1
+                if random_x != self.owner.x and random_y != self.owner.y:
+                    self.owner.move_towards(random_x, random_y, game_map, entities)
+
+                    while e.x == center_of_last_room_x and e.y == center_of_last_room_y:
+                        random_x = self.owner.x + randint(0, 2) - 1
+                        random_y = self.owner.y + randint(0, 2) - 1
+                        if random_x != self.owner.x and random_y != self.owner.y:
+                            self.owner.move_towards(random_x, random_y, game_map, entities)
+            else:
+                entities.remove(e)
         down_stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31, libtcod.white,
                              'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
         entities.append(down_stairs)
