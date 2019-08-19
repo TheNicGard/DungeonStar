@@ -55,6 +55,14 @@
 	{
 	    "name": "NAVITAS scroll",
 	    "color": [255, 159, 127]
+	},
+	{
+	    "name": "RES scroll",
+	    "color": [127, 101, 63]
+	},
+	{
+	    "name": "AURAS scroll",
+	    "color": [0, 127, 255]
 	}
     ],
 
