@@ -99,7 +99,8 @@ class Fighter:
             effects.update(self.effects.effects)
 
         if hasattr(self, "owner") and hasattr(self.owner, "equipment"):
-            effects.update(self.owner.equipment.get_effects())
+            if self.owner and self.owner.equipment:
+                effects.update(self.owner.equipment.get_effects())
 
         return effects
 

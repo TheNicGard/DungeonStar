@@ -1,6 +1,6 @@
 import tcod as libtcod
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
-from effect import Effect, tick_invisible, tick_poison, tick_regeneration
+from effect import Effect, tick_invisible, tick_poison, tick_regeneration, tick_detect_aura, tick_detect_items
 from game_messages import Message
 from random import randint
 from rpg_mechanics import attack_success, die, get_modifier
@@ -413,5 +413,27 @@ def cast_charge_item(*args, **kwargs):
     results = []
 
     results.append({"charge_menu": True, "consumed": True})
+
+    return results
+
+def cast_detect_aura(*args, **kwargs):
+    entity = args[0]
+    turns = kwargs.get('turns')
+
+    results = []
+
+    entity.fighter.effects.effects["detect_aura"] = Effect(True, turns, tick_detect_aura)
+    results.append({'consumed': True})
+
+    return results
+
+def cast_detect_items(*args, **kwargs):
+    entity = args[0]
+    turns = kwargs.get('turns')
+
+    results = []
+
+    entity.fighter.effects.effects["detect_items"] = Effect(True, turns, tick_detect_items)
+    results.append({'consumed': True})
 
     return results
