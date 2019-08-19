@@ -727,10 +727,11 @@ def tick_turn(turn, player, entities, game_state, message_log):
             results.extend(e.fighter.effects.tick())
             
             for result in results:
-                message = result.get('message')
+                message = result.get("message")
                 poison_damage = result.get("poison_damage")
                 regeneration = result.get("regeneration")
-    
+                invisible = result.get("invisible")
+                
                 if message:
                     message_log.add_message(message)
 
@@ -749,6 +750,14 @@ def tick_turn(turn, player, entities, game_state, message_log):
                 if regeneration and turn % 10 == 0:
                     e.fighter.heal(2)
 
+                if invisible is not None and invisible <= 0:
+                    if e.ai:
+                        message_log.add_message(Message("The {0} reappears!".format(e.name),
+                                                        libtcod.white))
+                    else:
+                        message_log.add_message(Message("Color starts to reappear on your body!",
+                                                    libtcod.yellow))
+                    
     for e in expired:
         entities.remove(e)
                 
