@@ -283,9 +283,24 @@ def load_items():
                         armor_bonus = item.get("equipment").get("armor_bonus")
 
                     effects = {}
-                    if item.get("effect"):
-                        if item.get("effect") == "poison_resistance":
+                    if item.get("equipment").get("effect"):
+                        ef = item.get("equipment").get("effect")
+                        
+                        if ef == "poison_resistance":
                             effects["poison_resistance"] = Effect(False, 0, None)
+                        elif ef == "strength_boost":
+                            effects["strength_boost"] = Effect(False, 0, None)
+                        elif ef == "dexterity_boost":
+                            effects["dexterity_boost"] = Effect(False, 0, None)
+                        elif ef == "constitution_boost":
+                            effects["constitution_boost"] = Effect(False, 0, None)
+                        elif ef == "intelligence_boost":
+                            effects["intelligence_boost"] = Effect(False, 0, None)
+                        elif ef == "wisdom_boost":
+                            effects["wisdom_boost"] = Effect(False, 0, None)
+                        elif ef == "charisma_boost":
+                            effects["charisma_boost"] = Effect(False, 0, None)
+
                         
                     if slot:
                         equipment_component = Equippable(slot, hit_dice=hit_dice,

@@ -13,13 +13,16 @@ class Fighter:
                  intelligence, wisdom, charisma, determination,
                  fixed_max_hp=None, xp=0, golden=None, chance_to_drop_corpse=0,
                  max_gold_drop=0, attack_list=None, can_be_pacified=False):
-        self.strength = strength
-        self.dexterity = dexterity
-        self.constitution = constitution
-        self.intelligence = intelligence
-        self.wisdom = wisdom
-        self.charisma = charisma
+        self.STR = strength
+        self.DEX = dexterity
+        self.CON = constitution
+        self.INT = intelligence
+        self.WIS = wisdom
+        self.CHA = charisma
         self.determination = determination
+
+        self.effects = EffectGroup()
+        self.effects.effects["golden"] = golden
         
         self.fixed_max_hp = fixed_max_hp
         self.hp = self.max_hp
@@ -31,9 +34,6 @@ class Fighter:
         self.xp = xp
         self.max_gold_drop = max_gold_drop
 
-        self.effects = EffectGroup()
-        self.effects.effects["golden"] = golden
-        
         self.chance_to_drop_corpse = chance_to_drop_corpse
         self.attack_list = attack_list
         self.can_be_pacified = can_be_pacified
@@ -51,6 +51,59 @@ class Fighter:
         return hp
 
     @property
+    def strength(self):
+        STR = self.STR
+        if "strength_boost" in self.get_effects():
+            STR += 1
+        return STR
+
+    @property
+    def dexterity(self):
+        DEX = self.DEX
+        if "dexterity_boost" in self.get_effects():
+            DEX += 1
+        return DEX
+
+    @property
+    def constitution(self):
+        CON = self.CON
+        if "constitution_boost" in self.get_effects():
+            CON += 1
+        return CON
+
+    @property
+    def intelligence(self):
+        INT = self.INT
+        if "intelligence_boost" in self.get_effects():
+            INT += 1
+        return INT
+
+    @property
+    def wisdom(self):
+        WIS = self.WIS
+        if "wisdom_boost" in self.get_effects():
+            WIS += 1
+        return WIS
+
+    @property
+    def charisma(self):
+        CHA = self.CHA
+        if "charisma_boost" in self.get_effects():
+            CHA += 1
+        return CHA
+
+    def get_effects(self):
+        effects = {}
+        
+        if self.effects is not None and self.effects.effects is not None:
+            effects.update(self.effects.effects)
+
+        if hasattr(self, "owner") and hasattr(self.owner, "equipment"):
+            effects.update(self.owner.equipment.get_effects())
+
+        return effects
+
+    @property
     def attack_bonus(self):
         return get_modifier(self.strength) + self.proficiency
 
@@ -63,17 +116,6 @@ class Fighter:
 
     def select_attack(self):
         return choice(self.attack_list)
-
-    def get_effects(self):
-        effects = {}
-        
-        if self.effects is not None and self.effects.effects is not None:
-            effects.update(self.effects.effects)
-
-        if hasattr(self.owner, "equipment"):
-            effects.update(self.owner.equipment.get_effects())
-
-        return effects
             
     def take_damage(self, amount):
         results = []

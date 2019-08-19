@@ -122,7 +122,7 @@ def get_game_variables(constants):
     return player, entities, game_map, message_log, game_state, turn
 
 def get_test_map_variables(constants):
-    fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
+    fighter_component = Fighter(strength=11, dexterity=11, constitution=11, intelligence=11, wisdom=11, charisma=11, determination=1)
     
     inventory_component = Inventory(260)
     level_component = Level()
