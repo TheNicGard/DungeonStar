@@ -39,9 +39,8 @@ class Effect:
 def tick_invisible(turns_remaining):
     results = []
     
-    if turns_remaining <= 0:
-        results.append({"message": Message("Color starts to reappear on your body!",
-                          libtcod.yellow)})
+    results.append({"invisible": turns_remaining})
+        
     return results
 
 def tick_poison(turns_remaining):

@@ -629,6 +629,27 @@
     },
 
     {
+	"item_id": "make_invisible_wand",
+	"name": "wand of Make Invisible",
+	"color": [191, 239, 255],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_make_invisible",
+	"targeting": true,
+	"max_charges": 8,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to enchant it, or right-click to cancel.",
+		"color": [191, 239, 255]
+	    },
+	    "turns": 20
+	},
+	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
+	"classification": ["wand"]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],

@@ -437,3 +437,48 @@ def cast_detect_items(*args, **kwargs):
     results.append({'consumed': True})
 
     return results
+
+def cast_make_invisible(*args, **kwargs):
+    entities = kwargs.get('entities')
+    fov_map = kwargs.get('fov_map')
+    target_x = kwargs.get('target_x')
+    target_y = kwargs.get('target_y')
+    turns = kwargs.get('turns')
+
+    results = []
+
+    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+        results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
+        return results
+
+    for entity in entities:
+        if entity.x == target_x and entity.y == target_y and entity.fighter:
+            entity.fighter.effects.effects["invisible"] = Effect(True, turns, tick_invisible)
+            if not entity.ai:
+                results.append({'consumed': True,
+                                'message': Message('Light starts to pass through your body!',
+                                                   libtcod.green)})
+                break
+            else:
+                results.append({'consumed': True,
+                                'message': Message('The {0} disappears!'.format(entity.name),
+                                                   libtcod.yellow)})
+                break
+    else:
+        results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
+
+    return results
+
+"""
+def invisible(*args, **kwargs):
+    entity = args[0]
+turns = kwargs.get('turns')
+
+    results = []
+
+    entity.fighter.effects.effects["invisible"] = Effect(True, turns, tick_invisible)
+    results.append({'consumed': True,
+                    'message': Message('Light starts to pass through your body!',
+                                       libtcod.green)})
+    return results
+"""
