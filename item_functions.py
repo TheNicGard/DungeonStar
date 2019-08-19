@@ -468,17 +468,3 @@ def cast_make_invisible(*args, **kwargs):
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 
     return results
-
-"""
-def invisible(*args, **kwargs):
-    entity = args[0]
-turns = kwargs.get('turns')
-
-    results = []
-
-    entity.fighter.effects.effects["invisible"] = Effect(True, turns, tick_invisible)
-    results.append({'consumed': True,
-                    'message': Message('Light starts to pass through your body!',
-                                       libtcod.green)})
-    return results
-"""
