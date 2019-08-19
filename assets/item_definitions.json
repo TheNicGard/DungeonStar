@@ -301,6 +301,38 @@
     },
 
     {
+	"item_id": "detect_aura_scroll",
+	"name": "scroll of Detect Aura",
+	"color": [0, 127, 255],
+	"symbol": "?",
+	"weight": 5,
+	"use_function": "cast_detect_aura",
+	"targeting": false,
+	"positional": {
+	    "turns": 100
+	},
+	"spawn_rate": [[1, 2]],
+	"identified_on_use": true,
+	"classification": ["scroll"]
+    },
+
+    {
+	"item_id": "detect_items_scroll",
+	"name": "scroll of Detect Items",
+	"color": [127, 101, 63],
+	"symbol": "?",
+	"weight": 5,
+	"use_function": "cast_detect_items",
+	"targeting": false,
+	"positional": {
+	    "turns": 100
+	},
+	"spawn_rate": [[2, 1]],
+	"identified_on_use": true,
+	"classification": ["scroll"]
+    },
+    
+    {
 	"item_id": "mapping_scroll",
 	"name": "scroll of Mapping",
 	"color": [220, 220, 220],
