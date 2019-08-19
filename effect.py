@@ -23,6 +23,9 @@ class Effect:
         self.turns_remaining = turns_remaining
         self.turn_tick_function = turn_tick_function
 
+    def is_active(self):
+        return not self.temporary or self.turns_remaining > 0
+        
     def tick(self):
         results = []
         
@@ -57,3 +60,8 @@ def tick_regeneration(turns_remaining):
         
     return results
 
+def tick_detect_aura(turns_remaining):
+    return []
+
+def tick_detect_items(turns_remaining):
+    return []

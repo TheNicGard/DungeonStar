@@ -6,7 +6,7 @@ from rpg_mechanics import attack_success, get_modifier
 
 def is_invisible(target):
     invisible = target.fighter.effects.get("invisible")
-    return invisible and (not invisible.temporary or invisible.turns_remaining > 0)
+    return invisible and invisible.is_active()
     
 class BasicMonster:
     def __str__(self):
