@@ -301,6 +301,8 @@ def load_items():
                             effects["wisdom_boost"] = Effect(False, 0, None)
                         elif ef == "charisma_boost":
                             effects["charisma_boost"] = Effect(False, 0, None)
+                        elif ef == "see_invisible":
+                            effects["see_invisible"] = Effect(False, 0, None)
 
                         
                     if slot:

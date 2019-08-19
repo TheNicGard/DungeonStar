@@ -84,7 +84,10 @@ def render_status_panel(panel, x, y, width, height, player, game_state, entities
         libtcod.console_print_ex(panel, x + 1, height - 5, libtcod.BKGND_NONE, libtcod.LEFT,
                                  '({0}, {1})'.format(cursor.x, cursor.y))
 
-    entities_in_fov = entity_in_fov_list(entities, game_map, fov_map)
+    see_invisible = False
+    if player.fighter.get_effects().get("see_invisible"):
+        see_invisible = player.fighter.get_effects().get("see_invisible").is_active()
+    entities_in_fov = entity_in_fov_list(entities, game_map, fov_map, see_invisible)
     entities_in_fov.sort(key = lambda e: sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2))
     
     index = 0
@@ -127,7 +130,7 @@ def render_status_panel(panel, x, y, width, height, player, game_state, entities
 
     libtcod.console_set_default_background(panel, libtcod.black)
 
-def entity_in_fov_list(entities, game_map, fov_map):
+def entity_in_fov_list(entities, game_map, fov_map, see_invisible):
     entities_in_fov = []
     
     for entity in entities:
@@ -198,16 +201,19 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
 
     see_ai = False
     see_items = False
+    see_invisible = False
     if "detect_aura" in player.fighter.get_effects():
         see_ai = player.fighter.get_effects()["detect_aura"].is_active()
     if "detect_items" in player.fighter.get_effects():
         see_items = player.fighter.get_effects()["detect_items"].is_active()
+    if "see_invisible" in player.fighter.get_effects():
+        see_invisible = player.fighter.get_effects().get("see_invisible").is_active()
     
     for entity in entities_in_render_order:
         if entity.animation:
-            draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items)
+            draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
         else:
-            draw_entity(con, entity, fov_map, game_map, see_ai, see_items)
+            draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
 
     # CURSOR
     if game_state == GameStates.LOOK_AT:
@@ -351,11 +357,11 @@ def clear_all(con, entities, cursor):
         clear_entity(con, entity)
     clear_entity(con, cursor)
 
-def draw_entity(con, entity, fov_map, game_map, see_ai, see_items):
+def draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible):
     if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
         libtcod.console_set_default_foreground(con, entity.get_color)
-        if entity.fighter and entity.ai and entity.fighter.effects.get("invisible"):
-            if entity.fighter.effects.get("invisible").turns_remaining <= 0:
+        if entity.fighter and entity.ai:
+            if not ("invisible" in entity.fighter.get_effects() and entity.fighter.get_effects().get("invisible").is_active()) or see_invisible:
                 libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
         else:
             libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
@@ -366,11 +372,11 @@ def draw_entity(con, entity, fov_map, game_map, see_ai, see_items):
         libtcod.console_set_default_foreground(con, entity.get_color)
         libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
 
-def draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items):
+def draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible):
     if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
         libtcod.console_set_default_foreground(con, entity.animation.get_color)
-        if entity.fighter and entity.ai and entity.fighter.effects.get("invisible"):
-            if entity.fighter.effects.get("invisible").turns_remaining <= 0:
+        if entity.fighter and entity.ai:
+            if "invisible" in entity.fighter.get_effects() and entity.fighter.get_effects().get("invisible").is_active() and not see_invisible:
                 libtcod.console_put_char(con, entity.x, entity.y, entity.animation.get_char, libtcod.BKGND_NONE)
         else:
             libtcod.console_put_char(con, entity.x, entity.y, entity.animation.get_char, libtcod.BKGND_NONE)

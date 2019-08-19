@@ -1026,5 +1026,24 @@
 	"spawn_rate": [[1, 1]],
 	"identified_on_use": true,
 	"classification": ["ring"]
+    },
+
+    {
+	"item_id": "see_invisible_ring",
+	"name": "ring of See Invisible",
+	"color": [0, 191, 255],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "see_invisible"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
     }
 ]
