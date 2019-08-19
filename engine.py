@@ -328,17 +328,17 @@ def play_game(player, entities, game_map, turn, message_log,
 
         if level_up:
             if level_up == 'STR':
-                player.fighter.strength += 1
+                player.fighter.STR += 1
             if level_up == 'DEX':
-                player.fighter.dexterity += 1
+                player.fighter.DEX += 1
             if level_up == 'CON':
-                player.fighter.constitution += 1
+                player.fighter.CON += 1
             if level_up == 'INT':
-                player.fighter.intelligence += 1
+                player.fighter.INT += 1
             if level_up == 'WIS':
-                player.fighter.wisdom += 1
+                player.fighter.WIS += 1
             if level_up == 'CHA':
-                player.fighter.charisma += 1
+                player.fighter.CHA += 1
 
             game_state = previous_game_state
 
@@ -447,31 +447,31 @@ def play_game(player, entities, game_map, turn, message_log,
             # This needs to be separated to a new module
             if accept:            
                 if creation_menu_cursor.index[0] == len(creation_menu_cursor.max_index) - 1:
-                    player.fighter.strength = 8 + stat_diffs[0]
-                    player.fighter.dexterity = 8 + stat_diffs[1]
-                    player.fighter.constitution = 8 + stat_diffs[2]
-                    player.fighter.intelligence = 8 + stat_diffs[3]
-                    player.fighter.wisdom = 8 + stat_diffs[4]
-                    player.fighter.charisma = 8 + stat_diffs[5]
+                    player.fighter.STR = 8 + stat_diffs[0]
+                    player.fighter.DEX = 8 + stat_diffs[1]
+                    player.fighter.CON = 8 + stat_diffs[2]
+                    player.fighter.INT = 8 + stat_diffs[3]
+                    player.fighter.WIS = 8 + stat_diffs[4]
+                    player.fighter.CHA = 8 + stat_diffs[5]
 
                     if creation_menu_cursor.index[1] == 0:
-                        player.fighter.constitution += 2
-                        player.fighter.intelligence += 1
+                        player.fighter.CON += 2
+                        player.fighter.INT += 1
                     elif creation_menu_cursor.index[1] == 1:
-                        player.fighter.dexterity += 2
-                        player.fighter.wisdom += 1
+                        player.fighter.DEX += 2
+                        player.fighter.WIS += 1
                     elif creation_menu_cursor.index[1] == 2:
-                        player.fighter.strength += 2
-                        player.fighter.dexterity += 1
+                        player.fighter.STR += 2
+                        player.fighter.DEX += 1
                     elif creation_menu_cursor.index[1] == 3:
-                        player.fighter.charisma += 2
-                        player.fighter.constitution += 1
+                        player.fighter.CHA += 2
+                        player.fighter.CON += 1
                     elif creation_menu_cursor.index[1] == 4:
-                        player.fighter.wisdom += 2
-                        player.fighter.charisma += 1
+                        player.fighter.WIS += 2
+                        player.fighter.CHA += 1
                     elif creation_menu_cursor.index[1] == 5:
-                        player.fighter.intelligence += 2
-                        player.fighter.strength += 1
+                        player.fighter.INT += 2
+                        player.fighter.STR += 1
                     
                     player.fighter.heal(50)
                     # this needs to dynamic per character's strength

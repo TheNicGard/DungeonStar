@@ -856,7 +856,121 @@
 	"positional": {
 	    "dummy": "uuhhhhhh"
 	},
-	"spawn_rate": [[3, 1]],
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
+    },
+    
+    {
+	"item_id": "strength_boost_ring",
+	"name": "ring of Strength",
+	"color": [255, 0, 0],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "strength_boost"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
+    },
+
+    {
+	"item_id": "dexterity_boost_ring",
+	"name": "ring of Dexterity",
+	"color": [255, 127, 0],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "dexterity_boost"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
+    },
+
+    {
+	"item_id": "constitution_boost_ring",
+	"name": "ring of Constitution",
+	"color": [255, 255, 0],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "constitution_boost"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
+    },
+    
+    {
+	"item_id": "intelligence_boost_ring",
+	"name": "ring of Intelligence",
+	"color": [0, 255, 0],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "intelligence_boost"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
+    },
+
+    {
+	"item_id": "wisdom_boost_ring",
+	"name": "ring of Wisdom",
+	"color": [0, 0, 255],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "wisdom_boost"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
+    },
+
+    {
+	"item_id": "charisma_boost_ring",
+	"name": "ring of Charisma",
+	"color": [191, 0, 255],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "charisma_boost"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
 	"identified_on_use": true,
 	"classification": ["ring"]
     }
