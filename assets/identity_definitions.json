@@ -127,20 +127,53 @@
 	    "name": "mood ring",
 	    "color": [255, 70, 100]
 	},
-
 	{
 	    "name": "gold ring",
 	    "color": [229, 191, 0]
 	},
-
 	{
 	    "name": "silver ring",
 	    "color": [203, 203, 203]
 	},
-
 	{
 	    "name": "brass ring",
 	    "color": [140, 111, 50]
+	},
+	{
+	    "name": "paper ring",
+	    "color": [220, 220, 220]
+	},
+	{
+	    "name": "glass ring",
+	    "color": [0, 255, 255]
+	},
+	{
+	    "name": "ebony ring",
+	    "color": [40, 20, 40]
+	},
+	{
+	    "name": "crystal ring",
+	    "color": [0, 255, 220]
+	},
+	{
+	    "name": "diamond ring",
+	    "color": [166, 255, 255]
+	},
+	{
+	    "name": "ruby ring",
+	    "color": [191, 0, 0]
+	},
+	{
+	    "name": "sapphire ring",
+	    "color": [0, 0, 255]
+	},
+	{
+	    "name": "emerald ring",
+	    "color": [0, 191, 0]
+	},
+	{
+	    "name": "coral ring",
+	    "color": [255, 115, 149]
 	}
     ],
 
