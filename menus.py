@@ -210,7 +210,7 @@ def help_screen(help_screen_width, screen_width, screen_height):
         '            d   drop item',
         '            c   show character screen',
         '            >   descend stairs',
-        '            <   (not yet implemented)',
+        '            <   ascend stairs',
         '            ;   look at entity',
         "            x   butcher corpse (%)"
         "",
