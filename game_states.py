@@ -16,3 +16,4 @@ class GameStates(Enum):
     RESTING = 13
     IDENTIFY_INVENTORY = 14
     CHARGE_INVENTORY = 15
+    PLAYER_WIN = 16

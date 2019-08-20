@@ -569,9 +569,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 
             if dead_entity:
                 if dead_entity == player:
-                    message, game_state = kill_player(dead_entity)
-                    if player.inventory.gold_carried > highest_score:
-                        highest_score = player.inventory.gold_carried
+                    message, game_state, highest_score = kill_player(dead_entity, highest_score)
                 else:
                     message = kill_monster(dead_entity)
 
@@ -674,7 +672,7 @@ def play_game(player, entities, game_map, turn, message_log,
                             message_log.add_message(message)
                         if dead_entity:
                             if dead_entity == player:
-                                message, game_state = kill_player(dead_entity)
+                                message, game_state, highest_score = kill_player(dead_entity, highest_score)
                             else:
                                 message = kill_monster(dead_entity)
                             message_log.add_message(message)
@@ -742,7 +740,7 @@ def tick_turn(turn, player, entities, game_state, message_log):
                         dead_entity = death_result.get('dead')
                         if dead_entity:
                             if dead_entity == player:
-                                message, game_state = kill_player(e)
+                                message, game_state, highest_score = kill_player(e, highest_score)
                             else:
                                 message = kill_monster(e)
                             message_log.add_message(message)
@@ -762,6 +760,6 @@ def tick_turn(turn, player, entities, game_state, message_log):
         entities.remove(e)
                 
     return turn + 1, game_state
-                
+
 if __name__ == '__main__':
     main()
