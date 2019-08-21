@@ -1045,5 +1045,20 @@
 	"spawn_rate": [[1, 1]],
 	"identified_on_use": true,
 	"classification": ["ring"]
+    },
+
+    {
+	"item_id": "rock",
+	"name": "rock",
+	"color": [90, 90, 90],
+	"symbol": "*",
+	"weight": 2,
+	"targeting": false,
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[100, 1]],
+	"identified_on_use": true,
+	"classification": ["ammo"]
     }
 ]
