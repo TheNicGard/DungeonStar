@@ -382,7 +382,7 @@ class GameMap:
             self.place_entities(r, entities)
             rooms.append(r)
                 
-        stairs_component = Stairs(self.dungeon_level + 1)
+        stairs_component = Stairs(self.dungeon_level + 1, True)
         entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
         for e in entities_blocking_stairs:
             if e.id == "player":
