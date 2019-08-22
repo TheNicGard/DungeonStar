@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated August 13, 2019
+date: Last updated August 22, 2019
 ...
 \pagebreak
 # Introduction
@@ -51,6 +51,10 @@ As long as you aren't hungry, your health will heal automatically. There's almos
 Many items within the *The Depression* are foreign to surface-dwellers, and as such, the protagonist will almost certainly be unable to recognize them. The types of items that appear **unidentified** include potions, scrolls, wands, and rings. Most items will be identified upon use, but this isn't universally true. As such, magics exist that can identify the protagonist's items.
 
 The identity of each item is different every new game, so don't rely the identity of one item to be the same from a previous game (e.g. a Diet Dr. Fabulous may be a poison potion one game, but be a potion of cure poison the next game).
+
+## Wizard Mode
+
+Wizard mode is a debug mode meant to access difficult portions of the game without skill. Once initiated, you cannot exit wizard mode.
 
 # The Depression
 
@@ -111,3 +115,8 @@ The controls of **Dungeon Star** are ever-changing as new features are added, an
 * i - open inventory
 * d - drop item
 * c - show character screen
+
+## Other
+
+* Ctrl + f - toggle fullscreen
+* Ctrl + w - enter wizard mode
