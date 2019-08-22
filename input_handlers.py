@@ -66,6 +66,8 @@ def handle_player_turn_keys(key):
         return {'look_at': True}
     elif key_char == 'x':
         return {'butcher': True}
+    elif key_char == 'w' and key.lctrl:
+        return {'wizard_mode': True}
     
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}

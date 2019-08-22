@@ -198,6 +198,7 @@ def play_game(player, entities, game_map, turn, message_log,
         menu_selection = action.get("menu_selection")
         accept = action.get("accept")
         rest = action.get("rest")
+        wizard_mode = action.get("wizard_mode")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -255,6 +256,16 @@ def play_game(player, entities, game_map, turn, message_log,
                 player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
                 previous_game_state = game_state
                 game_state = GameStates.ENEMY_TURN
+
+            elif wizard_mode:
+                message_log.add_message(Message("Initiating wizard mode...", libtcod.red))
+                player.fighter.STR = 100
+                player.fighter.DEX = 100
+                player.fighter.CON = 100
+                player.fighter.INT = 100
+                player.fighter.WIS = 100
+                player.fighter.CHA = 100
+                player.fighter.heal(100)
 
             elif pickup:
                 pickup_results = []
