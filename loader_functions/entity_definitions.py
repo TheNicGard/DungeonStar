@@ -192,7 +192,7 @@ def load_monsters():
 def load_items():
     if not os.path.isfile(item_definitions):
         raise FileNotFoundError
-
+    
     item_function_names = [
         heal, cast_fireball, cast_lightning,
         cast_confuse, cast_stun, cast_sleep, regeneration,
