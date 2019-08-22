@@ -273,15 +273,38 @@ def play_game(player, entities, game_map, turn, message_log,
             elif descend_stairs:
                 for entity in entities:
                     if entity.stairs and entity.x == player.x and entity.y == player.y:
-                        entities = game_map.next_floor(player, message_log, constants)
-                        fov_map = initialize_fov(game_map)
-                        fov_recompute = True
-                        libtcod.console_clear(con)
-                        lowest_level = game_map.dungeon_level
-                        player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
-                        break
+                        if not entity.stairs.downwards:
+                            message_log.add_message(Message('These stairs go up!', libtcod.yellow))
+                        else:
+                            entities = game_map.next_floor(player, message_log, constants, True)
+                            fov_map = initialize_fov(game_map)
+                            fov_recompute = True
+                            libtcod.console_clear(con)
+                            lowest_level = game_map.dungeon_level
+                            player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
+                            break
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
+
+            elif ascend_stairs:
+                for entity in entities:
+                    if entity.stairs and entity.x == player.x and entity.y == player.y:
+                        if entity.stairs.downwards:
+                            message_log.add_message(Message('These stairs go down!', libtcod.yellow))
+                        else:
+                            if game_map.dungeon_level - 1 < 0:
+                                game_state = GameState.PLAYER_WIN
+                                break
+                            entities = game_map.next_floor(player, message_log, constants, False)
+                            fov_map = initialize_fov(game_map)
+                            fov_recompute = True
+                            libtcod.console_clear(con)
+                            lowest_level = game_map.dungeon_level
+                            player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
+                            break
+                else:
+                    message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
+                    
             elif butcher:
                 entities_in_loc = get_entities_at_location(entities, destination_x, destination_y)
                 for e in entities_in_loc:
@@ -298,6 +321,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         e.classification.remove("corpse")
                         e.classification.append("corpse_bits")
                         player.inventory.add_item(item)
+
             elif rest:
                 if player.fighter.hp == player.fighter.max_hp:
                     message_log.add_message(Message('You feel too awake to take a rest!', libtcod.yellow))
@@ -380,6 +404,9 @@ def play_game(player, entities, game_map, turn, message_log,
             elif right_click:
                 player_turn_results.append({'targeting_cancelled': True})
 
+        if game_state == GameStates.PLAYER_WIN:
+            pass
+                
         if game_state == GameStates.LOOK_AT:
             if move:
                 dx, dy = move
@@ -691,11 +718,11 @@ def play_game(player, entities, game_map, turn, message_log,
                         break
             else:
                 old_game_state = game_state
-                turn, game_state = tick_turn(turn, player, entities, game_state, message_log)
+                turn, game_state, highest_score = tick_turn(turn, player, entities, game_state, message_log, highest_score)
                 if game_state == old_game_state:
                     game_state = previous_game_state
 
-def tick_turn(turn, player, entities, game_state, message_log):
+def tick_turn(turn, player, entities, game_state, message_log, highest_score):
     expired = []
     expired_items = []
 
@@ -759,7 +786,7 @@ def tick_turn(turn, player, entities, game_state, message_log):
     for e in expired:
         entities.remove(e)
                 
-    return turn + 1, game_state
+    return turn + 1, game_state, highest_score
 
 if __name__ == '__main__':
     main()
