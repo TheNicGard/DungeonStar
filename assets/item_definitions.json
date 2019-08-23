@@ -650,6 +650,26 @@
     },
 
     {
+	"item_id": "death_wand",
+	"name": "wand of Death",
+	"color": [20, 20, 20],
+	"symbol": "/",
+	"weight": 10,
+	"use_function": "cast_death",
+	"targeting": true,
+	"max_charges": 2,
+	"positional": {
+	    "targeting_message": {
+		"message": "Left-click an enemy to target it, or right-click to cancel.",
+		"color": [96, 128, 0]
+	    }
+	},
+	"spawn_rate": [[1, 5]],
+	"identified_on_use": true,
+	"classification": ["wand"]
+    },
+
+    {
 	"item_id": "dagger",
 	"name": "dagger",
 	"color": [203, 203, 203],

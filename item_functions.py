@@ -378,6 +378,29 @@ def cast_force_bolt(*args, **kwargs):
 
     return results
 
+def cast_death(*args, **kwargs):
+    entities = kwargs.get('entities')
+    fov_map = kwargs.get('fov_map')
+    target_x = kwargs.get('target_x')
+    target_y = kwargs.get('target_y')
+
+    results = []
+
+    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+        results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
+        return results
+
+    for entity in entities:
+        if entity.x == target_x and entity.y == target_y and entity.ai:
+            damage = 9999
+            results.append({'consumed': True, 'message': Message('The {0} turns to dust!'.format(entity.name, damage), [143, 191, 0])})
+            results.extend(entity.fighter.take_damage(damage))
+            break
+    else:
+        results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
+
+    return results
+
 def cast_mapping(*args, **kwargs):
     game_map = kwargs.get('game_map')
 
