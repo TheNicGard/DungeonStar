@@ -1,6 +1,7 @@
 #!/usr/bin/python3 -Wignore
 import tcod as libtcod
 from components.animation import Animation
+from components.chargeable import Chargeable
 from components.food import Food
 from components.hunger import HungerType
 from components.item import Item
@@ -266,6 +267,11 @@ def play_game(player, entities, game_map, turn, message_log,
                 player.fighter.WIS = 100
                 player.fighter.CHA = 100
                 player.fighter.heal(100)
+
+                death_wand = get_item("death_wand", -1, -1)
+                death_wand.identity.identify()
+                death_wand.item.chargeable = Chargeable(9999, 9999)
+                player.inventory.add_item(death_wand)
 
             elif pickup:
                 pickup_results = []
