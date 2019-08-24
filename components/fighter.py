@@ -92,6 +92,10 @@ class Fighter:
             CHA += 1
         return CHA
 
+    def is_effect(self, effect_name):
+        ef = self.effects.get(effect_name)
+        return ef and ef.is_active()
+    
     def get_effects(self):
         effects = {}
         
