@@ -48,13 +48,23 @@ class Hunger:
     def tick(self, hunger_type):
         results = []
 
+        lost_saturation = 0
+        
         if hunger_type == HungerType.MOVE:
-            self.saturation -= self.movement_hunger
+            lost_saturation = self.movement_hunger
         elif hunger_type == HungerType.EXERT:
-            self.saturation -= self.exertion_hunger
+            lost_saturation = self.exertion_hunger
         elif hunger_type == HungerType.STATIC:
-            self.saturation -= self.static_hunger
+            lost_saturation = self.static_hunger
 
+        if self.owner and self.owner.fighter:
+            if self.owner.fighter.is_effect("fast_digestion"):
+                lost_saturation *= 2
+            elif self.owner.fighter.is_effect("slow_digestion"):
+                lost_saturation //= 2
+            
+        self.saturation -= lost_saturation
+            
         if self.saturation <= 0:
             results.append({"dead": self.owner})
         

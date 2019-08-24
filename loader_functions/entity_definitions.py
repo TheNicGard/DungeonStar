@@ -303,7 +303,10 @@ def load_items():
                             effects["charisma_boost"] = Effect(False, 0, None)
                         elif ef == "see_invisible":
                             effects["see_invisible"] = Effect(False, 0, None)
-
+                        elif ef == "slow_digestion":
+                            effects["slow_digestion"] = Effect(False, 0, None)
+                        elif ef == "fast_digestion":
+                            effects["fast_digestion"] = Effect(False, 0, None)
                         
                     if slot:
                         equipment_component = Equippable(slot, hit_dice=hit_dice,
