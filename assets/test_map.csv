@@ -7,31 +7,31 @@
 |||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall||||||
 |||||||||||||||||||||||||wall|mre|mre|mre|mre|mre|window||||||window|strength_boost_ring|dexterity_boost_ring|constitution_boost_ring||fast_digestion_ring|wall||||||wall||||||
 |||||||||||||||||||||||||wall||||||window||||||window|intelligence_boost_ring|wisdom_boost_ring|charisma_boost_ring||slow_digestion_ring|wall||||||wall||||||
-|||||||||||||||||||||||||wall||||||door|sign: Food|||||window||||||wall||||||wall||||||
+|||||||||||||||||||||||||wall||||||glass_door|sign: Food|||||window||||||wall||||||wall||||||
 |||||||||||||||||||||||||wall||||||window||||||window||||||wall||||||wall||||||
 |||||||||||||||||||||||||wall|bento|bento|bento|bento|bento|window||||||window||||see_invisible_ring|resist_poison_ring|wall||||||wall||||||
-|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|window||||||window|window|window|door|window|window|wall||||||wall||||window|window|window
-|||||||||||||||||||||||||wall|healing_potion|super_healing_potion|invisibility_potion|poison_potion|cure_poison_potion|window|||||||||sign: Rings|||||||||wall|||sign: Rat|door|rat|window
+|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|window||||||window|window|window|glass_door|window|window|wall||||||wall||||window|window|window
+|||||||||||||||||||||||||wall|healing_potion|super_healing_potion|invisibility_potion|poison_potion|cure_poison_potion|window|||||||||sign: Rings|||||||||wall|||sign: Rat|glass_door|rat|window
 |||||||||||||||||||||||||wall|regeneration_potion|||||window||||||||||||||||||wall||||window|window|window
-|||||||||||||||||||||||||wall||||||door|sign: Potions|||||||||||||||||wall|||sign: Snake|door|snake|window
+|||||||||||||||||||||||||wall||||||glass_door|sign: Potions|||||||||||||||||wall|||sign: Snake|glass_door|snake|window
 |||||||||||||||||||||||||wall||||||window||||||||||||||||||wall||||window|window|window
-|||||||||||||||||||||||||wall|||healing_potion|healing_potion|healing_potion|window||||||||||||||||||wall|||sign: Wolf|door|wolf|window
+|||||||||||||||||||||||||wall|||healing_potion|healing_potion|healing_potion|window||||||||||||||||||wall|||sign: Wolf|glass_door|wolf|window
 |||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|window||||||wall|wall|wall|door|wall|wall|wall||||||wall||||window|window|window
-|||||||||||||||||||||||||wall|fireball_scroll|lightning_scroll|confuse_scroll|stun_scroll|sleep_scroll|window||||||wall|||||dummy|wall||||||wall|||sign: Goblin|door|goblin|window
+|||||||||||||||||||||||||wall|fireball_scroll|lightning_scroll|confuse_scroll|stun_scroll|sleep_scroll|window||||||wall|||||dummy|wall||||||wall|||sign: Goblin|glass_door|goblin|window
 |||||||||||||||||||||||||wall|greed_scroll|detect_traps_scroll|random_teleportation_scroll|blink_scroll|pacify_scroll|window||||||wall||||||wall||||||wall||||window|window|window
-|||||||||||||||||||||||||door|mapping_scroll|identify_scroll|charge_scroll|detect_aura_scroll|detect_items_scroll|door|sign: Scrolls|||||door||||||||||||door|||sign: Thot|door|thot|window
+|||||||||||||||||||||||||door|mapping_scroll|identify_scroll|charge_scroll|detect_aura_scroll|detect_items_scroll|glass_door|sign: Scrolls|||||door||||||||||||door|||sign: Thot|glass_door|thot|window
 |||||||||||||||||||||||||wall||||||window||||||wall||||||wall||||||wall||||window|window|window
-|||||||||||||||||||||||||wall||||||window||||||wall|||dungeon_star|||wall||||||wall|||sign: Mega Thot|door|mega_thot|window
+|||||||||||||||||||||||||wall||||||window||||||wall|||dungeon_star|||wall||||||wall|||sign: Mega Thot|glass_door|mega_thot|window
 |||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|window||||||wall|wall|wall|door|wall|wall|wall||||||wall||||window|window|window
-|||||||||||||||||||||||||wall|dagger|dagger|dagger|shortsword|longsword|window||||||||||||||||||wall|||sign: Red Dragon|door|red_dragon|window
+|||||||||||||||||||||||||wall|dagger|dagger|dagger|shortsword|longsword|window||||||||||||||||||wall|||sign: Red Dragon|glass_door|red_dragon|window
 |||||||||||||||||||||||||wall||||||window||||||||||||||||||wall||||window|window|window
-|||||||||||||||||||||||||wall||||||door|sign: Weapons|||||||||||||||||wall|||sign: Jelly|door|jelly|window
+|||||||||||||||||||||||||wall||||||glass_door|sign: Weapons|||||||||||||||||wall|||sign: Jelly|glass_door|jelly|window
 |||||||||||||||||||||||||wall||||||window||||||||||||||||||wall||||window|window|window
-|||||||||||||||||||||||||wall||||||window|||||||||sign: Wands|||||||||wall|||sign: Mother Dough|door|mother_dough|window
-|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|window||||||window|window|window|door|window|window|wall||||||wall||||window|window|window
+|||||||||||||||||||||||||wall||||||window|||||||||sign: Wands|||||||||wall|||sign: Mother Dough|glass_door|mother_dough|window
+|||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|window||||||window|window|window|glass_door|window|window|wall||||||wall||||window|window|window
 |||||||||||||||||||||||||wall|buckler|shield|tower_shield|||window||||||window|fireball_wand|lightning_wand|confuse_wand|stun_wand|sleep_wand|wall||||||wall||||||
 |||||||||||||||||||||||||wall|leather_helmet|leather_armor||||window||||||window|greed_wand|detect_traps_wand|random_teleportation_wand|blink_wand|pacify_wand|wall||||||wall||||||
-|||||||||||||||||||||||||wall||||||door|sign: Armor|||||window|striking_wand|identify_wand|make_invisible_wand|death_wand||wall||||||wall||||||
+|||||||||||||||||||||||||wall||||||glass_door|sign: Armor|||||window|striking_wand|identify_wand|make_invisible_wand|death_wand||wall||||||wall||||||
 |||||||||||||||||||||||||wall||||||window||||||window||||||wall||||||wall||||||
 |||||||||||||||||||||||||wall||||||window||||||window||||||wall||||||wall||||||
 |||||||||||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall||||||
