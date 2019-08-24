@@ -38,20 +38,24 @@ class GameMap:
         return False
 
     def place_entities(self, room, entities):
-        max_monsters_per_room = from_dungeon_level([[2, 1], [3, 10], [5, 20]], self.dungeon_level)
+        max_monsters_per_room = from_dungeon_level([[2, 1], [3, 15], [4, 20]], self.dungeon_level)
         max_items_per_room = from_dungeon_level([[1, 1]], self.dungeon_level)
         max_traps_per_room = from_dungeon_level([[1, 1], [2, 5]], self.dungeon_level)
-        # update later to have traps per floor
+        # update later to have traps per floor instead
+
+        chance_to_spawn_monsters = 0.33
+        chance_to_spawn_items = 0.33
         
-        number_of_monsters = randint(0, max_monsters_per_room)
-        number_of_items = randint(0, max_items_per_room)
-        number_of_traps = randint(0, max_traps_per_room)
+        number_of_monsters = randint(1, max_monsters_per_room)
+        number_of_items = randint(1, max_items_per_room)
+        number_of_traps = randint(1, max_traps_per_room)
         amount_of_gold = randint(0, 20 + (10 * self.dungeon_level)) + 2
-        gold_passes = choice([
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 1, 1, 2
-            # 1/16 for 2 piles, 1/8 for 1 pile, 13/16 for no gold
-        ])
+        
+        gold_passes = 0
+        if random() < 0.02:
+            gold_passes = 2
+        elif random() < 0.12:
+            gold_passes = 1
 
         monster_chances = {}
         for key, value in monster_defs.items():
@@ -60,26 +64,28 @@ class GameMap:
         item_chances = {}
         for key, value in item_defs.items():
             item_chances[key] = from_dungeon_level(value.spawn_rate, self.dungeon_level)
-        
-        for i in range(number_of_monsters):
-            x = randint(room.x1 + 1, room.x2 - 1)
-            y = randint(room.y1 + 1, room.y2 - 1)
 
-            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                if not self.is_blocked(x, y):
-                    monster_choice = random_choice_from_dict(monster_chances)
-                    monster = get_monster(monster_choice, x, y)
-                    entities.append(monster)
-        
-        for i in range(number_of_items):
-            x = randint(room.x1 + 1, room.x2 - 1)
-            y = randint(room.y1 + 1, room.y2 - 1)
+        if random() < chance_to_spawn_monsters:
+            for i in range(number_of_monsters):
+                x = randint(room.x1 + 1, room.x2 - 1)
+                y = randint(room.y1 + 1, room.y2 - 1)
 
-            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                if not self.is_blocked(x, y):
-                    item_choice = random_choice_from_dict(item_chances)
-                    item = get_item(item_choice, x, y)
-                    entities.append(item)
+                if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+                    if not self.is_blocked(x, y):
+                        monster_choice = random_choice_from_dict(monster_chances)
+                        monster = get_monster(monster_choice, x, y)
+                        entities.append(monster)
+
+        if random() < chance_to_spawn_items:
+            for i in range(number_of_items):
+                x = randint(room.x1 + 1, room.x2 - 1)
+                y = randint(room.y1 + 1, room.y2 - 1)
+
+                if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+                    if not self.is_blocked(x, y):
+                        item_choice = random_choice_from_dict(item_chances)
+                        item = get_item(item_choice, x, y)
+                        entities.append(item)
 
         for i in range(number_of_traps):
             x = randint(room.x1 + 1, room.x2 - 1)
