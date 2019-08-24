@@ -3,10 +3,6 @@ from entity import get_blocking_entities_at_location, get_entities_at_location
 from game_messages import Message
 from random import randint, random
 from rpg_mechanics import attack_success, get_modifier
-
-def is_invisible(target):
-    invisible = target.fighter.effects.get("invisible")
-    return invisible and invisible.is_active()
     
 class BasicMonster:
     def __str__(self):
@@ -18,7 +14,7 @@ class BasicMonster:
         monster = self.owner
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
             if monster.distance_to(target) >= 2:
-                if is_invisible(target):
+                if target.fighter.is_effect("invisible"):
                     random_x = self.owner.x + randint(0, 2) - 1
                     random_y = self.owner.y + randint(0, 2) - 1
                     if random_x != self.owner.x and random_y != self.owner.y:
@@ -60,7 +56,7 @@ class AggressiveMonster:
             self.seeking = True
             self.current_patience = self.max_patience
             if monster.distance_to(target) >= 2:
-                if is_invisible(target):
+                if target.fighter.is_effect("invisible"):
                     random_x = self.owner.x + randint(0, 2) - 1
                     random_y = self.owner.y + randint(0, 2) - 1
                     if random_x != self.owner.x and random_y != self.owner.y:
@@ -184,7 +180,7 @@ class StaticMonster:
         
         monster = self.owner
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
-            if is_invisible(target):
+            if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
                 
@@ -222,7 +218,7 @@ class MotherDoughAI(StaticMonster):
             self.turns_to_spawn -= 1
                         
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
-            if is_invisible(target):
+            if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
                 
@@ -268,7 +264,7 @@ class SourdoughAI(StaticMonster):
             self.turns_to_spawn -= 1
                         
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
-            if is_invisible(target):
+            if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
                 
