@@ -181,6 +181,14 @@ class GameMap:
                                       door=door_component)
                         door.door.close_door(self.tiles[data_x][data_y])
                         entities.append(door)
+                    elif piece == "glass_door":
+                        self.tiles[data_x][data_y].window = True
+                        door_component = Door(False, DoorPosition.VERTICAL, True)
+                        door = Entity("door", data_x, data_y, "+", libtcod.dark_blue,
+                                             'Door', blocks=True, render_order=RenderOrder.DOOR,
+                                      door=door_component)
+                        door.door.close_door(self.tiles[data_x][data_y])
+                        entities.append(door)
                     elif piece == "trap":
                         trap_component = Trap()
                         trap = Entity("trap", data_x, data_y, " ", libtcod.red,
