@@ -53,42 +53,42 @@ class Fighter:
     @property
     def strength(self):
         STR = self.STR
-        if "strength_boost" in self.get_effects():
+        if self.is_effect("strength_boost"):
             STR += 1
         return STR
 
     @property
     def dexterity(self):
         DEX = self.DEX
-        if "dexterity_boost" in self.get_effects():
+        if self.is_effect("dexterity_boost"):
             DEX += 1
         return DEX
 
     @property
     def constitution(self):
         CON = self.CON
-        if "constitution_boost" in self.get_effects():
+        if self.is_effect("constitution_boost"):
             CON += 1
         return CON
 
     @property
     def intelligence(self):
         INT = self.INT
-        if "intelligence_boost" in self.get_effects():
+        if self.is_effect("intelligence_boost"):
             INT += 1
         return INT
 
     @property
     def wisdom(self):
         WIS = self.WIS
-        if "wisdom_boost" in self.get_effects():
+        if self.is_effect("wisdom_boost"):
             WIS += 1
         return WIS
 
     @property
     def charisma(self):
         CHA = self.CHA
-        if "charisma_boost" in self.get_effects():
+        if self.is_effect("charisma_boost"):
             CHA += 1
         return CHA
 

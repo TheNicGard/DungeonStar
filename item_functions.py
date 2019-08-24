@@ -29,7 +29,7 @@ def poison(*args, **kwargs):
     results = []
 
     # TODO: change this to be a general roll later
-    if attack_success(get_modifier(entity.fighter.constitution), 10) or "poison_resistance" in entity.fighter.get_effects().keys():
+    if attack_success(get_modifier(entity.fighter.constitution), 10) or entity.fighter.is_effect("poison_resistance"):
         results.append({"consumed": True, "message": Message(
             'You resisted the poison!', libtcod.green)})
     else:
