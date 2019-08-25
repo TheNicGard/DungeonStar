@@ -525,12 +525,15 @@ def play_game(player, entities, game_map, turn, message_log,
                         shield = get_item("tower_shield", -1, -1)
                         player.inventory.add_item(shield)
                         player.equipment.toggle_equip(shield)
-                    # love: pacify wand
+                    # love: pacify wand and escape scrolls
                     elif creation_menu_cursor.index[1] == 1:
-                        pacify_wand = get_item("pacify_wand", -1, -1)
-                        pacify_wand.identity.identify()
-                        pacify_wand.item.chargeable.recharge(20)
-                        player.inventory.add_item(pacify_wand)
+                         pacify_wand = get_item("pacify_wand", -1, -1)
+                         escape_scrolls = get_item("escape_scroll", -1, -1, 3)
+                         pacify_wand.identity.identify()
+                         escape_scrolls.identity.identify()
+                         pacify_wand.item.chargeable.recharge(20)
+                         player.inventory.add_item(pacify_wand)
+                         player.inventory.add_item(escape_scrolls)
                     # peace: +2 dagger and wand of striking
                     elif creation_menu_cursor.index[1] == 2:
                         dagger.equippable.enchantment = 2
@@ -580,7 +583,11 @@ def play_game(player, entities, game_map, turn, message_log,
                     creation_menu_cursor.index[0] += 1
                     creation_menu_cursor.index[1] = 0
 
-        for player_turn_result in player_turn_results:
+        i = 0
+        while i < len(player_turn_results):
+        #for player_turn_result in player_turn_results:
+            player_turn_result = player_turn_results[i]
+            
             message = player_turn_result.get('message')
             dead_entity = player_turn_result.get('dead')
             item_added = player_turn_result.get('item_added')
@@ -701,6 +708,12 @@ def play_game(player, entities, game_map, turn, message_log,
                 fov_recompute = True
                 libtcod.console_clear(con)
                 game.lowest_level = game_map.dungeon_level
+
+                message_log.add_message(Message('You fall to the floor below!',
+                                                libtcod.yellow))
+                player_turn_results.extend(player.fighter.take_damage(player.fighter.max_hp // 5))
+
+            i += 1
                     
         if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
             for entity in entities:

@@ -239,10 +239,7 @@ class GameMap:
             player.fighter.heal(player.fighter.max_hp // 5)
             message_log.add_message(Message('You take a moment to rest, and recover your strength.',
                                             libtcod.light_violet))
-        else:
-            player.fighter.take_damage(player.fighter.max_hp // 5)
-            message_log.add_message(Message('You fall to the floor below!',
-                                            libtcod.yellow))
+            
         return entities
     
     def vline(self, x, y1, y2):
