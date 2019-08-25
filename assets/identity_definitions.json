@@ -63,6 +63,10 @@
 	{
 	    "name": "AURAS scroll",
 	    "color": [0, 127, 255]
+	},
+	{
+	    "name": "FUGA scroll",
+	    "color": [0, 255, 0]
 	}
     ],
 

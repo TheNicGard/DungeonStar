@@ -220,7 +220,7 @@ class GameMap:
                         monster = get_monster(piece, data_x, data_y)
                         entities.append(monster)
         
-    def next_floor(self, player, message_log, constants, downwards):
+    def next_floor(self, player, message_log, constants, downwards, took_stairs=True):
         if downwards:
             self.dungeon_level += 1
         else:
@@ -235,9 +235,14 @@ class GameMap:
         self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],
                       constants['map_width'], constants['map_height'], player, entities)
 
-        player.fighter.heal(player.fighter.max_hp // 5)
-        message_log.add_message(Message('You take a moment to rest, and recover your strength.',
-                                        libtcod.light_violet))
+        if took_stairs:
+            player.fighter.heal(player.fighter.max_hp // 5)
+            message_log.add_message(Message('You take a moment to rest, and recover your strength.',
+                                            libtcod.light_violet))
+        else:
+            player.fighter.take_damage(player.fighter.max_hp // 5)
+            message_log.add_message(Message('You fall to the floor below!',
+                                            libtcod.yellow))
         return entities
     
     def vline(self, x, y1, y2):

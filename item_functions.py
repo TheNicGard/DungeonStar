@@ -491,3 +491,13 @@ def cast_make_invisible(*args, **kwargs):
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
 
     return results
+
+def cast_downwards_exit(*args, **kwargs):
+    caster = args[0]
+    game_map = kwargs.get('game_map')
+    
+    results = []
+
+    results.append({'consumed': True, "downwards_exit": True})
+
+    return results

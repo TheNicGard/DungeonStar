@@ -45,10 +45,8 @@ def main():
     
     game = GameContainer(lowest_level=1, high_score=0,
                          stat_diffs=[0, 0, 0, 0, 0, 0], points_available=27)
-
-    turn = 1
-        
     game = load_game_data()
+    turn = 1        
     
     show_main_menu = True
     show_load_error_message = False
@@ -292,7 +290,7 @@ def play_game(player, entities, game_map, turn, message_log,
                             fov_map = initialize_fov(game_map)
                             fov_recompute = True
                             libtcod.console_clear(con)
-                            lowest_level = game_map.dungeon_level
+                            game.lowest_level = game_map.dungeon_level
                             player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                             break
                 else:
@@ -311,7 +309,6 @@ def play_game(player, entities, game_map, turn, message_log,
                             fov_map = initialize_fov(game_map)
                             fov_recompute = True
                             libtcod.console_clear(con)
-                            lowest_level = game_map.dungeon_level
                             player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                             break
                 else:
@@ -602,6 +599,7 @@ def play_game(player, entities, game_map, turn, message_log,
             teleport = player_turn_result.get("teleport")
             identify_menu = player_turn_result.get("identify_menu")
             charge_menu = player_turn_result.get("charge_menu")
+            downwards_exit = player_turn_result.get("downwards_exit")
 
             if message:
                 message_log.add_message(message)
@@ -696,6 +694,13 @@ def play_game(player, entities, game_map, turn, message_log,
             if charge_menu:
                 previous_game_state = game_state
                 game_state = GameStates.CHARGE_INVENTORY
+
+            if downwards_exit:
+                entities = game_map.next_floor(player, message_log, constants, True, False)
+                fov_map = initialize_fov(game_map)
+                fov_recompute = True
+                libtcod.console_clear(con)
+                game.lowest_level = game_map.dungeon_level
                     
         if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
             for entity in entities:
