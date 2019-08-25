@@ -114,7 +114,7 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
         
     menu(con, header, options, inventory_width, screen_width, screen_height)
 
-def main_menu(con, background_image, screen_width, screen_height, lowest_level, highest_score):
+def main_menu(con, background_image, screen_width, screen_height, game):
     libtcod.image_blit_2x(background_image, 0, 0, 0)
 
     libtcod.console_set_default_foreground(0, libtcod.light_yellow)
@@ -122,9 +122,9 @@ def main_menu(con, background_image, screen_width, screen_height, lowest_level, 
                              libtcod.BKGND_NONE, libtcod.CENTER,
                              'Dungeon Star')
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 6),
-                             libtcod.BKGND_NONE, libtcod.CENTER, "Deepest level reached: Floor " + str(lowest_level))
+                             libtcod.BKGND_NONE, libtcod.CENTER, "Deepest level reached: Floor " + str(game.lowest_level))
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 5),
-                             libtcod.BKGND_NONE, libtcod.CENTER, "Largest hoard gained: " + str(highest_score) + " gold")
+                             libtcod.BKGND_NONE, libtcod.CENTER, "Largest hoard gained: " + str(game.high_score) + " gold")
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 2),
                              libtcod.BKGND_NONE, libtcod.CENTER, 'Nic Gard (C) 2019')
 

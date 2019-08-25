@@ -8,6 +8,7 @@ from components.item import Item
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location, Entity, get_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
+from game_container import GameContainer
 from game_messages import Message
 from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
@@ -38,21 +39,16 @@ def main():
     game_map = None
     message_log = None
     game_state = None
-    
-    global lowest_level
-    lowest_level = 1
-    global highest_score
-    highest_score = 0
-    global stat_diffs
-    stat_diffs = [0, 0, 0, 0, 0, 0]
-    global points_available
-    points_available = 27
-    global max_points_available
-    max_points_available = 27
-    
-    turn = 1
 
-    lowest_level, highest_score, stat_diffs, points_available = load_game_data()
+    global max_points_available
+    max_points_available= 27
+    
+    game = GameContainer(lowest_level=1, high_score=0,
+                         stat_diffs=[0, 0, 0, 0, 0, 0], points_available=27)
+
+    turn = 1
+        
+    game = load_game_data()
     
     show_main_menu = True
     show_load_error_message = False
@@ -67,7 +63,7 @@ def main():
 
         if show_main_menu:
             main_menu(con, main_menu_background_image, constants['screen_width'],
-                      constants['screen_height'], lowest_level, highest_score)
+                      constants['screen_height'], game)
 
             if show_load_error_message:
                 message_box(con, 'No save game to load',
@@ -103,7 +99,7 @@ def main():
                 player, entities, game_map, message_log, game_state, turn = get_test_map_variables(constants)
                 show_main_menu = False
             elif exit_game:
-                save_game_data(lowest_level, highest_score, stat_diffs, points_available)
+                save_game_data(game)
                 break
             
             if fullscreen:
@@ -111,11 +107,11 @@ def main():
 
         else:
             libtcod.console_clear(con)
-            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, status_screen, constants)
+            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, status_screen, constants, game)
             show_main_menu = True
 
 def play_game(player, entities, game_map, turn, message_log,
-              game_state, con, panel, status_screen, constants):
+              game_state, con, panel, status_screen, constants, game):
     key_cursor = Entity("cursor", player.x, player.y, chr(0), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=['X', ' '], speed=0.2))
 
@@ -147,9 +143,6 @@ def play_game(player, entities, game_map, turn, message_log,
     # the arts   provides +2 WIS, +1 CHA
     # the stars  provides +2 INT, +1 STR
 
-    global lowest_level
-    global highest_score
-    global points_available
     global max_points_available
     
     while not libtcod.console_is_window_closed():
@@ -161,8 +154,10 @@ def play_game(player, entities, game_map, turn, message_log,
                           constants['fov_algorithm'])
 
         if game_state == GameStates.CHARACTER_CREATION:
-            render_character_creation(con, panel, constants['screen_width'], constants['screen_height'],
-                                      creation_menu_cursor, stat_diffs, points_available, stat_boosts, p)
+            render_character_creation(con, panel, constants['screen_width'],
+                                      constants['screen_height'], creation_menu_cursor,
+                                      game.stat_diffs, game.points_available,
+                                      stat_boosts, p)
             libtcod.console_flush()
         else:
             render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
@@ -445,7 +440,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 player_turn_results.append({'targeting_cancelled': True})
             else:
                 save_game(player, entities, game_map, message_log, game_state, turn)
-                save_game_data(lowest_level, highest_score, stat_diffs, points_available)
+                save_game_data(game)
                 return True
         
         if fullscreen:
@@ -475,28 +470,28 @@ def play_game(player, entities, game_map, turn, message_log,
                     creation_menu_cursor.index[1] = 0
 
             if increase and creation_menu_cursor.index[0] == 0:
-                cost = 7 - (stat_diffs[creation_menu_cursor.index[1]] + 8)
+                cost = 7 - (game.stat_diffs[creation_menu_cursor.index[1]] + 8)
 
-                if points_available + cost >= 0:
-                    points_available += cost
-                    stat_diffs[creation_menu_cursor.index[1]] += 1
+                if game.points_available + cost >= 0:
+                    game.points_available += cost
+                    game.stat_diffs[creation_menu_cursor.index[1]] += 1
 
             if decrease and creation_menu_cursor.index[0] == 0:
-                cost = stat_diffs[creation_menu_cursor.index[1]]
+                cost = game.stat_diffs[creation_menu_cursor.index[1]]
 
-                if points_available + cost <= max_points_available and stat_diffs[creation_menu_cursor.index[1]] > 0:    
-                    points_available += cost
-                    stat_diffs[creation_menu_cursor.index[1]] -= 1
+                if game.points_available + cost <= max_points_available and game.stat_diffs[creation_menu_cursor.index[1]] > 0:    
+                    game.points_available += cost
+                    game.stat_diffs[creation_menu_cursor.index[1]] -= 1
 
             # This needs to be separated to a new module
             if accept:            
                 if creation_menu_cursor.index[0] == len(creation_menu_cursor.max_index) - 1:
-                    player.fighter.STR = 8 + stat_diffs[0]
-                    player.fighter.DEX = 8 + stat_diffs[1]
-                    player.fighter.CON = 8 + stat_diffs[2]
-                    player.fighter.INT = 8 + stat_diffs[3]
-                    player.fighter.WIS = 8 + stat_diffs[4]
-                    player.fighter.CHA = 8 + stat_diffs[5]
+                    player.fighter.STR = 8 + game.stat_diffs[0]
+                    player.fighter.DEX = 8 + game.stat_diffs[1]
+                    player.fighter.CON = 8 + game.stat_diffs[2]
+                    player.fighter.INT = 8 + game.stat_diffs[3]
+                    player.fighter.WIS = 8 + game.stat_diffs[4]
+                    player.fighter.CHA = 8 + game.stat_diffs[5]
 
                     if creation_menu_cursor.index[1] == 0:
                         player.fighter.CON += 2
@@ -613,7 +608,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 
             if dead_entity:
                 if dead_entity == player:
-                    message, game_state, highest_score = kill_player(dead_entity, highest_score)
+                    message, game_state = kill_player(dead_entity, game)
                 else:
                     message = kill_monster(dead_entity)
 
@@ -716,7 +711,7 @@ def play_game(player, entities, game_map, turn, message_log,
                             message_log.add_message(message)
                         if dead_entity:
                             if dead_entity == player:
-                                message, game_state, highest_score = kill_player(dead_entity, highest_score)
+                                message, game_state = kill_player(dead_entity, game)
                             else:
                                 message = kill_monster(dead_entity)
                             message_log.add_message(message)
@@ -735,11 +730,11 @@ def play_game(player, entities, game_map, turn, message_log,
                         break
             else:
                 old_game_state = game_state
-                turn, game_state, highest_score = tick_turn(turn, player, entities, game_state, message_log, highest_score)
+                turn, game_state = tick_turn(turn, player, entities, game_state, message_log, game)
                 if game_state == old_game_state:
                     game_state = previous_game_state
 
-def tick_turn(turn, player, entities, game_state, message_log, highest_score):
+def tick_turn(turn, player, entities, game_state, message_log, game):
     expired = []
     expired_items = []
 
@@ -784,7 +779,7 @@ def tick_turn(turn, player, entities, game_state, message_log, highest_score):
                         dead_entity = death_result.get('dead')
                         if dead_entity:
                             if dead_entity == player:
-                                message, game_state, highest_score = kill_player(e, highest_score)
+                                message, game_state = kill_player(e, game)
                             else:
                                 message = kill_monster(e)
                             message_log.add_message(message)
@@ -803,7 +798,7 @@ def tick_turn(turn, player, entities, game_state, message_log, highest_score):
     for e in expired:
         entities.remove(e)
                 
-    return turn + 1, game_state, highest_score
+    return turn + 1, game_state
 
 if __name__ == '__main__':
     main()

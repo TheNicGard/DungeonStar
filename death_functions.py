@@ -6,18 +6,17 @@ from item_functions import heal
 from random import random
 from render_functions import RenderOrder
 
-def kill_player(player, highest_score):
+def kill_player(player, game):
     player.char = '%'
     player.color = libtcod.dark_red
-    new_high_score = highest_score
-    if player.inventory.gold_carried > highest_score:
-    
+    new_high_score = game.high_score
+    if player.inventory.gold_carried > game.high_score:
         new_high_score = player.inventory.gold_carried
 
-    print("Old high score: {0}. New high score: {1}.".format(highest_score, new_high_score))
+    game.high_score = new_high_score
 
     return Message('You died with {0} gold!'.format(player.inventory.gold_carried),
-                   libtcod.red), GameStates.PLAYER_DEAD, new_high_score
+                   libtcod.red), GameStates.PLAYER_DEAD
 
 def kill_monster(monster):
     death_message = Message('{0} is dead!'.format(monster.name.capitalize()), libtcod.orange)

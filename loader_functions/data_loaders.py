@@ -2,6 +2,8 @@ import csv
 import os
 import shelve
 
+from game_container import GameContainer
+
 savegame_filename = "savegame.dat"
 test_map_filename = "assets/test_map.csv"
 tutorial_map_filename = "assets/tutorial_map.csv"
@@ -52,21 +54,23 @@ def load_game_data():
     if not os.path.isfile(high_scores_filename):
         with shelve.open(high_scores_filename, 'n') as data_file:
             data_file['lowest_level'] = 1
-            data_file['highest_score'] = 0
+            data_file['high_score'] = 0
             data_file['stat_diffs'] = [0, 0, 0, 0, 0, 0]
             data_file['points_available'] = 27
-            return 1, 0, [0, 0, 0, 0, 0, 0], 27
+            return GameContainer(lowest_level=1, high_score=0,
+                                 stat_diffs=[0, 0, 0, 0, 0, 0], points_available=27)
     else:
         with shelve.open(high_scores_filename, 'r') as data_file:
             lowest_level = data_file['lowest_level']
-            highest_score = data_file['highest_score']
+            high_score = data_file['high_score']
             stat_diffs = data_file['stat_diffs']
             points_available = data_file['points_available']
-            return lowest_level, highest_score, stat_diffs, points_available
+            return GameContainer(lowest_level=lowest_level, high_score=high_score,
+                                 stat_diffs=stat_diffs, points_available=points_available)
 
-def save_game_data(lowest_level, highest_score, stat_diffs, points_available):
+def save_game_data(game):
     with shelve.open(high_scores_filename, 'n') as data_file:
-        data_file['lowest_level'] = lowest_level
-        data_file['highest_score'] = highest_score
-        data_file['stat_diffs'] = stat_diffs
-        data_file['points_available'] = points_available
+        data_file['lowest_level'] = game.lowest_level
+        data_file['high_score'] = game.high_score
+        data_file['stat_diffs'] = game.stat_diffs
+        data_file['points_available'] = game.points_available
