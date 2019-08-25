@@ -25,8 +25,7 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
-        self.lowest_level = 20
-        self.reached_bottom = False
+        self.lowest_level = 50
         
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
@@ -225,9 +224,6 @@ class GameMap:
             self.dungeon_level += 1
         else:
             self.dungeon_level -= 1
-
-        if self.dungeon_level == self.lowest_level:
-            self.reached_bottom = True
         
         entities = [player]
 
@@ -422,14 +418,10 @@ class GameMap:
                             e.move_towards(random_x, random_y, game_map, entities)
             else:
                 entities.remove(e)
-        if not self.reached_bottom:
-            stairs_component = Stairs(self.dungeon_level + 1, True)
-            stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31,
-                                 libtcod.white, 'Stairs (downwards)', render_order=RenderOrder.STAIRS,
-                                 stairs=stairs_component)
-        else:
-            stairs_component = Stairs(self.dungeon_level + 1, False)
-            stairs = Entity("up_stairs", center_of_last_room_x, center_of_last_room_y, 30,
-                                 libtcod.white, 'Stairs (upwards)', render_order=RenderOrder.STAIRS,
-                                 stairs=stairs_component)
+                
+        stairs_component = Stairs(self.dungeon_level + 1, True)
+        stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31,
+                        libtcod.white, 'Stairs (downwards)', render_order=RenderOrder.STAIRS,
+                        stairs=stairs_component)
+
         entities.append(stairs)
