@@ -25,7 +25,10 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
-        self.lowest_level = 50
+        self.lowest_level = 64
+
+        self.dungeon_star_level = 48
+        self.spawned_dungeon_star = False
         
     def initialize_tiles(self):
         tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
@@ -43,13 +46,13 @@ class GameMap:
         # update later to have traps per floor instead
 
         chance_to_spawn_monsters = 0.33
-        chance_to_spawn_items = 0.33
+        chance_to_spawn_items = 0.40
         
         number_of_monsters = randint(1, max_monsters_per_room)
         number_of_items = randint(1, max_items_per_room)
         number_of_traps = randint(1, max_traps_per_room)
         amount_of_gold = randint(0, 20 + (10 * self.dungeon_level)) + 2
-        
+
         gold_passes = 0
         if random() < 0.02:
             gold_passes = 2
@@ -81,10 +84,15 @@ class GameMap:
                 y = randint(room.y1 + 1, room.y2 - 1)
 
                 if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                    if not self.is_blocked(x, y):
-                        item_choice = random_choice_from_dict(item_chances)
-                        item = get_item(item_choice, x, y)
-                        entities.append(item)
+                    if not self.is_blocked(x, y):                        
+                        if self.dungeon_level == self.dungeon_star_level and not self.spawned_dungeon_star:
+                            self.spawned_dungeon_star = True
+                            dungeon_star = get_item("dungeon_star", x, y)
+                            entities.append(dungeon_star)
+                        else:
+                            item_choice = random_choice_from_dict(item_chances)
+                            item = get_item(item_choice, x, y)
+                            entities.append(item)
 
         for i in range(number_of_traps):
             x = randint(room.x1 + 1, room.x2 - 1)
