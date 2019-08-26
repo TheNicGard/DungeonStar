@@ -103,6 +103,11 @@ class GameMap:
                         trap = Entity("trap", x, y, " ", libtcod.dark_fuchsia,
                                       'Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
+                    elif trap_chance < .15:
+                        trap_component = Trap(hole_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.darker_green,
+                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
                     else:
                         trap_component = Trap()
                         trap = Entity("trap", x, y, " ", libtcod.red,
