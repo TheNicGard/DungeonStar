@@ -68,3 +68,10 @@ def teleport_trap(target, **kwargs):
             break
 
     return results
+
+def hole_trap(target, **kwargs):
+    results = []
+
+    results.append({'consumed': True, "downwards_exit": True})
+
+    return results

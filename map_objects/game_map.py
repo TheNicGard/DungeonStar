@@ -7,7 +7,7 @@ from components.equippable import Equippable
 from components.identity import Identity
 from components.sign import Sign
 from components.stairs import Stairs
-from components.trap import Trap, poison_trap, teleport_trap
+from components.trap import Trap, poison_trap, teleport_trap, hole_trap
 from components.valuable import Valuable
 from entity import Entity, get_entities_at_location
 from game_messages import Message
@@ -203,13 +203,19 @@ class GameMap:
                     elif piece == "poison_trap":
                         trap_component = Trap(poison_trap)
                         trap = Entity("trap", data_x, data_y, " ", libtcod.dark_lime,
-                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      'Poison Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                         entities.append(trap)
                     elif piece == "teleport_trap":
                         trap_component = Trap(teleport_trap)
                         trap = Entity("trap", data_x, data_y, " ", libtcod.dark_fuchsia,
-                                      'Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      'Telportation Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                        entities.append(trap)
+                    elif piece == "hole_trap":
+                        trap_component = Trap(hole_trap)
+                        trap = Entity("trap", data_x, data_y, " ", libtcod.darker_green,
+                                      'Hole Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                         entities.append(trap)
                     elif piece in item_defs:
