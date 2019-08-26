@@ -253,6 +253,7 @@ def play_game(player, entities, game_map, turn, message_log,
 
             elif wizard_mode:
                 message_log.add_message(Message("Initiating wizard mode...", libtcod.red))
+                player.wizard_mode = True
                 player.fighter.STR = 100
                 player.fighter.DEX = 100
                 player.fighter.CON = 100

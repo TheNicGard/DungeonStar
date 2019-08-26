@@ -46,6 +46,9 @@ class Hunger:
         return results
 
     def tick(self, hunger_type):
+        if self.owner and hasattr(self.owner, "wizard_mode") and self.owner.wizard_mode:
+            return []
+        
         results = []
 
         lost_saturation = 0
@@ -62,7 +65,7 @@ class Hunger:
                 lost_saturation *= 2
             elif self.owner.fighter.is_effect("slow_digestion"):
                 lost_saturation //= 2
-            
+
         self.saturation -= lost_saturation
             
         if self.saturation <= 0:
