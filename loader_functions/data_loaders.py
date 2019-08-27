@@ -34,6 +34,10 @@ def load_game():
     player = entities[player_index]
     return player, entities, game_map, message_log, game_state, turn
 
+def delete_game():
+    if os.path.isfile(savegame_filename):
+        os.remove(savegame_filename)
+
 def load_test_map_tiles():
     datafile = open(test_map_filename, 'r')
     datareader = csv.reader(datafile, delimiter='|')

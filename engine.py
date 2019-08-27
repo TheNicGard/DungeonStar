@@ -1,4 +1,5 @@
 #!/usr/bin/python3 -Wignore
+import os
 import tcod as libtcod
 from components.animation import Animation
 from components.chargeable import Chargeable
@@ -14,7 +15,7 @@ from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu
 from loader_functions.entity_definitions import get_monster, get_item
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables, get_tutorial_map_variables
-from loader_functions.data_loaders import load_game, save_game, save_game_data, load_game_data
+from loader_functions.data_loaders import load_game, save_game, save_game_data, load_game_data, delete_game
 from menus import main_menu, message_box
 from menu_cursor import MenuCursor
 from plot_gen import Plot
@@ -442,7 +443,10 @@ def play_game(player, entities, game_map, turn, message_log,
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
             else:
-                save_game(player, entities, game_map, message_log, game_state, turn)
+                if game_state == GameStates.PLAYER_DEAD:
+                    delete_game()
+                else:
+                    save_game(player, entities, game_map, message_log, game_state, turn)
                 save_game_data(game)
                 return True
         
