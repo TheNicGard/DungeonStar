@@ -12,11 +12,11 @@ from fov_functions import initialize_fov, recompute_fov
 from game_container import GameContainer
 from game_messages import Message
 from game_states import GameStates
-from input_handlers import handle_keys, handle_mouse, handle_main_menu
+from input_handlers import handle_keys, handle_mouse, handle_main_menu, handle_confirmation_menu
 from loader_functions.entity_definitions import get_monster, get_item
 from loader_functions.initialize_new_game import get_constants, get_game_variables, get_test_map_variables, get_tutorial_map_variables
-from loader_functions.data_loaders import load_game, save_game, save_game_data, load_game_data, delete_game
-from menus import main_menu, message_box
+from loader_functions.data_loaders import load_game, save_game, save_game_data, load_game_data, delete_game, game_exists
+from menus import main_menu, message_box, confirmation_menu
 from menu_cursor import MenuCursor
 from plot_gen import Plot
 from random import randint, random
@@ -51,6 +51,8 @@ def main():
     
     show_main_menu = True
     show_load_error_message = False
+    show_delete_save_confirmation = False
+    start_new_game = False
 
     main_menu_background_image = libtcod.image_load('menu_background.png')
 
@@ -68,6 +70,19 @@ def main():
                 message_box(con, 'No save game to load',
                             constants['screen_width'], constants['screen_height'])
 
+            if show_delete_save_confirmation:
+                confirmation_menu(con, 'Erase saved game?', 35, constants['screen_width'],
+                                  constants['screen_height'])
+                    
+                save_game_action = handle_confirmation_menu(key)
+                delete_saved_game = save_game_action.get("confirmation")
+                
+                if delete_saved_game == True:
+                    start_new_game = True
+                    show_delete_save_confirmation = False
+                elif delete_saved_game == False:
+                    show_delete_save_confirmation = False
+
             libtcod.console_flush()
 
             action = handle_main_menu(key)
@@ -78,13 +93,15 @@ def main():
             load_test_map = action.get('load_test_map')
             exit_game = action.get('exit')
             fullscreen = action.get('fullscreen')
-        
+
             if show_load_error_message and (new_game or load_saved_game or exit_game):
                 show_load_error_message = False
+                
             elif new_game:
-                player, entities, game_map, message_log, game_state, turn = get_game_variables(constants)
-                game_state = GameStates.CHARACTER_CREATION
-                show_main_menu = False
+                if game_exists():
+                    show_delete_save_confirmation = True
+                else:
+                    start_new_game = True
             elif load_saved_game:
                 try:
                     player, entities, game_map, message_log, game_state, turn = load_game()
@@ -100,6 +117,11 @@ def main():
             elif exit_game:
                 save_game_data(game)
                 break
+            elif start_new_game:
+                start_new_game = False
+                player, entities, game_map, message_log, game_state, turn = get_game_variables(constants)
+                game_state = GameStates.CHARACTER_CREATION
+                show_main_menu = False
             
             if fullscreen:
                 libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())

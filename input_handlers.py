@@ -239,3 +239,13 @@ def handle_creation_screen(key):
             return {"accept": True}
         
     return {}
+
+def handle_confirmation_menu(key):
+    key_char = chr(key.c)
+
+    if key_char == 'y':
+        return {'confirmation': True}
+    if key_char == 'n':
+        return {'confirmation': False}
+
+    return {}

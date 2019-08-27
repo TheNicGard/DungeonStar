@@ -143,6 +143,25 @@ def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
     ]
     menu(con, header, options, menu_width, screen_width, screen_height)
 
+def confirmation_menu(con, header, menu_width, screen_width, screen_height):
+    header_height = libtcod.console_get_height_rect(con, 0, 0, menu_width, screen_height, header)
+    height = 2 + header_height
+
+    x = int(screen_width / 2 - menu_width / 2)
+    y = int(screen_height / 2 - height / 2)
+
+    window = libtcod.console_new(menu_width, height)
+    libtcod.console_set_default_foreground(window, libtcod.white)
+    libtcod.console_set_background_flag(window, libtcod.BKGND_OVERLAY)
+    libtcod.console_set_default_background(window, libtcod.lighter_grey)
+    libtcod.console_rect(window, 0, 0, menu_width, height, True)
+    
+    libtcod.console_print_rect_ex(window, 0, 0, menu_width, height, libtcod.BKGND_NONE, libtcod.LEFT, header)
+    libtcod.console_print_ex(window, 0, header_height, libtcod.BKGND_NONE, libtcod.LEFT, '(y) Yes')
+    libtcod.console_print_ex(window, 0, header_height + 1, libtcod.BKGND_NONE, libtcod.LEFT, '(n) No')
+
+    libtcod.console_blit(window, 0, 0, menu_width, height, 0, x, y, 1.0, 0.9)
+
 def message_box(con, header, screen_width, screen_height):
     width = len(header)+ 2
     height = libtcod.console_get_height_rect(con, 0, 0, width, screen_height, header) + 2
