@@ -52,7 +52,7 @@ def handle_player_turn_keys(key):
     elif key.text == "R":
         return {'rest': True}
     
-    elif key_char == 'g' or key_char == ',':
+    elif key.text == 'g' or key.text == ',':
         return {'pickup': True}
     elif key_char == 'i':
         return {'show_inventory': True}

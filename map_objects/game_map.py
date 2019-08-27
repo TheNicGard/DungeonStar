@@ -248,7 +248,7 @@ class GameMap:
 
         self.tiles = self.initialize_tiles()
         self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],
-                      constants['map_width'], constants['map_height'], player, entities)
+                      constants['map_width'], constants['map_height'], player, entities, downwards)
 
         if took_stairs:
             player.fighter.heal(player.fighter.max_hp // 5)
@@ -298,7 +298,7 @@ class GameMap:
             x += 1
 
     def make_map(self, max_rooms, room_min_size, room_max_size,
-                 map_width, map_height, player, entities):
+                 map_width, map_height, player, entities, downwards):
         self.test_map = False
         rooms = []
         full_rooms = False
@@ -437,6 +437,18 @@ class GameMap:
                             e.move_towards(random_x, random_y, game_map, entities)
             else:
                 entities.remove(e)
+
+        if downwards:
+            return_stairs_component = Stairs(self.dungeon_level - 1, False)
+            return_stairs = Entity("up_stairs", player.x, player.y, 30,
+                                   libtcod.white, 'Stairs (up)', render_order=RenderOrder.STAIRS,
+                                   stairs=return_stairs_component)
+        else:
+            return_stairs_component = Stairs(self.dungeon_level + 1, True)
+            return_stairs = Entity("down_stairs", player.x, player.y, 31,
+                                   libtcod.white, 'Stairs (downwards)', render_order=RenderOrder.STAIRS,
+                                   stairs=return_stairs_component)
+        entities.append(return_stairs)
                 
         stairs_component = Stairs(self.dungeon_level + 1, True)
         stairs = Entity("down_stairs", center_of_last_room_x, center_of_last_room_y, 31,

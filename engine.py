@@ -287,13 +287,17 @@ def play_game(player, entities, game_map, turn, message_log,
                         if not entity.stairs.downwards:
                             message_log.add_message(Message('These stairs go up!', libtcod.yellow))
                         else:
-                            entities = game_map.next_floor(player, message_log, constants, True)
-                            fov_map = initialize_fov(game_map)
-                            fov_recompute = True
-                            libtcod.console_clear(con)
-                            game.lowest_level = game_map.dungeon_level
-                            player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
-                            break
+                            if game_map.dungeon_level + 1 > game_map.lowest_level:
+                                player_turn_results.append({'dead': player})
+                                break
+                            else:
+                                entities = game_map.next_floor(player, message_log, constants, True)
+                                fov_map = initialize_fov(game_map)
+                                fov_recompute = True
+                                libtcod.console_clear(con)
+                                game.lowest_level = game_map.dungeon_level
+                                player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
+                                break
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
 
@@ -303,15 +307,16 @@ def play_game(player, entities, game_map, turn, message_log,
                         if entity.stairs.downwards:
                             message_log.add_message(Message('These stairs go down!', libtcod.yellow))
                         else:
-                            if game_map.dungeon_level - 1 < 0:
-                                game_state = GameState.PLAYER_WIN
+                            if game_map.dungeon_level - 1 <= 0:
+                                player_turn_results.append({'dead': player})
                                 break
-                            entities = game_map.next_floor(player, message_log, constants, False)
-                            fov_map = initialize_fov(game_map)
-                            fov_recompute = True
-                            libtcod.console_clear(con)
-                            player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
-                            break
+                            else:
+                                entities = game_map.next_floor(player, message_log, constants, False)
+                                fov_map = initialize_fov(game_map)
+                                fov_recompute = True
+                                libtcod.console_clear(con)
+                                player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
+                                break
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
                     
