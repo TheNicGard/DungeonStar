@@ -77,10 +77,8 @@ def main():
                 save_game_action = handle_confirmation_menu(key)
                 delete_saved_game = save_game_action.get("confirmation")
                 
-                if delete_saved_game == True:
-                    start_new_game = True
-                    show_delete_save_confirmation = False
-                elif delete_saved_game == False:
+                if delete_saved_game is not None:
+                    start_new_game = delete_saved_game
                     show_delete_save_confirmation = False
 
             libtcod.console_flush()
