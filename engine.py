@@ -153,6 +153,8 @@ def play_game(player, entities, game_map, turn, message_log,
 
     targeting_item = None
 
+    enable_wizard_mode_confirmation = False
+
     creation_menu_cursor = MenuCursor(max_index=[5, 5])
     stat_boosts = [[3, 4], [2, 5], [1, 2], [6, 3], [5, 6], [4, 1]]
     # This could be coded better
@@ -165,6 +167,8 @@ def play_game(player, entities, game_map, turn, message_log,
     # the stars  provides +2 INT, +1 STR
 
     global max_points_available
+
+    show_wizard_mode_confirmation = False
     
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse)
@@ -188,11 +192,23 @@ def play_game(player, entities, game_map, turn, message_log,
                        constants['colors'], game_state, key_cursor, {"CLASSIC_COLOR": False},
                        constants["status_screen_width"], constants["status_screen_height"]
             )
-        
+
+            if show_wizard_mode_confirmation:
+                confirmation_menu(con, 'Enable Wizard Mode?', 35, constants['screen_width'],
+                                  constants['screen_height'])
+                    
+                wizard_mode_action = handle_confirmation_menu(key)
+                enable_wizard_mode = wizard_mode_action.get("confirmation")
+
+                if enable_wizard_mode is not None:
+                    enable_wizard_mode_confirmation = enable_wizard_mode
+                    show_wizard_mode_confirmation = False
+                    continue
+                        
             fov_recompute = False
             libtcod.console_flush()
             clear_all(con, entities, key_cursor)
-        
+
         action = handle_keys(key, game_state)
         mouse_action = handle_mouse(mouse)
 
@@ -274,7 +290,10 @@ def play_game(player, entities, game_map, turn, message_log,
                 previous_game_state = game_state
                 game_state = GameStates.ENEMY_TURN
 
-            elif wizard_mode:
+            elif wizard_mode and not hasattr(player, "wizard_mode"):
+                show_wizard_mode_confirmation = True
+
+            if enable_wizard_mode_confirmation:
                 message_log.add_message(Message("Initiating wizard mode...", libtcod.red))
                 player.wizard_mode = True
                 player.fighter.STR = 100
@@ -289,6 +308,8 @@ def play_game(player, entities, game_map, turn, message_log,
                 death_wand.identity.identify()
                 death_wand.item.chargeable = Chargeable(9999, 9999)
                 player.inventory.add_item(death_wand)
+
+                enable_wizard_mode_confirmation = False
 
             elif pickup:
                 pickup_results = []
