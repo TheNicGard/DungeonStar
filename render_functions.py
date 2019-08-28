@@ -254,9 +254,7 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
             inventory_title = 'Press the key next to an item to charge it, or Esc to cancel.\n'
         inventory_menu(con, inventory_title, player, 50, screen_width, screen_height)
     elif game_state == GameStates.LEVEL_UP:
-        #level_up_menu(con, 'Level up! Choose a stat to raise:', player, 40,
-        #              screen_width, screen_height)
-        confirmation_menu(con, 'Level up?', 40,
+        level_up_menu(con, 'Level up! Choose a stat to raise:', player, 40,
                       screen_width, screen_height)
     elif game_state == GameStates.CHARACTER_SCREEN:
         character_screen(player, 30, screen_width, screen_height)
