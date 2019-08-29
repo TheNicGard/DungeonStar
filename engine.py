@@ -815,16 +815,21 @@ def tick_turn(turn, player, entities, game_state, message_log, game):
             player.fighter.heal(1)
     
     for e in entities:
-        if e.item and e.item.age is not None:
-            e.item.age += 1
-            if e.item.age >= e.item.max_age:
-                expired.append(e)
+        if e.item:            
+            if e.item.age is not None:
+                e.item.age += 1
+                if e.item.age >= e.item.max_age:
+                    expired.append(e)
+            elif e.item.light_source is not None and e.item.light_source.lit and e.item.light_source.permanent:
+                e.item.light_source.tick()
         if e.inventory:
             for i in e.inventory.items:
                 if i.item and i.item.age is not None:
                     i.item.age += 1
                     if i.item.age >= i.item.max_age:
                         expired_items.append(i)
+                elif i.item.light_source is not None and i.item.light_source.lit and i.item.light_source.permanent:
+                    i.item.light_source.tick()
             for i in expired_items:
                 e.inventory.remove_item(i, i.item.count)
         if e.fighter:
