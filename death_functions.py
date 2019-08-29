@@ -15,6 +15,10 @@ def kill_player(player, game):
 
     game.high_score = new_high_score
 
+    for i in player.inventory.items:
+        if i.identity:
+            i.identity.identify()
+
     return Message('You died with {0} gold!'.format(player.inventory.gold_carried),
                    libtcod.red), GameStates.PLAYER_DEAD
 
