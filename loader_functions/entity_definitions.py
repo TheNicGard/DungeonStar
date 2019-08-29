@@ -13,6 +13,7 @@ from components.food import Food
 from components.identity import Identity
 from components.inventory import Inventory
 from components.item import Item
+from components.light_source import LightSource
 from effect import Effect
 from entity import Entity
 from game_messages import Message
@@ -250,6 +251,16 @@ def load_items():
                 if item.get("max_charges"):
                     max_charge = item.get("max_charges")
                     chargeable_component = Chargeable(max_charge)
+
+                light_source_component = None
+                if item.get("light_source") and item.get("positional"):
+                    light_amount = item.get("positional").get("light_amount")
+                    max_duration = item.get("positional").get("max_duration")
+                    permanent_light = item.get("positional").get("permanent_light")
+
+                    light_source_component = LightSource(light_amount, max_duration,
+                                                         duration=max_duration,
+                                                         permanent=permanent_light)
                     
                 use_function = None
                 use_function_name = item.get("use_function")                
@@ -314,9 +325,9 @@ def load_items():
                         equipment_component.effects = effects
 
                 item_component = None
-                if positional or food_component:
+                if positional or food_component or light_source_component:
                     item_component = Item(1, max_age=max_age, use_function=use_function,
-                                          targeting=targeting, chargeable=chargeable_component, **positional)
+                                          targeting=targeting, chargeable=chargeable_component, light_source=light_source_component, **positional)
 
                 item_defs[item_id] = ItemDefinition(item_id, char, color, name, weight=weight,
                                                     item_component=item_component, equippable=equipment_component,

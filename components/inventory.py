@@ -41,7 +41,7 @@ class Inventory:
                 for i in self.items:
                     if i.id == item.id:
                         matching_entry = i
-                if matching_entry and not (matching_entry.equippable or (matching_entry.item and matching_entry.item.chargeable)):
+                if matching_entry and not (matching_entry.equippable or (matching_entry.item and matching_entry.item.chargeable) or matching_entry.light_source):
                     matching_entry.item.count += item.item.count
                 else:
                     self.items.append(item)
@@ -56,11 +56,14 @@ class Inventory:
         if item_component.use_function is None:
             equippable_component = item_entity.equippable
             food_component = item_entity.food
+            light_component = item_entity.item.light_source
 
             if equippable_component:
                 results.append({'equip': item_entity})
             elif food_component:
                 results.extend(self.owner.hunger.eat(item_entity))
+            elif light_component and not light_component.permanent:
+                light_component.lit = not light_component.lit
             else:
                 results.append({'message': Message('The {0} cannot be used!'.format(
                 item_entity.get_name), libtcod.yellow)})
@@ -153,7 +156,12 @@ class Inventory:
                             "consumed": False})
             
         return results
-            
 
-            
-                
+    def get_light(self):
+        brightest_light = 0
+        
+        for i.item in self.items:
+            if i.light_source and i.light_source.get_light > brightest_light:
+                brightest_light = i.light_source.get_light
+
+        return brightest_light

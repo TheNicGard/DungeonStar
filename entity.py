@@ -35,8 +35,8 @@ class Entity:
         self.trap = trap
         self.classification = classification
         self.sign = sign
-        self.identity = identity 
-
+        self.identity = identity
+        
         if self.fighter:
             self.fighter.owner = self
         if self.ai:
@@ -77,19 +77,19 @@ class Entity:
     def get_name(self):
         if self.identity and not self.identity.identified:
             return self.identity.name
-        else:
-            return self.name
+        return self.name
 
     @property
     def get_char(self):
+        if self.item and self.item.light_source:
+            return self.item.light_source.get_char
         return self.char
 
     @property
     def get_color(self):
         if self.identity and not self.identity.identified:
             return self.identity.color
-        else:
-            return self.color
+        return self.color
 
     def move(self, dx, dy):
         self.x += dx
