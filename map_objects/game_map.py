@@ -20,12 +20,15 @@ from random_utils import from_dungeon_level, random_choice_from_dict
 from render_functions import RenderOrder
 
 class GameMap:    
-    def __init__(self, width, height, dungeon_level=1):
+    def __init__(self, width, height, dungeon_level=1, brightness = 10):
         self.width = width
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
         self.lowest_level = 64
+        self.brightness = brightness
+        if self.brightness < 1:
+            self.brightness = 1
 
         self.dungeon_star_level = 48
         self.spawned_dungeon_star = False
@@ -249,6 +252,7 @@ class GameMap:
         self.tiles = self.initialize_tiles()
         self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],
                       constants['map_width'], constants['map_height'], player, entities, downwards)
+        self.brightness = randint(4, 12)
 
         if took_stairs:
             player.fighter.heal(player.fighter.max_hp // 5)
@@ -428,7 +432,7 @@ class GameMap:
                 random_x = e.x + randint(0, 2) - 1
                 random_y = e.y + randint(0, 2) - 1
                 if random_x != e.x and random_y != e.y:
-                    e.move_towards(random_x, random_y, game_map, entities)
+                    e.move_towards(random_x, random_y, self, entities)
 
                     while e.x == center_of_last_room_x and e.y == center_of_last_room_y:
                         random_x = e.x + randint(0, 2) - 1

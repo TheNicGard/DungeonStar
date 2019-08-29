@@ -173,7 +173,7 @@ def play_game(player, entities, game_map, turn, message_log,
         
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y,
-                          constants['fov_radius'], constants['fov_light_walls'],
+                          game_map.brightness, constants['fov_light_walls'],
                           constants['fov_algorithm'])
 
         if game_state == GameStates.CHARACTER_CREATION:
