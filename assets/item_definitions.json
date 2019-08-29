@@ -1134,5 +1134,23 @@
 	"spawn_rate": [[100, 1]],
 	"identified_on_use": true,
 	"classification": ["ammo"]
+    },
+
+    {
+	"item_id": "candle",
+	"name": "candle",
+	"color": [255, 245, 80],
+	"symbol": 254,
+	"weight": 5,
+	"light_source": true,
+	"targeting": false,
+	"positional": {
+	    "light_amount": 3,
+	    "max_duration": 1000,
+	    "permanent_light": false
+	},
+	"spawn_rate": [[5, 1]],
+	"identified_on_use": true,
+	"classification": ["light_source"]
     }
 ]
