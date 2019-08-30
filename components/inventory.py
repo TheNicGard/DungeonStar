@@ -62,7 +62,7 @@ class Inventory:
                 results.append({'equip': item_entity})
             elif food_component:
                 results.extend(self.owner.hunger.eat(item_entity))
-            elif light_component and not light_component.permanent:
+            elif light_component:
                 if light_component.lit:
                     light_component.lit = not light_component.lit
                     results.append({'message': Message('You unlight the {0}.'.format(item_entity.get_name)), 'light_removed': light_component})

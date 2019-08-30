@@ -12,13 +12,13 @@ class LightSource:
 
     @property
     def get_light(self):
-        if (self.duration > 0 and self.lit) or self.permanent:
+        if self.lit and (self.duration > 0  or self.permanent):
             return self.light
         else:
             return 0
 
     def tick(self, message_log, in_inventory):
-        if (self.lit and self.duration > 0) or self.permanent:
+        if self.lit and self.duration > 0 and not self.permanent:
             self.duration -= 1
             if self.duration <= 0:
                 if in_inventory and self.lit and self.owner and self.owner.owner:
