@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated August 22, 2019
+date: Last updated August 30, 2019
 ...
 \pagebreak
 # Introduction
@@ -9,7 +9,7 @@ date: Last updated August 22, 2019
 This manual which you hold your hands is meant to guide you through the treacherous, and often bullshitingly unfair dungeon known as *The Depression* that shelters the *Dungeon Star*. This manual currently holds little useful information, but is meant to guide players who are new to the genre of roguelikes, or to provide specific information to **Dungeon Star**.
 
 # Gameplay
-The current goal of **Dungeon Star** is to reach the lowest point of the dungeon without dying, while collecting as much gold as possible.
+The current goal of **Dungeon Star** is to reach the lowest point of the dungeon with the *Dungeon Star* in hand.
 
 Within the two-dimensional overhead view of a floor of the duneon, you are represented by **\@** (as in, the player is *at* this location). Your obstacles are the inhabitants of *The Depression*, who appear to be various creatures represented by the letters of the alphabet.
 
@@ -58,7 +58,7 @@ Wizard mode is a debug mode meant to access difficult portions of the game witho
 
 # The Depression
 
-*The Depression* is a mega-dungeon formed via unknown means. Some theorize that it's the remnants of a crater left behind after the *Dungeon Star* fell to Earth; others believe that a great mage formed the dungeon using the power of the crown. Either way, your goal is to reach the bottom of *The Depression*, retreive the *Dungeon Star*, and return to the surface alive. Of course, you won't find the *Dungeon Star* in the current version of the game, and the variety in enemies and items spawned stops after around 20 levels down, so the overall method of getting to the lowest point should be of little concern to you.
+*The Depression* is a mega-dungeon formed via unknown means. Some theorize that it's the remnants of a crater left behind after the *Dungeon Star* fell to Earth; others believe that a great mage formed the dungeon using the power of the crown. Either way, your goal is to dive into *The Depression*, retreive the *Dungeon Star*, and reach the lowest point of the dungeon. Of course, the *Dungeon Star* is functionless in the current version of the game, and the variety in enemies and items spawned stops after around 20 levels down, so the overall method of getting to the lowest point should be of little concern.
 
 ## Traps
 
@@ -81,6 +81,10 @@ Wands (represented by **/**) appear in many materials in the dungeon, and, like 
 ## Rings
 
 Rings (represented by **=**) give the protagonist a more permanent effect than spells or potions, and one can be worn on both the left and right hand.
+
+## Light Sources
+
+Light sources can be found in the dungeon to increase the protagonist's field of view. Some items (like candles) only last for a certain amount of time, but it is rumored that some sources of light don't run out of power.
 
 # Controls
 
