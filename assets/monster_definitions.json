@@ -27,7 +27,7 @@
     {
 	"monster_id": "rat",
 	"name": "rat",
-	"color": [150, 150, 150],
+	"color": [90, 90, 90],
 	"symbol": "r",
 	"fighter": {
 	    "hp": 4,
@@ -108,7 +108,7 @@
     {
 	"monster_id": "wolf",
 	"name": "wolf",
-	"color": [150, 150, 150],
+	"color": [90, 90, 90],
 	"symbol": "d",
 	"fighter": {
 	    "hp": 8,
@@ -308,7 +308,7 @@
     },
     {
 	"monster_id": "sourdough_starter",
-	"name": "sourdough starter",
+	"name": "dough starter",
 	"color": [211, 211, 195],
 	"symbol": "S",
 	"fighter": {
