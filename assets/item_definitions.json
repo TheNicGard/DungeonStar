@@ -1164,10 +1164,28 @@
 	"targeting": false,
 	"positional": {
 	    "light_amount": 4,
-	    "max_duration": 4000,
+	    "max_duration": 4,
 	    "permanent_light": false
 	},
 	"spawn_rate": [[5, 3]],
+	"identified_on_use": true,
+	"classification": ["light_source"]
+    },
+
+    {
+	"item_id": "light_crystal",
+	"name": "light crystal",
+	"color": [0, 255, 255],
+	"symbol": 254,
+	"weight": 5,
+	"light_source": true,
+	"targeting": false,
+	"positional": {
+	    "light_amount": 5,
+	    "max_duration": 1,
+	    "permanent_light": true
+	},
+	"spawn_rate": [[1, 8]],
 	"identified_on_use": true,
 	"classification": ["light_source"]
     }
