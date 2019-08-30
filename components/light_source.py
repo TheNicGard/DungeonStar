@@ -18,6 +18,8 @@ class LightSource:
     def tick(self):
         if (self.lit and self.duration > 0) or self.permanent:
             self.duration -= 1
+            if self.duration <= 0:
+                self.lit = False
 
     @property
     def get_char(self):

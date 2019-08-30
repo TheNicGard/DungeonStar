@@ -63,7 +63,15 @@ class Inventory:
             elif food_component:
                 results.extend(self.owner.hunger.eat(item_entity))
             elif light_component and not light_component.permanent:
-                light_component.lit = not light_component.lit
+                if light_component.lit:
+                    light_component.lit = not light_component.lit
+                    results.append({'message': Message('You unlight the {0}.'.format(item_entity.get_name))})
+                else:
+                    if light_component.duration <= 0:
+                        results.append({'message': Message('The {0} could not be lit!'.format(item_entity.get_name), libtcod.yellow)})
+                    else:
+                        results.append({'message': Message('You light the {0}.'.format(item_entity.get_name))})
+                        light_component.lit = not light_component.lit
             else:
                 results.append({'message': Message('The {0} cannot be used!'.format(
                 item_entity.get_name), libtcod.yellow)})
