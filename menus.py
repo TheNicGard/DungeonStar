@@ -102,7 +102,7 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                             temp_str = i.get_name + " *" + str(i.item.chargeable.charge) + ":" + str(i.item.chargeable.max_charge) + '*'
                         elif i.item.light_source and not i.item.light_source.permanent:
                             temp_str = i.get_name + " ("
-                            if i.item.light_source.lit:
+                            if i.item.light_source.get_light > 0:
                                 temp_str += "lit)"
                             else:
                                 temp_str += "unlit)"

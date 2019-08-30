@@ -1146,7 +1146,7 @@
 	"targeting": false,
 	"positional": {
 	    "light_amount": 3,
-	    "max_duration": 1000,
+	    "max_duration": 1500,
 	    "permanent_light": false
 	},
 	"spawn_rate": [[5, 1]],

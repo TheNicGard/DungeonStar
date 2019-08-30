@@ -820,7 +820,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game):
                 e.item.age += 1
                 if e.item.age >= e.item.max_age:
                     expired.append(e)
-            elif e.item.light_source is not None and e.item.light_source.lit and e.item.light_source.permanent:
+            elif e.item.light_source is not None and e.item.light_source.lit:
                 e.item.light_source.tick()
         if e.inventory:
             for i in e.inventory.items:
@@ -828,7 +828,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game):
                     i.item.age += 1
                     if i.item.age >= i.item.max_age:
                         expired_items.append(i)
-                elif i.item.light_source is not None and i.item.light_source.lit and i.item.light_source.permanent:
+                elif i.item.light_source is not None and i.item.light_source.lit:
                     i.item.light_source.tick()
             for i in expired_items:
                 e.inventory.remove_item(i, i.item.count)
