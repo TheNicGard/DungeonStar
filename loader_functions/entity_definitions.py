@@ -328,6 +328,8 @@ def load_items():
                 if positional or food_component or light_source_component:
                     item_component = Item(1, max_age=max_age, use_function=use_function,
                                           targeting=targeting, chargeable=chargeable_component, light_source=light_source_component, **positional)
+                if light_source_component is not None:
+                    light_source_component.owner = item_component
 
                 item_defs[item_id] = ItemDefinition(item_id, char, color, name, weight=weight,
                                                     item_component=item_component, equippable=equipment_component,
