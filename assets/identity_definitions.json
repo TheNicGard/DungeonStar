@@ -232,7 +232,7 @@
 
 	{
 	    "name": "steel wand",
-	    "color": [127, 127, 150]
+	    "color": [100, 100, 120]
 	},
 
 	{
@@ -256,7 +256,7 @@
 	},
 	
 	{
-	    "name": "cystall wand",
+	    "name": "crystal wand",
 	    "color": [0, 255, 255]
 	},
 
