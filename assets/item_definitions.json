@@ -1145,11 +1145,29 @@
 	"light_source": true,
 	"targeting": false,
 	"positional": {
-	    "light_amount": 3,
+	    "light_amount": 2,
 	    "max_duration": 1500,
 	    "permanent_light": false
 	},
 	"spawn_rate": [[5, 1]],
+	"identified_on_use": true,
+	"classification": ["light_source"]
+    },
+
+    {
+	"item_id": "torch",
+	"name": "torch",
+	"color": [255, 20, 20],
+	"symbol": 254,
+	"weight": 5,
+	"light_source": true,
+	"targeting": false,
+	"positional": {
+	    "light_amount": 4,
+	    "max_duration": 4000,
+	    "permanent_light": false
+	},
+	"spawn_rate": [[5, 3]],
 	"identified_on_use": true,
 	"classification": ["light_source"]
     }
