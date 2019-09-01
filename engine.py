@@ -594,32 +594,32 @@ def play_game(player, entities, game_map, turn, message_log,
                         striking_wand.identity.identify()
                         striking_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(striking_wand)
-                    # prospertiy: greed wand
+                    # prospertiy: greed wand and detect items scrolls
                     elif creation_menu_cursor.index[1] == 3:
                         greed_wand = get_item("greed_wand", -1, -1)
+                        detect_items_scrolls = get_item("detect_items_scroll", -1, -1, 3)
                         greed_wand.identity.identify()
+                        detect_items_scrolls.identity.identify()
                         greed_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(greed_wand)
+                        player.inventory.add_item(detect_items_scrolls)
                     # the arts: lightning wand TODO: find a better item
                     elif creation_menu_cursor.index[1] == 4:
                         lightning_wand = get_item("lightning_wand", -1, -1)
                         lightning_wand.identity.identify()
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
-                    # the stars: detect items, trap, and aura wands, mapping
+                    # the stars: detect traps, mapping, and aura wands
                     elif creation_menu_cursor.index[1] == 5:
                         traps_wand = get_item("detect_traps_wand", -1, -1)
                         mapping_scrolls = get_item("mapping_scroll", -1, -1, 3)
                         detect_aura_scrolls = get_item("detect_aura_scroll", -1, -1, 3)
-                        detect_items_scrolls = get_item("detect_items_scroll", -1, -1, 3)
                         mapping_scrolls.identity.identify()
                         detect_aura_scrolls.identity.identify()
-                        detect_items_scrolls.identity.identify()
                         traps_wand.identity.identify()
                         traps_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(mapping_scrolls)
                         player.inventory.add_item(detect_aura_scrolls)
-                        player.inventory.add_item(detect_items_scrolls)
                         player.inventory.add_item(traps_wand)
 
                     # items across all inspirations
