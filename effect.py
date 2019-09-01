@@ -51,6 +51,13 @@ def tick_poison(turns_remaining):
         
     return results
 
+def tick_stuck(turns_remaining):
+    results = []
+
+    results.append({"stuck": turns_remaining})
+        
+    return results
+
 def tick_regeneration(turns_remaining):
     results = []
     

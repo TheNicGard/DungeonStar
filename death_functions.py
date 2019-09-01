@@ -22,8 +22,10 @@ def kill_player(player, game):
     return Message('You died with {0} gold!'.format(player.inventory.gold_carried),
                    libtcod.red), GameStates.PLAYER_DEAD
 
-def kill_monster(monster):
-    death_message = Message('{0} is dead!'.format(monster.name.capitalize()), libtcod.orange)
+def kill_monster(monster, fov_map):
+    death_message = None
+    if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        death_message = Message('{0} is dead!'.format(monster.name.capitalize()), libtcod.orange)
 
     if monster.id == "jelly":
         item_component = Item(1, max_age=100, use_function=heal, amount = 15)

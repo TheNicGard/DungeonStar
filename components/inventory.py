@@ -41,7 +41,7 @@ class Inventory:
                 for i in self.items:
                     if i.id == item.id:
                         matching_entry = i
-                if matching_entry and not (matching_entry.equippable or (matching_entry.item and matching_entry.item.chargeable) or matching_entry.light_source):
+                if matching_entry and not (matching_entry.equippable or (matching_entry.item and (matching_entry.item.chargeable or matching_entry.item.light_source))):
                     matching_entry.item.count += item.item.count
                 else:
                     self.items.append(item)
