@@ -667,7 +667,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 if dead_entity == player:
                     message, game_state = kill_player(dead_entity, game)
                 else:
-                    message = kill_monster(dead_entity)
+                    message = kill_monster(dead_entity, fov_map)
 
                 message_log.add_message(message)
                 
@@ -793,7 +793,7 @@ def play_game(player, entities, game_map, turn, message_log,
                             if dead_entity == player:
                                 message, game_state = kill_player(dead_entity, game)
                             else:
-                                message = kill_monster(dead_entity)
+                                message = kill_monster(dead_entity, fov_map)
                             message_log.add_message(message)
 
                             if game_state == GameStates.PLAYER_DEAD:
@@ -871,7 +871,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game, player_ligh
                             if dead_entity == player:
                                 message, game_state = kill_player(e, game)
                             else:
-                                message = kill_monster(e)
+                                message = kill_monster(e, fov_map)
                             message_log.add_message(message)
 
                 if regeneration and turn % 10 == 0:
