@@ -4,16 +4,18 @@ from game_messages import Message
 from random import randint, random
 from rpg_mechanics import attack_success, get_modifier
 
-def check_for_traps(monster, entities, game_map):
+def check_for_traps(monster, entities, game_map, fov_map):
     results = []
     
     entities_in_loc = get_entities_at_location(entities, monster.x, monster.y)
     for e in entities_in_loc:
         # 50% chance to set off trap
         if e.trap and attack_success(get_modifier(monster.fighter.dexterity), 10):
-            e.trap.set_reveal(True)
+            if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+                e.trap.set_reveal(True)
             results.extend(e.trap.trap_function(monster, **{"game_map": game_map,
-                                                            "entities": entities}))
+                                                            "entities": entities,
+                                                            "fov_map": fov_map}))
 
     return results
 
@@ -36,7 +38,7 @@ class BasicMonster:
                     else:
                         monster.move_astar(target, entities, game_map)
 
-                    results.extend(check_for_traps(monster, entities, game_map))
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
 
             elif target.fighter.hp > 0:
                 attack_results = monster.fighter.attack(target)
@@ -45,9 +47,9 @@ class BasicMonster:
             if not self.owner.fighter.is_effect("stuck"):
                 random_x = self.owner.x + randint(0, 2) - 1
                 random_y = self.owner.y + randint(0, 2) - 1
-                if random_x != self.owner.x and random_y != self.owner.y:
+                if not (random_x == self.owner.x and random_y == self.owner.y):
                     self.owner.move_towards(random_x, random_y, game_map, entities)
-                    results.extend(check_for_traps(monster, entities, game_map))
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
                     
         return results
 
@@ -74,10 +76,10 @@ class AggressiveMonster:
                         random_y = self.owner.y + randint(0, 2) - 1
                         if random_x != self.owner.x and random_y != self.owner.y:
                             self.owner.move_towards(random_x, random_y, game_map, entities)
-                            results.extend(check_for_traps(monster, entities, game_map))
+                            results.extend(check_for_traps(monster, entities, game_map, fov_map))
                     else:
                         monster.move_astar(target, entities, game_map)
-                        results.extend(check_for_traps(monster, entities, game_map))
+                        results.extend(check_for_traps(monster, entities, game_map, fov_map))
             elif target.fighter.hp > 0:
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
@@ -88,7 +90,7 @@ class AggressiveMonster:
             if monster.distance_to(target) >= 2:
                 if not self.owner.fighter.is_effect("stuck"):
                     monster.move_astar(target, entities, game_map)
-                    results.extend(check_for_traps(monster, entities, game_map))
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
             elif target.fighter.hp > 0:
                 if self.current_patience < self.max_patience:
                     self.current_patience += 1
@@ -123,7 +125,7 @@ class ConfusedMonster:
 
                 if random_x != self.owner.x and random_y != self.owner.y:
                     self.owner.move_towards(random_x, random_y, game_map, entities)
-                    results.extend(check_for_traps(monster, entities, game_map))
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
 
             self.number_of_turns -= 1
         else:
@@ -306,7 +308,7 @@ class NeutralMonster:
             random_x = self.owner.x + randint(0, 2) - 1
             random_y = self.owner.y + randint(0, 2) - 1
             monster.move_towards(random_x, random_y, game_map, entities)
-            results.extend(check_for_traps(monster, entities, game_map))
+            results.extend(check_for_traps(monster, entities, game_map, fov_map))
                     
         return results
 

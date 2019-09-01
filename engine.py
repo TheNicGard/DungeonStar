@@ -268,7 +268,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                     message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
                                 if e.trap and attack_success(get_modifier(player.fighter.dexterity), 10):
                                     e.trap.set_reveal(True)
-                                    player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities}))
+                                    player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities, "fov_map": fov_map}))
                                 if e.item:
                                     items_in_loc.append(e.get_name)
                             if len(items_in_loc) == 1:
@@ -894,7 +894,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game, player_ligh
                                                     libtcod.yellow))
 
                 if stuck is not None and stuck <= 0:
-                    if e.ai:
+                    if e.ai and libtcod.map_is_in_fov(fov_map, e.x, e.y):
                         message_log.add_message(Message("The {0} is freed!".format(e.name),
                                                         libtcod.white))
                     else:

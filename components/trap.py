@@ -78,12 +78,18 @@ def hole_trap(target, **kwargs):
 
 def bear_trap(target, **kwargs):
     results = []
+
+    fov_map = kwargs.get('fov_map')
     
     damage_taken = die(1, 6)
     if not target.ai:
         results.append({"message": Message(
             'You step into a bear trap, taking {0} points of damage!'.format(
                 damage_taken), libtcod.yellow)})
+    elif libtcod.map_is_in_fov(fov_map, target.x, target.y):
+        results.append({"message": Message(
+            '{0} stepped into a bear trap!'.format(
+                target.name.capitalize(), damage_taken), libtcod.white)})
     results.extend(target.fighter.take_damage(damage_taken))
 
     turns_remaining = max(max(0, randint(20, 30) - target.fighter.dexterity), 1)
