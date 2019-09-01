@@ -786,6 +786,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         message = enemy_turn_result.get('message')
                         dead_entity = enemy_turn_result.get('dead')
                         spawn_enemy = enemy_turn_result.get('spawn_enemy')
+                        downwards_exit = enemy_turn_result.get("downwards_exit")
                         
                         if message:
                             message_log.add_message(message)
@@ -805,6 +806,13 @@ def play_game(player, entities, game_map, turn, message_log,
                             if spawn_enemy.get("mother"):
                                 new_enemy.ai.mother = spawn_enemy.get("mother")
                             entities.append(new_enemy)
+                        if downwards_exit:
+                            if libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
+                                message_log.add_message(Message('{0} fell down a hole!'.format(
+                                    entity.name.capitalize()),
+                                                                libtcod.white))
+                            entities.remove(entity)
+                            break
 
                     if game_state == GameStates.PLAYER_DEAD:
                         break
