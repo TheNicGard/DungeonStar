@@ -1,5 +1,5 @@
 import tcod as libtcod
-from item_functions import poison
+from item_functions import poison, stuck
 from game_messages import Message
 from random import randint
 from rpg_mechanics import attack_success, die, get_modifier
@@ -73,5 +73,21 @@ def hole_trap(target, **kwargs):
     results = []
 
     results.append({'consumed': True, "downwards_exit": True})
+
+    return results
+
+def bear_trap(target, **kwargs):
+    results = []
+    
+    damage_taken = die(1, 6)
+    if not target.ai:
+        results.append({"message": Message(
+            'You step into a bear trap, taking {0} points of damage!'.format(
+                damage_taken), libtcod.yellow)})
+    results.extend(target.fighter.take_damage(damage_taken))
+
+    turns_remaining = max(max(0, randint(20, 30) - target.fighter.dexterity), 1)
+    
+    results.extend(stuck(target, **{"turns": turns_remaining}))
 
     return results
