@@ -247,6 +247,8 @@ class GameMap:
                         entities.append(trap)
                     elif piece in item_defs:
                         item = get_item(piece, data_x, data_y)
+                        if item.identity:
+                            item.identity.identify()
                         entities.append(item)
                     elif piece in monster_defs:
                         monster = get_monster(piece, data_x, data_y)
