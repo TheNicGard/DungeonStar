@@ -23,6 +23,7 @@ def kill_player(player, game):
                    libtcod.red), GameStates.PLAYER_DEAD
 
 def kill_monster(monster, fov_map):
+    death_message = None
     if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
         death_message = Message('{0} is dead!'.format(monster.name.capitalize()), libtcod.orange)
 
