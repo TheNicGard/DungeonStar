@@ -1,6 +1,6 @@
 import tcod as libtcod
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
-from effect import Effect, tick_invisible, tick_poison, tick_regeneration, tick_detect_aura, tick_detect_items
+from effect import Effect, tick_invisible, tick_poison, tick_regeneration, tick_detect_aura, tick_detect_items, tick_stuck
 from game_messages import Message
 from random import randint
 from rpg_mechanics import attack_success, die, get_modifier
@@ -500,4 +500,19 @@ def cast_downwards_exit(*args, **kwargs):
 
     results.append({'consumed': True, "downwards_exit": True})
 
+    return results
+
+def stuck(*args, **kwargs):
+    entity = args[0]
+    turns = kwargs.get('turns')
+
+    results = []
+
+    attack_success(get_modifier(entity.fighter.constitution), 10)
+    
+    entity.fighter.effects.effects["stuck"] = Effect(True, turns, tick_stuck)
+    results.append({'consumed': True,
+                    'message': Message('You are caught in the trap!',
+                                       libtcod.dark_grey)})
+        
     return results

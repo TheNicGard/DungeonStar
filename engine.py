@@ -255,29 +255,32 @@ def play_game(player, entities, game_map, turn, message_log,
                             player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                             player_turn_results.extend(attack_results)
                     else:
-                        player.move(dx, dy)
-                        player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
+                        if player.fighter.is_effect("stuck"):
+                            message_log.add_message(Message("You are stuck!", libtcod.yellow))
+                        else:
+                            player.move(dx, dy)
+                            player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
 
-                        entities_in_loc = get_entities_at_location(entities, destination_x, destination_y)
-                        items_in_loc = []
-                        for e in entities_in_loc:
-                            if e.sign:
-                                message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
-                            if e.trap and attack_success(get_modifier(player.fighter.dexterity), 10):
-                                e.trap.set_reveal(True)
-                                player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities}))
-                            if e.item:
-                                items_in_loc.append(e.get_name)
-                        if len(items_in_loc) == 1:
-                            message_log.add_message(Message("You see here " + items_in_loc[0] + ".", libtcod.white))
-                        elif len(items_in_loc) > 1:
-                            temp_str = "You see here "
-                            for i in range(len(items_in_loc) - 1):
-                                temp_str += items_in_loc[i] + ", "
-                            temp_str += items_in_loc[len(items_in_loc) - 1] + "."
-                            message_log.add_message(Message(temp_str, libtcod.white))
-                                
-                        fov_map, fov_recompute = redraw_fov(game_map)
+                            entities_in_loc = get_entities_at_location(entities, destination_x, destination_y)
+                            items_in_loc = []
+                            for e in entities_in_loc:
+                                if e.sign:
+                                    message_log.add_message(Message("The sign says, \"" + e.sign.text + "\"", libtcod.white))
+                                if e.trap and attack_success(get_modifier(player.fighter.dexterity), 10):
+                                    e.trap.set_reveal(True)
+                                    player_turn_results.extend(e.trap.trap_function(player, **{"game_map": game_map, "entities": entities}))
+                                if e.item:
+                                    items_in_loc.append(e.get_name)
+                            if len(items_in_loc) == 1:
+                                message_log.add_message(Message("You see here " + items_in_loc[0] + ".", libtcod.white))
+                            elif len(items_in_loc) > 1:
+                                temp_str = "You see here "
+                                for i in range(len(items_in_loc) - 1):
+                                    temp_str += items_in_loc[i] + ", "
+                                    temp_str += items_in_loc[len(items_in_loc) - 1] + "."
+                                    message_log.add_message(Message(temp_str, libtcod.white))
+
+                            fov_map, fov_recompute = redraw_fov(game_map)
                         
                     previous_game_state = game_state
                     game_state = GameStates.ENEMY_TURN
@@ -633,7 +636,6 @@ def play_game(player, entities, game_map, turn, message_log,
 
         i = 0
         while i < len(player_turn_results):
-        #for player_turn_result in player_turn_results:
             player_turn_result = player_turn_results[i]
             
             message = player_turn_result.get('message')
@@ -679,7 +681,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
-            if item_consumed or food_eaten:
+            if (item_consumed or food_eaten) and game_state is not GameStates.PLAYER_DEAD:
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
@@ -855,6 +857,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game, player_ligh
                 poison_damage = result.get("poison_damage")
                 regeneration = result.get("regeneration")
                 invisible = result.get("invisible")
+                stuck = result.get("stuck")
                 
                 if message:
                     message_log.add_message(message)
@@ -881,7 +884,15 @@ def tick_turn(turn, player, entities, game_state, message_log, game, player_ligh
                     else:
                         message_log.add_message(Message("Color starts to reappear on your body!",
                                                     libtcod.yellow))
-                    
+
+                if stuck is not None and stuck <= 0:
+                    if e.ai:
+                        message_log.add_message(Message("The {0} is freed!".format(e.name),
+                                                        libtcod.white))
+                    else:
+                        message_log.add_message(Message("You become freed!",
+                                                        libtcod.green))
+
     for e in expired:
         entities.remove(e)
                 
