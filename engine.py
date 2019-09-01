@@ -821,12 +821,12 @@ def play_game(player, entities, game_map, turn, message_log,
             else:
                 old_game_state = game_state
                 turn, game_state = tick_turn(turn, player, entities, game_state,
-                                                                     message_log, game,
+                                                                     message_log, game, fov_map,
                                                                      player_light_sources)
                 if game_state == old_game_state:
                     game_state = previous_game_state
 
-def tick_turn(turn, player, entities, game_state, message_log, game, player_light_sources):
+def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, player_light_sources):
     expired = []
     expired_items = []
 
