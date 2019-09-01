@@ -440,9 +440,11 @@ def play_game(player, entities, game_map, turn, message_log,
         if look_at_entity:
             matching_entities = []
             for e in entities:
-                if e.x == key_cursor.x and e.y == key_cursor.y and (libtcod.map_is_in_fov(fov_map, key_cursor.x, key_cursor.y) or
-                                                                    ((e.stairs or e.door or e.sign) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
-                    matching_entities.append(e.name)
+                if e.x == key_cursor.x and e.y == key_cursor.y and (libtcod.map_is_in_fov(fov_map, key_cursor.x, key_cursor.y) or ((e.stairs or e.door or e.sign or e.trap) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
+                    if e.trap and not e.trap.revealed:
+                        pass
+                    else:
+                        matching_entities.append(e.name)
 
             message_log.add_message(Message(", ".join(matching_entities), libtcod.lightest_sepia))
 
