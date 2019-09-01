@@ -511,8 +511,9 @@ def stuck(*args, **kwargs):
     attack_success(get_modifier(entity.fighter.constitution), 10)
     
     entity.fighter.effects.effects["stuck"] = Effect(True, turns, tick_stuck)
-    results.append({'consumed': True,
-                    'message': Message('You are caught in the trap!',
-                                       libtcod.dark_grey)})
+    results.append({'consumed': True})
+    if not entity.ai:
+        results.append({'message': Message('You are caught in the trap!',
+                                           libtcod.dark_grey)})
         
     return results
