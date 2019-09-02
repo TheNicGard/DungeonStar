@@ -233,7 +233,7 @@ def help_screen(help_screen_width, screen_width, screen_height):
         '            i   open inventory',
         '          , g   pick up item',
         '            d   drop item',
-        '            c   show character screen',
+        '          TAB   show character screen',
         '            >   descend stairs',
         '            <   ascend stairs',
         '            ;   look at entity',
