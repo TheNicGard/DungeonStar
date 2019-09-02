@@ -341,6 +341,9 @@ def play_game(player, entities, game_map, turn, message_log,
                                 game.lowest_level = game_map.dungeon_level
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                                 break
+                    elif entity.trap and entity.trap.revealed and entity.trap.trap_function.__name__ == "hole_trap":
+                        player_turn_results.append({"downwards_exit": True})
+                        
                 else:
                     message_log.add_message(Message('There are no stairs here!', libtcod.yellow))
 
@@ -440,9 +443,11 @@ def play_game(player, entities, game_map, turn, message_log,
         if look_at_entity:
             matching_entities = []
             for e in entities:
-                if e.x == key_cursor.x and e.y == key_cursor.y and (libtcod.map_is_in_fov(fov_map, key_cursor.x, key_cursor.y) or
-                                                                    ((e.stairs or e.door or e.sign) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
-                    matching_entities.append(e.name)
+                if e.x == key_cursor.x and e.y == key_cursor.y and (libtcod.map_is_in_fov(fov_map, key_cursor.x, key_cursor.y) or ((e.stairs or e.door or e.sign or e.trap) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
+                    if e.trap and not e.trap.revealed:
+                        pass
+                    else:
+                        matching_entities.append(e.name)
 
             message_log.add_message(Message(", ".join(matching_entities), libtcod.lightest_sepia))
 
@@ -592,32 +597,32 @@ def play_game(player, entities, game_map, turn, message_log,
                         striking_wand.identity.identify()
                         striking_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(striking_wand)
-                    # prospertiy: greed wand
+                    # prospertiy: greed wand and detect items scrolls
                     elif creation_menu_cursor.index[1] == 3:
                         greed_wand = get_item("greed_wand", -1, -1)
+                        detect_items_scrolls = get_item("detect_items_scroll", -1, -1, 3)
                         greed_wand.identity.identify()
+                        detect_items_scrolls.identity.identify()
                         greed_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(greed_wand)
+                        player.inventory.add_item(detect_items_scrolls)
                     # the arts: lightning wand TODO: find a better item
                     elif creation_menu_cursor.index[1] == 4:
                         lightning_wand = get_item("lightning_wand", -1, -1)
                         lightning_wand.identity.identify()
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
-                    # the stars: detect items, trap, and aura wands, mapping
+                    # the stars: detect traps, mapping, and aura wands
                     elif creation_menu_cursor.index[1] == 5:
                         traps_wand = get_item("detect_traps_wand", -1, -1)
                         mapping_scrolls = get_item("mapping_scroll", -1, -1, 3)
                         detect_aura_scrolls = get_item("detect_aura_scroll", -1, -1, 3)
-                        detect_items_scrolls = get_item("detect_items_scroll", -1, -1, 3)
                         mapping_scrolls.identity.identify()
                         detect_aura_scrolls.identity.identify()
-                        detect_items_scrolls.identity.identify()
                         traps_wand.identity.identify()
                         traps_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(mapping_scrolls)
                         player.inventory.add_item(detect_aura_scrolls)
-                        player.inventory.add_item(detect_items_scrolls)
                         player.inventory.add_item(traps_wand)
 
                     # items across all inspirations
@@ -819,12 +824,12 @@ def play_game(player, entities, game_map, turn, message_log,
             else:
                 old_game_state = game_state
                 turn, game_state = tick_turn(turn, player, entities, game_state,
-                                                                     message_log, game,
+                                                                     message_log, game, fov_map,
                                                                      player_light_sources)
                 if game_state == old_game_state:
                     game_state = previous_game_state
 
-def tick_turn(turn, player, entities, game_state, message_log, game, player_light_sources):
+def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, player_light_sources):
     expired = []
     expired_items = []
 

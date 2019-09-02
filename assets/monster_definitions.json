@@ -52,8 +52,8 @@
     },
 
     {
-	"monster_id": "spider",
-	"name": "spider",
+	"monster_id": "giant_spider",
+	"name": "giant_spider",
 	"color": [40, 40, 40],
 	"symbol": "s",
 	"fighter": {

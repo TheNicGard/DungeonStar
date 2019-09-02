@@ -30,13 +30,15 @@ def poison(*args, **kwargs):
 
     # TODO: change this to be a general roll later
     if attack_success(get_modifier(entity.fighter.constitution), 10) or entity.fighter.is_effect("poison_resistance"):
-        results.append({"consumed": True, "message": Message(
-            'You resisted the poison!', libtcod.green)})
+        if not entity.ai:
+            results.append({"consumed": True, "message": Message(
+                'You resisted the poison!', libtcod.green)})
     else:
         entity.fighter.effects.effects["poison"] = Effect(True, turns, tick_poison)
-        results.append({'consumed': True,
-                        'message': Message('You start to feel ill!',
-                                           libtcod.dark_purple)})
+        if not entity.ai:
+            results.append({'consumed': True,
+                            'message': Message('You start to feel ill!',
+                                               libtcod.dark_purple)})
         
     return results
 
