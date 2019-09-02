@@ -58,7 +58,7 @@ def handle_player_turn_keys(key):
         return {'show_inventory': True}
     elif key_char == 'd':
         return {'drop_inventory': True}
-    elif key_char == 'c':
+    elif key.vk == libtcod.KEY_TAB:
         return {'show_character_screen': True}
     elif key.text == '?':
         return {'show_help_screen': True}
@@ -81,7 +81,7 @@ def handle_player_dead_keys(key):
 
     if key_char == 'i':
         return {'show_inventory': True}
-    elif key_char == 'c':
+    elif key.vk == libtcod.KEY_TAB:
         return {'show_character_screen': True}
     elif key_char == 'q':
         return {'show_help_screen': True}
@@ -164,11 +164,8 @@ def handle_character_screen(key):
         return {'end': True}
     elif chr(key.c) == 'f' and key.lctrl:
         return {'fullscreen': True}
-    
-    if key:
-        key_char = chr(key.c)
-        if key_char == 'c':
-            return {'end': True}
+    elif key.vk == libtcod.KEY_TAB:
+        return {'end': True}
     return {}
 
 def handle_help_screen(key):
