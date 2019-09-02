@@ -35,9 +35,10 @@ def poison(*args, **kwargs):
                 'You resisted the poison!', libtcod.green)})
     else:
         entity.fighter.effects.effects["poison"] = Effect(True, turns, tick_poison)
-        results.append({'consumed': True,
-                        'message': Message('You start to feel ill!',
-                                           libtcod.dark_purple)})
+        if not entity.ai:
+            results.append({'consumed': True,
+                            'message': Message('You start to feel ill!',
+                                               libtcod.dark_purple)})
         
     return results
 
