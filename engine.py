@@ -341,7 +341,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 game.lowest_level = game_map.dungeon_level
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                                 break
-                    elif entity.trap and entity.trap.revealed and entity.trap.trap_function.__name__ == "hole_trap":
+                    elif entity.trap and entity.trap.revealed and entity.trap.trap_function.__name__ == "hole_trap" and entity.x == player.x and entity.y == player.y:
                         player_turn_results.append({"downwards_exit": True})
                         
                 else:
@@ -687,6 +687,8 @@ def play_game(player, entities, game_map, turn, message_log,
                 game_state = GameStates.ENEMY_TURN
 
             if (item_consumed or food_eaten) and game_state is not GameStates.PLAYER_DEAD:
+                if item_consumed is not None and isinstance(item_consumed, Entity):
+                    item_consumed.identity.identify()
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
@@ -902,7 +904,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, pl
                     if e.ai and libtcod.map_is_in_fov(fov_map, e.x, e.y):
                         message_log.add_message(Message("The {0} is freed!".format(e.name),
                                                         libtcod.white))
-                    else:
+                    elif not e.ai:
                         message_log.add_message(Message("You become freed!",
                                                         libtcod.green))
 

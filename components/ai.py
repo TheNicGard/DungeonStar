@@ -64,23 +64,27 @@ class AggressiveMonster:
     
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
-        
         monster = self.owner
+        
+        print("\n{0} is at ({1}, {2}).".format(monster.name, monster.x, monster.y))
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
             self.seeking = True
             self.current_patience = self.max_patience
             if monster.distance_to(target) >= 2:
                 if not self.owner.fighter.is_effect("stuck"):
                     if target.fighter.is_effect("invisible"):
-                        random_x = self.owner.x + randint(0, 2) - 1
-                        random_y = self.owner.y + randint(0, 2) - 1
+                        random_x = monster.x + randint(0, 2) - 1
+                        random_y = monster.y + randint(0, 2) - 1
+                        print("move randomly")
                         if random_x != self.owner.x and random_y != self.owner.y:
-                            self.owner.move_towards(random_x, random_y, game_map, entities)
+                            monster.move_towards(random_x, random_y, game_map, entities)
                             results.extend(check_for_traps(monster, entities, game_map, fov_map))
                     else:
+                        print("target player")
                         monster.move_astar(target, entities, game_map)
                         results.extend(check_for_traps(monster, entities, game_map, fov_map))
             elif target.fighter.hp > 0:
+                print("attack target")
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
         elif self.current_patience > 0 and self.seeking:
@@ -89,21 +93,25 @@ class AggressiveMonster:
                 self.seeking = False
             if monster.distance_to(target) >= 2:
                 if not self.owner.fighter.is_effect("stuck"):
+                    print("hunt for player")
                     monster.move_astar(target, entities, game_map)
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))
             elif target.fighter.hp > 0:
                 if self.current_patience < self.max_patience:
                     self.current_patience += 1
+                print("attack target")
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
         else:
             if self.current_patience < self.max_patience:
                     self.current_patience += 1
-            if not self.owner.fighter.is_effect("stuck"):
-                random_x = self.owner.x + randint(0, 2) - 1
-                random_y = self.owner.y + randint(0, 2) - 1
+            if not monster.fighter.is_effect("stuck"):
+                random_x = monster.x + randint(0, 2) - 1
+                random_y = monster.y + randint(0, 2) - 1
+                print("move randomly")
                 if random_x != self.owner.x and random_y != self.owner.y:
-                    self.owner.move_towards(random_x, random_y, game_map, entities)
+                    monster.move_towards(random_x, random_y, game_map, entities)
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
                     
         return results
 
@@ -117,11 +125,12 @@ class ConfusedMonster:
 
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
+        monster = self.owner
 
         if self.number_of_turns > 0:
-            if not self.owner.fighter.is_effect("stuck"):
-                random_x = self.owner.x + randint(0, 2) - 1
-                random_y = self.owner.y + randint(0, 2) - 1
+            if not monster.fighter.is_effect("stuck"):
+                random_x = monster.x + randint(0, 2) - 1
+                random_y = monster.y + randint(0, 2) - 1
 
                 if random_x != self.owner.x and random_y != self.owner.y:
                     self.owner.move_towards(random_x, random_y, game_map, entities)
@@ -139,8 +148,7 @@ class DummyMonster:
         return "Dummy monster AI. Does nothing."
     
     def take_turn(self, target, fov_map, game_map, entities):
-        results = []
-        return results
+        return []
 
 class HardStoppedMonster:
     def __init__(self, previous_ai, number_of_turns=10, resume_text="stopped"):
@@ -153,13 +161,14 @@ class HardStoppedMonster:
 
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
+        monster = self.owner
 
         if self.number_of_turns > 0:
             self.number_of_turns -= 1
         else:
-            self.owner.ai = self.previous_ai
+            monster.ai = self.previous_ai
             results.append({'message': Message(
-                'The {0} is no longer {1}!'.format(self.owner.name, self.resume_text),
+                'The {0} is no longer {1}!'.format(monster.name, self.resume_text),
                 libtcod.red)})
         return results
 
@@ -176,19 +185,21 @@ class SoftStoppedMonster:
 
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
+        monster = self.owner
+        
         if self.first_turn:
             self.first_turn = False
         elif self.number_of_turns != 0:
             self.number_of_turns -= 1
             if random() < self.chance_to_resume:
-                self.owner.ai = self.previous_ai
+                monster.ai = self.previous_ai
                 results.append({'message': Message(
-                    'The {0} is no longer {1}!'.format(self.owner.name, self.resume_text),
+                    'The {0} is no longer {1}!'.format(monster.name, self.resume_text),
                     libtcod.red)})
         else:
-            self.owner.ai = self.previous_ai
+            monster.ai = self.previous_ai
             results.append({'message': Message(
-                'The {0} is no longer {1}!'.format(self.owner.name, self.resume_text),
+                'The {0} is no longer {1}!'.format(monster.name, self.resume_text),
                 libtcod.red)})
 
         return results
@@ -199,8 +210,8 @@ class StaticMonster:
     
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
-        
         monster = self.owner
+        
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
             if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
@@ -217,7 +228,6 @@ class MotherDoughAI(StaticMonster):
     
     def take_turn(self, target, fov_map, game_map, entities):
         results = []
-
         monster = self.owner
         
         done = False
@@ -314,6 +324,7 @@ class NeutralMonster:
 
     def become_aggressive(self):
         results = []
+        
 
         self.owner.ai = self.aggressive_ai
         self.aggressive_ai.owner = self.owner
