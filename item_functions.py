@@ -8,6 +8,9 @@ from rpg_mechanics import attack_success, die, get_modifier
 def heal(*args, **kwargs):
     entity = args[0]
     amount = kwargs.get('amount')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -17,7 +20,7 @@ def heal(*args, **kwargs):
                                            libtcod.yellow)})
     else:
         entity.fighter.heal(amount)
-        results.append({'consumed': True,
+        results.append({"consumed": item,
                         'message': Message('Your wounds start to feel better!',
                                            libtcod.green)})
     return results
@@ -25,6 +28,9 @@ def heal(*args, **kwargs):
 def poison(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -36,7 +42,7 @@ def poison(*args, **kwargs):
     else:
         entity.fighter.effects.effects["poison"] = Effect(True, turns, tick_poison)
         if not entity.ai:
-            results.append({'consumed': True,
+            results.append({"consumed": item,
                             'message': Message('You start to feel ill!',
                                                libtcod.dark_purple)})
         
@@ -44,22 +50,28 @@ def poison(*args, **kwargs):
 
 def poison_resistance(*args, **kwargs):
     entity = args[0]
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
     entity.fighter.effects.effects["poison_resistance"] = Effect(False, 0, None)
-    results.append({'consumed': True,
+    results.append({"consumed": item,
                     'message': Message('Your blood feels thick!',
                                        libtcod.green)})
     return results
 
 def cure_poison(*args, **kwargs):
     entity = args[0]
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
     entity.fighter.effects.effects["poison"] = Effect(True, 0, tick_poison)
-    results.append({'consumed': True,
+    results.append({"consumed": item,
                     'message': Message('Your sickness dissipates!',
                                        libtcod.green)})
     return results
@@ -67,11 +79,14 @@ def cure_poison(*args, **kwargs):
 def invisible(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
     entity.fighter.effects.effects["invisible"] = Effect(True, turns, tick_invisible)
-    results.append({'consumed': True,
+    results.append({"consumed": item,
                     'message': Message('Light starts to pass through your body!',
                                        libtcod.green)})
     return results
@@ -79,11 +94,14 @@ def invisible(*args, **kwargs):
 def regeneration(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
     entity.fighter.effects.effects["regeration"] = Effect(True, turns, tick_regeneration)
-    results.append({'consumed': True})
+    results.append({"consumed": item})
     
     return results
 
@@ -93,6 +111,9 @@ def cast_lightning(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     damage = kwargs.get('damage')
     maximum_range = kwargs.get('maximum_range')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -108,7 +129,7 @@ def cast_lightning(*args, **kwargs):
                 closest_distance = distance
 
     if target:
-        results.append({'consumed': True, 'target': target, 'message': Message('A lightning bolt strikes the {0} with a loud thunder! The damage is {1}.'.format(target.name, damage))})
+        results.append({"consumed": item, 'target': target, 'message': Message('A lightning bolt strikes the {0} with a loud thunder! The damage is {1}.'.format(target.name, damage))})
         results.extend(target.fighter.take_damage(damage))
     else:
         results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', libtcod.red)})
@@ -122,6 +143,9 @@ def cast_fireball(*args, **kwargs):
     radius = kwargs.get('radius')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -129,7 +153,7 @@ def cast_fireball(*args, **kwargs):
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
-    results.append({'consumed': True, 'message': Message('The fireball explodes, burning everything within {0} tiles!'.format(radius), libtcod.orange)})
+    results.append({"consumed": item, 'message': Message('The fireball explodes, burning everything within {0} tiles!'.format(radius), libtcod.orange)})
 
     for entity in entities:
         if entity.distance(target_x, target_y) <= radius and entity.fighter:
@@ -143,6 +167,9 @@ def cast_confuse(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -153,7 +180,7 @@ def cast_confuse(*args, **kwargs):
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
             if isinstance(entity.ai, StaticMonster):
-                results.append({'consumed': True, 'message': Message('The {0} cannot be confused!'.format(entity.name), libtcod.yellow)})
+                results.append({"consumed": item, 'message': Message('The {0} cannot be confused!'.format(entity.name), libtcod.yellow)})
                 break
             else:
                 confused_ai = ConfusedMonster(entity.ai, 10)
@@ -161,7 +188,7 @@ def cast_confuse(*args, **kwargs):
                 confused_ai.owner = entity
                 entity.ai = confused_ai
 
-                results.append({'consumed': True, 'message': Message('The eyes of the {0} look vacant, as he starts to stumble around!'.format(entity.name), libtcod.light_green)})
+                results.append({"consumed": item, 'message': Message('The eyes of the {0} look vacant, as he starts to stumble around!'.format(entity.name), libtcod.light_green)})
                 break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
@@ -173,6 +200,9 @@ def cast_stun(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -183,7 +213,7 @@ def cast_stun(*args, **kwargs):
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
             if isinstance(entity.ai, StaticMonster):
-                results.append({'consumed': True, 'message': Message('The {0} cannot be stunned!'.format(entity.name), libtcod.yellow)})
+                results.append({"consumed": item, 'message': Message('The {0} cannot be stunned!'.format(entity.name), libtcod.yellow)})
                 break
             else:
                 stopped_ai = HardStoppedMonster(entity.ai, number_of_turns=5, resume_text="stunned")
@@ -191,7 +221,7 @@ def cast_stun(*args, **kwargs):
                 stopped_ai.owner = entity
                 entity.ai = stopped_ai
 
-                results.append({'consumed': True, 'message': Message('The eyes of the {0} look shocked, as he stops in his tracks!'.format(entity.name), libtcod.light_green)})
+                results.append({"consumed": item, 'message': Message('The eyes of the {0} look shocked, as he stops in his tracks!'.format(entity.name), libtcod.light_green)})
                 break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
@@ -203,6 +233,9 @@ def cast_sleep(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -213,7 +246,7 @@ def cast_sleep(*args, **kwargs):
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
             if isinstance(entity.ai, StaticMonster):
-                results.append({'consumed': True, 'message': Message('The {0} cannot be put to sleep!'.format(entity.name), libtcod.yellow)})
+                results.append({"consumed": item, 'message': Message('The {0} cannot be put to sleep!'.format(entity.name), libtcod.yellow)})
                 break
             else:
                 stopped_ai = SoftStoppedMonster(entity.ai, number_of_turns=10, resume_text="asleep")
@@ -221,7 +254,7 @@ def cast_sleep(*args, **kwargs):
                 stopped_ai.owner = entity
                 entity.ai = stopped_ai
 
-                results.append({'consumed': True, 'message': Message('The eyelids of the {0} look drop, as he falls over cold!'.format(entity.name), libtcod.light_green)})
+                results.append({"consumed": item, 'message': Message('The eyelids of the {0} look drop, as he falls over cold!'.format(entity.name), libtcod.light_green)})
                 break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
@@ -233,6 +266,9 @@ def cast_greed(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -243,7 +279,7 @@ def cast_greed(*args, **kwargs):
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai and entity.fighter:
             entity.fighter.effects.effects["golden"] = Effect(False, -1, None)
-            results.append({'consumed': True, 'message': Message(
+            results.append({"consumed": item, 'message': Message(
                 'The body of the {0} glimmers!'.format(entity.name), libtcod.light_green)})
             break
     else:
@@ -253,6 +289,9 @@ def cast_greed(*args, **kwargs):
 
 def cast_detect_traps(*args, **kwargs):
     entities = kwargs.get('entities')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
     
     results = []
 
@@ -272,6 +311,9 @@ def cast_detect_traps(*args, **kwargs):
 def cast_detect_stairs(*args, **kwargs):
     entities = kwargs.get('entities')
     game_map = kwargs.get('game_map')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
     
     results = []
 
@@ -292,6 +334,9 @@ def cast_random_teleportation(*args, **kwargs):
     caster = args[0]
     entities = kwargs.get('entities')
     game_map = kwargs.get('game_map')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
     
     results = []
 
@@ -302,7 +347,7 @@ def cast_random_teleportation(*args, **kwargs):
         if not game_map.is_blocked(x, y) and not any([entity for entity in entities if entity.x == x and entity.y == y]):
             caster.x = x
             caster.y = y
-            results.append({'consumed': True, 'message': Message('You teleported!', libtcod.purple), "teleport": True})
+            results.append({"consumed": item, 'message': Message('You teleported!', libtcod.purple), "teleport": True})
             break
 
     return results
@@ -314,6 +359,9 @@ def cast_blink(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
     
     results = []
 
@@ -324,7 +372,7 @@ def cast_blink(*args, **kwargs):
     else:
         caster.x = target_x
         caster.y = target_y
-        results.append({'consumed': True, 'message': Message('You blinked!', libtcod.purple), "teleport": True})
+        results.append({"consumed": item, 'message': Message('You blinked!', libtcod.purple), "teleport": True})
 
     return results
 
@@ -333,6 +381,9 @@ def cast_pacify(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -343,14 +394,14 @@ def cast_pacify(*args, **kwargs):
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
             if entity.fighter.can_be_pacified == False:
-                results.append({'consumed': True, 'message': Message('The {0} cannot be pacified!'.format(entity.name), libtcod.yellow)})
+                results.append({"consumed": item, 'message': Message('The {0} cannot be pacified!'.format(entity.name), libtcod.yellow)})
                 break
             else:
                 neutral_ai = NeutralMonster(entity.ai)
                 neutral_ai.owner = entity
                 entity.ai = neutral_ai
 
-                results.append({'consumed': True, 'message': Message('The {0} has been pacified!'.format(entity.name), libtcod.light_green)})
+                results.append({"consumed": item, 'message': Message('The {0} has been pacified!'.format(entity.name), libtcod.light_green)})
                 break
     else:
         results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
@@ -362,6 +413,9 @@ def cast_force_bolt(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -372,7 +426,7 @@ def cast_force_bolt(*args, **kwargs):
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
             damage = die(1, 12)
-            results.append({'consumed': True, 'message': Message('The magic bolt deals {1} hit points of damage to {0}.'.format(entity.name, damage), libtcod.crimson)})
+            results.append({"consumed": item, 'message': Message('The magic bolt deals {1} hit points of damage to {0}.'.format(entity.name, damage), libtcod.crimson)})
             results.extend(entity.fighter.take_damage(damage))
             break
     else:
@@ -385,6 +439,9 @@ def cast_death(*args, **kwargs):
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -395,7 +452,7 @@ def cast_death(*args, **kwargs):
     for entity in entities:
         if entity.x == target_x and entity.y == target_y and entity.ai:
             damage = 9999
-            results.append({'consumed': True, 'message': Message('The {0} turns to dust!'.format(entity.name, damage), [143, 191, 0])})
+            results.append({"consumed": item, 'message': Message('The {0} turns to dust!'.format(entity.name, damage), [143, 191, 0])})
             results.extend(entity.fighter.take_damage(damage))
             break
     else:
@@ -405,6 +462,9 @@ def cast_death(*args, **kwargs):
 
 def cast_mapping(*args, **kwargs):
     game_map = kwargs.get('game_map')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -436,6 +496,9 @@ def cast_identify_item(*args, **kwargs):
 
 def cast_charge_item(*args, **kwargs):
     results = []
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results.append({"charge_menu": True, "consumed": True})
 
@@ -444,22 +507,28 @@ def cast_charge_item(*args, **kwargs):
 def cast_detect_aura(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
     entity.fighter.effects.effects["detect_aura"] = Effect(True, turns, tick_detect_aura)
-    results.append({'consumed': True})
+    results.append({"consumed": item})
 
     return results
 
 def cast_detect_items(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
     entity.fighter.effects.effects["detect_items"] = Effect(True, turns, tick_detect_items)
-    results.append({'consumed': True})
+    results.append({"consumed": item})
 
     return results
 
@@ -469,6 +538,9 @@ def cast_make_invisible(*args, **kwargs):
     target_x = kwargs.get('target_x')
     target_y = kwargs.get('target_y')
     turns = kwargs.get('turns')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
@@ -480,12 +552,12 @@ def cast_make_invisible(*args, **kwargs):
         if entity.x == target_x and entity.y == target_y and entity.fighter:
             entity.fighter.effects.effects["invisible"] = Effect(True, turns, tick_invisible)
             if not entity.ai:
-                results.append({'consumed': True,
+                results.append({"consumed": item,
                                 'message': Message('Light starts to pass through your body!',
                                                    libtcod.green)})
                 break
             else:
-                results.append({'consumed': True,
+                results.append({"consumed": item,
                                 'message': Message('The {0} disappears!'.format(entity.name),
                                                    libtcod.yellow)})
                 break
@@ -497,23 +569,29 @@ def cast_make_invisible(*args, **kwargs):
 def cast_downwards_exit(*args, **kwargs):
     caster = args[0]
     game_map = kwargs.get('game_map')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
     
     results = []
 
-    results.append({'consumed': True, "downwards_exit": True})
+    results.append({"consumed": item, "downwards_exit": True})
 
     return results
 
 def stuck(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
 
     results = []
 
     attack_success(get_modifier(entity.fighter.constitution), 10)
     
     entity.fighter.effects.effects["stuck"] = Effect(True, turns, tick_stuck)
-    results.append({'consumed': True})
+    results.append({"consumed": item})
     if not entity.ai:
         results.append({'message': Message('You are caught in the trap!',
                                            libtcod.dark_grey)})

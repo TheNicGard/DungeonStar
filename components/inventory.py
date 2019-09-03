@@ -88,6 +88,7 @@ class Inventory:
                 else:
                     # I'm told by pyflakes this is incorrect syntax, but it only works with the ** ?
                     kwargs = {**item_component.function_kwargs, **kwargs}
+                    kwargs["item"] = item_entity
                     item_use_results = item_component.use_function(self.owner, **kwargs)
 
                     for item_use_result in item_use_results:
@@ -140,7 +141,7 @@ class Inventory:
 
         if not item.identity.identified:
             item.identity.identify()
-            results.append({'item_identified': item, "consumed": True})
+            results.append({'item_identified': item})
             if not self.owner.ai:
                 results.append({'message': Message('You identified the {0}.'.format(item.get_name),
                                                    libtcod.lightest_grey)})
