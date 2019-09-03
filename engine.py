@@ -341,7 +341,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 game.lowest_level = game_map.dungeon_level
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                                 break
-                    elif entity.trap and entity.trap.revealed and entity.trap.trap_function.__name__ == "hole_trap":
+                    elif entity.trap and entity.trap.revealed and entity.trap.trap_function.__name__ == "hole_trap" and entity.x == player.x and entity.y == player.y:
                         player_turn_results.append({"downwards_exit": True})
                         
                 else:
