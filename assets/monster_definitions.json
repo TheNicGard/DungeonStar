@@ -77,6 +77,60 @@
 	},
 	"spawn_rate": [[8, 1]]
     },
+
+    {
+	"monster_id": "giant_ant",
+	"name": "giant ant",
+	"color": [60, 20, 20],
+	"symbol": "a",
+	"fighter": {
+	    "hp": 6,
+	    "STR": 12,
+	    "DEX": 12,
+	    "CON": 10,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 6, 0]
+	    ],
+	    "xp": 40,
+	    "max_gold_drop": 8
+	},
+	"ai": "BasicMonster",
+	"ai_details": {
+	    "can_be_pacified": true
+	},
+	"spawn_rate": [[8, 4]]
+    },
+
+    {
+	"monster_id": "giant_bee",
+	"name": "giant bee",
+	"color": [255, 255, 0],
+	"symbol": "b",
+	"fighter": {
+	    "hp": 6,
+	    "STR": 12,
+	    "DEX": 12,
+	    "CON": 10,
+	    "INT": 4,
+	    "WIS": 4,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 6, 0]
+	    ],
+	    "xp": 40,
+	    "max_gold_drop": 8
+	},
+	"ai": "BasicMonster",
+	"ai_details": {
+	    "can_be_pacified": true
+	},
+	"spawn_rate": [[8, 4]]
+    },
     
     {
 	"monster_id": "snake",
