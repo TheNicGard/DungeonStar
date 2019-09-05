@@ -109,7 +109,7 @@
 	"monster_id": "giant_bee",
 	"name": "giant bee",
 	"color": [255, 255, 0],
-	"symbol": "b",
+	"symbol": "a",
 	"fighter": {
 	    "hp": 6,
 	    "STR": 12,
