@@ -74,6 +74,9 @@ def handle_player_turn_keys(key):
     elif key_char == 'f' and key.lctrl:
         return {'fullscreen': True}
 
+    elif key.vk == libtcod.KEY_F1:
+        return {"debug_print_fov": True}
+
     return {}
 
 def handle_player_dead_keys(key):

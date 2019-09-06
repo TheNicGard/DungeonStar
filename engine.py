@@ -230,6 +230,10 @@ def play_game(player, entities, game_map, turn, message_log,
         accept = action.get("accept")
         rest = action.get("rest")
         wizard_mode = action.get("wizard_mode")
+
+        debug_print_fov = None
+        if hasattr(player, "wizard_mode") and player.wizard_mode:
+            debug_print_fov = action.get("debug_print_fov")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -498,6 +502,24 @@ def play_game(player, entities, game_map, turn, message_log,
         
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
+
+        if debug_print_fov:
+            for r in range(game_map.height):
+                line = ""
+                for c in range(game_map.width):
+                    entities_in_loc = get_entities_at_location(entities, c, r)
+                    if player.x == c and player.y == r:
+                        line += "@"
+                    elif len(entities_in_loc) > 0:
+                        if fov_map.fov[r][c]:
+                            line += "!"
+                        else:
+                            line += "?"
+                    elif fov_map.fov[r][c]:
+                        line += "1"
+                    else:
+                        line += "0"
+                print(line)
 
         if game_state == GameStates.RESTING:
             if player.fighter.hp == player.fighter.max_hp:
