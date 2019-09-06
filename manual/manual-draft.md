@@ -52,11 +52,11 @@ Many items within the *The Depression* are foreign to surface-dwellers, and as s
 
 The identity of each item is different every new game, so don't rely the identity of one item to be the same from a previous game (e.g. a Diet Dr. Fabulous may be a poison potion one game, but be a potion of cure poison the next game).
 
-## Wizard Mode
+## *Wizard Mode*
 
-Wizard mode is a debug mode meant to access difficult portions of the game without skill. Once initiated, you cannot exit wizard mode.
+*Wizard Mode* is a debug mode meant to access difficult portions of the game without skill. Once initiated, you cannot exit *Wizard Mode*, and high scores will not be saved.
 
-# The Depression
+# *The Depression*
 
 *The Depression* is a mega-dungeon formed via unknown means. Some theorize that it's the remnants of a crater left behind after the *Dungeon Star* fell to Earth; others believe that a great mage formed the dungeon using the power of the crown. Either way, your goal is to dive into *The Depression*, retreive the *Dungeon Star*, and reach the lowest point of the dungeon. Of course, the *Dungeon Star* is functionless in the current version of the game, and the variety in enemies and items spawned stops after around 20 levels down, so the overall method of getting to the lowest point should be of little concern.
 
@@ -118,9 +118,13 @@ The controls of **Dungeon Star** are ever-changing as new features are added, an
 
 * i - open inventory
 * d - drop item
-* c - show character screen
+* TAB - show character screen
 
 ## Other
 
 * Ctrl + f - toggle fullscreen
-* Ctrl + w - enter wizard mode
+* Ctrl + w - enter *Wizard Mode*
+
+## Debug Keys (only available from *Wizard Mode*)
+
+* F1 - print fov_map to console
