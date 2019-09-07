@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated August 30, 2019
+date: Last updated September 7, 2019
 ...
 \pagebreak
 # Introduction
@@ -127,4 +127,6 @@ The controls of **Dungeon Star** are ever-changing as new features are added, an
 
 ## Debug Keys (only available from *Wizard Mode*)
 
-* F1 - print fov_map to console
+* F1 - print game info to the console
+* F2 - toggle FOV view
+* Ctrl + F*X* - print information to a log file instead of the console, when appropriate
