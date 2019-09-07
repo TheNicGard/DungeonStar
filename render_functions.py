@@ -185,11 +185,30 @@ def render_tile(con, game_state, game_map, fov_map, cursor, x, y, colors, config
             else:
                 libtcod.console_set_char_background(con, x, y, colors.get('dark_ground'), libtcod.BKGND_SET)
 
+def render_tile_in_fov(con, game_state, game_map, fov_map, x, y):
+    visible = libtcod.map_is_in_fov(fov_map, x, y)
+    wall = game_map.tiles[x][y].block_sight
+    window = game_map.tiles[x][y].window
+
+    if visible:
+        if wall:
+            libtcod.console_set_char_background(con, x, y, libtcod.sepia, libtcod.BKGND_SET)
+        elif window:
+            libtcod.console_set_char_background(con, x, y, libtcod.darker_grey, libtcod.BKGND_SET)
+        else:
+            libtcod.console_set_char_background(con, x, y, libtcod.white, libtcod.BKGND_SET)
+    else:
+        libtcod.console_set_char_background(con, x, y, libtcod.black, libtcod.BKGND_SET)
+
 def render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
                turn, message_log, screen_width, screen_height, panel_height, panel_y,
                mouse, colors, game_state, cursor, config, status_screen_width, status_screen_height):
 
-    if fov_recompute:
+    if config.get("DEBUG_SHOW_FOV"):
+        for y in range(game_map.height):
+            for x in range(game_map.width):
+                render_tile_in_fov(con, game_state, game_map, fov_map, x, y)
+    elif fov_recompute:
         for y in range(game_map.height):
             for x in range(game_map.width):
                 render_tile(con, game_state, game_map, fov_map, False, x, y, colors, config)
@@ -200,12 +219,16 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
     see_ai = player.fighter.is_effect("detect_aura")
     see_items = player.fighter.is_effect("detect_items")
     see_invisible = player.fighter.is_effect("see_invisible")
-    
-    for entity in entities_in_render_order:
-        if entity.animation:
-            draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
-        else:
-            draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
+
+    if config.get("DEBUG_SHOW_FOV"):
+        for entity in entities_in_render_order:
+            draw_entity_in_fov(con, entity, fov_map)
+    else:
+        for entity in entities_in_render_order:
+            if entity.animation:
+                draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
+            else:
+                draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
 
     # CURSOR
     if game_state == GameStates.LOOK_AT:
@@ -383,3 +406,15 @@ def draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_
 
 def clear_entity(con, entity):
     libtcod.console_put_char(con, entity.x, entity.y, ' ', libtcod.BKGND_NONE)
+
+def draw_entity_in_fov(con, entity, fov_map):
+    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
+        if entity.id == "player":
+            libtcod.console_set_default_foreground(con, libtcod.dark_blue)
+            libtcod.console_put_char(con, entity.x, entity.y, "@", libtcod.BKGND_NONE)
+        else:
+            libtcod.console_set_default_foreground(con, libtcod.dark_green)
+            libtcod.console_put_char(con, entity.x, entity.y, "!", libtcod.BKGND_NONE)
+    else:
+        libtcod.console_set_default_foreground(con, libtcod.dark_red)
+        libtcod.console_put_char(con, entity.x, entity.y, "?", libtcod.BKGND_NONE)
