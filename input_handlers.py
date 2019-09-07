@@ -75,7 +75,10 @@ def handle_player_turn_keys(key):
         return {'fullscreen': True}
 
     elif key.vk == libtcod.KEY_F1:
-        return {"debug_dump_info": True}
+        if key.lctrl:
+            return {"debug_dump_info": True, "debug_dump_to_file": True}
+        else:
+            return {"debug_dump_info": True}
     elif key.vk == libtcod.KEY_F2:
         return {"debug_print_fov": True}
 
