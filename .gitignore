@@ -6,3 +6,4 @@ TODO.org
 .eggs
 build/
 dist/
+logfile*

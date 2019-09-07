@@ -1,4 +1,5 @@
 #!/usr/bin/python3 -Wignore
+import datetime
 import os
 import tcod as libtcod
 from components.animation import Animation
@@ -152,6 +153,7 @@ def play_game(player, entities, game_map, turn, message_log,
     targeting_item = None
 
     enable_wizard_mode_confirmation = False
+    debug_show_fov = False
 
     creation_menu_cursor = MenuCursor(max_index=[5, 5])
     stat_boosts = [[3, 4], [2, 5], [1, 2], [6, 3], [5, 6], [4, 1]]
@@ -187,7 +189,8 @@ def play_game(player, entities, game_map, turn, message_log,
                        turn, message_log,
                        constants['screen_width'], constants['screen_height'],
                        constants['panel_height'], constants['panel_y'], mouse,
-                       constants['colors'], game_state, key_cursor, {"CLASSIC_COLOR": False},
+                       constants['colors'], game_state, key_cursor,
+                       {"CLASSIC_COLOR": False, "DEBUG_SHOW_FOV": debug_show_fov},
                        constants["status_screen_width"], constants["status_screen_height"]
             )
 
@@ -231,8 +234,12 @@ def play_game(player, entities, game_map, turn, message_log,
         rest = action.get("rest")
         wizard_mode = action.get("wizard_mode")
 
+        debug_dump_info = None
+        debug_dump_to_file = None
         debug_print_fov = None
         if hasattr(player, "wizard_mode") and player.wizard_mode:
+            debug_dump_info = action.get("debug_dump_info")
+            debug_dump_to_file = action.get("debug_dump_to_file")
             debug_print_fov = action.get("debug_print_fov")
  
         left_click = mouse_action.get('left_click')
@@ -503,7 +510,16 @@ def play_game(player, entities, game_map, turn, message_log,
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
-        if debug_print_fov:
+        if debug_dump_info:
+            if debug_dump_to_file:
+                current_time = datetime.datetime.now()
+                f = open("{0}.txt".format(current_time.strftime("logfile_%Y_%m_%d_%H_%M_%S")), "w+")
+
+            if debug_dump_to_file:
+                f.write("FOV map:\n")
+            else:
+                print("FOV map:")
+                
             for r in range(game_map.height):
                 line = ""
                 for c in range(game_map.width):
@@ -519,7 +535,17 @@ def play_game(player, entities, game_map, turn, message_log,
                         line += "1"
                     else:
                         line += "0"
-                print(line)
+                if debug_dump_to_file:
+                    f.write(line + "\n")
+                else:
+                    print(line)
+
+            if debug_dump_to_file:
+                f.close()
+            
+        if debug_print_fov:
+            debug_show_fov = not debug_show_fov
+            fov_map, fov_recompute = redraw_fov(game_map)
 
         if game_state == GameStates.RESTING:
             if player.fighter.hp == player.fighter.max_hp:
