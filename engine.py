@@ -953,12 +953,12 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
         line += "{0} ({1}): ({2}, {3})".format(e.name, e.id, e.x, e.y)
         if e.item:
             line += ". This is an item."
-        elif e.ai:
-            line += ". This is a monster."
+        elif e.ai and e.fighter:
+            line += ".\nThis is monster has {0}/{1} HP.".format(e.fighter.max_hp, e.fighter.hp)
         elif e.trap:
             line += ". This is a trap."
         elif e.sign:
-            line += ". This is a sign reading \"{0}\".".format(e.sign.text)
+            line += ".\nThis is sign reads \"{0}\".".format(e.sign.text)
         elif e.stairs:
             line += ". These are stairs."
         elif e.door:
