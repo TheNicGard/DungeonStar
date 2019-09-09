@@ -27,27 +27,35 @@ class BasicMonster:
         results = []
         
         monster = self.owner
+        print("\n{0} is at ({1}, {2}).".format(monster.name, monster.x, monster.y))
+        
         if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+            print("PLAYER IS IN FOV")
             if monster.distance_to(target) >= 2:
                 if not self.owner.fighter.is_effect("stuck"):
                     if target.fighter.is_effect("invisible"):
                         random_x = self.owner.x + randint(0, 2) - 1
                         random_y = self.owner.y + randint(0, 2) - 1
                         if random_x != self.owner.x and random_y != self.owner.y:
+                            print("move randomly")
                             self.owner.move_towards(random_x, random_y, game_map, entities)
                     else:
+                        print("target player")
                         monster.move_astar(target, entities, game_map)
 
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))
 
             elif target.fighter.hp > 0:
+                print("attack target")
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
         else:
+            print("PLAYER IS NOT IN FOV")
             if not self.owner.fighter.is_effect("stuck"):
                 random_x = self.owner.x + randint(0, 2) - 1
                 random_y = self.owner.y + randint(0, 2) - 1
                 if not (random_x == self.owner.x and random_y == self.owner.y):
+                    print("move randomly")
                     self.owner.move_towards(random_x, random_y, game_map, entities)
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))
                     
@@ -66,52 +74,41 @@ class AggressiveMonster:
         results = []
         monster = self.owner
         
-        print("\n{0} is at ({1}, {2}).".format(monster.name, monster.x, monster.y))
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
-            print("PLAYER IS IN FOV, SEEKING")
+        if libtcod.map_is_in_fov(fov_map, monster.y, monster.x):
             self.seeking = True
             self.current_patience = self.max_patience
             if monster.distance_to(target) >= 2:
-                if target.fighter.is_effect("invisible"):
-                    random_x = monster.x + randint(0, 2) - 1
-                    random_y = monster.y + randint(0, 2) - 1
-                    if not self.owner.fighter.is_effect("stuck"):
-                        print("move randomly")
+                if not self.owner.fighter.is_effect("stuck"):
+                    if target.fighter.is_effect("invisible"):
+                        random_x = monster.x + randint(0, 2) - 1
+                        random_y = monster.y + randint(0, 2) - 1
                         if random_x != self.owner.x and random_y != self.owner.y:
                             monster.move_towards(random_x, random_y, game_map, entities)
-                            results.extend(check_for_traps(monster, entities, game_map, fov_map))
-                else:
-                    print("target player")
-                    monster.move_astar(target, entities, game_map)
+                    else:
+                        monster.move_astar(target, entities, game_map)
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))
             elif target.fighter.hp > 0:
-                print("attack target")
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
         elif self.current_patience > 0 and self.seeking:
-            print("PLAYER IS NOT IN FOV, SEEKING")
             self.current_patience -= 1
             if self.current_patience <= 0:
                 self.seeking = False
             if monster.distance_to(target) >= 2:
                 if not self.owner.fighter.is_effect("stuck"):
-                    print("hunt for player")
                     monster.move_astar(target, entities, game_map)
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))
             elif target.fighter.hp > 0:
                 if self.current_patience < self.max_patience:
                     self.current_patience += 1
-                print("attack target")
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
         else:
-            print("PLAYER IS NOT IN FOV")
             if self.current_patience < self.max_patience:
                     self.current_patience += 1
             if not monster.fighter.is_effect("stuck"):
                 random_x = monster.x + randint(0, 2) - 1
                 random_y = monster.y + randint(0, 2) - 1
-                print("move randomly")
                 if random_x != self.owner.x and random_y != self.owner.y:
                     monster.move_towards(random_x, random_y, game_map, entities)
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))

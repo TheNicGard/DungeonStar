@@ -175,8 +175,8 @@ def play_game(player, entities, game_map, turn, message_log,
         
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y,
-                          game_map.brightness + get_light(player_light_sources), constants['fov_light_walls'],
-                          constants['fov_algorithm'])
+                          game_map.brightness + get_light(player_light_sources),
+                          constants['fov_light_walls'], constants['fov_algorithm'])
 
         if game_state == GameStates.CHARACTER_CREATION:
             render_character_creation(con, panel, constants['screen_width'],
@@ -953,12 +953,16 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
         line += "{0} ({1}): ({2}, {3})".format(e.name, e.id, e.x, e.y)
         if e.item:
             line += ". This is an item."
-        elif e.ai:
-            line += ". This is a monster."
+        elif e.ai and e.fighter:
+            line += ".\nThis is monster has {0}/{1} HP.".format(e.fighter.max_hp, e.fighter.hp)
+            if libtcod.map_is_in_fov(fov_map, e.x, e.y):
+                line += " It is in the FOV."
+            else:
+                line += " It is not in the FOV."
         elif e.trap:
             line += ". This is a trap."
         elif e.sign:
-            line += ". This is a sign reading \"{0}\".".format(e.sign.text)
+            line += ".\nThis is sign reads \"{0}\".".format(e.sign.text)
         elif e.stairs:
             line += ". These are stairs."
         elif e.door:
@@ -1003,8 +1007,6 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
             f.write(line + "\n")
         else:
             print(line)
-
-    
     
     if debug_dump_to_file:
         f.write("\nFOV map:\n")
@@ -1019,11 +1021,11 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
             if player.x == c and player.y == r:
                 line += "@"
             elif len(entities_in_loc) > 0:
-                if fov_map.fov[r][c]:
+                if libtcod.map_is_in_fov(fov_map, c, r):
                     line += "!"
                 else:
                     line += "?"
-            elif fov_map.fov[r][c]:
+            elif libtcod.map_is_in_fov(fov_map, c, r):
                 line += "1"
             else:
                 line += "0"
