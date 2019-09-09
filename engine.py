@@ -511,38 +511,8 @@ def play_game(player, entities, game_map, turn, message_log,
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
         if debug_dump_info:
-            if debug_dump_to_file:
-                current_time = datetime.datetime.now()
-                f = open("{0}.txt".format(current_time.strftime("logfile_%Y_%m_%d_%H_%M_%S")), "w+")
+            print_log(debug_dump_to_file, player, entities, game_map, fov_map)
 
-            if debug_dump_to_file:
-                f.write("FOV map:\n")
-            else:
-                print("FOV map:")
-                
-            for r in range(game_map.height):
-                line = ""
-                for c in range(game_map.width):
-                    entities_in_loc = get_entities_at_location(entities, c, r)
-                    if player.x == c and player.y == r:
-                        line += "@"
-                    elif len(entities_in_loc) > 0:
-                        if fov_map.fov[r][c]:
-                            line += "!"
-                        else:
-                            line += "?"
-                    elif fov_map.fov[r][c]:
-                        line += "1"
-                    else:
-                        line += "0"
-                if debug_dump_to_file:
-                    f.write(line + "\n")
-                else:
-                    print(line)
-
-            if debug_dump_to_file:
-                f.close()
-            
         if debug_print_fov:
             debug_show_fov = not debug_show_fov
             fov_map, fov_recompute = redraw_fov(game_map)
@@ -968,6 +938,103 @@ def get_light(player_light_sources):
     if len(player_light_sources) > 0:
         return max(light.get_light for light in player_light_sources)
     return 0
+
+def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
+    current_time = datetime.datetime.now()
+    f = open("{0}.txt".format(current_time.strftime("logfile_%Y_%m_%d_%H_%M_%S")), "w+")
+
+    if debug_dump_to_file:
+        f.write("Entities:\n")
+    else:
+        print("Entities:")
+    
+    for e in entities:
+        line = ""
+        line += "{0} ({1}): ({2}, {3})".format(e.name, e.id, e.x, e.y)
+        if e.item:
+            line += ". This is an item."
+        elif e.ai:
+            line += ". This is a monster."
+        elif e.trap:
+            line += ". This is a trap."
+        elif e.sign:
+            line += ". This is a sign reading \"{0}\".".format(e.sign.text)
+        elif e.stairs:
+            line += ". These are stairs."
+        elif e.door:
+            line += ". This is a door."
+        if debug_dump_to_file:
+            f.write(line + "\n\n")
+        else:
+            print(line + "\n")
+    
+    if debug_dump_to_file:
+        f.write("\nGame map:\n")
+    else:
+        print("\nGame map:")
+
+    for r in range(game_map.height):
+        line = ""
+        for c in range(game_map.width):
+            entities_in_loc = get_entities_at_location(entities, c, r)
+            
+            if player.x == c and player.y == r:
+                line += "@"
+            elif len(entities_in_loc) > 0:
+                top_entity = sorted(entities_in_loc, key=lambda e: e.render_order.value)[0]
+                if top_entity.item:
+                    line += "*"
+                elif top_entity.ai:
+                    line += "A"
+                elif top_entity.trap:
+                    line += "^"
+                elif top_entity.sign:
+                    line += "|"
+                elif top_entity.stairs:
+                    line += ">"
+                elif top_entity.door:
+                    line += "+"
+            elif game_map.tiles[c][r].blocked:
+                line += "#"
+            else:
+                line += "."
+                
+        if debug_dump_to_file:
+            f.write(line + "\n")
+        else:
+            print(line)
+
+    
+    
+    if debug_dump_to_file:
+        f.write("\nFOV map:\n")
+    else:
+        print("\nFOV map:")
+                
+    for r in range(game_map.height):
+        line = ""
+        for c in range(game_map.width):
+            entities_in_loc = get_entities_at_location(entities, c, r)
+            
+            if player.x == c and player.y == r:
+                line += "@"
+            elif len(entities_in_loc) > 0:
+                if fov_map.fov[r][c]:
+                    line += "!"
+                else:
+                    line += "?"
+            elif fov_map.fov[r][c]:
+                line += "1"
+            else:
+                line += "0"
+                
+        if debug_dump_to_file:
+            f.write(line + "\n")
+        else:
+            print(line)
+                    
+    if debug_dump_to_file:
+        f.close()
 
 if __name__ == '__main__':
     main()
