@@ -690,7 +690,7 @@
 	"name": "dagger",
 	"color": [203, 203, 203],
 	"symbol": ")",
-	"weight": 20,
+	"weight": 15,
 	"equipment": {
 	    "slot": "main_hand",
 	    "hit_dice_count": 1,
@@ -705,7 +705,7 @@
 	"name": "shortsword",
 	"color": [0, 191, 255],
 	"symbol": ")",
-	"weight": 20,
+	"weight": 15,
 	"equipment": {
 	    "slot": "main_hand",
 	    "hit_dice_count": 1,
@@ -716,9 +716,54 @@
     },
 
     {
+	"item_id": "spear",
+	"name": "spear",
+	"color": [0, 191, 255],
+	"symbol": ")",
+	"weight": 15,
+	"equipment": {
+	    "slot": "main_hand",
+	    "hit_dice_count": 1,
+	    "hit_dice_side_count": 6
+	},
+	"spawn_rate": [[5, 4]],
+	"classification": ["weapon", "1h_pole_weapon"]
+    },
+
+    {
+	"item_id": "mace",
+	"name": "mace",
+	"color": [0, 191, 255],
+	"symbol": ")",
+	"weight": 15,
+	"equipment": {
+	    "slot": "main_hand",
+	    "hit_dice_count": 1,
+	    "hit_dice_side_count": 6
+	},
+	"spawn_rate": [[5, 4]],
+	"classification": ["weapon", "1h_blunt_weapon"]
+    },
+
+    {
+	"item_id": "handaxe",
+	"name": "handaxe",
+	"color": [0, 191, 255],
+	"symbol": ")",
+	"weight": 15,
+	"equipment": {
+	    "slot": "main_hand",
+	    "hit_dice_count": 1,
+	    "hit_dice_side_count": 6
+	},
+	"spawn_rate": [[5, 4]],
+	"classification": ["weapon", "1h_axe"]
+    },
+
+    {
 	"item_id": "longsword",
 	"name": "longsword",
-	"color": [0, 191, 255],
+	"color": [0, 40, 180],
 	"symbol": ")",
 	"weight": 20,
 	"equipment": {
@@ -728,6 +773,36 @@
 	},
 	"spawn_rate": [[5, 12]],
 	"classification": ["weapon", "long_blade"]
+    },
+
+    {
+	"item_id": "battleaxe",
+	"name": "battleaxe",
+	"color": [0, 40, 180],
+	"symbol": ")",
+	"weight": 20,
+	"equipment": {
+	    "slot": "main_hand",
+	    "hit_dice_count": 1,
+	    "hit_dice_side_count": 8
+	},
+	"spawn_rate": [[5, 12]],
+	"classification": ["weapon", "1h_axe"]
+    },
+
+    {
+	"item_id": "morningstar",
+	"name": "morningstar",
+	"color": [0, 40, 180],
+	"symbol": ")",
+	"weight": 20,
+	"equipment": {
+	    "slot": "main_hand",
+	    "hit_dice_count": 1,
+	    "hit_dice_side_count": 8
+	},
+	"spawn_rate": [[5, 12]],
+	"classification": ["weapon", "1h_blunt_weapon"]
     },
 
     {
@@ -762,7 +837,7 @@
 	"item_id": "tower_shield",
 	"name": "tower shield",
 	"weight": 20,
-	"color": [128, 64, 0],
+	"color": [66, 33, 0],
 	"symbol": "[",
 	"equipment": {
 	    "slot": "off_hand",
@@ -797,6 +872,20 @@
 	    "armor_bonus": 2
 	},
 	"spawn_rate": [[10, 8]],
+	"classification": ["armor"]
+    },
+
+    {
+	"item_id": "plate_armor",
+	"name": "plate armor",
+	"weight": 30,
+	"color": [66, 33, 0],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "off_hand",
+	    "armor_bonus": 3
+	},
+	"spawn_rate": [[10, 10]],
 	"classification": ["armor"]
     },
 
@@ -1048,7 +1137,7 @@
     {
 	"item_id": "charisma_boost_ring",
 	"name": "ring of Charisma",
-	"color": [191, 0, 255],
+	"color": [159, 0, 212],
 	"symbol": "=",
 	"weight": 2,
 	"targeting": false,
