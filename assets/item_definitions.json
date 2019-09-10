@@ -876,6 +876,20 @@
     },
 
     {
+	"item_id": "plate_armor",
+	"name": "plate armor",
+	"weight": 30,
+	"color": [66, 33, 0],
+	"symbol": "[",
+	"equipment": {
+	    "slot": "off_hand",
+	    "armor_bonus": 3
+	},
+	"spawn_rate": [[10, 10]],
+	"classification": ["armor"]
+    },
+
+    {
 	"item_id": "dungeon_star",
 	"name": "Dungeon Star",
 	"weight": 0,
