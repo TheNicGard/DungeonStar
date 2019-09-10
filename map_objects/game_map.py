@@ -191,7 +191,7 @@ class GameMap:
                         self.tiles[data_x][data_y].blocked = True
                         self.tiles[data_x][data_y].block_sight = False
                         self.tiles[data_x][data_y].window = True
-                    if piece == "player":
+                    elif piece == "player":
                         player.x = data_x
                         player.y = data_y
                     elif piece[0:6] == "sign: ":
@@ -253,6 +253,8 @@ class GameMap:
                     elif piece in monster_defs:
                         monster = get_monster(piece, data_x, data_y)
                         entities.append(monster)
+                    else:
+                        print("id {0} not recognized, could not load.".format(piece))
         
     def next_floor(self, player, message_log, constants, downwards, took_stairs=True):
         if downwards:
