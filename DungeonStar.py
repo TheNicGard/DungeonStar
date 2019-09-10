@@ -55,7 +55,7 @@ def main():
     show_delete_save_confirmation = False
     start_new_game = False
 
-    main_menu_background_image = libtcod.image_load('menu_background.png')
+    main_menu_background_image = libtcod.image_load('main_menu_background.png')
 
     key = libtcod.Key()
     mouse = libtcod.Mouse()
