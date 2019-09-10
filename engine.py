@@ -454,7 +454,7 @@ def play_game(player, entities, game_map, turn, message_log,
         if look_at_entity:
             matching_entities = []
             for e in entities:
-                if e.x == key_cursor.x and e.y == key_cursor.y and (libtcod.map_is_in_fov(fov_map, key_cursor.x, key_cursor.y) or ((e.stairs or e.door or e.sign or e.trap) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
+                if e.x == key_cursor.x and e.y == key_cursor.y and (fov_map.fov[key_cursor.y][key_cursor.x] or ((e.stairs or e.door or e.sign or e.trap) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
                     if e.trap and not e.trap.revealed:
                         pass
                     else:
@@ -832,7 +832,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 new_enemy.ai.mother = spawn_enemy.get("mother")
                             entities.append(new_enemy)
                         if downwards_exit:
-                            if libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
+                            if fov_map.fov[entity.y][entity.x]:
                                 message_log.add_message(Message('{0} fell down a hole!'.format(
                                     entity.name.capitalize()),
                                                                 libtcod.white))
@@ -919,7 +919,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, pl
                                                     libtcod.yellow))
 
                 if stuck is not None and stuck <= 0:
-                    if e.ai and libtcod.map_is_in_fov(fov_map, e.x, e.y):
+                    if e.ai and fov_map.fov[e.y][e.x]:
                         message_log.add_message(Message("The {0} is freed!".format(e.name),
                                                         libtcod.white))
                     elif not e.ai:
@@ -955,7 +955,7 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
             line += ". This is an item."
         elif e.ai and e.fighter:
             line += ".\nThis is monster has {0}/{1} HP.".format(e.fighter.max_hp, e.fighter.hp)
-            if libtcod.map_is_in_fov(fov_map, e.x, e.y):
+            if fov_map.fov[e.y][e.x]:
                 line += " It is in the FOV."
             else:
                 line += " It is not in the FOV."
@@ -1021,11 +1021,11 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
             if player.x == c and player.y == r:
                 line += "@"
             elif len(entities_in_loc) > 0:
-                if libtcod.map_is_in_fov(fov_map, c, r):
+                if fov_map.fov[r][c]:
                     line += "!"
                 else:
                     line += "?"
-            elif libtcod.map_is_in_fov(fov_map, c, r):
+            elif fov_map.fov[r][c]:
                 line += "1"
             else:
                 line += "0"

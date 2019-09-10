@@ -11,7 +11,7 @@ def check_for_traps(monster, entities, game_map, fov_map):
     for e in entities_in_loc:
         # 50% chance to set off trap
         if e.trap and attack_success(get_modifier(monster.fighter.dexterity), 10):
-            if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+            if fov_map[monster.y][monster.x]:
                 e.trap.set_reveal(True)
             results.extend(e.trap.trap_function(monster, **{"game_map": game_map,
                                                             "entities": entities,
@@ -28,8 +28,9 @@ class BasicMonster:
         
         monster = self.owner
         print("\n{0} is at ({1}, {2}).".format(monster.name, monster.x, monster.y))
+        print(fov_map.fov[monster.y][monster.x])
         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if fov_map.fov[monster.y][monster.x]:
             print("PLAYER IS IN FOV")
             if monster.distance_to(target) >= 2:
                 if not self.owner.fighter.is_effect("stuck"):
@@ -212,7 +213,7 @@ class StaticMonster:
         results = []
         monster = self.owner
         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if fov_map.fov[monster.y][monster.x]:
             if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
@@ -249,7 +250,7 @@ class MotherDoughAI(StaticMonster):
         else:
             self.turns_to_spawn -= 1
                         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if fov_map.fov[monster.y][monster.x]:
             if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
@@ -295,7 +296,7 @@ class SourdoughAI(StaticMonster):
         else:
             self.turns_to_spawn -= 1
                         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if fov_map.fov[monster.y][monster.x]:
             if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)

@@ -86,7 +86,7 @@ def bear_trap(target, **kwargs):
         results.append({"message": Message(
             'You step into a bear trap, taking {0} points of damage!'.format(
                 damage_taken), libtcod.yellow)})
-    elif libtcod.map_is_in_fov(fov_map, target.x, target.y):
+    elif fov_map[target.y][target.x]:
         results.append({"message": Message(
             '{0} stepped into a bear trap!'.format(
                 target.name.capitalize(), damage_taken), libtcod.white)})
