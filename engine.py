@@ -142,7 +142,8 @@ def play_game(player, entities, game_map, turn, message_log,
         player.plot = p
         player.name = p.protagonist.name
     
-    fov_map, fov_recompute = redraw_fov(game_map)
+    fov_map, fov_recompute = initialize_fov(game_map), True
+    
     player_light_sources = []
 
     key = libtcod.Key()
@@ -260,7 +261,7 @@ def play_game(player, entities, game_map, turn, message_log,
                             if not target.door.ajar:
                                 target.door.open_door(game_map.tiles[destination_x][destination_y])
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
-                                fov_map, fov_recompute = redraw_fov(game_map)
+                                fov_recompute = True
                         else:
                             attack_results = player.fighter.attack(target)
                             player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
@@ -291,7 +292,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                     temp_str += items_in_loc[len(items_in_loc) - 1] + "."
                                     message_log.add_message(Message(temp_str, libtcod.white))
 
-                            fov_map, fov_recompute = redraw_fov(game_map)
+                            fov_recompute = True
                         
                     previous_game_state = game_state
                     game_state = GameStates.ENEMY_TURN
@@ -347,7 +348,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 break
                             else:
                                 entities = game_map.next_floor(player, message_log, constants, True)
-                                fov_map, fov_recompute = redraw_fov(game_map)
+                                fov_recompute = True
                                 libtcod.console_clear(con)
                                 game.lowest_level = game_map.dungeon_level
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
@@ -369,7 +370,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 break
                             else:
                                 entities = game_map.next_floor(player, message_log, constants, False)
-                                fov_map, fov_recompute = redraw_fov(game_map)
+                                fov_recompute = True
                                 libtcod.console_clear(con)
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                                 break
@@ -487,7 +488,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     key_cursor.x += dx
                 if key_cursor.y + dy >= 0 and key_cursor.y + dy < constants["map_height"]:
                     key_cursor.y += dy
-                fov_map, fov_recompute = redraw_fov(game_map)
+                fov_recompute = True
                 
         if end:
             if game_state in (GameStates.SHOW_INVENTORY,
@@ -496,7 +497,7 @@ def play_game(player, entities, game_map, turn, message_log,
                               GameStates.HELP_SCREEN,
                               GameStates.LOOK_AT):
                 game_state = previous_game_state
-                fov_map, fov_recompute = redraw_fov(game_map)
+                fov_recompute = True
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
             else:
@@ -515,7 +516,7 @@ def play_game(player, entities, game_map, turn, message_log,
 
         if debug_print_fov:
             debug_show_fov = not debug_show_fov
-            fov_map, fov_recompute = redraw_fov(game_map)
+            fov_recompute = True
 
         if game_state == GameStates.RESTING:
             if player.fighter.hp == player.fighter.max_hp:
@@ -768,7 +769,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     entities.append(drop_inventory.drop_item(i)[0].get("item_dropped"))
 
             if teleport:
-                fov_map, fov_recompute = redraw_fov(game_map)
+                fov_recompute = True
 
             if identify_menu:
                 previous_game_state = game_state
@@ -780,7 +781,7 @@ def play_game(player, entities, game_map, turn, message_log,
 
             if downwards_exit:
                 entities = game_map.next_floor(player, message_log, constants, True, False)
-                fov_map, fov_recompute = redraw_fov(game_map)
+                fov_recompute = True
                 libtcod.console_clear(con)
                 game.lowest_level = game_map.dungeon_level
 
@@ -790,13 +791,13 @@ def play_game(player, entities, game_map, turn, message_log,
 
             if light_added:
                 player_light_sources.append(light_added)
-                fov_map, fov_recompute = redraw_fov(game_map)
+                fov_recompute = True
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if light_removed and light_removed in player_light_sources:
                 player_light_sources.remove(light_removed)
-                fov_map, fov_recompute = redraw_fov(game_map)
+                fov_recompute = True
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
