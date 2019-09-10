@@ -837,7 +837,7 @@
 	"item_id": "tower_shield",
 	"name": "tower shield",
 	"weight": 20,
-	"color": [128, 64, 0],
+	"color": [66, 33, 0],
 	"symbol": "[",
 	"equipment": {
 	    "slot": "off_hand",
@@ -1123,7 +1123,7 @@
     {
 	"item_id": "charisma_boost_ring",
 	"name": "ring of Charisma",
-	"color": [191, 0, 255],
+	"color": [159, 0, 212],
 	"symbol": "=",
 	"weight": 2,
 	"targeting": false,
