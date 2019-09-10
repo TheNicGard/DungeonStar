@@ -21,7 +21,7 @@ def get_names_under_mouse(mouse, entities, fov_map):
     (x, y) = (mouse.cx, mouse.cy)
 
     names = [entity.get_name for entity in entities
-             if entity.x == x and entity.y == y and libtcod.map_is_in_fov(fov_map, entity.x, entity.y)]
+             if entity.x == x and entity.y == y and fov_map.fov[y][x]]
     names = ', '.join(names)
 
     return names.capitalize()
@@ -132,7 +132,7 @@ def entity_in_fov_list(entities, game_map, fov_map, see_invisible):
     entities_in_fov = []
     
     for entity in entities:
-        if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) and game_map.tiles[entity.x][entity.y].explored:
+        if fov_map.fov[entity.y][entity.x] and game_map.tiles[entity.x][entity.y].explored:
             if entity.fighter and entity.ai:
                 if entity.fighter.effects.get("invisible") and entity.fighter.effects.get("invisible").turns_remaining <= 0:
                     entities_in_fov.append(entity)
@@ -142,7 +142,7 @@ def entity_in_fov_list(entities, game_map, fov_map, see_invisible):
     return entities_in_fov
 
 def render_tile(con, game_state, game_map, fov_map, cursor, x, y, colors, config):
-    visible = libtcod.map_is_in_fov(fov_map, x, y)
+    visible = fov_map.fov[y][x]
     wall = game_map.tiles[x][y].block_sight
     window = game_map.tiles[x][y].window
 
@@ -186,7 +186,7 @@ def render_tile(con, game_state, game_map, fov_map, cursor, x, y, colors, config
                 libtcod.console_set_char_background(con, x, y, colors.get('dark_ground'), libtcod.BKGND_SET)
 
 def render_tile_in_fov(con, game_state, game_map, fov_map, x, y):
-    visible = libtcod.map_is_in_fov(fov_map, x, y)
+    visible = fov_map.fov[y][x]
     wall = game_map.tiles[x][y].block_sight
     window = game_map.tiles[x][y].window
 
@@ -373,7 +373,7 @@ def clear_all(con, entities, cursor):
     clear_entity(con, cursor)
 
 def draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible):
-    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
+    if fov_map.fov[entity.y][entity.x] or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
         libtcod.console_set_default_foreground(con, entity.get_color)
         if entity.fighter and entity.ai:
             if not entity.fighter.is_effect("invisible") or see_invisible:
@@ -388,7 +388,7 @@ def draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible
         libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
 
 def draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible):
-    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y) or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
+    if fov_map.fov[entity.y][entity.x] or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
         libtcod.console_set_default_foreground(con, entity.animation.get_color)
         if entity.fighter and entity.ai:
             if not entity.fighter.is_effect("invisible") or see_invisible:
@@ -408,7 +408,7 @@ def clear_entity(con, entity):
     libtcod.console_put_char(con, entity.x, entity.y, ' ', libtcod.BKGND_NONE)
 
 def draw_entity_in_fov(con, entity, fov_map):
-    if libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
+    if fov_map.fov[entity.y][entity.x]:
         if entity.id == "player":
             libtcod.console_set_default_foreground(con, libtcod.dark_blue)
             libtcod.console_put_char(con, entity.x, entity.y, "@", libtcod.BKGND_NONE)

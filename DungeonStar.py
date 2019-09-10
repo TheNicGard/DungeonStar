@@ -55,7 +55,7 @@ def main():
     show_delete_save_confirmation = False
     start_new_game = False
 
-    main_menu_background_image = libtcod.image_load('menu_background.png')
+    main_menu_background_image = libtcod.image_load('main_menu_background.png')
 
     key = libtcod.Key()
     mouse = libtcod.Mouse()
@@ -142,7 +142,8 @@ def play_game(player, entities, game_map, turn, message_log,
         player.plot = p
         player.name = p.protagonist.name
     
-    fov_map, fov_recompute = redraw_fov(game_map)
+    fov_map, fov_recompute = initialize_fov(game_map), True
+    
     player_light_sources = []
 
     key = libtcod.Key()
@@ -260,7 +261,14 @@ def play_game(player, entities, game_map, turn, message_log,
                             if not target.door.ajar:
                                 target.door.open_door(game_map.tiles[destination_x][destination_y])
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
-                                fov_map, fov_recompute = redraw_fov(game_map)
+
+                                ### FOV SECTION START
+                                recompute_fov(fov_map, player.x, player.y,
+                                              game_map.brightness + get_light(player_light_sources),
+                                              constants['fov_light_walls'], constants['fov_algorithm'])
+                                fov_recompute = True
+                                ### FOV SECTION END
+
                         else:
                             attack_results = player.fighter.attack(target)
                             player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
@@ -290,8 +298,13 @@ def play_game(player, entities, game_map, turn, message_log,
                                     temp_str += items_in_loc[i] + ", "
                                     temp_str += items_in_loc[len(items_in_loc) - 1] + "."
                                     message_log.add_message(Message(temp_str, libtcod.white))
-
-                            fov_map, fov_recompute = redraw_fov(game_map)
+                                    
+                            ### FOV SECTION START
+                            recompute_fov(fov_map, player.x, player.y,
+                                          game_map.brightness + get_light(player_light_sources),
+                                          constants['fov_light_walls'], constants['fov_algorithm'])
+                            fov_recompute = True
+                            ### FOV SECTION END
                         
                     previous_game_state = game_state
                     game_state = GameStates.ENEMY_TURN
@@ -346,8 +359,14 @@ def play_game(player, entities, game_map, turn, message_log,
                                 player_turn_results.append({'dead': player})
                                 break
                             else:
-                                entities = game_map.next_floor(player, message_log, constants, True)
-                                fov_map, fov_recompute = redraw_fov(game_map)
+                                ### FOV SECTION START
+                                fov_map = initialize_fov(game_map)
+                                recompute_fov(fov_map, player.x, player.y,
+                                              game_map.brightness + get_light(player_light_sources),
+                                              constants['fov_light_walls'], constants['fov_algorithm'])
+                                fov_recompute = True
+                                ### FOV SECTION END
+                                
                                 libtcod.console_clear(con)
                                 game.lowest_level = game_map.dungeon_level
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
@@ -369,7 +388,15 @@ def play_game(player, entities, game_map, turn, message_log,
                                 break
                             else:
                                 entities = game_map.next_floor(player, message_log, constants, False)
-                                fov_map, fov_recompute = redraw_fov(game_map)
+
+                                ### FOV SECTION START
+                                fov_map = initialize_fov(game_map)
+                                recompute_fov(fov_map, player.x, player.y,
+                                              game_map.brightness + get_light(player_light_sources),
+                                              constants['fov_light_walls'], constants['fov_algorithm'])
+                                fov_recompute = True
+                                ### FOV SECTION END
+                                
                                 libtcod.console_clear(con)
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
                                 break
@@ -454,7 +481,7 @@ def play_game(player, entities, game_map, turn, message_log,
         if look_at_entity:
             matching_entities = []
             for e in entities:
-                if e.x == key_cursor.x and e.y == key_cursor.y and (libtcod.map_is_in_fov(fov_map, key_cursor.x, key_cursor.y) or ((e.stairs or e.door or e.sign or e.trap) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
+                if e.x == key_cursor.x and e.y == key_cursor.y and (fov_map.fov[key_cursor.y][key_cursor.x] or ((e.stairs or e.door or e.sign or e.trap) and game_map.tiles[key_cursor.x][key_cursor.y].explored)):
                     if e.trap and not e.trap.revealed:
                         pass
                     else:
@@ -487,7 +514,13 @@ def play_game(player, entities, game_map, turn, message_log,
                     key_cursor.x += dx
                 if key_cursor.y + dy >= 0 and key_cursor.y + dy < constants["map_height"]:
                     key_cursor.y += dy
-                fov_map, fov_recompute = redraw_fov(game_map)
+                
+                ### FOV SECTION START
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
                 
         if end:
             if game_state in (GameStates.SHOW_INVENTORY,
@@ -496,7 +529,15 @@ def play_game(player, entities, game_map, turn, message_log,
                               GameStates.HELP_SCREEN,
                               GameStates.LOOK_AT):
                 game_state = previous_game_state
-                fov_map, fov_recompute = redraw_fov(game_map)
+                
+                ### FOV SECTION START
+                fov_map = initialize_fov(game_map)
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
+                
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
             else:
@@ -515,7 +556,14 @@ def play_game(player, entities, game_map, turn, message_log,
 
         if debug_print_fov:
             debug_show_fov = not debug_show_fov
-            fov_map, fov_recompute = redraw_fov(game_map)
+            
+            ### FOV SECTION START
+            fov_map = initialize_fov(game_map)
+            recompute_fov(fov_map, player.x, player.y,
+                          game_map.brightness + get_light(player_light_sources),
+                          constants['fov_light_walls'], constants['fov_algorithm'])
+            fov_recompute = True
+            ### FOV SECTION END
 
         if game_state == GameStates.RESTING:
             if player.fighter.hp == player.fighter.max_hp:
@@ -768,7 +816,13 @@ def play_game(player, entities, game_map, turn, message_log,
                     entities.append(drop_inventory.drop_item(i)[0].get("item_dropped"))
 
             if teleport:
-                fov_map, fov_recompute = redraw_fov(game_map)
+                ### FOV SECTION START
+                fov_map = initialize_fov(game_map)
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
 
             if identify_menu:
                 previous_game_state = game_state
@@ -780,7 +834,13 @@ def play_game(player, entities, game_map, turn, message_log,
 
             if downwards_exit:
                 entities = game_map.next_floor(player, message_log, constants, True, False)
-                fov_map, fov_recompute = redraw_fov(game_map)
+                ### FOV SECTION START
+                fov_map = initialize_fov(game_map)
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
                 libtcod.console_clear(con)
                 game.lowest_level = game_map.dungeon_level
 
@@ -790,13 +850,27 @@ def play_game(player, entities, game_map, turn, message_log,
 
             if light_added:
                 player_light_sources.append(light_added)
-                fov_map, fov_recompute = redraw_fov(game_map)
+
+                ### FOV SECTION START
+                fov_map = initialize_fov(game_map)
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
+                
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
             if light_removed and light_removed in player_light_sources:
                 player_light_sources.remove(light_removed)
-                fov_map, fov_recompute = redraw_fov(game_map)
+                ### FOV SECTION START
+                fov_map = initialize_fov(game_map)
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
@@ -832,7 +906,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 new_enemy.ai.mother = spawn_enemy.get("mother")
                             entities.append(new_enemy)
                         if downwards_exit:
-                            if libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
+                            if fov_map.fov[entity.y][entity.x]:
                                 message_log.add_message(Message('{0} fell down a hole!'.format(
                                     entity.name.capitalize()),
                                                                 libtcod.white))
@@ -844,8 +918,8 @@ def play_game(player, entities, game_map, turn, message_log,
             else:
                 old_game_state = game_state
                 turn, game_state = tick_turn(turn, player, entities, game_state,
-                                                                     message_log, game, fov_map,
-                                                                     player_light_sources)
+                                             message_log, game, fov_map,
+                                             player_light_sources)
                 if game_state == old_game_state:
                     game_state = previous_game_state
 
@@ -919,7 +993,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, pl
                                                     libtcod.yellow))
 
                 if stuck is not None and stuck <= 0:
-                    if e.ai and libtcod.map_is_in_fov(fov_map, e.x, e.y):
+                    if e.ai and fov_map.fov[e.y][e.x]:
                         message_log.add_message(Message("The {0} is freed!".format(e.name),
                                                         libtcod.white))
                     elif not e.ai:
@@ -930,9 +1004,6 @@ def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, pl
         entities.remove(e)
                 
     return turn + 1, game_state
-
-def redraw_fov(game_map):
-    return initialize_fov(game_map), True
 
 def get_light(player_light_sources):
     if len(player_light_sources) > 0:
@@ -955,7 +1026,7 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
             line += ". This is an item."
         elif e.ai and e.fighter:
             line += ".\nThis is monster has {0}/{1} HP.".format(e.fighter.max_hp, e.fighter.hp)
-            if libtcod.map_is_in_fov(fov_map, e.x, e.y):
+            if fov_map.fov[e.y][e.x]:
                 line += " It is in the FOV."
             else:
                 line += " It is not in the FOV."
@@ -1021,11 +1092,11 @@ def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
             if player.x == c and player.y == r:
                 line += "@"
             elif len(entities_in_loc) > 0:
-                if libtcod.map_is_in_fov(fov_map, c, r):
+                if fov_map.fov[r][c]:
                     line += "!"
                 else:
                     line += "?"
-            elif libtcod.map_is_in_fov(fov_map, c, r):
+            elif fov_map.fov[r][c]:
                 line += "1"
             else:
                 line += "0"

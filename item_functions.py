@@ -121,7 +121,7 @@ def cast_lightning(*args, **kwargs):
     closest_distance = maximum_range + 1
 
     for entity in entities:
-        if entity.fighter and entity != caster and libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
+        if entity.fighter and entity != caster and fov_map.fov[entity.y][entity.x]:
             distance = caster.distance_to(entity)
 
             if distance < closest_distance:
@@ -149,7 +149,7 @@ def cast_fireball(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -173,7 +173,7 @@ def cast_confuse(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -206,7 +206,7 @@ def cast_stun(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -239,7 +239,7 @@ def cast_sleep(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -272,7 +272,7 @@ def cast_greed(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -365,7 +365,7 @@ def cast_blink(*args, **kwargs):
     
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
     elif game_map.is_blocked(target_x, target_y) or any([entity for entity in entities if entity.x == target_x and entity.y == target_y]):
         results.append({'consumed': False, 'message': Message("You can't seem to blink there.", libtcod.yellow)})
@@ -387,7 +387,7 @@ def cast_pacify(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -419,7 +419,7 @@ def cast_force_bolt(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -445,7 +445,7 @@ def cast_death(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 
@@ -544,7 +544,7 @@ def cast_make_invisible(*args, **kwargs):
 
     results = []
 
-    if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
+    if not fov_map.fov[target_y][target_x]:
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
         return results
 

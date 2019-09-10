@@ -11,7 +11,7 @@ def check_for_traps(monster, entities, game_map, fov_map):
     for e in entities_in_loc:
         # 50% chance to set off trap
         if e.trap and attack_success(get_modifier(monster.fighter.dexterity), 10):
-            if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+            if fov_map[monster.y][monster.x]:
                 e.trap.set_reveal(True)
             results.extend(e.trap.trap_function(monster, **{"game_map": game_map,
                                                             "entities": entities,
@@ -27,35 +27,28 @@ class BasicMonster:
         results = []
         
         monster = self.owner
-        print("\n{0} is at ({1}, {2}).".format(monster.name, monster.x, monster.y))
         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
-            print("PLAYER IS IN FOV")
+        if fov_map.fov[monster.y][monster.x]:
             if monster.distance_to(target) >= 2:
                 if not self.owner.fighter.is_effect("stuck"):
                     if target.fighter.is_effect("invisible"):
                         random_x = self.owner.x + randint(0, 2) - 1
                         random_y = self.owner.y + randint(0, 2) - 1
                         if random_x != self.owner.x and random_y != self.owner.y:
-                            print("move randomly")
                             self.owner.move_towards(random_x, random_y, game_map, entities)
                     else:
-                        print("target player")
                         monster.move_astar(target, entities, game_map)
 
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))
 
             elif target.fighter.hp > 0:
-                print("attack target")
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
         else:
-            print("PLAYER IS NOT IN FOV")
             if not self.owner.fighter.is_effect("stuck"):
                 random_x = self.owner.x + randint(0, 2) - 1
                 random_y = self.owner.y + randint(0, 2) - 1
                 if not (random_x == self.owner.x and random_y == self.owner.y):
-                    print("move randomly")
                     self.owner.move_towards(random_x, random_y, game_map, entities)
                     results.extend(check_for_traps(monster, entities, game_map, fov_map))
                     
@@ -212,7 +205,7 @@ class StaticMonster:
         results = []
         monster = self.owner
         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if fov_map.fov[monster.y][monster.x]:
             if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
@@ -249,7 +242,7 @@ class MotherDoughAI(StaticMonster):
         else:
             self.turns_to_spawn -= 1
                         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if fov_map.fov[monster.y][monster.x]:
             if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
@@ -295,7 +288,7 @@ class SourdoughAI(StaticMonster):
         else:
             self.turns_to_spawn -= 1
                         
-        if libtcod.map_is_in_fov(fov_map, monster.x, monster.y):
+        if fov_map.fov[monster.y][monster.x]:
             if target.fighter.is_effect("invisible"):
                 attack_results = monster.fighter.attack(target)
                 results.extend(attack_results)
