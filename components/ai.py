@@ -11,7 +11,7 @@ def check_for_traps(monster, entities, game_map, fov_map):
     for e in entities_in_loc:
         # 50% chance to set off trap
         if e.trap and attack_success(get_modifier(monster.fighter.dexterity), 10):
-            if fov_map[monster.y][monster.x]:
+            if fov_map.fov[monster.y][monster.x]:
                 e.trap.set_reveal(True)
             results.extend(e.trap.trap_function(monster, **{"game_map": game_map,
                                                             "entities": entities,
@@ -67,7 +67,7 @@ class AggressiveMonster:
         results = []
         monster = self.owner
         
-        if libtcod.map_is_in_fov(fov_map, monster.y, monster.x):
+        if fov_map.fov[monster.y][monster.x]:
             self.seeking = True
             self.current_patience = self.max_patience
             if monster.distance_to(target) >= 2:
