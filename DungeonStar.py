@@ -359,6 +359,8 @@ def play_game(player, entities, game_map, turn, message_log,
                                 player_turn_results.append({'dead': player})
                                 break
                             else:
+                                entities = game_map.next_floor(player, message_log, constants, True)
+                                
                                 ### FOV SECTION START
                                 fov_map = initialize_fov(game_map)
                                 recompute_fov(fov_map, player.x, player.y,
