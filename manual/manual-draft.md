@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated September 7, 2019
+date: Last updated September 12, 2019
 ...
 \pagebreak
 # Introduction
@@ -92,8 +92,8 @@ The controls of **Dungeon Star** are ever-changing as new features are added, an
 
 ## Menu Manipulation
 
-* q - list controls
-* *Escape* - exit menu; exit to main menu
+* ? - list controls
+* *Escape* - exit menu
 
 ## Movement
 
@@ -122,6 +122,8 @@ The controls of **Dungeon Star** are ever-changing as new features are added, an
 
 ## Other
 
+* Ctrl + s - save game and exit to main menu
+* Ctrl + q - quit game without saving
 * Ctrl + f - toggle fullscreen
 * Ctrl + w - enter *Wizard Mode*
 
