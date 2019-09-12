@@ -239,6 +239,8 @@ def help_screen(help_screen_width, screen_width, screen_height):
         '            ;   look at entity',
         "            x   butcher corpse (%)"
         "",
+        "     Ctrl + s   save and exit game",
+        "     Ctrl + q   exit game without saving",
         "     Ctrl + f   toggle fullscreen"
     ]
 
