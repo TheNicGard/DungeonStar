@@ -68,6 +68,11 @@ def handle_player_turn_keys(key):
         return {'butcher': True}
     elif key_char == 'w' and key.lctrl:
         return {'wizard_mode': True}
+
+    elif key_char == 'q' and key.lctrl:
+        return {'quit_game_command': True}
+    elif key_char == 's' and key.lctrl:
+        return {'save_game_command': True}
     
     elif key.vk == libtcod.KEY_ESCAPE:
         return {'end': True}
@@ -93,7 +98,7 @@ def handle_player_dead_keys(key):
         return {'show_character_screen': True}
     elif key_char == 'q':
         return {'show_help_screen': True}
-    elif key.vk == libtcod.KEY_ESCAPE:
+    elif key.vk == libtcod.KEY_ESCAPE or (key_char == 'q' and key.lctrl):
         return {'end': True}
     elif key_char == 'f' and key.lctrl:
         return {'fullscreen': True}

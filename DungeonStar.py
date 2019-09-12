@@ -216,6 +216,8 @@ def play_game(player, entities, game_map, turn, message_log,
 
         move = action.get('move')
         end = action.get('end')
+        save_game_command = action.get('save_game_command')
+        quit_game_command = action.get('quit_game_command')
         fullscreen = action.get('fullscreen')
         pickup = action.get('pickup')
         wait = action.get('wait')
@@ -523,7 +525,17 @@ def play_game(player, entities, game_map, turn, message_log,
                               constants['fov_light_walls'], constants['fov_algorithm'])
                 fov_recompute = True
                 ### FOV SECTION END
-                
+
+        if quit_game_command:
+            delete_game()
+            save_game_data(game)
+            return True
+
+        if save_game_command:
+            save_game(player, entities, game_map, message_log, game_state, turn)
+            save_game_data(game)
+            return True
+        
         if end:
             if game_state in (GameStates.SHOW_INVENTORY,
                               GameStates.DROP_INVENTORY,
@@ -542,13 +554,6 @@ def play_game(player, entities, game_map, turn, message_log,
                 
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
-            else:
-                if game_state == GameStates.PLAYER_DEAD:
-                    delete_game()
-                else:
-                    save_game(player, entities, game_map, message_log, game_state, turn)
-                save_game_data(game)
-                return True
         
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
