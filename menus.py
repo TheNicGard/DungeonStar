@@ -72,7 +72,6 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                     elif player.equipment.slots.get("right_finger") == i:
                         temp_str +=  " (on right hand)"
 
-                    #weight = str(i.weight) + chr(169)
                     weight = format_weight(i.weight, i.item.count)
                     offset = inventory_width - (4 + len(temp_str) + len(weight))
                     temp_str += (' ' * offset) + weight

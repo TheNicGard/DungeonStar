@@ -220,7 +220,7 @@
 	"monster_id": "thot",
 	"name": "thot",
 	"color": [0, 128, 0],
-	"symbol": "t",
+	"symbol": "T",
 	"fighter": {
 	    "hp": 12,
 	    "STR": 13,
@@ -248,8 +248,66 @@
     {
 	"monster_id": "mega_thot",
 	"name": "mega thot",
-	"color": [0, 128, 0],
+	"color": [0, 72, 0],
 	"symbol": "T",
+	"fighter": {
+	    "hp": 18,
+	    "STR": 13,
+	    "DEX": 10,
+	    "CON": 12,
+	    "INT": 6,
+	    "WIS": 6,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 8, 0],
+		[1, 6, 0]
+	    ],
+	    "xp": 150,
+	    "max_gold_drop": 15
+	},
+	"ai": "AggressiveMonster",
+	"ai_details": {
+	    "patience": 20,
+	    "can_be_pacified": false
+	},
+	"spawn_rate": [[4, 8], [8, 16], [12, 24]]
+    },
+
+    {
+	"monster_id": "hun",
+	"name": "hun",
+	"color": [128, 64, 0],
+	"symbol": "H",
+	"fighter": {
+	    "hp": 12,
+	    "STR": 13,
+	    "DEX": 10,
+	    "CON": 12,
+	    "INT": 6,
+	    "WIS": 6,
+	    "CHA": 1,
+	    "DET": 1,
+	    "attacks": [
+		[1, 4, 0],
+		[1, 6, 0]
+	    ],
+	    "xp": 100,
+	    "max_gold_drop": 8
+	},
+	"ai": "AggressiveMonster",
+	"ai_details": {
+	    "patience": 10,
+	    "can_be_pacified": false
+	},
+	"spawn_rate": [[5, 4], [10, 8], [15, 12]]
+    },
+
+    {
+	"monster_id": "upstream_hun",
+	"name": "upstream hun",
+	"color": [72, 48, 0],
+	"symbol": "H",
 	"fighter": {
 	    "hp": 18,
 	    "STR": 13,
