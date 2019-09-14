@@ -1,37 +1,37 @@
-|||||||||||||||||||||||||||||||||||||||||||||||||||||||
-|trap|poison_trap|teleport_trap|hole_trap|bear_trap||||||||||||||||||||||||||||||||||||||||||||||||||
-|sign: Trap|sign: Poison trap|sign: Teleport trap|sign: Hole trap|sign: Bear trap||||||||||||||||||||||||||||||||||||||||||||||||||
-|||||||||||||||||||||||||||||||||||||||||||||||||||||||
-|||||||||||||||||||||||||||||||||||||||||||||||||||||||
-|||||||||||||||||||||||||||||||||||||||||||||||||||||||
-|||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall||||||||
-|||||||||||||||||wall|mre|mre|mre|||window||||||window|strength_boost_ring|dexterity_boost_ring|constitution_boost_ring||fast_digestion_ring|window||||||window|candle|torch|light_crystal|||wall||||||||
-|||||||||||||||||wall|bento|number_1_combo|fish_n_chips|pizza|english_nachos|window||||||window|intelligence_boost_ring|wisdom_boost_ring|charisma_boost_ring||slow_digestion_ring|window||||||window||||||wall||||||window|window|window
-|||||||||||||||||wall|ploughmans_lunch|takeout_leftovers|subterranean_sourdough|||glass_door|sign: Food|||||window||||||window|||||sign: Light Sources|glass_door||||||wall|||||sign: Rat|glass_door|rat|window
-|||||||||||||||||wall||||||window||||||window||||||window||||||window||||||wall||||||window|window|window
-|||||||||||||||||wall||||||window||||||window||||see_invisible_ring|resist_poison_ring|window||||||window||||||wall|||||sign: Snake|glass_door|snake|window
-|||||||||||||||||wall|window|window|window|window|window|window||||||window|window|window|glass_door|window|window|window||||||window|window|window|window|window|window|wall||||||window|window|window
-|||||||||||||||||wall|healing_potion|super_healing_potion|invisibility_potion|poison_potion|cure_poison_potion|window|||||||||sign: Rings|||||||||||||||wall|||||sign: Wolf|glass_door|wolf|window
-|||||||||||||||||wall|regeneration_potion|||||window||||||||||||||||||||||||wall||||||window|window|window
-|||||||||||||||||wall||||||glass_door|sign: Potions|||||||||||||||||||||||wall|||||sign: Giant Spider|glass_door|giant_spider|window
-|||||||||||||||||wall||||||window||||||||||||||||||||||||wall||||||window|window|window
-|||||||||||||||||wall|||healing_potion|healing_potion|healing_potion|window||||||||||||||||||||||||wall|||||sign: Giant Ant|glass_door|giant_ant|window
-|||||||||||||||||wall|window|window|window|window|window|window||||||wall|wall|wall|door|wall|wall|wall||||||||||||wall||||||window|window|window
-|||||||||||||||||wall|fireball_scroll|lightning_scroll|confuse_scroll|stun_scroll|sleep_scroll|window||||||wall|||||dummy|wall||||||||||||wall|||||sign: Giant Bee|glass_door|giant_bee|window
-|||||||||||||||||wall|greed_scroll|detect_traps_scroll|random_teleportation_scroll|blink_scroll|pacify_scroll|window||||||wall||||||wall||||||||||||wall||||||window|window|window
-|||||||||||||||||door|mapping_scroll|identify_scroll|charge_scroll|detect_aura_scroll|detect_items_scroll|glass_door|sign: Scrolls|||||door|||player|||||||||||||||door|||||sign: Goblin|glass_door|goblin|window
-|||||||||||||||||wall|escape_scroll|||||window||||||wall||||||wall||||||||||||wall||||||window|window|window
-|||||||||||||||||wall||||||window||||||wall|dungeon_star|||||wall||||||||||||wall|||||sign: Thot|glass_door|thot|window
-|||||||||||||||||wall|window|window|window|window|window|window||||||wall|wall|wall|door|wall|wall|wall||||||||||||wall||||||window|window|window
-|||||||||||||||||wall|dagger|dagger|dagger|||window||||||||||||||||||||||||wall|||||sign: Mega Thot|glass_door|mega_thot|window
-|||||||||||||||||wall|shortsword|mace|handaxe|spear||window||||||||||||||||||||||||wall||||||window|window|window
-|||||||||||||||||wall|longsword|morningstar|battleaxe|||glass_door|sign: Weapons|||||||||||||||||||||||wall|||||sign: Red Dragon|glass_door|red_dragon|window
-|||||||||||||||||wall||||||window||||||||||||||||||||||||wall||||||window|window|window
-|||||||||||||||||wall||||||window|||||||||sign: Wands|||||||||||||||wall|||||sign: Jelly|glass_door|jelly|window
-|||||||||||||||||wall|window|window|window|window|window|window||||||window|window|window|glass_door|window|window|window||||||||||||wall||||||window|window|window
-|||||||||||||||||wall|buckler|shield|tower_shield|||window||||||window|fireball_wand|lightning_wand|confuse_wand|stun_wand|sleep_wand|window||||||||||||wall|||||sign: Mother Dough|glass_door|mother_dough|window
-|||||||||||||||||wall|leather_helmet|leather_armor|plate_armor|||window||||||window|greed_wand|detect_traps_wand|random_teleportation_wand|blink_wand|pacify_wand|window||||||||||||wall||||||window|window|window
-|||||||||||||||||wall||||||glass_door|sign: Armor|||||window|striking_wand|identify_wand|make_invisible_wand|death_wand||window||||||||||||wall||||||||
-|||||||||||||||||wall||||||window||||||window||||||window||||||||||||wall||||||||
-|||||||||||||||||wall||||||window||||||window||||||window||||||||||||wall||||||||
-|||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|trap|poison_trap|teleport_trap|hole_trap|bear_trap||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|sign: Trap|sign: Poison trap|sign: Teleport trap|sign: Hole trap|sign: Bear trap||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall||||||||||||||||||||
+|||||||||||||||||wall|mre|mre|mre|||window||||||window|strength_boost_ring|dexterity_boost_ring|constitution_boost_ring||fast_digestion_ring|window||||||window|candle|torch|light_crystal|||wall||||||||||||||||||||
+|||||||||||||||||wall|bento|number_1_combo|fish_n_chips|pizza|english_nachos|window||||||window|intelligence_boost_ring|wisdom_boost_ring|charisma_boost_ring||slow_digestion_ring|window||||||window||||||wall||||||||||||||||||||
+|||||||||||||||||wall|ploughmans_lunch|takeout_leftovers|subterranean_sourdough|||glass_door|sign: Food|||||window||||||window|||||sign: Light Sources|glass_door||||||wall||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall
+|||||||||||||||||wall||||||window||||||window||||||window||||||window||||||wall||||||||||||wall||wall|||sign: Goblin|glass_door|goblin|wall
+|||||||||||||||||wall||||||window||||||window||||see_invisible_ring|resist_poison_ring|window||||||window||||||wall||||||||||||wall||wall||||window|window|wall
+|||||||||||||||||wall|window|window|window|window|window|window||||||window|window|window|glass_door|window|window|window||||||window|window|window|window|window|window|wall||||||||||||wall||wall|||sign: Thot|glass_door|thot|wall
+|||||||||||||||||wall|healing_potion|super_healing_potion|invisibility_potion|poison_potion|cure_poison_potion|window|||||||||sign: Rings|||||||||||||||wall||||||||||||wall|wall|wall||||window|window|wall
+|||||||||||||||||wall|regeneration_potion|||||window||||||||||||||||||||||||wall||||||||||||wall|rat|glass_door|sign: Rat||sign: Mega Thot|glass_door|mega_thot|wall
+|||||||||||||||||wall||||||glass_door|sign: Potions|||||||||||||||||||||||wall||||||||||||wall|window|window||||window|window|wall
+|||||||||||||||||wall||||||window||||||||||||||||||||||||wall||||||||||||wall|snake|glass_door|sign: Snake||sign: Hun|glass_door|hun|wall
+|||||||||||||||||wall|||healing_potion|healing_potion|healing_potion|window||||||||||||||||||||||||wall||||||||||||wall|window|window||||window|window|wall
+|||||||||||||||||wall|window|window|window|window|window|window||||||wall|wall|wall|door|wall|wall|wall||||||||||||wall||||||||||||wall|wolf|glass_door|sign: Wolf||sign: Upstream  Hun|glass_door|upstream_hun|wall
+|||||||||||||||||wall|fireball_scroll|lightning_scroll|confuse_scroll|stun_scroll|sleep_scroll|window||||||wall|||||dummy|wall||||||||||||wall||||||||||||wall|wall|wall||||window|window|wall
+|||||||||||||||||wall|greed_scroll|detect_traps_scroll|random_teleportation_scroll|blink_scroll|pacify_scroll|window||||||wall||||||wall||||||||||||wall||||||||||||wall||||||||wall
+|||||||||||||||||door|mapping_scroll|identify_scroll|charge_scroll|detect_aura_scroll|detect_items_scroll|glass_door|sign: Scrolls|||||door|||player|||||||||||||||door||||||||||||door||||||||wall
+|||||||||||||||||wall|escape_scroll|||||window||||||wall||||||wall||||||||||||wall||||||||||||wall||||||||wall
+|||||||||||||||||wall||||||window||||||wall|dungeon_star|||||wall||||||||||||wall||||||||||||wall|wall|wall||||wall|wall|wall
+|||||||||||||||||wall|window|window|window|window|window|window||||||wall|wall|wall|door|wall|wall|wall||||||||||||wall||||||||||||wall|giant_spider|glass_door|sign: Giant Spider||sign: Red Dragon|glass_door|red_dragon|wall
+|||||||||||||||||wall|dagger|dagger|dagger|||window||||||||||||||||||||||||wall||||||||||||wall|window|window||||window|window|wall
+|||||||||||||||||wall|shortsword|mace|handaxe|spear||window||||||||||||||||||||||||wall||||||||||||wall|giant_ant|glass_door|sign: Giant Ant||sign: Jelly|glass_door|jelly|wall
+|||||||||||||||||wall|longsword|morningstar|battleaxe|||glass_door|sign: Weapons|||||||||||||||||||||||wall||||||||||||wall|window|window||||window|window|wall
+|||||||||||||||||wall||||||window||||||||||||||||||||||||wall||||||||||||wall|giant_bee|glass_door|sign: Giant Bee||sign: Mother Dough|glass_door|mother_dough|wall
+|||||||||||||||||wall||||||window|||||||||sign: Wands|||||||||||||||wall||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall
+|||||||||||||||||wall|window|window|window|window|window|window||||||window|window|window|glass_door|window|window|window||||||||||||wall||||||||||||||||||||
+|||||||||||||||||wall|buckler|shield|tower_shield|||window||||||window|fireball_wand|lightning_wand|confuse_wand|stun_wand|sleep_wand|window||||||||||||wall||||||||||||||||||||
+|||||||||||||||||wall|leather_helmet|leather_armor|plate_armor|||window||||||window|greed_wand|detect_traps_wand|random_teleportation_wand|blink_wand|pacify_wand|window||||||||||||wall||||||||||||||||||||
+|||||||||||||||||wall||||||glass_door|sign: Armor|||||window|striking_wand|identify_wand|make_invisible_wand|death_wand||window||||||||||||wall||||||||||||||||||||
+|||||||||||||||||wall||||||window||||||window||||||window||||||||||||wall||||||||||||||||||||
+|||||||||||||||||wall||||||window||||||window||||||window||||||||||||wall||||||||||||||||||||
+|||||||||||||||||wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|wall|door|wall|wall|wall|wall|wall|wall|wall|wall|wall||||||||||||||||||||

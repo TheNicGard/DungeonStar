@@ -535,7 +535,7 @@ def play_game(player, entities, game_map, turn, message_log,
             save_game(player, entities, game_map, message_log, game_state, turn)
             save_game_data(game)
             return True
-        
+
         if end:
             if game_state in (GameStates.SHOW_INVENTORY,
                               GameStates.DROP_INVENTORY,
@@ -554,7 +554,15 @@ def play_game(player, entities, game_map, turn, message_log,
                 
             elif game_state == GameStates.TARGETING:
                 player_turn_results.append({'targeting_cancelled': True})
-        
+
+            else:
+                if game_state == GameStates.PLAYER_DEAD:
+                    delete_game()
+                else:
+                    save_game(player, entities, game_map, message_log, game_state, turn)
+                save_game_data(game)
+                return True
+
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
