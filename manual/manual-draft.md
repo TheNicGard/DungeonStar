@@ -1,12 +1,12 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated September 12, 2019
+date: Last updated September 16, 2019
 ...
 \pagebreak
 # Introduction
 
-This manual which you hold your hands is meant to guide you through the treacherous, and often bullshitingly unfair dungeon known as *The Depression* that shelters the *Dungeon Star*. This manual currently holds little useful information, but is meant to guide players who are new to the genre of roguelikes, or to provide specific information to **Dungeon Star**.
+This manual which you hold your hands is meant to guide you through the treacherous, far-reaching depths of the dungeon known as *The Depression* that shelters the *Dungeon Star*. This manual is not meant to reveal all information about the game, but is meant to guide players who are new to the genre of roguelikes, or to provide specific information to **Dungeon Star**.
 
 # Gameplay
 The current goal of **Dungeon Star** is to reach the lowest point of the dungeon with the *Dungeon Star* in hand.
