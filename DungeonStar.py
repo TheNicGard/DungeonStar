@@ -707,18 +707,18 @@ def play_game(player, entities, game_map, turn, message_log,
                         lightning_wand.identity.identify()
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
-                    # the stars: detect traps, mapping, and aura wands
+                    # the stars: dowsing, mapping, and aura wands
                     elif creation_menu_cursor.index[1] == 5:
-                        traps_wand = get_item("detect_traps_wand", -1, -1)
+                        dowsing_ring = get_item("dowsing_ring", -1, -1)
                         mapping_scrolls = get_item("mapping_scroll", -1, -1, 3)
                         detect_aura_scrolls = get_item("detect_aura_scroll", -1, -1, 3)
                         mapping_scrolls.identity.identify()
                         detect_aura_scrolls.identity.identify()
-                        traps_wand.identity.identify()
-                        traps_wand.item.chargeable.recharge(20)
+                        dowsing_ring.identity.identify()
                         player.inventory.add_item(mapping_scrolls)
                         player.inventory.add_item(detect_aura_scrolls)
-                        player.inventory.add_item(traps_wand)
+                        player.inventory.add_item(dowsing_ring)
+                        player.equipment.toggle_equip(dowsing_ring)
 
                     # items across all inspirations
                     player.inventory.add_item(dagger)

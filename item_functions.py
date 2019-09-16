@@ -601,15 +601,11 @@ def stuck(*args, **kwargs):
 
 def amnesia(*args, **kwargs):
     target = args[0]
-    game_map = kwargs.get('game_map')
-    fov_map = kwargs.get('fov_map')
     item = None
     if kwargs.get("item"):
         item = kwargs.get("item")
 
     results = []
-
-    fov_map = initialize_fov(game_map)
 
     # TODO: change this to be a general roll later
     if attack_success(get_modifier(target.fighter.wisdom), 10):
