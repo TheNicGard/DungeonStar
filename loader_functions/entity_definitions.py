@@ -318,6 +318,8 @@ def load_items():
                             effects["slow_digestion"] = Effect(False, 0, None)
                         elif ef == "fast_digestion":
                             effects["fast_digestion"] = Effect(False, 0, None)
+                        elif ef == "dowsing":
+                            effects["dowsing"] = Effect(False, 0, None)
                         
                     if slot:
                         equipment_component = Equippable(slot, hit_dice=hit_dice,
