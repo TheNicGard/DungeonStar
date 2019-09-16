@@ -236,7 +236,8 @@ def help_screen(help_screen_width, screen_width, screen_height):
         '            >   descend stairs',
         '            <   ascend stairs',
         '            ;   look at entity',
-        "            x   butcher corpse (%)"
+        "            x   butcher corpse (%)",
+        "            s   search for traps",
         "",
         "     Ctrl + s   save and exit game",
         "     Ctrl + q   exit game without saving",
