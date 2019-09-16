@@ -342,10 +342,11 @@ def play_game(player, entities, game_map, turn, message_log,
 
             elif search:
                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
-                if search_count == 7:
-                    search_surrounding_tiles(player, entities, True)
                 if search_count == 8:
                     message_log.add_message(Message("You can find nothing else here.", libtcod.yellow))
+                elif search_count == 7 or player.fighter.is_effect("dowsing"):
+                    search_count = 8
+                    search_surrounding_tiles(player, entities, True)
                 else:
                     search_surrounding_tiles(player, entities, False)
                     search_count += 1
