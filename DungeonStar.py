@@ -48,7 +48,7 @@ def main():
     game = GameContainer(lowest_level=1, high_score=0,
                          stat_diffs=[0, 0, 0, 0, 0, 0], points_available=27)
     game = load_game_data()
-    turn = 1        
+    turn = 1
     
     show_main_menu = True
     show_load_error_message = False
@@ -152,6 +152,7 @@ def play_game(player, entities, game_map, turn, message_log,
     previous_game_state = game_state
 
     targeting_item = None
+    search_count = 0
 
     enable_wizard_mode_confirmation = False
     debug_show_fov = False
@@ -219,6 +220,7 @@ def play_game(player, entities, game_map, turn, message_log,
         save_game_command = action.get('save_game_command')
         quit_game_command = action.get('quit_game_command')
         fullscreen = action.get('fullscreen')
+        search = action.get("search")
         pickup = action.get('pickup')
         wait = action.get('wait')
         show_inventory = action.get('show_inventory')
@@ -281,6 +283,7 @@ def play_game(player, entities, game_map, turn, message_log,
                         else:
                             player.move(dx, dy)
                             player_turn_results.extend(player.hunger.tick(HungerType.MOVE))
+                            search_count = 0
 
                             entities_in_loc = get_entities_at_location(entities, destination_x, destination_y)
                             items_in_loc = []
@@ -337,6 +340,16 @@ def play_game(player, entities, game_map, turn, message_log,
 
                 enable_wizard_mode_confirmation = False
 
+            elif search:
+                player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
+                if search_count == 7:
+                    search_surrounding_tiles(player, entities, True)
+                if search_count == 8:
+                    message_log.add_message(Message("You can find nothing else here.", libtcod.yellow))
+                else:
+                    search_surrounding_tiles(player, entities, False)
+                    search_count += 1
+                
             elif pickup:
                 pickup_results = []
 
@@ -1024,6 +1037,17 @@ def get_light(player_light_sources):
     if len(player_light_sources) > 0:
         return max(light.get_light for light in player_light_sources)
     return 0
+
+def search_surrounding_tiles(player, entities, instant_search):
+    for x in range(player.x - 1, player.x + 2):
+        for y in range(player.y - 1, player.y + 2):
+            ents = get_entities_at_location(entities, x, y)
+            if len(ents) > 0:
+                for e in ents:
+                    if e.trap and not e.trap.revealed:
+                        # 10% chance to reveal traps
+                        if instant_search or random() < 0.1:
+                            e.trap.set_reveal(True)
 
 def print_log(debug_dump_to_file, player, entities, game_map, fov_map):
     current_time = datetime.datetime.now()
