@@ -254,7 +254,7 @@ class GameMap:
                         monster = get_monster(piece, data_x, data_y)
                         entities.append(monster)
                     else:
-                        print("id {0} not recognized, could not load.".format(piece))
+                        print("id \"{0}\" not recognized, could not load.".format(piece))
         
     def next_floor(self, player, message_log, constants, downwards, took_stairs=True):
         if downwards:
