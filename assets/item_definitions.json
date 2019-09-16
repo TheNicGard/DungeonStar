@@ -99,6 +99,23 @@
 	"identified_on_use": true,
 	"classification": ["potion"]
     },
+
+    {
+	"item_id": "amnesia_potion",
+	"name": "amnesia potion",
+	"color": [240, 0, 190],
+	"symbol": "!",
+	"weight": 5,
+	"use_function": "amnesia",
+	"targeting": false,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[2, 1]],
+	"nutrition": 50,
+	"identified_on_use": false,
+	"classification": ["potion"]
+    },
     
     {
 	"item_id": "fireball_scroll",

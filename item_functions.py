@@ -1,6 +1,7 @@
 import tcod as libtcod
 from components.ai import ConfusedMonster, StaticMonster, HardStoppedMonster, SoftStoppedMonster, NeutralMonster
 from effect import Effect, tick_invisible, tick_poison, tick_regeneration, tick_detect_aura, tick_detect_items, tick_stuck
+from fov_functions import initialize_fov
 from game_messages import Message
 from random import randint
 from rpg_mechanics import attack_success, die, get_modifier
@@ -596,4 +597,20 @@ def stuck(*args, **kwargs):
         results.append({'message': Message('You are caught in the trap!',
                                            libtcod.dark_grey)})
         
+    return results
+
+def amnesia(*args, **kwargs):
+    target = args[0]
+    game_map = kwargs.get('game_map')
+    fov_map = kwargs.get('fov_map')
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
+
+    results = []
+
+    fov_map = initialize_fov(game_map)
+
+    results.append({"consumed": item, 'message': Message("Your memory gets fuzzy...", [240, 0, 190]), "forget_map": True})
+
     return results
