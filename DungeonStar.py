@@ -759,6 +759,7 @@ def play_game(player, entities, game_map, turn, message_log,
             downwards_exit = player_turn_result.get("downwards_exit")
             light_added = player_turn_result.get("light_added")
             light_removed = player_turn_result.get("light_removed")
+            forget_map = player_turn_result.get("forget_map")
             
             if message:
                 message_log.add_message(message)
@@ -903,6 +904,22 @@ def play_game(player, entities, game_map, turn, message_log,
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
+            if forget_map:
+                game_map.initialize_tiles()
+                for x in range(game_map.width - 1):
+                    for y in range(game_map.height - 1):
+                        game_map.tiles[x][y].explored = False
+                
+                ### FOV SECTION START
+                fov_map = initialize_fov(game_map)
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
+                                
+                libtcod.console_clear(con)
+                
             i += 1
                     
         if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
