@@ -611,6 +611,10 @@ def amnesia(*args, **kwargs):
 
     fov_map = initialize_fov(game_map)
 
-    results.append({"consumed": item, 'message': Message("Your memory gets fuzzy...", [240, 0, 190]), "forget_map": True})
+    # TODO: change this to be a general roll later
+    if attack_success(get_modifier(target.fighter.wisdom), 10):
+        results.append({"consumed": item, 'message': Message("You feel... buzzed?", libtcod.white)})
+    else:
+        results.append({"consumed": item, 'message': Message("Your memory gets fuzzy...", [240, 0, 190]), "forget_map": True})
 
     return results
