@@ -707,18 +707,18 @@ def play_game(player, entities, game_map, turn, message_log,
                         lightning_wand.identity.identify()
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
-                    # the stars: detect traps, mapping, and aura wands
+                    # the stars: dowsing, mapping, and aura wands
                     elif creation_menu_cursor.index[1] == 5:
-                        traps_wand = get_item("detect_traps_wand", -1, -1)
+                        dowsing_ring = get_item("dowsing_ring", -1, -1)
                         mapping_scrolls = get_item("mapping_scroll", -1, -1, 3)
                         detect_aura_scrolls = get_item("detect_aura_scroll", -1, -1, 3)
                         mapping_scrolls.identity.identify()
                         detect_aura_scrolls.identity.identify()
-                        traps_wand.identity.identify()
-                        traps_wand.item.chargeable.recharge(20)
+                        dowsing_ring.identity.identify()
                         player.inventory.add_item(mapping_scrolls)
                         player.inventory.add_item(detect_aura_scrolls)
-                        player.inventory.add_item(traps_wand)
+                        player.inventory.add_item(dowsing_ring)
+                        player.equipment.toggle_equip(dowsing_ring)
 
                     # items across all inspirations
                     player.inventory.add_item(dagger)
@@ -759,6 +759,7 @@ def play_game(player, entities, game_map, turn, message_log,
             downwards_exit = player_turn_result.get("downwards_exit")
             light_added = player_turn_result.get("light_added")
             light_removed = player_turn_result.get("light_removed")
+            forget_map = player_turn_result.get("forget_map")
             
             if message:
                 message_log.add_message(message)
@@ -903,6 +904,22 @@ def play_game(player, entities, game_map, turn, message_log,
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
+            if forget_map:
+                game_map.initialize_tiles()
+                for x in range(game_map.width - 1):
+                    for y in range(game_map.height - 1):
+                        game_map.tiles[x][y].explored = False
+                
+                ### FOV SECTION START
+                fov_map = initialize_fov(game_map)
+                recompute_fov(fov_map, player.x, player.y,
+                              game_map.brightness + get_light(player_light_sources),
+                              constants['fov_light_walls'], constants['fov_algorithm'])
+                fov_recompute = True
+                ### FOV SECTION END
+                                
+                libtcod.console_clear(con)
+                
             i += 1
                     
         if game_state == GameStates.ENEMY_TURN or game_state == GameStates.RESTING:
