@@ -21,7 +21,7 @@ At the start of any new game, you will get the chance to customize the abilities
 * **Dexterity** - determines how effective the protagonist's armor is, and how likely the protagonist is to step on a trap.
 * **Constituion** - determines the amount of health the protagonist starts with, and the protagonist's natural poison resistance.
 * **Intelligence** - *currently unused*.
-* **Wisdom** - *currently unused*.
+* **Wisdom** - determines the protagonist's natural amnesia resistance.
 * **Charisma** - *currently unused*.
 
 The protagonist is also able to follow an **inspiration**, which gives them a boost to certain ability scores, and determines their starting equipment. Those inspirations are:
@@ -31,7 +31,7 @@ The protagonist is also able to follow an **inspiration**, which gives them a bo
 * **Peace** - the protagonist seeks a silent future, devoid of all conflict. *Starts with a +2 dagger and a wand of Striking.*
 * **Prosperity** - the protagonist seeks to fulfill all of their material desires through whatever means they deem necessary. *Starts with a wand of Greed and scrolls of Detect Items.*
 * **The Arts** - the protagonist is driven by the urge to preserve and cultivate the creation of arts. *Starts with a wand of Lightning.*
-* **The Stars** - the protagonist is motivated by the chance to study the vastness and wonders of the sky, and will scour every face of the planet to find the right tools to do so. *Starts with a wand of Detect Traps, and scrolls of Mapping and Detect Aura.* 
+* **The Stars** - the protagonist is motivated by the chance to study the vastness and wonders of the sky, and will scour every face of the planet to find the right tools to do so. *Starts with a ring of Dowsing, and scrolls of Mapping and Detect Aura.* 
 
 ## Combat
 
@@ -62,7 +62,9 @@ The identity of each item is different every new game, so don't rely the identit
 
 ## Traps
 
-Hidden traps can be found within the dungeon (represented by a **^**), which will only slow (or halt) your progress downwards. The higher your Dexterity score is, the less likely you are to reveal or interact with a trap. The same goes for other creatures within the dungeon.
+Hidden traps can be found within the dungeon (represented by a **^**), which may slow (or halt) your progress downwards. The higher your Dexterity score is, the less likely you are to reveal or interact with a trap. The same goes for other creatures within the dungeon.
+
+Traps can be revealed by searching (done by pressing **s**). It may take several attempts of searching in the same spot to reveal a trap.
 
 # Items
 
@@ -80,15 +82,13 @@ Wands (represented by **/**) appear in many materials in the dungeon, and, like 
 
 ## Rings
 
-Rings (represented by **=**) give the protagonist a more permanent effect than spells or potions, and one can be worn on both the left and right hand.
+Rings (represented by **=**) give the protagonist a more permanent magical effect than spells or potions, and one can be worn on both the left and right hand.
 
 ## Light Sources
 
 Light sources can be found in the dungeon to increase the protagonist's field of view. Some items (like candles) only last for a certain amount of time, but it is rumored that some sources of light don't run out of power.
 
 # Controls
-
-The controls of **Dungeon Star** are ever-changing as new features are added, and as old controls are considered to be awful, but this list of controls is accurate to the vision of the game.
 
 ## Menu Manipulation
 
@@ -102,13 +102,14 @@ The controls of **Dungeon Star** are ever-changing as new features are added, an
 * j/k/h/l - cardinal movement
 * 7/9/1/3 - diagonal movement
 * u/i/b/n - diagonal movement
-* . - wait turn
-* 5 - wait turn
+* . - wait turn, select entity under cursor
+* 5 - wait turn, select entity under cursor
 * **>** - descend stairs
 * **<** - ascend stairs
 
 ## Environemt Interaction
 
+* s - search surrounding tiles
 * , - grab item
 * g - grab item
 * x - butcher corpse
