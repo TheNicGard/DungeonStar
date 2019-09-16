@@ -14,7 +14,7 @@ from components.identity import Identity
 from components.inventory import Inventory
 from components.item import Item
 from components.light_source import LightSource
-from effect import Effect
+from effect import Effect, effects_list
 from entity import Entity
 from game_messages import Message
 from item_functions import heal, invisible, cast_lightning, cast_fireball, cast_confuse, cast_stun, cast_sleep, cast_greed, cast_detect_traps, cast_random_teleportation, cast_blink, cast_detect_stairs, cast_pacify, cast_force_bolt, poison, cure_poison, regeneration, cast_mapping, cast_identify_item, cast_charge_item, cast_detect_aura, cast_detect_items, cast_make_invisible, cast_death, cast_downwards_exit
@@ -297,29 +297,9 @@ def load_items():
                     effects = {}
                     if item.get("equipment").get("effect"):
                         ef = item.get("equipment").get("effect")
-                        
-                        if ef == "poison_resistance":
-                            effects["poison_resistance"] = Effect(False, 0, None)
-                        elif ef == "strength_boost":
-                            effects["strength_boost"] = Effect(False, 0, None)
-                        elif ef == "dexterity_boost":
-                            effects["dexterity_boost"] = Effect(False, 0, None)
-                        elif ef == "constitution_boost":
-                            effects["constitution_boost"] = Effect(False, 0, None)
-                        elif ef == "intelligence_boost":
-                            effects["intelligence_boost"] = Effect(False, 0, None)
-                        elif ef == "wisdom_boost":
-                            effects["wisdom_boost"] = Effect(False, 0, None)
-                        elif ef == "charisma_boost":
-                            effects["charisma_boost"] = Effect(False, 0, None)
-                        elif ef == "see_invisible":
-                            effects["see_invisible"] = Effect(False, 0, None)
-                        elif ef == "slow_digestion":
-                            effects["slow_digestion"] = Effect(False, 0, None)
-                        elif ef == "fast_digestion":
-                            effects["fast_digestion"] = Effect(False, 0, None)
-                        elif ef == "dowsing":
-                            effects["dowsing"] = Effect(False, 0, None)
+
+                        if ef in effects_list:
+                            effects[ef] = Effect(False, 0, None)
                         
                     if slot:
                         equipment_component = Equippable(slot, hit_dice=hit_dice,
