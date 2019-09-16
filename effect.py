@@ -1,6 +1,13 @@
 import tcod as libtcod
 from game_messages import Message
 
+effects_list = ["poison_resistance", "strength_boost",
+                "dexterity_boost", "constitution_boost",
+                "intelligence_boost", "wisdom_boost",
+                "charisma_boost", "see_invisible",
+                "slow_digestion", "fast_digestion",
+                "dowsing"]
+
 class EffectGroup:
     def __init__(self):
         self.effects = {}

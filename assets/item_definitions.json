@@ -1211,6 +1211,25 @@
     },
 
     {
+	"item_id": "dowsing_ring",
+	"name": "ring of Dowsing",
+	"color": [65, 95, 110],
+	"symbol": "=",
+	"weight": 2,
+	"targeting": false,
+	"equipment": {
+	    "slot": "left_finger",
+	    "effect": "dowsing"
+	},
+	"positional": {
+	    "dummy": "uuhhhhhh"
+	},
+	"spawn_rate": [[1, 1]],
+	"identified_on_use": true,
+	"classification": ["ring"]
+    },
+
+    {
 	"item_id": "rock",
 	"name": "rock",
 	"color": [90, 90, 90],
