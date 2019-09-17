@@ -7,7 +7,7 @@ from components.equippable import Equippable
 from components.identity import Identity
 from components.sign import Sign
 from components.stairs import Stairs
-from components.trap import Trap, poison_trap, teleport_trap, hole_trap, bear_trap
+from components.trap import Trap, poison_trap, teleport_trap, hole_trap, bear_trap, amnesia_trap
 from components.valuable import Valuable
 from entity import Entity, get_entities_at_location
 from game_messages import Message
@@ -104,25 +104,30 @@ class GameMap:
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if not self.is_blocked(x, y):
                     trap_chance = random()
-                    if trap_chance < .05:
+                    if trap_chance < .03:
                         trap_component = Trap(poison_trap)
                         trap = Entity("trap", x, y, " ", libtcod.dark_lime,
                                       'Poison Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
-                    elif trap_chance < .1:
+                    elif trap_chance < .06:
                         trap_component = Trap(teleport_trap)
                         trap = Entity("trap", x, y, " ", libtcod.dark_fuchsia,
                                       'Teleportation Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
-                    elif trap_chance < .15:
+                    elif trap_chance < .09:
                         trap_component = Trap(hole_trap)
                         trap = Entity("trap", x, y, " ", libtcod.darker_green,
                                       'Hole Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
-                    elif trap_chance < .2:
+                    elif trap_chance < .12:
                         trap_component = Trap(bear_trap)
                         trap = Entity("trap", x, y, " ", libtcod.darker_grey,
                                       'Bear Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    elif trap_chance < .15:
+                        trap_component = Trap(amnesia_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.dark_pink,
+                                      'Amnesia Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                     else:
                         trap_component = Trap()
@@ -243,6 +248,12 @@ class GameMap:
                         trap_component = Trap(bear_trap)
                         trap = Entity("trap", data_x, data_y, " ", libtcod.darker_grey,
                                       'Bear Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                        entities.append(trap)
+                    elif piece == "amnesia_trap":
+                        trap_component = Trap(amnesia_trap)
+                        trap = Entity("trap", data_x, data_y, " ", libtcod.dark_pink,
+                                      'Amnesia Trap', blocks=False, render_order=RenderOrder.TRAP,
                                       trap=trap_component)
                         entities.append(trap)
                     elif piece in item_defs:
