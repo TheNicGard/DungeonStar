@@ -1,5 +1,5 @@
 import tcod as libtcod
-from item_functions import poison, stuck
+from item_functions import poison, stuck, amnesia
 from game_messages import Message
 from random import randint
 from rpg_mechanics import attack_success, die, get_modifier
@@ -96,4 +96,18 @@ def bear_trap(target, **kwargs):
     
     results.extend(stuck(target, **{"turns": turns_remaining}))
 
+    return results
+
+def amnesia_trap(target, **kwargs):
+    results = []
+    
+    damage_taken = 1
+    if not target.ai:
+        results.append({"message": Message(
+            'There are... spikes here? You take {0} point of damage!'.format(
+                damage_taken), libtcod.yellow)})
+    results.extend(target.fighter.take_damage(damage_taken))
+    
+    results.extend(amnesia(target, None))
+    
     return results
