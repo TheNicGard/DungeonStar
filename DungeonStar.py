@@ -194,7 +194,8 @@ def play_game(player, entities, game_map, turn, message_log,
                        constants['panel_height'], constants['panel_y'], mouse,
                        constants['colors'], game_state, key_cursor,
                        {"CLASSIC_COLOR": False, "DEBUG_SHOW_FOV": debug_show_fov},
-                       constants["status_screen_width"], constants["status_screen_height"]
+                       constants["status_screen_width"], constants["status_screen_height"],
+                       identities
             )
 
             if show_wizard_mode_confirmation:
