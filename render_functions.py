@@ -202,7 +202,8 @@ def render_tile_in_fov(con, game_state, game_map, fov_map, x, y):
 
 def render_all(con, panel, status_screen, entities, player, game_map, fov_map, fov_recompute,
                turn, message_log, screen_width, screen_height, panel_height, panel_y,
-               mouse, colors, game_state, cursor, config, status_screen_width, status_screen_height):
+               mouse, colors, game_state, cursor, config, status_screen_width, status_screen_height,
+               identities):
 
     if config.get("DEBUG_SHOW_FOV"):
         for y in range(game_map.height):
@@ -226,9 +227,9 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
     else:
         for entity in entities_in_render_order:
             if entity.animation:
-                draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
+                draw_animated_entity(con, entity, fov_map, game_map, identities, see_ai, see_items, see_invisible)
             else:
-                draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible)
+                draw_entity(con, entity, fov_map, game_map, identities, see_ai, see_items, see_invisible)
 
     # CURSOR
     if game_state == GameStates.LOOK_AT:
@@ -372,7 +373,7 @@ def clear_all(con, entities, cursor):
         clear_entity(con, entity)
     clear_entity(con, cursor)
 
-def draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible):
+def draw_entity(con, entity, fov_map, game_map, identities, see_ai, see_items, see_invisible):
     if fov_map.fov[entity.y][entity.x] or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
         libtcod.console_set_default_foreground(con, entity.get_color)
         if entity.fighter and entity.ai:
@@ -387,7 +388,7 @@ def draw_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible
         libtcod.console_set_default_foreground(con, entity.get_color)
         libtcod.console_put_char(con, entity.x, entity.y, entity.get_char, libtcod.BKGND_NONE)
 
-def draw_animated_entity(con, entity, fov_map, game_map, see_ai, see_items, see_invisible):
+def draw_animated_entity(con, entity, fov_map, game_map, identities, see_ai, see_items, see_invisible):
     if fov_map.fov[entity.y][entity.x] or ((entity.stairs or entity.door or entity.sign) and game_map.tiles[entity.x][entity.y].explored) or (entity.trap and entity.trap.revealed):
         libtcod.console_set_default_foreground(con, entity.animation.get_color)
         if entity.fighter and entity.ai:

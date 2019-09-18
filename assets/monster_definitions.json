@@ -55,7 +55,7 @@
 	"monster_id": "giant_spider",
 	"name": "giant spider",
 	"color": [40, 40, 40],
-	"symbol": "s",
+	"symbol": "S",
 	"fighter": {
 	    "hp": 4,
 	    "STR": 10,
@@ -136,7 +136,7 @@
 	"monster_id": "snake",
 	"name": "snake",
 	"color": [64, 128, 64],
-	"symbol": "w",
+	"symbol": "s",
 	"fighter": {
 	    "hp": 6,
 	    "STR": 10,
