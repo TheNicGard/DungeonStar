@@ -135,8 +135,6 @@ def play_game(player, entities, game_map, turn, message_log,
               game_state, con, panel, status_screen, constants, game, identities):
     key_cursor = Entity("cursor", player.x, player.y, chr(0), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=['X', ' '], speed=0.2))
-
-    print(identities)
     
     if hasattr(player, "plot"):
         p = player.plot
@@ -788,6 +786,7 @@ def play_game(player, entities, game_map, turn, message_log,
             if (item_consumed or food_eaten) and game_state is not GameStates.PLAYER_DEAD:
                 if item_consumed is not None and isinstance(item_consumed, Entity):
                     item_consumed.identity.identify()
+                    identities[item_consumed.id] = True
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
