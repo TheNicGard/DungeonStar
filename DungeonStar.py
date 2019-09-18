@@ -49,6 +49,7 @@ def main():
                          stat_diffs=[0, 0, 0, 0, 0, 0], points_available=27)
     game = load_game_data()
     turn = 1
+    identities = {}
     
     show_main_menu = True
     show_load_error_message = False
@@ -103,22 +104,22 @@ def main():
                     start_new_game = True
             elif load_saved_game:
                 try:
-                    player, entities, game_map, message_log, game_state, turn = load_game()
+                    player, entities, game_map, message_log, game_state, turn, identities = load_game()
                     show_main_menu = False
                 except FileNotFoundError:
                     show_load_error_message = True
             elif load_tutorial_map:
-                player, entities, game_map, message_log, game_state, turn = get_tutorial_map_variables(constants)
+                player, entities, game_map, message_log, game_state, turn, identities = get_tutorial_map_variables(constants)
                 show_main_menu = False
             elif load_test_map:
-                player, entities, game_map, message_log, game_state, turn = get_test_map_variables(constants)
+                player, entities, game_map, message_log, game_state, turn, identities = get_test_map_variables(constants)
                 show_main_menu = False
             elif exit_game:
                 save_game_data(game)
                 break
             elif start_new_game:
                 start_new_game = False
-                player, entities, game_map, message_log, game_state, turn = get_game_variables(constants)
+                player, entities, game_map, message_log, game_state, turn, identities = get_game_variables(constants)
                 game_state = GameStates.CHARACTER_CREATION
                 show_main_menu = False
             
@@ -127,14 +128,16 @@ def main():
 
         else:
             libtcod.console_clear(con)
-            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, status_screen, constants, game)
+            play_game(player, entities, game_map, turn, message_log, game_state, con, panel, status_screen, constants, game, identities)
             show_main_menu = True
 
 def play_game(player, entities, game_map, turn, message_log,
-              game_state, con, panel, status_screen, constants, game):
+              game_state, con, panel, status_screen, constants, game, identities):
     key_cursor = Entity("cursor", player.x, player.y, chr(0), libtcod.white, "Cursor",
                         animation=Animation(cycle_char=['X', ' '], speed=0.2))
 
+    print(identities)
+    
     if hasattr(player, "plot"):
         p = player.plot
     else:
@@ -546,7 +549,7 @@ def play_game(player, entities, game_map, turn, message_log,
             return True
 
         if save_game_command:
-            save_game(player, entities, game_map, message_log, game_state, turn)
+            save_game(player, entities, game_map, message_log, game_state, turn, identities)
             save_game_data(game)
             return True
 
@@ -573,7 +576,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 if game_state == GameStates.PLAYER_DEAD:
                     delete_game()
                 else:
-                    save_game(player, entities, game_map, message_log, game_state, turn)
+                    save_game(player, entities, game_map, message_log, game_state, turn, identities)
                 save_game_data(game)
                 return True
 
