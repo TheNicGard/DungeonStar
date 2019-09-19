@@ -166,6 +166,18 @@ class Inventory:
             
         return results
 
+    def enchant_item(self, item):
+        results = []
+
+        if item.equippable:
+            results.append({'message': Message('You attempt to enchant the {0}.'.format(item.get_name),
+                                               libtcod.peach), "consumed": True})
+        else:
+            results.append({'message': Message('You fail to enchant the {0}.'.format(item.get_name),
+                                               libtcod.peach), "consumed": True})
+            
+        return results
+
     def get_light(self):
         brightest_light = 0
         

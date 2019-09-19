@@ -267,7 +267,8 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
     
     # MENUS
     if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY,
-                      GameStates.IDENTIFY_INVENTORY, GameStates.CHARGE_INVENTORY):
+                      GameStates.IDENTIFY_INVENTORY, GameStates.CHARGE_INVENTORY,
+                      GameStates.ENCHANT_INVENTORY):
         if game_state == GameStates.SHOW_INVENTORY:
             inventory_title = 'Inventory ({0}/{1})\n'.format(format_weight(player.inventory.current_weight, 1), format_weight(player.inventory.capacity, 1))
         elif game_state == GameStates.DROP_INVENTORY:
@@ -276,6 +277,8 @@ def render_all(con, panel, status_screen, entities, player, game_map, fov_map, f
             inventory_title = 'Press the key next to an item to identify it, or Esc to cancel.\n'
         elif game_state == GameStates.CHARGE_INVENTORY:
             inventory_title = 'Press the key next to an item to charge it, or Esc to cancel.\n'
+        elif game_state == GameStates.ENCHANT_INVENTORY:
+            inventory_title = 'Press the key next to an item to enchant it, or Esc to cancel.\n'
         inventory_menu(con, inventory_title, player, 50, screen_width, screen_height)
     elif game_state == GameStates.LEVEL_UP:
         level_up_menu(con, 'Level up! Choose a stat to raise:', player, 40,
