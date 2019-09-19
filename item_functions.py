@@ -505,6 +505,16 @@ def cast_charge_item(*args, **kwargs):
 
     return results
 
+def cast_enchant_item(*args, **kwargs):
+    results = []
+    item = None
+    if kwargs.get("item"):
+        item = kwargs.get("item")
+
+    results.append({"enchant_menu": True, "consumed": True})
+
+    return results
+
 def cast_detect_aura(*args, **kwargs):
     entity = args[0]
     turns = kwargs.get('turns')

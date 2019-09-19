@@ -67,6 +67,10 @@
 	{
 	    "name": "FUGA scroll",
 	    "color": [0, 255, 0]
+	},
+	{
+	    "name": "INCANTATA scroll",
+	    "color": [0, 255, 191]
 	}
     ],
 

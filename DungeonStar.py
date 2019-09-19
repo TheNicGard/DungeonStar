@@ -467,6 +467,8 @@ def play_game(player, entities, game_map, turn, message_log,
                 player_turn_results.extend(player.inventory.identify_item(item))
             elif game_state == GameStates.CHARGE_INVENTORY:
                 player_turn_results.extend(player.inventory.charge_item(item))
+            elif game_state == GameStates.ENCHANT_INVENTORY:
+                player_turn_results.extend(player.inventory.enchant_item(item))
 
         if level_up:
             if level_up == 'STR':
@@ -749,6 +751,7 @@ def play_game(player, entities, game_map, turn, message_log,
             item_dropped = player_turn_result.get('item_dropped')
             item_identified = player_turn_result.get('item_identified')
             item_charged = player_turn_result.get('item_charged')
+            item_enchanted = player_turn_result.get('item_enchanted')
             equip = player_turn_result.get('equip')
             targeting = player_turn_result.get('targeting')
             targeting_cancelled = player_turn_result.get('targeting_cancelled')
@@ -758,6 +761,7 @@ def play_game(player, entities, game_map, turn, message_log,
             teleport = player_turn_result.get("teleport")
             identify_menu = player_turn_result.get("identify_menu")
             charge_menu = player_turn_result.get("charge_menu")
+            enchant_menu = player_turn_result.get("enchant_menu")
             downwards_exit = player_turn_result.get("downwards_exit")
             light_added = player_turn_result.get("light_added")
             light_removed = player_turn_result.get("light_removed")
@@ -796,11 +800,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
-            if item_identified:
-                previous_game_state = GameStates.PLAYERS_TURN
-                game_state = GameStates.ENEMY_TURN
-
-            if item_charged:
+            if item_identified or item_charged or item_enchanted:
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
 
@@ -864,6 +864,10 @@ def play_game(player, entities, game_map, turn, message_log,
             if charge_menu:
                 previous_game_state = game_state
                 game_state = GameStates.CHARGE_INVENTORY
+
+            if enchant_menu:
+                previous_game_state = game_state
+                game_state = GameStates.ENCHANT_INVENTORY
 
             if downwards_exit:
                 entities = game_map.next_floor(player, message_log, constants, True, False)

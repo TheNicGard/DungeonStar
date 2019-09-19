@@ -414,6 +414,22 @@
     },
 
     {
+	"item_id": "enchantment_scroll",
+	"name": "scroll of Enchantment",
+	"color": [0, 255, 191],
+	"symbol": "?",
+	"weight": 5,
+	"use_function": "cast_enchant_item",
+	"targeting": false,
+	"positional": {
+	    "dummy": "fix this later"
+	},
+	"spawn_rate": [[2, 1]],
+	"identified_on_use": true,
+	"classification": ["scroll"]
+    },
+
+    {
 	"item_id": "fireball_wand",
 	"name": "wand of Fireball",
 	"color": [255, 63, 0],
