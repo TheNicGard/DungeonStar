@@ -269,6 +269,7 @@ def play_game(player, entities, game_map, turn, message_log,
                                 player_turn_results.extend(player.hunger.tick(HungerType.EXERT))
 
                                 ### FOV SECTION START
+                                fov_map = initialize_fov(game_map)
                                 recompute_fov(fov_map, player.x, player.y,
                                               game_map.brightness + get_light(player_light_sources),
                                               constants['fov_light_walls'], constants['fov_algorithm'])
