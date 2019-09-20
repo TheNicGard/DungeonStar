@@ -706,12 +706,15 @@ def play_game(player, entities, game_map, turn, message_log,
                         greed_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(greed_wand)
                         player.inventory.add_item(detect_items_scrolls)
-                    # the arts: lightning wand TODO: find a better item
+                    # the arts: lightning wand and enchantment scrolls
                     elif creation_menu_cursor.index[1] == 4:
                         lightning_wand = get_item("lightning_wand", -1, -1)
+                        enchantment_scrolls = get_item("enchantment_scroll", -1, -1, 3)
+                        enchantment_scrolls.identity.identify()
                         lightning_wand.identity.identify()
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
+                        player.inventory.add_item(enchantment_scrolls)
                     # the stars: dowsing, mapping, and aura wands
                     elif creation_menu_cursor.index[1] == 5:
                         dowsing_ring = get_item("dowsing_ring", -1, -1)
