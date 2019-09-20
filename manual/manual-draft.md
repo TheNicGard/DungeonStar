@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated September 16, 2019
+date: Last updated September 20, 2019
 ...
 \pagebreak
 # Introduction
@@ -30,7 +30,7 @@ The protagonist is also able to follow an **inspiration**, which gives them a bo
 * **Love** - the protagonist driven by an intense love, either for their loved ones, or for all life, and only wishes acquire the *Dungeon Star* to protect their love. *Starts with a wand of Pacification.*
 * **Peace** - the protagonist seeks a silent future, devoid of all conflict. *Starts with a +2 dagger and a wand of Striking.*
 * **Prosperity** - the protagonist seeks to fulfill all of their material desires through whatever means they deem necessary. *Starts with a wand of Greed and scrolls of Detect Items.*
-* **The Arts** - the protagonist is driven by the urge to preserve and cultivate the creation of arts. *Starts with a wand of Lightning.*
+* **The Arts** - the protagonist is driven by the urge to preserve and cultivate the creation of arts. *Starts with a wand of Lightning and scrolls of Enchantment.*
 * **The Stars** - the protagonist is motivated by the chance to study the vastness and wonders of the sky, and will scour every face of the planet to find the right tools to do so. *Starts with a ring of Dowsing, and scrolls of Mapping and Detect Aura.* 
 
 ## Combat
