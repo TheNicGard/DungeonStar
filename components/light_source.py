@@ -2,18 +2,19 @@ import tcod as libtcod
 from game_messages import Message
 
 class LightSource:
-    def __init__(self, light, max_duration, duration=0, permanent=False):
+    def __init__(self, light, max_duration, duration=0, permanent=False, enchantment=0):
         self.light = light
         self.max_duration = max_duration
         self.duration = duration
         self.permanent = permanent
+        self.enchantment = enchantment
 
         self.lit = False
 
     @property
     def get_light(self):
         if self.lit and (self.duration > 0  or self.permanent):
-            return self.light
+            return self.light + self.enchantment
         else:
             return 0
 

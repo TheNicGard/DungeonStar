@@ -95,8 +95,12 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                         item_name += ("+" + str(i.equippable.enchantment) + " ")
                     elif i.equippable.enchantment < 0:
                         item_name += str(i.equippable.enchantment) + " "
+                elif i.item.light_source:
+                    if i.item.light_source.enchantment > 0:
+                        item_name += ("+" + str(i.item.light_source.enchantment) + " ")
+                    elif i.item.light_source.enchantment < 0:
+                        item_name += str(i.item.light_source.enchantment) + " "
                 item_name += i.get_name
-                
                 
                 if i.item.count > 1:
                     if i.item.age is not None:
