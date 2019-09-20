@@ -170,11 +170,12 @@ class Inventory:
         results = []
 
         if item.equippable:
-            results.append({'message': Message('You attempt to enchant the {0}.'.format(item.get_name),
-                                               libtcod.peach), "consumed": True})
+            item.equippable.enchantment = item.equippable.enchantment + 1
+            results.append({'message': Message('The {0} starts to glow.'.format(item.get_name),
+                                               libtcod.turquoise), "consumed": True})
         else:
             results.append({'message': Message('You fail to enchant the {0}.'.format(item.get_name),
-                                               libtcod.peach), "consumed": True})
+                                               libtcod.yellow), "consumed": True})
             
         return results
 
