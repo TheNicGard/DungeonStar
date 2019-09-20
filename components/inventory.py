@@ -175,7 +175,7 @@ class Inventory:
                                                libtcod.turquoise), "consumed": True})
         else:
             results.append({'message': Message('You fail to enchant the {0}.'.format(item.get_name),
-                                               libtcod.peach), "consumed": True})
+                                               libtcod.yellow), "consumed": True})
             
         return results
 
