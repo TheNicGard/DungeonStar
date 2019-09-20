@@ -53,6 +53,7 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                     elif i.equippable.enchantment < 0:
                         temp_str += str(i.equippable.enchantment) + " "
                     temp_str += i.get_name
+                    
                     if player.equipment.slots.get("main_hand") == i:
                         temp_str +=  " (in main hand)"
                     elif player.equipment.slots.get("off_hand") == i:
@@ -87,26 +88,35 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
                     break
             else:
                 temp_str = ""
+                item_name = ""
+
+                if i.equippable:
+                    if i.equippable.enchantment > 0:
+                        item_name += ("+" + str(i.equippable.enchantment) + " ")
+                    elif i.equippable.enchantment < 0:
+                        item_name += str(i.equippable.enchantment) + " "
+                item_name += i.get_name
+                
                 
                 if i.item.count > 1:
                     if i.item.age is not None:
-                        temp_str = "({0}) {1} ({2} turns old)".format(i.item.count, i.get_name, i.item.age)
+                        temp_str = "({0}) {1} ({2} turns old)".format(i.item.count, item_name, i.item.age)
                     else:
-                        temp_str = "({0}) {1}".format(i.item.count, i.get_name)
+                        temp_str = "({0}) {1}".format(i.item.count, item_name)
                 else:
                     if i.item.age is not None:
-                        temp_str = "{0} ({1} turns old)".format(i.get_name, i.item.age)
+                        temp_str = "{0} ({1} turns old)".format(item_name, i.item.age)
                     else:
                         if i.item.chargeable:
-                            temp_str = i.get_name + " *" + str(i.item.chargeable.charge) + ":" + str(i.item.chargeable.max_charge) + '*'
+                            temp_str = item_name + " *" + str(i.item.chargeable.charge) + ":" + str(i.item.chargeable.max_charge) + '*'
                         elif i.item.light_source:
-                            temp_str = i.get_name + " ("
+                            temp_str = item_name + " ("
                             if i.item.light_source.get_light > 0:
                                 temp_str += "lit)"
                             else:
                                 temp_str += "unlit)"
                         else:
-                            temp_str = i.get_name
+                            temp_str = item_name
 
                 weight = format_weight(i.weight, i.item.count)
                 offset = inventory_width - (4 + len(temp_str) + len(weight))
