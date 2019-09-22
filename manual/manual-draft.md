@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated September 20, 2019
+date: Last updated September 21, 2019
 ...
 \pagebreak
 # Introduction
@@ -132,4 +132,5 @@ Light sources can be found in the dungeon to increase the protagonist's field of
 
 * F1 - print game info to the console
 * F2 - toggle FOV view
+* F3 - identify all present items on level
 * Ctrl + F*X* - print information to a log file instead of the console, when appropriate
