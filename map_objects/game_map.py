@@ -3,8 +3,6 @@ from components.door import Door, DoorPosition
 
 from effect import Effect
 from components.equippable import Equippable
-
-from components.identity import Identity
 from components.sign import Sign
 from components.stairs import Stairs
 from components.trap import Trap, poison_trap, teleport_trap, hole_trap, bear_trap, amnesia_trap
@@ -258,8 +256,6 @@ class GameMap:
                         entities.append(trap)
                     elif piece in item_defs:
                         item = get_item(piece, data_x, data_y)
-                        if item.identity:
-                            item.identity.identify()
                         entities.append(item)
                     elif piece in monster_defs:
                         monster = get_monster(piece, data_x, data_y)

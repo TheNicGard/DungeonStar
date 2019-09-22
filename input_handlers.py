@@ -89,6 +89,8 @@ def handle_player_turn_keys(key):
             return {"debug_dump_info": True}
     elif key.vk == libtcod.KEY_F2:
         return {"debug_print_fov": True}
+    elif key.vk == libtcod.KEY_F3:
+        return {"debug_identify": True}
 
     return {}
 

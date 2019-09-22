@@ -1,4 +1,5 @@
 import tcod as libtcod
+from components.identity import identify_item_in_list
 from game_messages import Message
 from random import randint
 
@@ -51,6 +52,8 @@ class Inventory:
     def use(self, item_entity, **kwargs):
         results = []
 
+        identities = kwargs.get("identities")
+
         item_component = item_entity.item
 
         if item_component.use_function is None:
@@ -101,7 +104,7 @@ class Inventory:
                     results.extend(item_use_results)
 
                 if item_entity.identity and item_entity.identity.identify_on_use and not item_entity.identity.identified:
-                    item_entity.identity.identified = True
+                    identify_item(item_entity, identities)
             
         return results
 
@@ -136,11 +139,11 @@ class Inventory:
 
         return results
 
-    def identify_item(self, item):
+    def identify_item(self, item, identities):
         results = []
 
-        if not item.identity.identified:
-            item.identity.identify()
+        if item.identity and not item.identity.identified:
+            identify_item_in_list(item, identities)
             results.append({'item_identified': item})
             if not self.owner.ai:
                 results.append({'message': Message('You identified the {0}.'.format(item.get_name),

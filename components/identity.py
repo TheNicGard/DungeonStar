@@ -6,5 +6,10 @@ class Identity:
         self.identified = False
         self.identify_on_use = identify_on_use
 
-    def identify(self):
-        self.identified = True
+    def identify(self, do_identify=True):
+        self.identified = do_identify
+
+def identify_item_in_list(item, identities, do_identify=True):
+    if item.identity:
+        item.identity.identify(do_identify=do_identify)
+        identities[item.id] = True
