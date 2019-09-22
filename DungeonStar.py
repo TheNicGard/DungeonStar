@@ -245,10 +245,12 @@ def play_game(player, entities, game_map, turn, message_log,
         debug_dump_info = None
         debug_dump_to_file = None
         debug_print_fov = None
+        debug_identify = None
         if hasattr(player, "wizard_mode") and player.wizard_mode:
             debug_dump_info = action.get("debug_dump_info")
             debug_dump_to_file = action.get("debug_dump_to_file")
             debug_print_fov = action.get("debug_print_fov")
+            debug_identify = action.get("debug_identify")
  
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
@@ -257,7 +259,6 @@ def play_game(player, entities, game_map, turn, message_log,
 
         if game_state == GameStates.PLAYERS_TURN:
             if move:
-                print(identities)
                 dx, dy = move
                 destination_x = player.x + dx
                 destination_y = player.y + dy
@@ -463,7 +464,7 @@ def play_game(player, entities, game_map, turn, message_log,
         if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(player.inventory.items):
             item = player.inventory.items[inventory_index]
             if game_state == GameStates.SHOW_INVENTORY:
-                player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map, game_map=game_map))
+                player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map, game_map=game_map, identities=identities))
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
             elif game_state == GameStates.IDENTIFY_INVENTORY:
@@ -601,6 +602,14 @@ def play_game(player, entities, game_map, turn, message_log,
                           constants['fov_light_walls'], constants['fov_algorithm'])
             fov_recompute = True
             ### FOV SECTION END
+
+        if debug_identify:
+            for i in player.inventory.items:
+                player.inventory.identify_item(i, identities)
+            for e in entities:
+                if e.item:
+                    identify_item_in_list(e, identities)
+            message_log.add_message(Message("IDENTIFY!", libtcod.pink))
 
         if game_state == GameStates.RESTING:
             if player.fighter.hp == player.fighter.max_hp:

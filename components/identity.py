@@ -10,5 +10,6 @@ class Identity:
         self.identified = do_identify
 
 def identify_item_in_list(item, identities, do_identify=True):
-    item.identity.identify(do_identify=do_identify)
-    identities[item.id] = True
+    if item.identity:
+        item.identity.identify(do_identify=do_identify)
+        identities[item.id] = True
