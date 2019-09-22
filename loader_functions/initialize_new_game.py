@@ -87,7 +87,8 @@ def get_game_variables(constants):
         advantage_roll(4, 3, 1, 6), advantage_roll(4, 3, 1, 6),
         advantage_roll(4, 3, 1, 6)
     )
-    inventory_component = Inventory(260)
+    
+    inventory_component = Inventory(26 * 10)
     level_component = Level()
     
     hunger_component = Hunger()
@@ -118,7 +119,7 @@ def get_game_variables(constants):
     
     game_state = GameStates.PLAYERS_TURN
     turn = 1
-    identities = {"Test": True}
+    identities = {}
 
     return player, entities, game_map, message_log, game_state, turn, identities
 
