@@ -1,4 +1,5 @@
 import tcod as libtcod
+from components.identity import identify_item_in_list
 from components.item import Item
 from game_messages import Message
 from game_states import GameStates
@@ -6,7 +7,7 @@ from item_functions import heal
 from random import random
 from render_functions import RenderOrder
 
-def kill_player(player, game):
+def kill_player(player, game, identities):
     player.char = '%'
     player.color = libtcod.dark_red
     new_high_score = game.high_score
@@ -17,7 +18,7 @@ def kill_player(player, game):
 
     for i in player.inventory.items:
         if i.identity:
-            i.identity.identify()
+            identify_item_in_list(i, identities)
 
     return Message('You died with {0} gold!'.format(player.inventory.gold_carried),
                    libtcod.red), GameStates.PLAYER_DEAD

@@ -3,8 +3,7 @@ from components.door import Door, DoorPosition
 
 from effect import Effect
 from components.equippable import Equippable
-
-from components.identity import Identity
+from components.identity import Identity, identify_item_in_list
 from components.sign import Sign
 from components.stairs import Stairs
 from components.trap import Trap, poison_trap, teleport_trap, hole_trap, bear_trap, amnesia_trap
@@ -162,7 +161,7 @@ class GameMap:
                     if gold.valuable.value:
                         entities.append(gold)
 
-    def make_test_map(self, map_width, map_height, player, entities, map_type):
+    def make_test_map(self, map_width, map_height, player, entities, map_type, identities):
         self.test_map = True
         w = map_width - 2
         h = map_height - 2
@@ -259,7 +258,7 @@ class GameMap:
                     elif piece in item_defs:
                         item = get_item(piece, data_x, data_y)
                         if item.identity:
-                            item.identity.identify()
+                            identify_item_in_list(item, identities)
                         entities.append(item)
                     elif piece in monster_defs:
                         monster = get_monster(piece, data_x, data_y)

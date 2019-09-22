@@ -6,6 +6,7 @@ from components.animation import Animation
 from components.chargeable import Chargeable
 from components.food import Food
 from components.hunger import HungerType
+from components.identity import identify_item_in_list
 from components.item import Item
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location, Entity, get_entities_at_location
@@ -255,7 +256,8 @@ def play_game(player, entities, game_map, turn, message_log,
         player_turn_results = []
 
         if game_state == GameStates.PLAYERS_TURN:
-            if move:    
+            if move:
+                print(identities)
                 dx, dy = move
                 destination_x = player.x + dx
                 destination_y = player.y + dy
@@ -337,7 +339,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 player.fighter.heal(100)
 
                 death_wand = get_item("death_wand", -1, -1)
-                death_wand.identity.identify()
+                identify_item_in_list(death_wand, identities)
                 death_wand.item.chargeable = Chargeable(9999, 9999)
                 player.inventory.add_item(death_wand)
 
@@ -465,7 +467,7 @@ def play_game(player, entities, game_map, turn, message_log,
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
             elif game_state == GameStates.IDENTIFY_INVENTORY:
-                player_turn_results.extend(player.inventory.identify_item(item))
+                player_turn_results.extend(player.inventory.identify_item(item, identities))
             elif game_state == GameStates.CHARGE_INVENTORY:
                 player_turn_results.extend(player.inventory.charge_item(item))
             elif game_state == GameStates.ENCHANT_INVENTORY:
@@ -521,7 +523,8 @@ def play_game(player, entities, game_map, turn, message_log,
                                                         fov_map=fov_map,
                                                         game_map=game_map,
                                                         target_x=target_x,
-                                                        target_y=target_y)
+                                                        target_y=target_y,
+                                                        identities=identities)
                 player_turn_results.extend(item_use_results)
                 player_turn_results.extend(player.hunger.tick(HungerType.STATIC))
             elif right_click:
@@ -672,7 +675,7 @@ def play_game(player, entities, game_map, turn, message_log,
                     dagger = get_item("dagger", -1, -1)
                     armor = get_item("leather_armor", -1, -1)
                     potion = get_item("healing_potion", -1, -1)                    
-                    potion.identity.identify()
+                    identify_item_in_list(potion, identities)
                     
                     player.inventory.items = []
                     # make item selectable instead of using just an index
@@ -685,8 +688,8 @@ def play_game(player, entities, game_map, turn, message_log,
                     elif creation_menu_cursor.index[1] == 1:
                          pacify_wand = get_item("pacify_wand", -1, -1)
                          escape_scrolls = get_item("escape_scroll", -1, -1, 3)
-                         pacify_wand.identity.identify()
-                         escape_scrolls.identity.identify()
+                         identify_item_in_list(pacify_wand, identities)
+                         identify_item_in_list(escape_scroll, identities)
                          pacify_wand.item.chargeable.recharge(20)
                          player.inventory.add_item(pacify_wand)
                          player.inventory.add_item(escape_scrolls)
@@ -694,15 +697,15 @@ def play_game(player, entities, game_map, turn, message_log,
                     elif creation_menu_cursor.index[1] == 2:
                         dagger.equippable.enchantment = 2
                         striking_wand = get_item("striking_wand", -1, -1)
-                        striking_wand.identity.identify()
+                        identify_item_in_list(striking_wand, identities)
                         striking_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(striking_wand)
                     # prospertiy: greed wand and detect items scrolls
                     elif creation_menu_cursor.index[1] == 3:
                         greed_wand = get_item("greed_wand", -1, -1)
                         detect_items_scrolls = get_item("detect_items_scroll", -1, -1, 3)
-                        greed_wand.identity.identify()
-                        detect_items_scrolls.identity.identify()
+                        identify_item_in_list(greed_wand, identities)
+                        identify_item_in_list(detect_items_wand, identities)
                         greed_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(greed_wand)
                         player.inventory.add_item(detect_items_scrolls)
@@ -710,8 +713,8 @@ def play_game(player, entities, game_map, turn, message_log,
                     elif creation_menu_cursor.index[1] == 4:
                         lightning_wand = get_item("lightning_wand", -1, -1)
                         enchantment_scrolls = get_item("enchantment_scroll", -1, -1, 3)
-                        enchantment_scrolls.identity.identify()
-                        lightning_wand.identity.identify()
+                        identify_item_in_list(enchantment, identities)
+                        identify_item_in_list(lightning_wand, identities)
                         lightning_wand.item.chargeable.recharge(20)
                         player.inventory.add_item(lightning_wand)
                         player.inventory.add_item(enchantment_scrolls)
@@ -720,9 +723,9 @@ def play_game(player, entities, game_map, turn, message_log,
                         dowsing_ring = get_item("dowsing_ring", -1, -1)
                         mapping_scrolls = get_item("mapping_scroll", -1, -1, 3)
                         detect_aura_scrolls = get_item("detect_aura_scroll", -1, -1, 3)
-                        mapping_scrolls.identity.identify()
-                        detect_aura_scrolls.identity.identify()
-                        dowsing_ring.identity.identify()
+                        identify_item_in_list(dowsing_ring, identities)
+                        identify_item_in_list(mapping_scroll, identities)
+                        identify_item_in_list(detect_aura_scrolls, identities)
                         player.inventory.add_item(mapping_scrolls)
                         player.inventory.add_item(detect_aura_scrolls)
                         player.inventory.add_item(dowsing_ring)
@@ -776,7 +779,7 @@ def play_game(player, entities, game_map, turn, message_log,
                 
             if dead_entity:
                 if dead_entity == player:
-                    message, game_state = kill_player(dead_entity, game)
+                    message, game_state = kill_player(dead_entity, game, identities)
                 else:
                     message = kill_monster(dead_entity, fov_map)
 
@@ -794,7 +797,7 @@ def play_game(player, entities, game_map, turn, message_log,
 
             if (item_consumed or food_eaten) and game_state is not GameStates.PLAYER_DEAD:
                 if item_consumed is not None and isinstance(item_consumed, Entity):
-                    item_consumed.identity.identify()
+                    identify_item_in_list(item_consumed, identities)
                     identities[item_consumed.id] = True
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.ENEMY_TURN
@@ -948,7 +951,7 @@ def play_game(player, entities, game_map, turn, message_log,
                             message_log.add_message(message)
                         if dead_entity:
                             if dead_entity == player:
-                                message, game_state = kill_player(dead_entity, game)
+                                message, game_state = kill_player(dead_entity, game, identities)
                             else:
                                 message = kill_monster(dead_entity, fov_map)
                             message_log.add_message(message)
@@ -976,11 +979,11 @@ def play_game(player, entities, game_map, turn, message_log,
                 old_game_state = game_state
                 turn, game_state = tick_turn(turn, player, entities, game_state,
                                              message_log, game, fov_map,
-                                             player_light_sources)
+                                             player_light_sources, identities)
                 if game_state == old_game_state:
                     game_state = previous_game_state
 
-def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, player_light_sources):
+def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, player_light_sources, identities):
     expired = []
     expired_items = []
 
@@ -1033,7 +1036,7 @@ def tick_turn(turn, player, entities, game_state, message_log, game, fov_map, pl
                         dead_entity = death_result.get('dead')
                         if dead_entity:
                             if dead_entity == player:
-                                message, game_state = kill_player(e, game)
+                                message, game_state = kill_player(e, game, identities)
                             else:
                                 message = kill_monster(e, fov_map)
                             message_log.add_message(message)

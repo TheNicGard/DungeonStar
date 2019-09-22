@@ -123,6 +123,8 @@ def get_game_variables(constants):
     return player, entities, game_map, message_log, game_state, turn, identities
 
 def get_test_map_variables(constants):
+    identities = {}
+    
     fighter_component = Fighter(strength=11, dexterity=11, constitution=11, intelligence=11, wisdom=11, charisma=11, determination=1)
     
     inventory_component = Inventory(260)
@@ -147,18 +149,20 @@ def get_test_map_variables(constants):
     player.equipment.toggle_equip(dagger)
     
     game_map = GameMap(constants['map_width'], constants['map_height'])
-    game_map.make_test_map(constants['map_width'], constants['map_height'], player, entities, "test_map")
+    game_map.make_test_map(constants['map_width'], constants['map_height'], player,
+                           entities, "test_map", identities)
 
     message_log = MessageLog(constants['message_x'], constants['message_width'],
                              constants['message_height'])
     
     game_state = GameStates.PLAYERS_TURN
     turn = 1
-    identities = {}
 
     return player, entities, game_map, message_log, game_state, turn, identities
 
 def get_tutorial_map_variables(constants):
+    identities = {}
+
     fighter_component = Fighter(11, 11, 11, 11, 11, 11, 1)
     
     inventory_component = Inventory(260)
@@ -176,13 +180,12 @@ def get_tutorial_map_variables(constants):
     entities = [player]
 
     game_map = GameMap(constants['map_width'], constants['map_height'])
-    game_map.make_test_map(constants['map_width'], constants['map_height'], player, entities, "tutorial_map")
+    game_map.make_test_map(constants['map_width'], constants['map_height'], player, entities, "tutorial_map", identities)
 
     message_log = MessageLog(constants['message_x'], constants['message_width'],
                              constants['message_height'])
     
     game_state = GameStates.PLAYERS_TURN
     turn = 1
-    identities = {}
 
     return player, entities, game_map, message_log, game_state, turn, identities

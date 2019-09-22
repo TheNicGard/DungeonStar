@@ -1,4 +1,5 @@
 import tcod as libtcod
+from components.identity import identify_item_in_list
 from game_messages import Message
 from random import randint
 
@@ -136,11 +137,11 @@ class Inventory:
 
         return results
 
-    def identify_item(self, item):
+    def identify_item(self, item, identities):
         results = []
 
         if not item.identity.identified:
-            item.identity.identify()
+            identify_item_in_list(item, identities)
             results.append({'item_identified': item})
             if not self.owner.ai:
                 results.append({'message': Message('You identified the {0}.'.format(item.get_name),
