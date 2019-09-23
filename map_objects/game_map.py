@@ -23,6 +23,7 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
+        self.rooms = []
         self.lowest_level = 32
         self.brightness = brightness
         if self.brightness < 1:
@@ -326,7 +327,7 @@ class GameMap:
     def make_map(self, max_rooms, room_min_size, room_max_size,
                  map_width, map_height, player, entities, downwards):
         self.test_map = False
-        rooms = []
+        self.rooms = []
         full_rooms = False
 
         bsp = libtcod.bsp.BSP(x=0, y=0, width=map_width - 1, height=map_height - 1)
@@ -340,8 +341,6 @@ class GameMap:
         
         center_of_last_room_x = None
         center_of_last_room_y = None
-
-        rooms_list = []
 
         # In pre order, leaf nodes are visited before the nodes that connect them.
         for node in bsp.inverted_level_order():
@@ -423,7 +422,7 @@ class GameMap:
                         self.tiles[x][y].block_sight = False
                     
                 new_room = Rect(node.x, node.y, node.w, node.h)
-                rooms_list.append(new_room)
+                self.rooms.append(new_room)
                 
                 (new_x, new_y) = new_room.center()
                 center_of_last_room_x = new_x
@@ -441,12 +440,11 @@ class GameMap:
             self.tiles[self.width - 1][y].blocked = True
             self.tiles[self.width - 1][y].block_sight = True
                 
-        player_room = choice(rooms_list)
+        player_room = choice(self.rooms)
         (player.x, player.y) = player_room.center()
 
-        for r in rooms_list:
+        for r in self.rooms:
             self.place_entities(r, entities)
-            rooms.append(r)
                 
         entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
         for e in entities_blocking_stairs:
