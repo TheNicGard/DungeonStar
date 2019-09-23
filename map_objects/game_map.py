@@ -23,12 +23,12 @@ class GameMap:
         self.height = height
         self.tiles = self.initialize_tiles()
         self.dungeon_level = dungeon_level
-        self.lowest_level = 64
+        self.lowest_level = 32
         self.brightness = brightness
         if self.brightness < 1:
             self.brightness = 1
 
-        self.dungeon_star_level = 48
+        self.dungeon_star_level = 24
         self.spawned_dungeon_star = False
         
     def initialize_tiles(self):
