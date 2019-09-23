@@ -23,6 +23,14 @@ PLACES = [
     'Nara', 'Wakayama', 'Lindorwin', 'Valione', 'Threibluff', 'Anil', 'Penmarth', 'Mastow'
 ]
 
+PROFESSIONS = [
+    'beekeeper', 'alchemist', 'blacksmith', 'goldsmith', 'silversmith', 'hatter', 'cooper', 'cobbler',
+    'fisher', 'escort', 'sailor', 'soldier', 'mercenary', 'hunter', 'trapper', 'accountant',
+    'farmer', 'acolyte', 'bard', 'healer', 'miller', 'barkeeper', 'locksmith', 'miner',
+    'carpenter', 'mason', 'jeweler', 'reverend', 'shepherd', 'sawyer', 'scholar', 'butcher',
+    'baker', 'rancher', 'painter', 'artist', 'historian', 'archeologist', 'professor', 'barber'
+]
+
 ###############################################################################
 # Markov Name model
 # A random name generator, by Peter Corbett
@@ -89,9 +97,6 @@ class MName:
                 prefix = prefix[1:] + suffix
         return name.capitalize()  
 
-#for i in range(100):
-#    print(MName().New())
-
 class Sex(Enum):
     NEUTRAL = 0
     FEMALE = 1
@@ -115,13 +120,16 @@ class Character:
         self.sex = Sex(random.randint(0, 2))
         # 50% for parent to be dead by now
         self.alive = alive
-        # 20% chance to not have a home
-        if random.random() < .2:
+        # 10% to not have a home
+        if random.random() < .1:
             self.location = None
         else:
             self.location = get_town_name()
-        # TODO
-        self.profession = "beekeeper"
+        # 5% to not have a profession
+        if random.random() < .05:
+            self.profession = None
+        else:
+            self.profession = random.choice(PROFESSIONS)
 
     @property
     def name(self):
@@ -146,8 +154,9 @@ class Plot:
         temp_str = "[{}] ".format(self.protagonist.name)
         score = 0
         """
-        add 1 if character has parents
+        add 1 if character has parent
         add 2 if character has a birthplace
+        add 4 if parent had a profession
         """
         parent_sex = ["parent", "mother", "father"]
         
@@ -155,15 +164,36 @@ class Plot:
             score += 1
         if self.protagonist.location is not None:
             score += 2
+        if self.parent is not None and self.parent.profession is not None:
+            score += 4
 
         if score == 0:
             temp_str += "You were born to unknown parents, in an unknown land."
         elif score == 1:
-            temp_str += "You were born to your parent " + parent_sex[self.parent.sex.value] + " " + self.parent.name + " in an unknown land."
+            temp_str += "You were born to your " + parent_sex[self.parent.sex.value] + " " + self.parent.name + " in an unknown land."
         elif score == 2:
             temp_str += "You were born in " + self.protagonist.location + " to unknown parents."
         elif score == 3:
             temp_str += "You were born to your " + parent_sex[self.parent.sex.value] + " " + self.parent.name + " in " + self.protagonist.location + "."
+
+        elif score == 4:
+            temp_str += "You were born to unknown parents, in an unknown land."
+        elif score == 5:
+            temp_str += "You were born to your " + parent_sex[self.parent.sex.value] + " " + self.parent.name
+            if self.parent.profession[0] in ['a', 'e', 'i', 'o', 'u']:
+                temp_str += ", an " + self.parent.profession + ", in an unknown land."
+            else:
+                temp_str += ", a " + self.parent.profession + ", in an unknown land."
+                
+        elif score == 6:
+            temp_str += "You were born in " + self.protagonist.location + " to unknown parents."
+        elif score == 7:
+            temp_str += "You were born to your " + parent_sex[self.parent.sex.value] + " " + self.parent.name
+            if self.parent.profession[0] in ['a', 'e', 'i', 'o', 'u']:
+                temp_str += ", an " + self.parent.profession + ", in " + self.protagonist.location + "."
+            else:
+                temp_str += ", a " + self.parent.profession + ", in " + self.protagonist.location + "."
+            
             
         return temp_str
 
