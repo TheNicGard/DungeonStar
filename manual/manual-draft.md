@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated September 21, 2019
+date: Last updated September 22, 2019
 ...
 \pagebreak
 # Introduction
@@ -69,6 +69,12 @@ Traps can be revealed by searching (done by pressing **s**). It may take several
 # Items
 
 There are several items to be found within *The Depression* to help you on your quest to finding the *Dungeon Star*.
+
+## Equipment
+
+Weapons (represented by **)**) are scattered throughout the dungeon, and better weapons can be found deeper from the surface. The damage that a weapon deals is represented by a hit dice (e.g. a dagger does 1d4 damage, or 1-4 points of damage), plus the weapon's enchantment.
+
+Weapons (represented by **[**) are similarly scattered throughout the dungeon, and better armor can be found deeper from the surface. A piece of armor has an armor class (e.g. a leather helmet has an armor class of 1), plus the armor's enchantment. The likelihood that an attack will land decreases with a higher armor class.
 
 ## Potions and Scrolls
 
