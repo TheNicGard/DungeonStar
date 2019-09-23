@@ -8,12 +8,20 @@ fantasy_name_file = "assets/fantasy_name_list.json"
 
 # http://www.roguebasin.com/index.php?title=Markov_chains_name_generator_in_Python
 # from http://www.geocities.com/anvrill/names/cc_goth.html
-PLACES = ['Adara', 'Adena', 'Adrianne', 'Alarice', 'Alvita', 'Amara', 'Ambika', 'Antonia', 'Araceli', 'Balandria', 'Basha',
+PEOPLE = ['Adara', 'Adena', 'Adrianne', 'Alarice', 'Alvita', 'Amara', 'Ambika', 'Antonia', 'Araceli', 'Balandria', 'Basha',
 'Beryl', 'Bryn', 'Callia', 'Caryssa', 'Cassandra', 'Casondrah', 'Chatha', 'Ciara', 'Cynara', 'Cytheria', 'Dabria', 'Darcei',
 'Deandra', 'Deirdre', 'Delores', 'Desdomna', 'Devi', 'Dominique', 'Drucilla', 'Duvessa', 'Ebony', 'Fantine', 'Fuscienne',
 'Gabi', 'Gallia', 'Hanna', 'Hedda', 'Jerica', 'Jetta', 'Joby', 'Kacila', 'Kagami', 'Kala', 'Kallie', 'Keelia', 'Kerry',
 'Kerry-Ann', 'Kimberly', 'Killian', 'Kory', 'Lilith', 'Lucretia', 'Lysha', 'Mercedes', 'Mia', 'Maura', 'Perdita', 'Quella',
 'Riona', 'Safiya', 'Salina', 'Severin', 'Sidonia', 'Sirena', 'Solita', 'Tempest', 'Thea', 'Treva', 'Trista', 'Vala', 'Winta']
+
+PLACES = [
+    'Booley', 'Nulbilnarg', 'Fiwood', 'Rhine', 'Bacot', 'Meefield', 'Brithimlor', 'Bundushizd',
+    'Cafeld', 'Ancleah', 'Camor', 'Cloudshire', 'Arifholm', 'Keliklif', 'Daford', 'Leleah',
+    'Herlidalr', 'Strayford', 'Vallinde', 'Glandy', 'Arnilklif', 'Mawre', 'Sturethorp', 'Asheath',
+    'Saga', 'Tottori', 'Kochi', 'Shimane', 'Tokushima', 'Yamanashi', 'Fukui', 'Akita',
+    'Nara', 'Wakayama', 'Lindorwin', 'Valione', 'Threibluff', 'Anil', 'Penmarth', 'Mastow'
+]
 
 ###############################################################################
 # Markov Name model
@@ -45,7 +53,7 @@ class MName:
     """
     A name from a Markov chain
     """
-    def __init__(self, chainlen = 2):
+    def __init__(self, source, chainlen = 2):
         """
         Building the dictionary
         """
@@ -57,7 +65,7 @@ class MName:
         oldnames = []
         self.chainlen = chainlen
     
-        for l in PLACES:
+        for l in source:
             l = l.strip()
             oldnames.append(l)
             s = " " * chainlen + l
@@ -90,7 +98,10 @@ class Sex(Enum):
     MALE = 2
 
 def get_name():
-    return MName().New()
+    return MName(PEOPLE).New()
+
+def get_town_name():
+    return MName(PLACES).New()
 
 class Character:
     def __init__(self, last_name=None, alive=random.choice([True, False])):
@@ -108,7 +119,7 @@ class Character:
         if random.random() < .2:
             self.location = None
         else:
-            self.location = "Cloudshire"
+            self.location = get_town_name()
         # TODO
         self.profession = "beekeeper"
 
@@ -117,16 +128,19 @@ class Character:
         return self.first_name + " " + self.last_name
 
 class Plot:
-    def __init__(self):
+    def __init__(self, inspiration=0):
         self.protagonist = Character(alive=True)
+
+        # %20 to be an orphan
         if random.random() < .2:
             self.parent = None
         else:
+            # 50% for parent to share last name
             if random.random() < 0.5:
                 self.parent = Character()
             else:
                 self.parent = Character(last_name=self.protagonist.last_name)
-        self.lines = self.get_plot_lines()
+        self.lines = self.get_plot_lines(inspiration)
 
     def plot_str(self):
         temp_str = "[{}] ".format(self.protagonist.name)
@@ -153,7 +167,7 @@ class Plot:
             
         return temp_str
 
-    def get_plot_lines(self):
+    def get_plot_lines(self, inspiration=0):
         # TODO: make this cleaner, 40 shouldn't be a literal
         plot_lines = textwrap.wrap(self.plot_str(), 40)
         lines = []
@@ -162,4 +176,7 @@ class Plot:
             lines.append(line)
 
         return lines
+
+    def regen_plot_lines(self, inspiration=0):
+        self.lines = self.get_plot_lines()
         
