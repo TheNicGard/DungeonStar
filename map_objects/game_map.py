@@ -44,15 +44,12 @@ class GameMap:
     def place_entities(self, room, entities):
         max_monsters_per_room = from_dungeon_level([[2, 1], [3, 15], [4, 20]], self.dungeon_level)
         max_items_per_room = from_dungeon_level([[1, 1]], self.dungeon_level)
-        max_traps_per_room = from_dungeon_level([[1, 1], [2, 5]], self.dungeon_level)
-        # update later to have traps per floor instead
 
         chance_to_spawn_monsters = 0.33
         chance_to_spawn_items = 0.40
         
         number_of_monsters = randint(1, max_monsters_per_room)
         number_of_items = randint(1, max_items_per_room)
-        number_of_traps = randint(1, max_traps_per_room)
         amount_of_gold = randint(0, 20 + (10 * self.dungeon_level)) + 2
 
         gold_passes = 0
@@ -95,45 +92,6 @@ class GameMap:
                             item_choice = random_choice_from_dict(item_chances)
                             item = get_item(item_choice, x, y)
                             entities.append(item)
-
-        for i in range(number_of_traps):
-            x = randint(room.x1 + 1, room.x2 - 1)
-            y = randint(room.y1 + 1, room.y2 - 1)
-
-            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                if not self.is_blocked(x, y):
-                    trap_chance = random()
-                    if trap_chance < .03:
-                        trap_component = Trap(poison_trap)
-                        trap = Entity("trap", x, y, " ", libtcod.dark_lime,
-                                      'Poison Trap', blocks=False, render_order=RenderOrder.TRAP,
-                                      trap=trap_component)
-                    elif trap_chance < .06:
-                        trap_component = Trap(teleport_trap)
-                        trap = Entity("trap", x, y, " ", libtcod.dark_fuchsia,
-                                      'Teleportation Trap', blocks=False, render_order=RenderOrder.TRAP,
-                                      trap=trap_component)
-                    elif trap_chance < .09:
-                        trap_component = Trap(hole_trap)
-                        trap = Entity("trap", x, y, " ", libtcod.darker_green,
-                                      'Hole Trap', blocks=False, render_order=RenderOrder.TRAP,
-                                      trap=trap_component)
-                    elif trap_chance < .12:
-                        trap_component = Trap(bear_trap)
-                        trap = Entity("trap", x, y, " ", libtcod.darker_grey,
-                                      'Bear Trap', blocks=False, render_order=RenderOrder.TRAP,
-                                      trap=trap_component)
-                    elif trap_chance < .15:
-                        trap_component = Trap(amnesia_trap)
-                        trap = Entity("trap", x, y, " ", libtcod.dark_pink,
-                                      'Amnesia Trap', blocks=False, render_order=RenderOrder.TRAP,
-                                      trap=trap_component)
-                    else:
-                        trap_component = Trap()
-                        trap = Entity("trap", x, y, " ", libtcod.red,
-                                      'Spike Trap', blocks=False, render_order=RenderOrder.TRAP,
-                                      trap=trap_component)
-                    entities.append(trap)
 
         for i in range(gold_passes):
             if amount_of_gold == 0:
@@ -445,6 +403,49 @@ class GameMap:
 
         for r in self.rooms:
             self.place_entities(r, entities)
+
+        max_traps_per_floor = from_dungeon_level([[5, 1], [10, 6], [15, 11]], self.dungeon_level)
+        number_of_traps = randint(1, max_traps_per_floor)
+
+        for i in range(number_of_traps):
+            trap_room = choice(self.rooms)
+            x = randint(trap_room.x1 + 1, trap_room.x2 - 1)
+            y = randint(trap_room.y1 + 1, trap_room.y2 - 1)
+
+            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+                if not self.is_blocked(x, y):
+                    trap_chance = random()
+                    if trap_chance < .03:
+                        trap_component = Trap(poison_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.dark_lime,
+                                      'Poison Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    elif trap_chance < .06:
+                        trap_component = Trap(teleport_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.dark_fuchsia,
+                                      'Teleportation Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    elif trap_chance < .09:
+                        trap_component = Trap(hole_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.darker_green,
+                                      'Hole Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    elif trap_chance < .12:
+                        trap_component = Trap(bear_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.darker_grey,
+                                      'Bear Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    elif trap_chance < .15:
+                        trap_component = Trap(amnesia_trap)
+                        trap = Entity("trap", x, y, " ", libtcod.dark_pink,
+                                      'Amnesia Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    else:
+                        trap_component = Trap()
+                        trap = Entity("trap", x, y, " ", libtcod.red,
+                                      'Spike Trap', blocks=False, render_order=RenderOrder.TRAP,
+                                      trap=trap_component)
+                    entities.append(trap)
                 
         entities_blocking_stairs = get_entities_at_location(entities, center_of_last_room_x, center_of_last_room_y)
         for e in entities_blocking_stairs:
