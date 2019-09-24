@@ -104,7 +104,7 @@ class Inventory:
                     results.extend(item_use_results)
 
                 if item_entity.identity and item_entity.identity.identify_on_use and not item_entity.identity.identified:
-                    identify_item(item_entity, identities)
+                    self.identify_item(item_entity, identities)
             
         return results
 
