@@ -162,6 +162,10 @@ class GameMap:
                                              'Sign', blocks=False, render_order=RenderOrder.SIGN,
                                       sign=sign_component)
                         entities.append(sign)
+                    elif piece[0:6] == "iden: ":
+                        item = get_item(piece[6:], data_x, data_y)
+                        entities.append(item)
+                        item.identity.identify()
                     elif piece == "door":
                         door_component = Door(False, DoorPosition.VERTICAL)
                         door = Entity("door", data_x, data_y, "+", libtcod.lightest_grey,
