@@ -1,7 +1,7 @@
 ---
 title: A Manual for Finding the Dungeon Star
 author: Nic Gard
-date: Last updated September 22, 2019
+date: Last updated September 28, 2019
 ...
 \pagebreak
 # Introduction
@@ -100,6 +100,7 @@ Light sources can be found in the dungeon to increase the protagonist's field of
 
 * ? - list controls
 * *Escape* - exit menu
+* q (on main menu) - access test map
 
 ## Movement
 
