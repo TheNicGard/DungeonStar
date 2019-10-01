@@ -3,7 +3,7 @@ import json
 import os
 
 import tcod as libtcod
-from components.ai import BasicMonster, AggressiveMonster, DummyMonster, ConfusedMonster, SoftStoppedMonster, HardStoppedMonster, MotherDoughAI, SourdoughAI, StaticMonster, NeutralMonster
+from components.ai import BasicMonster, AggressiveMonster, DummyMonster, ConfusedMonster, SoftStoppedMonster, HardStoppedMonster, MotherDoughAI, SourdoughAI, StaticMonster, NeutralMonster, IntelligentMonster
 from components.animation import Animation
 from components.attacks import Attack
 from components.chargeable import Chargeable
@@ -53,7 +53,8 @@ class ItemDefinition:
                       food=self.food, classification=self.classification)
         return item
 
-def get_ai(ai_type, patience=0, min_spread_time=0, max_spread_time=0, aggressive_ai="DummyMonster"):
+def get_ai(ai_type, patience=0, min_spread_time=0, max_spread_time=0,
+           health_threshold=0, safe_range=0, aggressive_ai="DummyMonster"):
     if ai_type == "BasicMonster":
         ai_component = BasicMonster()
     elif ai_type == "ConfusedMonster":
@@ -75,6 +76,8 @@ def get_ai(ai_type, patience=0, min_spread_time=0, max_spread_time=0, aggressive
             ai_component = SourdoughAI(min_spread_time, max_spread_time)
     elif ai_type == "NeutralMonster":
         ai_component = NeutralMonster(get_ai(aggressive_ai, patience, min_spread_time, max_spread_time, aggressive_ai))
+    elif ai_type == "IntelligentMonster":
+        ai_component = IntelligentMonster(patience, health_threshold, safe_range)
     else:
         ai_component = DummyMonster()
     return ai_component
@@ -146,6 +149,8 @@ def load_monsters():
                 max_spread_time = 0
                 aggressive_ai = "DummyMonster"
                 can_be_pacified = False
+                health_threshold = 0
+                safe_range = 0
                 
                 if ai_details:
                     if ai_details.get("patience"):
@@ -158,6 +163,10 @@ def load_monsters():
                         aggressive_ai = ai_details.get("aggressive_ai")
                     if ai_details.get("can_be_pacified"):
                         can_be_pacified = ai_details.get("can_be_pacified")
+                    if ai_details.get("health_threshold"):
+                        health_threshold = ai_details.get("health_threshold")
+                    if ai_details.get("saf_range"):
+                        safe_range = ai_details.get("safe_range")
 
                 inventory_component = None
                 if monster.get("inventory"):
@@ -168,7 +177,8 @@ def load_monsters():
                         if random() < value:
                             inventory_component.add_item(get_item(key, -1, -1))
 
-                ai_component = get_ai(ai_type, patience, min_spread_time, max_spread_time, aggressive_ai)
+                ai_component = get_ai(ai_type, patience, min_spread_time, max_spread_time,
+                                      health_threshold, safe_range, aggressive_ai)
 
                 attack_list = None
                 if fighter.get("attacks"):
