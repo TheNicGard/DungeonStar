@@ -44,8 +44,11 @@
 	    "xp": 10,
 	    "max_gold_drop": 2
 	},
-	"ai": "BasicMonster",
+	"ai": "IntelligentMonster",
 	"ai_details": {
+	    "patience": 5,
+	    "health_threshold": 0.25,
+	    "safe_range": 5,
 	    "can_be_pacified": true
 	},
 	"spawn_rate": [[60, 1], [40, 3], [20, 5]]
