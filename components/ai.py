@@ -108,6 +108,74 @@ class AggressiveMonster:
                     
         return results
 
+class IntelligentMonster:
+    def __init__(self, patience=20, health_threshold=0.10, safe_range = 12):
+        self.max_patience = patience
+        self.current_patience = 0
+        self.seeking = False
+        self.health_threshold = health_threshold
+        self.safe_range = safe_range
+        
+    def __str__(self):
+        return "Intelligent monster AI. Hunts closest target until patience runs out. Runs away if health is too low."
+    
+    def take_turn(self, target, fov_map, game_map, entities):
+        results = []
+        monster = self.owner
+
+        if (monster.fighter.hp / monster.fighter.max_hp) <= self.health_threshold:
+            if not monster.fighter.is_effect("stuck"):
+                if monster.distance(target.x, target.y) < self.safe_range and not target.fighter.is_effect("invisible"):
+                    monster.flee_astar(target, entities, game_map, safe_range)
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
+                else:
+                    random_x = monster.x + randint(0, 2) - 1
+                    random_y = monster.y + randint(0, 2) - 1
+                    if random_x != self.owner.x and random_y != self.owner.y:
+                        monster.move_towards(random_x, random_y, game_map, entities)
+                        results.extend(check_for_traps(monster, entities, game_map, fov_map))
+                        
+        elif fov_map.fov[monster.y][monster.x]:
+            self.seeking = True
+            self.current_patience = self.max_patience
+            if monster.distance_to(target) >= 2:
+                if not self.owner.fighter.is_effect("stuck"):
+                    if target.fighter.is_effect("invisible"):
+                        random_x = monster.x + randint(0, 2) - 1
+                        random_y = monster.y + randint(0, 2) - 1
+                        if random_x != self.owner.x and random_y != self.owner.y:
+                            monster.move_towards(random_x, random_y, game_map, entities)
+                    else:
+                        monster.move_astar(target, entities, game_map)
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
+            elif target.fighter.hp > 0:
+                attack_results = monster.fighter.attack(target)
+                results.extend(attack_results)
+        elif self.current_patience > 0 and self.seeking:
+            self.current_patience -= 1
+            if self.current_patience <= 0:
+                self.seeking = False
+            if monster.distance_to(target) >= 2:
+                if not self.owner.fighter.is_effect("stuck"):
+                    monster.move_astar(target, entities, game_map)
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
+            elif target.fighter.hp > 0:
+                if self.current_patience < self.max_patience:
+                    self.current_patience += 1
+                attack_results = monster.fighter.attack(target)
+                results.extend(attack_results)
+        else:
+            if self.current_patience < self.max_patience:
+                    self.current_patience += 1
+            if not monster.fighter.is_effect("stuck"):
+                random_x = monster.x + randint(0, 2) - 1
+                random_y = monster.y + randint(0, 2) - 1
+                if random_x != self.owner.x and random_y != self.owner.y:
+                    monster.move_towards(random_x, random_y, game_map, entities)
+                    results.extend(check_for_traps(monster, entities, game_map, fov_map))
+                    
+        return results
+
 class ConfusedMonster:
     def __init__(self, previous_ai, number_of_turns=10):
         self.previous_ai = previous_ai
