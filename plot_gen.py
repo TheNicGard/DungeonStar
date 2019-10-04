@@ -24,11 +24,23 @@ PLACES = [
 ]
 
 PROFESSIONS = [
-    'beekeeper', 'alchemist', 'blacksmith', 'goldsmith', 'silversmith', 'hatter', 'cooper', 'cobbler',
-    'fisher', 'escort', 'sailor', 'soldier', 'mercenary', 'hunter', 'trapper', 'accountant',
-    'farmer', 'acolyte', 'bard', 'healer', 'miller', 'barkeeper', 'locksmith', 'miner',
-    'carpenter', 'mason', 'jeweler', 'reverend', 'shepherd', 'sawyer', 'scholar', 'butcher',
-    'baker', 'rancher', 'painter', 'artist', 'historian', 'archeologist', 'professor', 'barber'
+    'alchemist', 'artist', 'accountant', 'armorer',
+    'beekeeper', 'blacksmith', 'barkeeper', 'butcher',  'barber', 'archeologist', 'baker', 'bard',
+    'cooper', 'cobbler', 'carpenter', 'computer', 'cartographer', 'chemist',
+    'docker', 
+    'escort', 'engineer',
+    'fisher', 'farmer', 'fiddler', 'fletcher',
+    'goldsmith', 'gangster', 'gunsmith',
+    'hatter', 'hunter', 'historian', 'healer',
+    'inventor',
+    'jeweler', 'jester',
+    'knight', 'knave',
+    'lawyer', 'locksmith', 'laborer',
+    'mercenary', 'miller', 'miner', 'mason', 'merchant', 'mechanic',
+    'painter', 'professor', 'pilot', 'plumber', 'printer',
+    'rancher', 'reaper',
+    'sailor', 'soldier', 'silversmith', 'shepherd', 'sawyer', 'scholar',
+    'trapper', 'tailor'
 ]
 
 ###############################################################################
