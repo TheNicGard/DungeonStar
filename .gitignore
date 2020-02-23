@@ -4,6 +4,9 @@ savegame.dat
 high_scores.dat
 TODO.org
 .eggs
+logfile*
+
 build/
 dist/
-logfile*
+*.spec
+.venv/

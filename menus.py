@@ -145,7 +145,7 @@ def main_menu(con, background_image, screen_width, screen_height, game):
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 5),
                              libtcod.BKGND_NONE, libtcod.CENTER, "Largest hoard gained: " + str(game.high_score) + " gold")
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 2),
-                             libtcod.BKGND_NONE, libtcod.CENTER, 'Nic Gard (C) 2019')
+                             libtcod.BKGND_NONE, libtcod.CENTER, 'Nic Gard (C) 2020')
 
     menu(con, '', ['Play a new game', 'Continue last game', "Play Tutorial", 'Quit'], 24,
          screen_width, screen_height)
